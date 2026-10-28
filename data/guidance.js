@@ -46,7 +46,10 @@ window.WCAG = {
   "3.3.4": "Error Prevention (Legal, Financial, Data)",
   "3.3.7": "Redundant Entry",
   "4.1.2": "Name, Role, Value",
-  "4.1.3": "Status Messages"
+  "4.1.3": "Status Messages",
+  "1.4.1": "Use of Color",
+  "2.4.4": "Link Purpose (In Context)",
+  "3.3.8": "Accessible Authentication (Minimum)"
 };
 
 window.GUIDANCE = {

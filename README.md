@@ -10,7 +10,7 @@ Static site, no build step. Open `index.html` or serve the folder.
 index.html            Home: all categories, search (/ to focus), group filters
 category.html?c=slug  One category: patterns to collect + saved screens
 data/categories.js    Groups, categories, patterns and screen entries
-data/guidance.js      Per-pattern guidance: think, do, don't, accessibility, scale
+data/guidance*.js     Per-pattern guidance: think, do, dont, accessibility, scale (one file per group)
 assets/               Styles, app script, monochrome wireframe thumbnails
 screens/<slug>/       Screenshot images, one folder per category
 ```
