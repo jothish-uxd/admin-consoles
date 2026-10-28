@@ -7,8 +7,9 @@ Static site, no build step. Open `index.html` or serve the folder.
 ## Structure
 
 ```
-index.html            Home: all categories, search (⌘K / Ctrl+K to focus), group filters
-category.html?c=slug  One category: patterns to collect + saved screens
+index.html            App shell: home view + category views (?c=slug)
+                      Home: all categories, search (⌘K / Ctrl+K to focus), group filters
+category.html         Alias of index.html, kept so older links work
 data/categories.js    Groups, categories, patterns and screen entries
 data/guidance*.js     Per-pattern guidance: think, do, dont, accessibility, scale (one file per group)
 assets/               Styles, app script, monochrome wireframe thumbnails
@@ -44,7 +45,7 @@ Each category page has two tabs. **Patterns** opens with a "Designing for scale"
 
 Guidance lives in `data/guidance.js`, keyed by category slug and pattern name. Patterns without guidance show "No guidance yet".
 
-Deep links: `category.html?c=user-management#screens` or `#p-offboarding`.
+Deep links: `?c=user-management#screens` or `?c=user-management#p-offboarding`. Views swap in place, so the sidebar never reloads.
 
 ## Publishing
 

@@ -875,3 +875,5 @@ a.ref:hover { background: var(--ink); color: var(--bg); border-color: var(--ink)
   pointer-events: none;
 }
 .search input { padding-right: 52px; }
+/* headings receive focus after in-page navigation; no ring needed on a non-interactive target */
+#content h1[tabindex="-1"]:focus { outline: none; }
