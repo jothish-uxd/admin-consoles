@@ -6,9 +6,11 @@
   const $ = (s, el = document) => el.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const plural = (n, w) => `${n} ${n === 1 ? w : w.replace(/y$/, "ie") + "s"}`;
-  const catUrl = c => `category.html?c=${encodeURIComponent(c.slug)}`;
-  const page = document.body.dataset.page;
-  const currentSlug = new URLSearchParams(location.search).get("c");
+  // Links stay on the current page path (index.html or its alias category.html)
+  // and change only the query, so views swap in place without a page load.
+  const HOME = "?";
+  const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
+  const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
 
   /* ---------- Theme ---------- */
   const root = document.documentElement;
@@ -31,7 +33,7 @@
     if (!side) return;
     const groupsHtml = GROUPS.map(g => {
       const items = CATS.filter(c => c.group === g.id).map(c => `
-        <li><a class="nav-link" href="${catUrl(c)}"${c.slug === currentSlug ? ' aria-current="page"' : ""}>
+        <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}">
           ${esc(c.name)}<span>${c.screens.length || ""}</span>
         </a></li>`).join("");
       return `<h2 class="nav-group" id="nav-${g.id}">${esc(g.name)}</h2>
@@ -40,7 +42,7 @@
 
     side.innerHTML = `
       <div class="brand">
-        <a class="brand-link" href="index.html">
+        <a class="brand-link" href="${HOME}">
           <span class="brand-mark" aria-hidden="true">
             <svg width="16" height="16" viewBox="0 0 16 16"><rect x="1" y="1" width="5" height="14" rx="1.5" fill="#17202a"/><rect x="8" y="1" width="7" height="6" rx="1.5" fill="#17202a"/><rect x="8" y="9" width="7" height="6" rx="1.5" fill="#17202a" opacity=".45"/></svg>
           </span>
@@ -50,7 +52,7 @@
       </div>
       <nav aria-label="Categories">
         <ul class="nav-list">
-          <li><a class="nav-link" href="index.html"${page === "home" ? ' aria-current="page"' : ""}>All categories<span>${CATS.length}</span></a></li>
+          <li><a class="nav-link" href="${HOME}" data-slug="">All categories<span>${CATS.length}</span></a></li>
         </ul>
         ${groupsHtml}
       </nav>
@@ -62,8 +64,10 @@
         <div>Personal inspiration · Sleepy · © 2026</div>
       </div>`;
 
-    /* Keep the sidebar where it was across page loads, so picking a
-       category lower in the list doesn't jump the nav back to the top. */
+    /* The sidebar is rendered once and never re-rendered: category links
+       swap only the content area (see router below). This also restores
+       the nav's scroll offset after a full reload. */
+    markCurrent(slugFromUrl(location.href));
     const NAV_KEY = "ac-nav-scroll";
     let saved = null;
     try { saved = sessionStorage.getItem(NAV_KEY); } catch (e) {}
@@ -106,6 +110,25 @@
 
   /* ---------- Home ---------- */
   function renderHome() {
+    document.title = "Admin Consoles — Pattern Library";
+    $("#content").innerHTML = `
+      <header class="hero">
+        <p class="eyebrow">Personal pattern library</p>
+        <h1 tabindex="-1">How admins add, change and remove things.</h1>
+        <p class="hero-copy">Screens from real admin consoles, grouped by the job the admin is doing rather than by product. Pick a category to see the patterns worth collecting and the references saved so far.</p>
+        <ul class="stats" id="stats"></ul>
+      </header>
+      <div class="toolbar" role="search">
+        <div class="search">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <label class="visually-hidden" for="search">Search categories and patterns</label>
+          <input id="search" type="search" placeholder="Search patterns" aria-keyshortcuts="Meta+K Control+K" autocomplete="off">
+          <kbd class="kbd" aria-hidden="true">⌘K</kbd>
+        </div>
+        <div class="chips" id="chips" role="group" aria-label="Filter by group"></div>
+      </div>
+      <p class="visually-hidden" id="results-status" role="status" aria-live="polite"></p>
+      <div id="categories"></div>`;
     const totalPatterns = CATS.reduce((n, c) => n + c.patterns.length, 0);
     const totalScreens = CATS.reduce((n, c) => n + c.screens.length, 0);
     $("#stats").innerHTML = `
@@ -170,21 +193,16 @@
       render();
     });
     search.addEventListener("input", render);
-    document.addEventListener("keydown", e => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault(); search.focus();
-      }
-    });
     render();
   }
 
   /* ---------- Category ---------- */
-  function renderCategory() {
-    const idx = CATS.findIndex(c => c.slug === currentSlug);
+  function renderCategory(slug) {
+    const idx = CATS.findIndex(c => c.slug === slug);
     const main = $("#content");
     if (idx < 0) {
       document.title = "Not found — Admin Consoles";
-      main.innerHTML = `<div class="hero"><h1>Category not found.</h1><p class="hero-copy"><a href="index.html">Back to all categories</a></p></div>`;
+      main.innerHTML = `<div class="hero"><h1 tabindex="-1">Category not found.</h1><p class="hero-copy"><a href="${HOME}">Back to all categories</a></p></div>`;
       return;
     }
     const c = CATS[idx];
@@ -282,8 +300,8 @@
 
     main.innerHTML = `
       <header class="hero">
-        <p class="crumbs"><a href="index.html">All categories</a> / ${esc(g ? g.name : "")}</p>
-        <h1>${esc(c.name)}</h1>
+        <p class="crumbs"><a href="${HOME}">All categories</a> / ${esc(g ? g.name : "")}</p>
+        <h1 tabindex="-1">${esc(c.name)}</h1>
         <p class="hero-copy">${esc(c.summary)}</p>
       </header>
       <div class="tabs" role="tablist" aria-label="${esc(c.name)} sections">
@@ -345,12 +363,12 @@
       const b = e.target.closest(".chip");
       if (b) filterScreens(b.dataset.p);
     });
-    main.addEventListener("click", e => {
+    main.onclick = e => {
       const b = e.target.closest("[data-goto-screens]");
       if (!b) return;
       filterScreens(b.dataset.gotoScreens);
       selectTab($("#tab-screens"), true);
-    });
+    };
 
     /* accordions */
     const accs = [...main.querySelectorAll("details.acc")];
@@ -377,7 +395,60 @@
     }
   }
 
+  /* ---------- Router ----------
+     Home and category views share one shell. Internal links swap the
+     content area in place, so the sidebar never reloads or moves. */
+  function markCurrent(slug) {
+    document.querySelectorAll("#sidebar .nav-link").forEach(a => {
+      if ((a.dataset.slug || "") === (slug || "")) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+  }
+
+  function route() {
+    const slug = slugFromUrl(location.href);
+    document.body.dataset.page = slug ? "category" : "home";
+    markCurrent(slug);
+    if (slug) renderCategory(slug); else renderHome();
+  }
+
+  function isInternal(a) {
+    if (!a || a.target === "_blank" || a.hasAttribute("download")) return false;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin) return false;
+    return /(^|\/)(index\.html|category\.html)?$/.test(url.pathname);
+  }
+
+  document.addEventListener("click", e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest("a[href]");
+    if (!isInternal(a)) return;
+    const url = new URL(a.href, location.href);
+    // Same view, different hash: let the browser handle it.
+    if (url.pathname === location.pathname && url.search === location.search && url.hash) return;
+    e.preventDefault();
+    if (url.href !== location.href) {
+      try { history.pushState(null, "", url.href); }
+      catch (err) { location.href = url.href; return; }   // e.g. a browser refusing the URL change
+    }
+    route();
+    // Content starts at the top; the sidebar stays exactly where it is.
+    window.scrollTo({ top: 0, behavior: "instant" });
+    const side = $("#sidebar"), menuBtn = $("#menu-button");
+    if (side && side.classList.contains("open") && menuBtn) menuBtn.click();
+    const h1 = $("#content h1");
+    if (h1) h1.focus({ preventScroll: true });
+  });
+
+  addEventListener("popstate", route);
+
+  document.addEventListener("keydown", e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      const search = $("#search");
+      if (search) { e.preventDefault(); search.focus(); }
+    }
+  });
+
   renderSidebar();
-  if (page === "home") renderHome();
-  if (page === "category") renderCategory();
+  route();
 })();
