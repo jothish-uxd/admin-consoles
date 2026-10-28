@@ -169,7 +169,6 @@
     }
     const c = CATS[idx];
     const g = GROUPS.find(x => x.id === c.group);
-    const prev = CATS[idx - 1], next = CATS[idx + 1];
     document.title = `${c.name} — Admin Consoles`;
 
     const G = (window.GUIDANCE || {})[c.slug] || {};
@@ -287,11 +286,7 @@
           <p>Saved references from real products.</p>
           ${screens}
         </section>
-      </div>
-      <nav class="pager" aria-label="Other categories">
-        ${prev ? `<a href="${catUrl(prev)}"><span>Previous</span><strong>${esc(prev.name)}</strong></a>` : ""}
-        ${next ? `<a class="next" href="${catUrl(next)}"><span>Next</span><strong>${esc(next.name)}</strong></a>` : ""}
-      </nav>`;
+      </div>`;
 
     /* tabs */
     const tabs = [...main.querySelectorAll('[role="tab"]')];

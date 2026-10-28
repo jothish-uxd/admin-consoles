@@ -611,26 +611,6 @@ h1 {
   border-radius: 6px;
 }
 
-.pager {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 28px;
-}
-.pager a {
-  flex: 1 1 0;
-  max-width: 320px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  text-decoration: none;
-  display: grid;
-}
-.pager a:hover { border-color: var(--border-strong); }
-.pager a span { color: var(--muted); font-size: .8rem; }
-.pager a strong { color: var(--ink); }
-.pager .next { margin-left: auto; text-align: right; }
 
 /* ---------- Responsive ---------- */
 
