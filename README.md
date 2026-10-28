@@ -10,6 +10,7 @@ Static site, no build step. Open `index.html` or serve the folder.
 index.html            Home: all categories, search (/ to focus), group filters
 category.html?c=slug  One category: patterns to collect + saved screens
 data/categories.js    Groups, categories, patterns and screen entries
+data/guidance.js      Per-pattern guidance: think, do, don't, accessibility, scale
 assets/               Styles, app script, monochrome wireframe thumbnails
 screens/<slug>/       Screenshot images, one folder per category
 ```
@@ -31,6 +32,19 @@ screens/<slug>/       Screenshot images, one folder per category
 ```
 
 Counts on the home page and sidebar update automatically.
+
+## Pattern guidance
+
+Each category page has two tabs. **Patterns** opens with a "Designing for scale" overview, then one accordion per pattern with:
+
+- How to think about it
+- Do / Don't
+- Accessibility & universal design, tagged with WCAG 2.2 success criteria (linked to W3C Understanding docs) or the 7 Principles of Universal Design
+- At enterprise scale
+
+Guidance lives in `data/guidance.js`, keyed by category slug and pattern name. Patterns without guidance show "No guidance yet".
+
+Deep links: `category.html?c=user-management#screens` or `#p-offboarding`.
 
 ## Publishing
 
