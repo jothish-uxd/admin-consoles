@@ -172,10 +172,68 @@
     const prev = CATS[idx - 1], next = CATS[idx + 1];
     document.title = `${c.name} — Admin Consoles`;
 
-    const patterns = c.patterns.map(([name, desc]) => {
-      const n = c.screens.filter(s => s.pattern === name).length;
-      return `<li><strong>${esc(name)}</strong><span>${esc(desc)}${n ? ` · ${plural(n, "screen")}` : ""}</span></li>`;
+    const G = (window.GUIDANCE || {})[c.slug] || {};
+    const GP = G.patterns || {};
+    const pid = name => "p-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const kebab = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const ICON = {
+      do: '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      dont: '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+      chev: '<svg class="chev" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    };
+
+    function tagHtml(tag) {
+      if (tag.startsWith("WCAG")) {
+        const sc = tag.replace("WCAG ", "");
+        const name = (window.WCAG || {})[sc] || "";
+        const href = name ? `https://www.w3.org/WAI/WCAG22/Understanding/${kebab(name)}.html` : "https://www.w3.org/TR/WCAG22/";
+        return `<a class="ref" href="${href}" target="_blank" rel="noopener noreferrer" title="${esc(name)}">WCAG ${esc(sc)}<span class="visually-hidden"> ${esc(name)}, opens in new tab</span></a>`;
+      }
+      const name = (window.UD || {})[tag] || "";
+      return `<span class="ref ref-ud" title="Universal Design: ${esc(name)}">${esc(name || tag)}</span>`;
+    }
+    const list = (items, cls = "") => `<ul class="g-list ${cls}">${items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
+
+    const accordion = c.patterns.map(([name, desc]) => {
+      const g = GP[name];
+      const shots = c.screens.filter(s => s.pattern === name);
+      const thumbs = shots.length ? `
+        <div class="g-shots">
+          <div class="g-shots-head"><h4>Examples</h4>
+            <button type="button" class="link-btn" data-goto-screens="${esc(name)}">See ${plural(shots.length, "screen")} in Screens</button></div>
+          <ul class="mini-shots">${shots.slice(0, 4).map(s => `<li><a href="${esc(s.src)}" target="_blank" rel="noopener noreferrer" class="mini-shot">
+            <img src="${esc(s.src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('broken')">
+            <span>${esc(s.product)}<span class="visually-hidden">: ${esc(s.title)}, opens in new tab</span></span></a></li>`).join("")}</ul>
+        </div>` : "";
+      const body = g ? `
+        <section class="g-sec g-think"><h4>How to think about it</h4>${list(g.think)}</section>
+        <div class="g-dd">
+          <section class="g-sec g-do"><h4>${ICON.do} Do</h4>${list(g.do, "is-do")}</section>
+          <section class="g-sec g-dont"><h4>${ICON.dont} Don’t</h4>${list(g.dont, "is-dont")}</section>
+        </div>
+        <div class="g-dd">
+          <section class="g-sec"><h4>Accessibility &amp; universal design</h4>
+            <ul class="g-list g-access">${g.access.map(([t, x]) => `<li>${tagHtml(t)}<span>${esc(x)}</span></li>`).join("")}</ul></section>
+          <section class="g-sec g-scale"><h4>At enterprise scale</h4>${list(g.scale)}</section>
+        </div>` : `<p class="g-empty">Guidance for this pattern hasn’t been written yet.</p>`;
+      return `<details class="acc" id="${pid(name)}">
+        <summary>
+          <span class="acc-title"><h3>${esc(name)}</h3><span class="acc-desc">${esc(desc)}</span></span>
+          <span class="acc-meta">${shots.length ? `<span class="badge">${plural(shots.length, "screen")}</span>` : ""}${g ? "" : `<span class="badge badge-muted">No guidance yet</span>`}${ICON.chev}</span>
+        </summary>
+        <div class="acc-body">${body}${thumbs}</div>
+      </details>`;
     }).join("");
+
+    const scaleCard = G.scale ? `
+      <section class="card scale-card" aria-labelledby="scale-h">
+        <p class="eyebrow">Designing for scale</p>
+        <h2 id="scale-h">From tens to hundreds of thousands</h2>
+        <p class="scale-intro">${esc(G.scale.intro)}</p>
+        <ol class="tiers">${G.scale.tiers.map(([t, x], i) => `<li><span class="tier-step" aria-hidden="true">${i + 1}</span><strong>${esc(t)}</strong><span>${esc(x)}</span></li>`).join("")}</ol>
+        <h3 class="principles-h">Principles that hold at every size</h3>
+        ${list(G.scale.principles, "principles")}
+      </section>` : "";
 
     const usedPatterns = c.patterns.map(p => p[0]).filter(p => c.screens.some(s => s.pattern === p));
     const screenCard = s => `<li data-pattern="${esc(s.pattern || "")}"><figure class="screen">
@@ -200,7 +258,7 @@
           <p class="fineprint">Images are linked from each vendor’s public documentation and remain the property of their owners. Collected here for personal design reference.</p>`
       : `<div class="empty-state">
           <h3>No screens saved yet</h3>
-          <p>Drop images into <code>screens/${esc(c.slug)}/</code> and add an entry to this category’s <code>screens</code> list in <code>data/categories.js</code>. Tag each with one of the patterns above so it gets counted.</p>
+          <p>Drop images into <code>screens/${esc(c.slug)}/</code> and add an entry to this category’s <code>screens</code> list in <code>data/categories.js</code>. Tag each with one of the patterns so it gets counted.</p>
         </div>`;
 
     main.innerHTML = `
@@ -209,30 +267,99 @@
         <h1>${esc(c.name)}</h1>
         <p class="hero-copy">${esc(c.summary)}</p>
       </header>
-      <section class="card" aria-labelledby="patterns-h">
-        <h2 id="patterns-h">Patterns</h2>
-        <p>What to look for and collect in this category.</p>
-        <ul class="pattern-list">${patterns}</ul>
-      </section>
-      <section class="card" aria-labelledby="screens-h">
-        <h2 id="screens-h">Screens <span class="count">${c.screens.length}</span></h2>
-        <p>Saved references from real products.</p>
-        ${screens}
-      </section>
+      <div class="tabs" role="tablist" aria-label="${esc(c.name)} sections">
+        <button type="button" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="true">Patterns <span class="count">${c.patterns.length}</span></button>
+        <button type="button" role="tab" id="tab-screens" aria-controls="panel-screens" aria-selected="false" tabindex="-1">Screens <span class="count">${c.screens.length}</span></button>
+      </div>
+      <div class="tab-panel" role="tabpanel" id="panel-patterns" aria-labelledby="tab-patterns" tabindex="0">
+        ${scaleCard}
+        <section class="card" aria-labelledby="patterns-h">
+          <div class="acc-head">
+            <div><h2 id="patterns-h">Patterns</h2><p>Open a pattern for how to think about it, what to do and avoid, accessibility, and how it holds up at scale.</p></div>
+            <button type="button" class="ghost-btn" id="toggle-all" aria-expanded="false">Expand all</button>
+          </div>
+          <div class="accordion">${accordion}</div>
+        </section>
+      </div>
+      <div class="tab-panel" role="tabpanel" id="panel-screens" aria-labelledby="tab-screens" tabindex="0" hidden>
+        <section class="card" aria-labelledby="screens-h">
+          <h2 id="screens-h">Screens</h2>
+          <p>Saved references from real products.</p>
+          ${screens}
+        </section>
+      </div>
       <nav class="pager" aria-label="Other categories">
         ${prev ? `<a href="${catUrl(prev)}"><span>Previous</span><strong>${esc(prev.name)}</strong></a>` : ""}
         ${next ? `<a class="next" href="${catUrl(next)}"><span>Next</span><strong>${esc(next.name)}</strong></a>` : ""}
       </nav>`;
 
+    /* tabs */
+    const tabs = [...main.querySelectorAll('[role="tab"]')];
+    function selectTab(tab, focus) {
+      tabs.forEach(t => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        $("#" + t.getAttribute("aria-controls")).hidden = !on;
+      });
+      if (focus) tab.focus();
+      const h = tab.id.replace("tab-", "");
+      if (location.hash.slice(1) !== h) history.replaceState(null, "", "#" + h);
+    }
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => selectTab(t));
+      t.addEventListener("keydown", e => {
+        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+        if (k) { e.preventDefault(); selectTab(tabs[(i + k + tabs.length) % tabs.length], true); }
+        if (e.key === "Home") { e.preventDefault(); selectTab(tabs[0], true); }
+        if (e.key === "End") { e.preventDefault(); selectTab(tabs[tabs.length - 1], true); }
+      });
+    });
+
+    /* screen filter */
     const filter = $(".screen-filter");
-    if (filter) filter.addEventListener("click", e => {
-      const b = e.target.closest(".chip");
-      if (!b) return;
+    function filterScreens(p) {
+      if (!filter) return;
+      const b = filter.querySelector(`.chip[data-p="${CSS.escape(p)}"]`) || filter.querySelector(".chip");
       filter.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
       document.querySelectorAll("#screen-list > li").forEach(li => {
         li.hidden = !!b.dataset.p && li.dataset.pattern !== b.dataset.p;
       });
+    }
+    if (filter) filter.addEventListener("click", e => {
+      const b = e.target.closest(".chip");
+      if (b) filterScreens(b.dataset.p);
     });
+    main.addEventListener("click", e => {
+      const b = e.target.closest("[data-goto-screens]");
+      if (!b) return;
+      filterScreens(b.dataset.gotoScreens);
+      selectTab($("#tab-screens"), true);
+    });
+
+    /* accordions */
+    const accs = [...main.querySelectorAll("details.acc")];
+    const toggleAll = $("#toggle-all");
+    const syncToggle = () => {
+      const allOpen = accs.every(d => d.open);
+      toggleAll.textContent = allOpen ? "Collapse all" : "Expand all";
+      toggleAll.setAttribute("aria-expanded", String(allOpen));
+    };
+    toggleAll.addEventListener("click", () => {
+      const open = !accs.every(d => d.open);
+      accs.forEach(d => { d.open = open; });
+      syncToggle();
+    });
+    accs.forEach(d => d.addEventListener("toggle", syncToggle));
+
+    /* deep links: #screens, or #p-pattern-name */
+    const h = location.hash.slice(1);
+    if (h === "screens") selectTab($("#tab-screens"));
+    else if (h.startsWith("p-") && $("#" + CSS.escape(h))) {
+      const d = $("#" + CSS.escape(h));
+      d.open = true; syncToggle();
+      requestAnimationFrame(() => d.scrollIntoView({ block: "start" }));
+    }
   }
 
   renderSidebar();
