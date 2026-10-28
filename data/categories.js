@@ -41,9 +41,199 @@ window.CATEGORIES = [
       ["Edit profile", "Inline vs. drawer vs. full-page edit"],
       ["Suspend / deactivate", "Reversible removal of access"],
       ["Offboarding", "Transfer ownership, revoke sessions, delete"],
-      ["Pending invites", "Resend, revoke, expired states"]
+      ["Pending invites", "Resend, revoke, expired states"],
+      ["Bulk add users", "CSV upload and validation"],
+      ["Auto-join by domain", "Verified domains route sign-ups to the org"]
     ],
-    screens: []
+    screens: [
+      {
+        src: "https://learn.microsoft.com/en-us/microsoft-365/media/classic-admin-center.png?view=o365-worldwide",
+        product: "Microsoft 365 admin center",
+        title: "Active users (dashboard view)",
+        pattern: "User directory",
+        notes: "Add a user lives in the command bar above the list rather than as a page-level button.",
+        credit: "Microsoft",
+        source: "https://learn.microsoft.com/en-us/office365/admin/add-users/add-users",
+        sourceTitle: "Microsoft Learn: Add users and assign licenses",
+        alt: "Microsoft 365 admin center dashboard view showing the Active users list"
+      },
+      {
+        src: "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-create-delete-users/all-users-page.png",
+        product: "Microsoft Entra ID",
+        title: "All users",
+        pattern: "User directory",
+        notes: "Dense directory with a command bar for create, invite, bulk operations and delete.",
+        credit: "Microsoft",
+        source: "https://docs.azure.cn/en-us/entra/fundamentals/how-to-create-delete-users",
+        sourceTitle: "Microsoft Learn: Create, invite and delete users",
+        alt: "All users page in Microsoft Entra ID"
+      },
+      {
+        src: "https://images.ctfassets.net/zsv3d0ugroxu/4xDJS7tC2c2Jzp82YL5aOJ/2881d05163a50739b7a08f16eae89569/SAC_Single_dir_cropped.png",
+        product: "Atlassian Administration",
+        title: "Users list (centralized)",
+        pattern: "User directory",
+        notes: "One org-wide directory with no site filter.",
+        credit: "Atlassian",
+        source: "https://support.atlassian.com/user-management/docs/invite-a-user/",
+        sourceTitle: "Atlassian Support: Invite a user",
+        alt: "Atlassian Administration Users page in the centralized user management experience"
+      },
+      {
+        src: "https://images.ctfassets.net/zsv3d0ugroxu/7AevASHr0yJp0LZaXGBoxP/e142415a973bcf23c61a769f71c9a38c/SAC_Multi_dir_cropped.png",
+        product: "Atlassian Administration",
+        title: "Users list (per-site)",
+        pattern: "User directory",
+        notes: "Same page with a site filter, for orgs whose users are split by site. Good pairing for comparing scoping models.",
+        credit: "Atlassian",
+        source: "https://support.atlassian.com/user-management/docs/invite-a-user/",
+        sourceTitle: "Atlassian Support: Invite a user",
+        alt: "Atlassian Administration Users page with a Site filter in the original user management experience"
+      },
+      {
+        src: "https://experienceleague.adobe.com/en/docs/workfront/using/administration-and-setup/add-users/create-manage-users/media_141841b5e1e76c1c29b66720d1e5e5baf63cf976c.png?width=750&format=png&optimize=medium",
+        product: "Adobe Admin Console",
+        title: "Product profiles",
+        pattern: "User directory",
+        notes: "Users and admins are reached through the product, then its profiles.",
+        credit: "Adobe",
+        source: "https://experienceleague.adobe.com/en/docs/workfront/using/administration-and-setup/add-users/create-manage-users/admin-console",
+        sourceTitle: "Adobe Experience League: Manage users in the Adobe Admin Console",
+        alt: "Adobe Admin Console product page showing product profiles"
+      },
+      {
+        src: "https://learn.microsoft.com/en-us/microsoft-365/media/vsb-add-user-view.png?view=o365-worldwide",
+        product: "Microsoft 365 admin center",
+        title: "Add user (simplified view)",
+        pattern: "Invite / add user",
+        notes: "The simplified admin view for small businesses puts Add user front and centre.",
+        credit: "Microsoft",
+        source: "https://learn.microsoft.com/en-us/office365/admin/add-users/add-users",
+        sourceTitle: "Microsoft Learn: Add users and assign licenses",
+        alt: "Microsoft 365 admin center simplified view with the Add user action"
+      },
+      {
+        src: "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-create-delete-users/create-new-user-menu.png",
+        product: "Microsoft Entra ID",
+        title: "New user menu",
+        pattern: "Invite / add user",
+        notes: "One button splits into create an internal user or invite an external one.",
+        credit: "Microsoft",
+        source: "https://docs.azure.cn/en-us/entra/fundamentals/how-to-create-delete-users",
+        sourceTitle: "Microsoft Learn: Create, invite and delete users",
+        alt: "Microsoft Entra new user menu with create and invite options"
+      },
+      {
+        src: "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-create-delete-users/create-new-user-basics-tab.png",
+        product: "Microsoft Entra ID",
+        title: "Create new user, Basics tab",
+        pattern: "Invite / add user",
+        notes: "Tabbed create form: Basics, Properties, Assignments, then Review + create.",
+        credit: "Microsoft",
+        source: "https://docs.azure.cn/en-us/entra/fundamentals/how-to-create-delete-users",
+        sourceTitle: "Microsoft Learn: Create, invite and delete users",
+        alt: "Create new user form, Basics tab, in Microsoft Entra ID"
+      },
+      {
+        src: "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-create-delete-users/add-group-assignment.png",
+        product: "Microsoft Entra ID",
+        title: "Assign groups during create",
+        pattern: "Invite / add user",
+        notes: "Group and role assignment happens inside the create flow, not after.",
+        credit: "Microsoft",
+        source: "https://docs.azure.cn/en-us/entra/fundamentals/how-to-create-delete-users",
+        sourceTitle: "Microsoft Learn: Create, invite and delete users",
+        alt: "Adding a group assignment while creating a user in Microsoft Entra ID"
+      },
+      {
+        src: "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-create-delete-users/invite-external-user-basics-tab.png",
+        product: "Microsoft Entra ID",
+        title: "Invite external user",
+        pattern: "Invite / add user",
+        notes: "Guest invite form with an optional personal message.",
+        credit: "Microsoft",
+        source: "https://docs.azure.cn/en-us/entra/fundamentals/how-to-create-delete-users",
+        sourceTitle: "Microsoft Learn: Create, invite and delete users",
+        alt: "Invite external user Basics tab in Microsoft Entra ID"
+      },
+      {
+        src: "https://experienceleague.adobe.com/en/docs/workfront/using/administration-and-setup/add-users/create-manage-users/media_1ef01d6d4e3b5d4c28c920a51b5977ca1a72de5f6.png?width=750&format=png&optimize=medium",
+        product: "Adobe Admin Console",
+        title: "Add an admin",
+        pattern: "Invite / add user",
+        notes: "Adding someone as a product admin from the product’s Admins tab.",
+        credit: "Adobe",
+        source: "https://experienceleague.adobe.com/en/docs/workfront/using/administration-and-setup/add-users/create-manage-users/admin-console",
+        sourceTitle: "Adobe Experience League: Manage users in the Adobe Admin Console",
+        alt: "Add an admin in the Adobe Admin Console"
+      },
+      {
+        src: "https://learn.microsoft.com/en-us/microsoft-365/media/upload-csv-file.png?view=o365-worldwide",
+        product: "Microsoft 365 admin center",
+        title: "Add a list of users (CSV)",
+        pattern: "Bulk add users",
+        notes: "Template download, upload, then validate before creating.",
+        credit: "Microsoft",
+        source: "https://learn.microsoft.com/en-us/office365/admin/add-users/add-users",
+        sourceTitle: "Microsoft Learn: Add users and assign licenses",
+        alt: "Microsoft 365 admin center panel for adding a list of users by CSV upload"
+      },
+      {
+        src: "https://plaid.com/assets/img/docs/domain-capture-user-flow.png",
+        product: "Plaid Dashboard",
+        title: "Domain capture, user flow",
+        pattern: "Auto-join by domain",
+        notes: "What a new person sees when their email domain is claimed by an existing team.",
+        credit: "Plaid",
+        source: "https://plaid.com/docs/account/teams/",
+        sourceTitle: "Plaid Docs: Teams",
+        alt: "Plaid Dashboard domain capture flow for a user joining an existing team"
+      },
+      {
+        src: "https://plaid.com/assets/img/docs/domain-capture.png",
+        product: "Plaid Dashboard",
+        title: "Team domains",
+        pattern: "Auto-join by domain",
+        notes: "Admin side: verify a domain so sign-ups route to the team.",
+        credit: "Plaid",
+        source: "https://plaid.com/docs/account/teams/",
+        sourceTitle: "Plaid Docs: Teams",
+        alt: "Plaid Dashboard team domain settings"
+      },
+      {
+        src: "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-create-delete-users/external-user-invitation-state.png",
+        product: "Microsoft Entra ID",
+        title: "Guest invitation state",
+        pattern: "Pending invites",
+        notes: "Invitation status and resend live on the user’s detail page.",
+        credit: "Microsoft",
+        source: "https://docs.azure.cn/en-us/entra/fundamentals/how-to-create-delete-users",
+        sourceTitle: "Microsoft Learn: Create, invite and delete users",
+        alt: "Microsoft Entra user details with invitation status options highlighted"
+      },
+      {
+        src: "https://docs.github.com/assets/cb-27352/images/help/organizations/retry-or-cancel-invitation.png",
+        product: "GitHub",
+        title: "Failed invitations",
+        pattern: "Pending invites",
+        notes: "Row overflow menu offers Retry invitation or Cancel invitation.",
+        credit: "GitHub",
+        source: "https://docs.github.com/en/organizations/managing-membership-in-your-organization/inviting-users-to-join-your-organization",
+        sourceTitle: "GitHub Docs: Inviting users to join your organization",
+        alt: "GitHub failed invitations list with a row menu for retry or cancel"
+      },
+      {
+        src: "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-create-delete-users/delete-existing-user.png",
+        product: "Microsoft Entra ID",
+        title: "Delete user from list",
+        pattern: "Offboarding",
+        notes: "Select in the directory, then Delete in the command bar. Deleted users stay restorable for 30 days.",
+        credit: "Microsoft",
+        source: "https://docs.azure.cn/en-us/entra/fundamentals/how-to-create-delete-users",
+        sourceTitle: "Microsoft Learn: Create, invite and delete users",
+        alt: "All users page with a user selected and the Delete button highlighted"
+      }
+    ]
   },
   {
     slug: "roles-permissions",

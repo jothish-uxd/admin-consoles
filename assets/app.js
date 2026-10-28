@@ -177,13 +177,27 @@
       return `<li><strong>${esc(name)}</strong><span>${esc(desc)}${n ? ` · ${plural(n, "screen")}` : ""}</span></li>`;
     }).join("");
 
+    const usedPatterns = c.patterns.map(p => p[0]).filter(p => c.screens.some(s => s.pattern === p));
+    const screenCard = s => `<li data-pattern="${esc(s.pattern || "")}"><figure class="screen">
+          <a class="screen-img" href="${esc(s.src)}" target="_blank" rel="noopener noreferrer">
+            <img src="${esc(s.src)}" alt="${esc(s.alt || `${s.product}: ${s.title}`)}" loading="lazy" referrerpolicy="no-referrer"
+              onerror="this.closest('.screen-img').classList.add('broken')">
+            <span class="broken-note">Image unavailable at source</span>
+          </a>
+          <figcaption>
+            <span class="screen-pattern">${esc(s.pattern || "")}</span>
+            <strong>${esc(s.product)} · ${esc(s.title)}</strong>
+            ${s.notes ? `<span>${esc(s.notes)}</span>` : ""}
+            <span class="credit">Screenshot © ${esc(s.credit || s.product)}${s.source ? ` · <a href="${esc(s.source)}" rel="noopener noreferrer" target="_blank">${esc(s.sourceTitle || "Source")}<span class="visually-hidden"> (opens in new tab)</span></a>` : ""}</span>
+          </figcaption></figure></li>`;
+
     const screens = c.screens.length
-      ? `<ul class="screens">${c.screens.map(s => `<li><figure class="screen">
-          <img src="${esc(s.src)}" alt="${esc(`${s.product}: ${s.title}`)}" loading="lazy">
-          <figcaption><strong>${esc(s.product)} · ${esc(s.title)}</strong>
-            <span>${esc(s.pattern || "")}${s.notes ? ` — ${esc(s.notes)}` : ""}</span>
-            ${s.source ? `<span><a href="${esc(s.source)}" rel="noopener">Source</a></span>` : ""}
-          </figcaption></figure></li>`).join("")}</ul>`
+      ? `${usedPatterns.length > 1 ? `<div class="chips screen-filter" role="group" aria-label="Filter screens by pattern">
+            <button type="button" class="chip" data-p="" aria-pressed="true">All <span class="count">${c.screens.length}</span></button>
+            ${usedPatterns.map(p => `<button type="button" class="chip" data-p="${esc(p)}" aria-pressed="false">${esc(p)} <span class="count">${c.screens.filter(s => s.pattern === p).length}</span></button>`).join("")}
+          </div>` : ""}
+          <ul class="screens" id="screen-list">${c.screens.map(screenCard).join("")}</ul>
+          <p class="fineprint">Images are linked from each vendor’s public documentation and remain the property of their owners. Collected here for personal design reference.</p>`
       : `<div class="empty-state">
           <h3>No screens saved yet</h3>
           <p>Drop images into <code>screens/${esc(c.slug)}/</code> and add an entry to this category’s <code>screens</code> list in <code>data/categories.js</code>. Tag each with one of the patterns above so it gets counted.</p>
@@ -209,6 +223,16 @@
         ${prev ? `<a href="${catUrl(prev)}"><span>Previous</span><strong>${esc(prev.name)}</strong></a>` : ""}
         ${next ? `<a class="next" href="${catUrl(next)}"><span>Next</span><strong>${esc(next.name)}</strong></a>` : ""}
       </nav>`;
+
+    const filter = $(".screen-filter");
+    if (filter) filter.addEventListener("click", e => {
+      const b = e.target.closest(".chip");
+      if (!b) return;
+      filter.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+      document.querySelectorAll("#screen-list > li").forEach(li => {
+        li.hidden = !!b.dataset.p && li.dataset.pattern !== b.dataset.p;
+      });
+    });
   }
 
   renderSidebar();
