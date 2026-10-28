@@ -7,7 +7,7 @@ Static site, no build step. Open `index.html` or serve the folder.
 ## Structure
 
 ```
-index.html            Home: all categories, search (/ to focus), group filters
+index.html            Home: all categories, search (⌘K / Ctrl+K to focus), group filters
 category.html?c=slug  One category: patterns to collect + saved screens
 data/categories.js    Groups, categories, patterns and screen entries
 data/guidance*.js     Per-pattern guidance: think, do, dont, accessibility, scale (one file per group)

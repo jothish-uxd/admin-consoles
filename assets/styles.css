@@ -863,3 +863,15 @@ a.ref:hover { background: var(--ink); color: var(--bg); border-color: var(--ink)
 }
 .acc { scroll-margin-top: 16px; }
 @media (max-width: 860px) { .acc { scroll-margin-top: 72px; } }
+.search .kbd {
+  position: absolute;
+  right: 10px; top: 50%;
+  transform: translateY(-50%);
+  font: 600 .75rem ui-monospace, "SF Mono", Menlo, monospace;
+  color: var(--faint);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 6px;
+  pointer-events: none;
+}
+.search input { padding-right: 52px; }

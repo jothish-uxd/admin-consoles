@@ -151,7 +151,7 @@
     });
     search.addEventListener("input", render);
     document.addEventListener("keydown", e => {
-      if (e.key === "/" && document.activeElement !== search && !/input|textarea/i.test(document.activeElement.tagName)) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault(); search.focus();
       }
     });
