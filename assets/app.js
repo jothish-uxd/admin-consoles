@@ -62,6 +62,26 @@
         <div>Personal inspiration · Sleepy · © 2026</div>
       </div>`;
 
+    /* Keep the sidebar where it was across page loads, so picking a
+       category lower in the list doesn't jump the nav back to the top. */
+    const NAV_KEY = "ac-nav-scroll";
+    let saved = null;
+    try { saved = sessionStorage.getItem(NAV_KEY); } catch (e) {}
+    if (saved !== null) {
+      side.scrollTop = Number(saved) || 0;
+    }
+    // If the current item still isn't visible (deep link, first visit), bring it into view once.
+    const current = side.querySelector('[aria-current="page"]');
+    if (current) {
+      const s = side.getBoundingClientRect(), r = current.getBoundingClientRect();
+      if (r.top < s.top || r.bottom > s.bottom) {
+        side.scrollTop += r.top - s.top - (s.height - r.height) / 2;
+      }
+    }
+    const saveNav = () => { try { sessionStorage.setItem(NAV_KEY, String(side.scrollTop)); } catch (e) {} };
+    side.addEventListener("click", e => { if (e.target.closest("a")) saveNav(); });
+    addEventListener("pagehide", saveNav);
+
     const toggle = $("#theme-toggle");
     paintToggle(toggle);
     toggle.addEventListener("click", () => {
