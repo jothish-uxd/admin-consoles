@@ -2756,7 +2756,173 @@ window.CATEGORIES = [
       ["Save patterns", "Autosave vs. explicit save bar"],
       ["Inherited settings", "Locked by parent, override"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://mintcdn.com/product-docs/C1Xd19VH3eRYplPn/images/box-admin-tools/adminconsole-enterprisesettingssearch.png",
+        "product": "Box",
+        "title": "Search across settings",
+        "pattern": "Settings navigation",
+        "notes": "Typing in the admin console search returns individual settings as ‘Section / Setting’ with the match highlighted, so admins skip the nav tree.",
+        "credit": "Box",
+        "source": "https://docs.box.com/en/box-admin-tools/how-to-guides-for-admins/searching-the-admin-console",
+        "sourceTitle": "Box Docs: Searching the Admin Console",
+        "alt": "Box Admin Console Enterprise Settings with a search dropdown listing matching settings with their section names"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/org_settings/nav.7cc83024673d821b5ff61bd4df489267.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Personal vs organization settings",
+        "pattern": "Settings navigation",
+        "notes": "One menu splits personal and organization settings into two labelled columns, so nobody changes org settings thinking they’re personal.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/org_settings/",
+        "sourceTitle": "Datadog Docs: Organization settings",
+        "alt": "Datadog account menu with Personal Settings and Organization Settings columns"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-66704/images/help/organizations/continue-verifying-domain.png",
+        "product": "GitHub",
+        "title": "Verified and approved domains",
+        "pattern": "Org profile",
+        "notes": "Domains are listed with their verification state and a per-domain menu to continue or remove, alongside an Add a domain action.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/organizations/managing-organization-settings/verifying-or-approving-a-domain-for-your-organization",
+        "sourceTitle": "GitHub Docs: Verifying or approving a domain",
+        "alt": "GitHub Verified and approved domains page with a domain pending verification and an Add a domain button"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-26751/images/help/organizations/domains-approve-it-instead.png",
+        "product": "GitHub",
+        "title": "Verify or approve instead",
+        "pattern": "Org profile",
+        "notes": "When DNS verification isn’t possible, a lighter ‘Approve it instead’ path sits right next to Verify.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/organizations/managing-organization-settings/verifying-or-approving-a-domain-for-your-organization",
+        "sourceTitle": "GitHub Docs: Verifying or approving a domain",
+        "alt": "GitHub Verify domain step with a Verify button and an Approve it instead link"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-80374/images/help/organizations/profile-view-switcher-public.png",
+        "product": "GitHub",
+        "title": "Preview profile as public",
+        "pattern": "Org profile",
+        "notes": "A ‘View as’ switch lets admins see the org profile the way outsiders or members will.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/customizing-your-organizations-profile",
+        "sourceTitle": "GitHub Docs: Customizing your organization’s profile",
+        "alt": "GitHub organization profile page with a View as Public dropdown in the sidebar"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/39362714392338",
+        "product": "Miro",
+        "title": "Brand center",
+        "pattern": "Org profile",
+        "notes": "Brand themes, logos, typography and asset folders live in one admin area, so branding is set once for the whole company.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/13061918433426-Brand-center",
+        "sourceTitle": "Miro Help: Brand center",
+        "alt": "Miro Brand center in the admin console showing brand themes"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/39362683656466",
+        "product": "Miro",
+        "title": "Brand logos",
+        "pattern": "Org profile",
+        "notes": "Logo variants (light, dark, icon) are uploaded side by side with clear labels for where each is used.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/13061918433426-Brand-center",
+        "sourceTitle": "Miro Help: Brand center",
+        "alt": "Miro Brand center Logos tab with three logo variants"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/39362693098898",
+        "product": "Miro",
+        "title": "Set as default theme",
+        "pattern": "Defaults",
+        "notes": "Any brand theme can be made the default from its menu, so new content starts on-brand without being locked.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/13061918433426-Brand-center",
+        "sourceTitle": "Miro Help: Brand center",
+        "alt": "Miro brand theme menu with Set as default theme, Edit details, Duplicate and Delete"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016941369618",
+        "product": "Miro",
+        "title": "Default sharing settings",
+        "pattern": "Defaults",
+        "notes": "Team defaults for who can create and how boards are shared are set with radio groups, each option spelled out in full.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017572174-Default-sharing-settings",
+        "sourceTitle": "Miro Help: Default sharing settings",
+        "alt": "Miro team sharing settings with radio options for who can create assets and default board sharing"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/org_settings/max_session_duration.a9c220a750dab62f23cecf3bb6f255fb.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Max session duration",
+        "pattern": "Defaults",
+        "notes": "An org-wide security default shown as a sentence with the current value and a single edit action.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/org_settings/",
+        "sourceTitle": "Datadog Docs: Organization settings",
+        "alt": "Datadog Max Session Duration setting showing the current value with an edit button"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/org_settings/idle_session_timeout.2372b892ae5d1abf9a55916f392f25b8.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Idle session timeout",
+        "pattern": "Defaults",
+        "notes": "A simple on/off switch with an explanation of exactly what happens to idle sessions.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/org_settings/",
+        "sourceTitle": "Datadog Docs: Organization settings",
+        "alt": "Datadog Idle Session Timeout setting with a toggle and description"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-128111/images/help/enterprises/select-advanced-security-individual-organization-policy.png",
+        "product": "GitHub",
+        "title": "Enterprise policy per organization",
+        "pattern": "Inherited settings",
+        "notes": "The enterprise sets a policy, then can allow it for selected organizations and pick a plan for each one in a row-level menu.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/enterprise-cloud@latest/admin/enforcing-policies/enforcing-policies-for-your-enterprise/enforcing-policies-for-code-security-and-analysis-for-your-enterprise",
+        "sourceTitle": "GitHub Docs: Enforcing policies for code security and analysis",
+        "alt": "GitHub enterprise Advanced Security policy with Allow for selected organizations and a per-organization plan menu"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-15907/images/help/business-accounts/view-current-policy-implementation-link.png",
+        "product": "GitHub",
+        "title": "See how orgs are configured",
+        "pattern": "Inherited settings",
+        "notes": "When orgs may choose for themselves, a link shows each org’s current setting before the enterprise enforces one.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/enterprise-cloud@latest/admin/enforcing-policies/enforcing-policies-for-your-enterprise/enforcing-repository-management-policies-in-your-enterprise",
+        "sourceTitle": "GitHub Docs: Enforcing repository management policies",
+        "alt": "GitHub enterprise policy with a View your organizations' current configurations link"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/23921782079378",
+        "product": "Miro",
+        "title": "Company allowed domains",
+        "pattern": "Inherited settings",
+        "notes": "The company sets which domains boards can be shared with; teams inherit this list.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017730133-Sharing-policy-on-Enterprise-Plan",
+        "sourceTitle": "Miro Help: Sharing policy on Enterprise Plan",
+        "alt": "Miro company sharing settings with an allowed domains toggle and domain list"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/23921804702226",
+        "product": "Miro",
+        "title": "Team-level domain restriction",
+        "pattern": "Inherited settings",
+        "notes": "A team can narrow sharing further within the company rules, with a warning until at least one domain is added.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017730133-Sharing-policy-on-Enterprise-Plan",
+        "sourceTitle": "Miro Help: Sharing policy on Enterprise Plan",
+        "alt": "Miro team settings Allowed domains for team with a Restrict domains toggle and a domain name field"
+      }
+    ]
   },
   {
     slug: "usage-analytics",
