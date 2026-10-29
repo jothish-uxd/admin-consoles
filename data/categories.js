@@ -557,6 +557,17 @@ window.CATEGORIES = [
         "source": "https://docs.cloud.google.com/iam/docs/troubleshooting-access",
         "sourceTitle": "Google Cloud Docs: Troubleshoot IAM permissions",
         "alt": "Google Cloud Policy Troubleshooter role bindings showing which bindings grant access"
+      },
+      {
+        "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjt71dvL1GZB2kLqS1Sv-3IsAkq4Xi-7na8jfsmG-M5hjnlDkO59GkR7xDnf-bfqUoh-WCOq5fA6p1nilAZ8oj__gnHQF-eSj22mrBJ5N8fw0fHbOibm721MDoNX4gMhPKgj-snPiYj5RtWwymH52LlH9IF-gfnlJuib6B6aQ-N-abtdOGQzw7eswag/s16000/1.png",
+        "product": "Google Workspace",
+        "title": "Admin role privileges",
+        "pattern": "Create custom role",
+        "notes": "Privileges as a searchable, expandable tree grouped by area, with storage management as its own privilege that can be granted without full admin rights.",
+        "credit": "Google",
+        "source": "https://workspaceupdates.googleblog.com/2022/04/updated-storage-management-admin-console.html",
+        "sourceTitle": "Google Workspace Updates: Storage management tools in the Admin console",
+        "alt": "Google Admin role privileges tree with a search box and checkboxes for each privilege"
       }
     ]
   },
@@ -1234,7 +1245,74 @@ window.CATEGORIES = [
       ["Largest items", "Find what to clean up"],
       ["Trash & recovery", "Soft-deleted content, retention window"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjxzRvwRlRVIkkVl5HI0P1AxJUEgx6yo7bu3LtPzhJ7K-TZuTOJ2Oh4uFH6iXfsAKs-8jdd_HXeIz_YdvR-bbotQ1o_9RMGTbhyVrXf_oeizG4G8eqWWr_7d6pj5_XEF1vCoJSpeedZ7P0XBI1uTKwflvdTLWwDZ-VaAzXriSuOS_j-d8Vn-fg8Cw0P/s16000/unnamed.jpeg",
+        "product": "Google Workspace",
+        "title": "Workspace storage",
+        "pattern": "Storage overview",
+        "notes": "Used and total in plain numbers (60 TB of 100 TB), a bar split by product, and right below it the users and shared drives using the most, so the overview leads straight to cleanup.",
+        "credit": "Google",
+        "source": "https://workspaceupdates.googleblog.com/2022/04/updated-storage-management-admin-console.html",
+        "sourceTitle": "Google Workspace Updates: Storage management tools in the Admin console",
+        "alt": "Google Admin storage page with a usage bar by product and lists of the users and shared drives using the most storage"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-37384/images/help/billing/org-budget-example.png",
+        "product": "GitHub",
+        "title": "Organization budgets",
+        "pattern": "Per-user quotas",
+        "notes": "Limits set per product rather than per person, each with spend against budget, a percentage badge at 100%, and whether usage stops when the limit is reached.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/enterprise-cloud@latest/billing/how-tos/set-up-budgets",
+        "sourceTitle": "GitHub Docs: Set up budgets",
+        "alt": "GitHub organization budgets list showing spend against each budget and whether usage stops at the limit"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/23122118937362",
+        "product": "Miro",
+        "title": "Trash",
+        "pattern": "Trash & recovery",
+        "notes": "Each deleted board shows who deleted it, when, and a countdown such as ‘Deleting forever in 90 days’, with Restore first and Delete forever second.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017572614-How-to-restore-a-deleted-board",
+        "sourceTitle": "Miro Help Center: How to restore a deleted board",
+        "alt": "Miro trash list with deleted boards, deletion countdowns and a menu offering restore or delete forever"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016968160146",
+        "product": "Miro",
+        "title": "Content lifecycle settings",
+        "pattern": "Trash & recovery",
+        "notes": "Admins set how long items stay in trash and decide separately who may restore and who may delete permanently.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/19205385407250-Configure-who-can-restore-deleted-boards",
+        "sourceTitle": "Miro Help Center: Configure who can restore deleted boards",
+        "alt": "Miro content lifecycle settings with trash retention period and deleted board permissions"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21017515434258",
+        "product": "Miro",
+        "title": "Board has been deleted",
+        "pattern": "Trash & recovery",
+        "notes": "Someone opening a deleted board’s link is told what happened and offered a restore, instead of a dead end.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017572614-How-to-restore-a-deleted-board",
+        "sourceTitle": "Miro Help Center: How to restore a deleted board",
+        "alt": "Miro notice that a board has been deleted with an option to restore it"
+      },
+      {
+        "src": "https://confluence.atlassian.com/doc/files/139429/1331232922/1/1701837313910/Space+trash+details.png",
+        "product": "Confluence Data Center",
+        "title": "Space trash",
+        "pattern": "Trash & recovery",
+        "notes": "Deleted pages and files with who created and deleted them and when, per-item Restore or Purge, and a separate Purge all.",
+        "credit": "Atlassian",
+        "source": "https://confluence.atlassian.com/doc/delete-or-restore-a-page-139429.html",
+        "sourceTitle": "Confluence Data Center docs: Delete or restore a page",
+        "alt": "Confluence space trash table with restore and purge actions for each item"
+      }
+    ]
   },
   {
     slug: "knowledge-content",
