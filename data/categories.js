@@ -249,7 +249,239 @@ window.CATEGORIES = [
       ["Scoped access", "Per workspace, folder or resource"],
       ["Effective permissions", "Explain why someone can do something"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.azure.cn/en-us/entra/media/common/entra-roles-admins.png",
+        "product": "Microsoft Entra ID",
+        "title": "Roles and administrators",
+        "pattern": "Role catalog",
+        "notes": "Built-in and custom roles in one searchable list, each with a one-line description and a type column.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/manage-roles-portal",
+        "sourceTitle": "Microsoft Learn: Assign Microsoft Entra roles",
+        "alt": "Microsoft Entra Roles and administrators page listing roles with descriptions"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/media/role-definitions-list/roles-admins-description.png",
+        "product": "Microsoft Entra ID",
+        "title": "Role description",
+        "pattern": "Role catalog",
+        "notes": "Opening a role shows its summary and the full permission list, so admins can check what it grants before assigning it.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/role-definitions-list",
+        "sourceTitle": "Microsoft Learn: List Microsoft Entra role definitions",
+        "alt": "Microsoft Entra role description page showing the role summary and its permissions"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/role-based-access-control/media/custom-roles-portal/custom-role-list.png",
+        "product": "Microsoft Azure",
+        "title": "Custom roles list",
+        "pattern": "Role catalog",
+        "notes": "Filtering the role list to custom roles only, a simple way to keep org-made roles separate from built-ins.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/role-based-access-control/custom-roles-portal",
+        "sourceTitle": "Microsoft Learn: Create or update Azure custom roles",
+        "alt": "Azure roles list filtered to custom roles"
+      },
+      {
+        "src": "https://confluence.atlassian.com/doc/files/139460/720410233/359/1791529078872/spacepermissions-new.png",
+        "product": "Confluence Data Center",
+        "title": "Space permissions",
+        "pattern": "Permission matrix",
+        "notes": "Classic groups-by-capabilities grid, grouped by area (pages, blog, comments, restrictions). Granted and denied differ only by colour here: a useful example of what to improve.",
+        "credit": "Atlassian",
+        "source": "https://confluence.atlassian.com/doc/assign-space-permissions-139460.html",
+        "sourceTitle": "Confluence Data Center docs: Assign space permissions",
+        "alt": "Confluence space permissions grid of groups and users against capabilities"
+      },
+      {
+        "src": "https://confluence.atlassian.com/doc/files/139460/294912190/379/1791529074901/defaultspacepermissions.png",
+        "product": "Confluence Data Center",
+        "title": "Default space permissions",
+        "pattern": "Permission matrix",
+        "notes": "The same matrix used to set defaults for every new space, with an edit mode separate from viewing.",
+        "credit": "Atlassian",
+        "source": "https://confluence.atlassian.com/doc/assign-space-permissions-139460.html",
+        "sourceTitle": "Confluence Data Center docs: Assign space permissions",
+        "alt": "Confluence default space permissions grid"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/role-based-access-control/media/custom-roles-portal/clone-menu.png",
+        "product": "Microsoft Azure",
+        "title": "Clone a role",
+        "pattern": "Create custom role",
+        "notes": "Clone sits on each role’s row menu, so the safest starting point is the easiest one to reach.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/role-based-access-control/custom-roles-portal",
+        "sourceTitle": "Microsoft Learn: Create or update Azure custom roles",
+        "alt": "Azure role row menu with the Clone option"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/Entra/identity/role-based-access-control/media/custom-create/basics-tab.png",
+        "product": "Microsoft Entra ID",
+        "title": "New custom role, Basics",
+        "pattern": "Create custom role",
+        "notes": "Name and description first, with a choice to start from scratch or clone.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/Entra/identity/role-based-access-control/custom-create",
+        "sourceTitle": "Microsoft Learn: Create a custom role in Microsoft Entra ID",
+        "alt": "Microsoft Entra new custom role Basics tab with name and description fields"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/Entra/identity/role-based-access-control/media/custom-create/permissions-tab.png",
+        "product": "Microsoft Entra ID",
+        "title": "New custom role, Permissions",
+        "pattern": "Create custom role",
+        "notes": "Searchable list of permissions with descriptions next to each one, rather than bare scope codes.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/Entra/identity/role-based-access-control/custom-create",
+        "sourceTitle": "Microsoft Learn: Create a custom role in Microsoft Entra ID",
+        "alt": "Microsoft Entra custom role Permissions tab with a searchable permissions list"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/role-based-access-control/media/shared/add-permissions-list.png",
+        "product": "Microsoft Azure",
+        "title": "Add permissions",
+        "pattern": "Create custom role",
+        "notes": "Permissions grouped by resource, with read, write and delete actions listed separately.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/role-based-access-control/custom-roles-portal",
+        "sourceTitle": "Microsoft Learn: Create or update Azure custom roles",
+        "alt": "Azure Add permissions pane listing actions for a resource provider"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/role-based-access-control/media/custom-roles-portal/review-create.png",
+        "product": "Microsoft Azure",
+        "title": "Review + create",
+        "pattern": "Create custom role",
+        "notes": "A full summary of the role before it exists, including permissions and assignable scopes.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/role-based-access-control/custom-roles-portal",
+        "sourceTitle": "Microsoft Learn: Create or update Azure custom roles",
+        "alt": "Azure custom role Review and create tab summarising the role"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/rbac/role_templates.77463a85fb2912867212ae5acb42ab42.png?auto=format&fit=max&w=850",
+        "product": "Datadog",
+        "title": "Role templates",
+        "pattern": "Create custom role",
+        "notes": "Start a role from a template such as Billing Admin instead of a blank list.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/rbac",
+        "sourceTitle": "Datadog Docs: Access control",
+        "alt": "Datadog role templates dropdown with Billing Admin role selected"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/media/manage-roles-portal/add-assignments.png",
+        "product": "Microsoft Entra ID",
+        "title": "Add assignments",
+        "pattern": "Assign role",
+        "notes": "Assigning from the role’s side: pick the role, then the people or groups who should hold it.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/manage-roles-portal",
+        "sourceTitle": "Microsoft Learn: Assign Microsoft Entra roles",
+        "alt": "Microsoft Entra Add assignments pane for a selected role"
+      },
+      {
+        "src": "https://experienceleague.adobe.com/en/docs/support-resources/adobe-support-tools-guide/adobe-admin-console/media_14cb4ffec29f344affe0a0bd8134fb6b67a31c4f3.png?width=750&format=png&optimize=medium",
+        "product": "Adobe Admin Console",
+        "title": "Add an administrator",
+        "pattern": "Assign role",
+        "notes": "Admin types listed with plain descriptions; choosing product or profile admin then asks which product, so scope is part of the choice.",
+        "credit": "Adobe",
+        "source": "https://experienceleague.adobe.com/en/docs/support-resources/adobe-support-tools-guide/admin-roles",
+        "sourceTitle": "Adobe Experience League: Administrative roles",
+        "alt": "Adobe Admin Console Add an administrator dialog with admin role options"
+      },
+      {
+        "src": "https://images.ctfassets.net/zsv3d0ugroxu/7JYBgXNU6CasHtoK4FAqHj/3cd9b3d8fa910ba2f7b0720ed6e8779e/image-20251030-170601.png",
+        "product": "Confluence Cloud",
+        "title": "Add people to a space",
+        "pattern": "Assign role",
+        "notes": "Lightweight assign: search for people and pick a role in one dialog, from the space itself.",
+        "credit": "Atlassian",
+        "source": "https://support.atlassian.com/confluence-cloud/docs/assign-space-permissions/",
+        "sourceTitle": "Atlassian Support: Assign space permissions",
+        "alt": "Confluence Cloud dialog for adding people to a space with a role picker"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/media/manage-roles-portal/admin-units-roles.png",
+        "product": "Microsoft Entra ID",
+        "title": "Roles within an administrative unit",
+        "pattern": "Scoped access",
+        "notes": "Roles assigned inside an administrative unit only apply to the users and groups in that unit.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/manage-roles-portal",
+        "sourceTitle": "Microsoft Learn: Assign Microsoft Entra roles",
+        "alt": "Microsoft Entra Roles and administrators view inside an administrative unit"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/media/admin-units-manage/assign-roles-admin-unit.png",
+        "product": "Microsoft Entra ID",
+        "title": "Assign a role scoped to a unit",
+        "pattern": "Scoped access",
+        "notes": "The scope is shown with the assignment, so a scoped admin isn’t mistaken for a global one.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/admin-units-manage",
+        "sourceTitle": "Microsoft Learn: Create or delete administrative units",
+        "alt": "Microsoft Entra Add assignments pane scoped to an administrative unit"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/media/manage-roles-portal/app-reg-add-assignment.png",
+        "product": "Microsoft Entra ID",
+        "title": "Role scoped to one app",
+        "pattern": "Scoped access",
+        "notes": "Scoping down to a single resource: the same role, granted for one app registration only.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/role-based-access-control/manage-roles-portal",
+        "sourceTitle": "Microsoft Learn: Assign Microsoft Entra roles",
+        "alt": "Microsoft Entra role assignment scoped to an app registration"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/role-based-access-control/media/custom-roles-portal/assignable-scopes.png",
+        "product": "Microsoft Azure",
+        "title": "Assignable scopes",
+        "pattern": "Scoped access",
+        "notes": "A custom role declares where it may be used, which limits how widely it can ever be granted.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/role-based-access-control/custom-roles-portal",
+        "sourceTitle": "Microsoft Learn: Create or update Azure custom roles",
+        "alt": "Azure custom role Assignable scopes tab"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/role-based-access-control/media/shared/rg-check-access-select.png",
+        "product": "Microsoft Azure",
+        "title": "Check access",
+        "pattern": "Effective permissions",
+        "notes": "Pick any user, group or app and see their access to this resource.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/role-based-access-control/check-access",
+        "sourceTitle": "Microsoft Learn: Check access for a user to Azure resources",
+        "alt": "Azure Check access pane for selecting a user, group or app"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/role-based-access-control/media/shared/rg-check-access-assignments-user.png",
+        "product": "Microsoft Azure",
+        "title": "Role and deny assignments for a user",
+        "pattern": "Effective permissions",
+        "notes": "Shows grants and denies together, and whether each comes from this resource or is inherited.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/role-based-access-control/check-access",
+        "sourceTitle": "Microsoft Learn: Check access for a user to Azure resources",
+        "alt": "Azure role and deny assignments for a selected user"
+      },
+      {
+        "src": "https://docs.cloud.google.com/static/policy-intelligence/img/troubleshooter-role-bindings.png",
+        "product": "Google Cloud",
+        "title": "Policy Troubleshooter: role bindings",
+        "pattern": "Effective permissions",
+        "notes": "Answers ‘why does this person have access?’ binding by binding, with granted or not shown in words.",
+        "credit": "Google",
+        "source": "https://docs.cloud.google.com/iam/docs/troubleshooting-access",
+        "sourceTitle": "Google Cloud Docs: Troubleshoot IAM permissions",
+        "alt": "Google Cloud Policy Troubleshooter role bindings showing which bindings grant access"
+      }
+    ]
   },
   {
     slug: "groups-teams",
