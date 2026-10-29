@@ -667,7 +667,140 @@ window.CATEGORIES = [
       ["Device management", "Trusted devices, revoke"],
       ["IP allowlists", "Network restrictions"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/enterprise-apps/media/add-application-portal-setup-sso/saml-configuration.png",
+        "product": "Microsoft Entra ID",
+        "title": "SAML single sign-on setup",
+        "pattern": "SSO setup",
+        "notes": "Setup laid out as numbered cards (basic configuration, attributes, certificate, app setup), each with its own edit action and copyable values.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/enterprise-apps/add-application-portal-setup-sso",
+        "sourceTitle": "Microsoft Learn: Enable SAML single sign-on for an enterprise application",
+        "alt": "Microsoft Entra SAML-based single sign-on page with numbered configuration sections"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/saml/saml_metadata_url.688ff08d5a4c5c717cba6ae54de82f77.png?auto=format&fit=max&w=850",
+        "product": "Datadog",
+        "title": "SAML enabled, service provider details",
+        "pattern": "SSO setup",
+        "notes": "A clear ‘SAML is enabled’ state, followed by the values the identity provider needs, each ready to copy.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/saml/",
+        "sourceTitle": "Datadog Docs: Single sign-on with SAML",
+        "alt": "Datadog SAML settings showing SAML is enabled and service provider details"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/saml/saml_jit_default.100ecd798a6f2d621d85cef6fde8f299.png?auto=format&fit=max&w=850",
+        "product": "Datadog",
+        "title": "Just-in-time provisioning",
+        "pattern": "SSO setup",
+        "notes": "SSO paired with account creation on first sign-in, limited to listed domains and given a default role.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/saml/",
+        "sourceTitle": "Datadog Docs: Single sign-on with SAML",
+        "alt": "Datadog SAML additional features with just-in-time provisioning domains and default role"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/authentication/media/concept-authentication-methods-manage/authentication-methods-policy.png",
+        "product": "Microsoft Entra ID",
+        "title": "Authentication methods policy",
+        "pattern": "MFA enforcement",
+        "notes": "Every factor in one list (passkeys, Authenticator, SMS and more) with whether it’s enabled and who it targets.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/authentication/concept-authentication-methods-manage",
+        "sourceTitle": "Microsoft Learn: Manage authentication methods",
+        "alt": "Microsoft Entra authentication methods policy listing methods with status and targets"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/authentication/media/how-to-mfa-registration-campaign/enabled-passkey-campaign.png",
+        "product": "Microsoft Entra ID",
+        "title": "Registration campaign",
+        "pattern": "MFA enforcement",
+        "notes": "Enrolment nudges configured by method, target groups and how many days people can snooze before they must register.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/authentication/how-to-mfa-registration-campaign",
+        "sourceTitle": "Microsoft Learn: Run a registration campaign",
+        "alt": "Microsoft Entra registration campaign settings with method, snooze and target settings"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/authentication/media/how-to-mfa-registration-campaign/user-prompt.png",
+        "product": "Microsoft Entra ID",
+        "title": "Enrolment prompt for users",
+        "pattern": "MFA enforcement",
+        "notes": "The person’s side of the rollout: a plain prompt with ‘Skip for now (3 times left)’, a grace period people can see.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/authentication/how-to-mfa-registration-campaign",
+        "sourceTitle": "Microsoft Learn: Run a registration campaign",
+        "alt": "Sign-in prompt asking the user to set up Microsoft Authenticator with a skip option showing remaining skips"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/conditional-access/media/howto-conditional-access-session-lifetime/conditional-access-policy-session-sign-in-frequency.png",
+        "product": "Microsoft Entra ID",
+        "title": "Sign-in frequency",
+        "pattern": "Session management",
+        "notes": "Session length set per policy rather than org-wide, so admins and risky sign-ins can have stricter rules than everyone else.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/conditional-access/howto-conditional-access-session-lifetime",
+        "sourceTitle": "Microsoft Learn: Configure adaptive session lifetime policies",
+        "alt": "Microsoft Entra Conditional Access session controls with sign-in frequency configured"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-66704/images/help/organizations/continue-verifying-domain.png",
+        "product": "GitHub",
+        "title": "Verified & approved domains",
+        "pattern": "Domain verification",
+        "notes": "Each domain with a clear status badge such as ‘Pending verification’, and a row menu to continue or remove.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/organizations/managing-organization-settings/verifying-or-approving-a-domain-for-your-organization",
+        "sourceTitle": "GitHub Docs: Verifying or approving a domain for your organization",
+        "alt": "GitHub verified and approved domains list with a domain pending verification"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/devices/media/manage-device-identities/all-devices-azure-portal.png",
+        "product": "Microsoft Entra ID",
+        "title": "All devices",
+        "pattern": "Device management",
+        "notes": "Device inventory with OS, join type, owner, compliance and last activity, plus enable, disable and delete in the command bar.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/devices/manage-device-identities",
+        "sourceTitle": "Microsoft Learn: Manage devices in Microsoft Entra ID",
+        "alt": "Microsoft Entra All devices list with device details"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/devices/media/manage-device-identities/device-settings-azure-portal.png",
+        "product": "Microsoft Entra ID",
+        "title": "Device settings",
+        "pattern": "Device management",
+        "notes": "Org-wide rules for who can join devices, how many each person can register, and whether MFA is required to do it.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/devices/manage-device-identities",
+        "sourceTitle": "Microsoft Learn: Manage devices in Microsoft Entra ID",
+        "alt": "Microsoft Entra device settings page"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/conditional-access/media/concept-assignment-network/named-locations.png",
+        "product": "Microsoft Entra ID",
+        "title": "Named locations",
+        "pattern": "IP allowlists",
+        "notes": "IP ranges and countries saved once with a name and a trusted flag, then reused across policies.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/conditional-access/concept-assignment-network",
+        "sourceTitle": "Microsoft Learn: Conditional Access network assignment",
+        "alt": "Microsoft Entra named locations list with IP ranges and countries"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/conditional-access/media/concept-assignment-network/network-assignment.png",
+        "product": "Microsoft Entra ID",
+        "title": "Network condition in a policy",
+        "pattern": "IP allowlists",
+        "notes": "Policies include or exclude named locations rather than raw IP lists, keeping the rule readable.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/conditional-access/concept-assignment-network",
+        "sourceTitle": "Microsoft Learn: Conditional Access network assignment",
+        "alt": "Microsoft Entra Conditional Access policy network condition selecting locations"
+      }
+    ]
   },
   {
     slug: "access-requests",
