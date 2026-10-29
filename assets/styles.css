@@ -111,8 +111,8 @@ code, kbd { font-family: var(--mono); }
 .wordmark-glyph { width: 20px; height: 20px; flex: none; }
 .header-sep { color: var(--rule-strong); font-weight: 300; font-size: 20px; line-height: 1; }
 .header-badge {
-  font-family: var(--mono); font-size: 12px; color: var(--ink-soft);
-  border: 1px solid var(--rule); border-radius: 6px; padding: 1px 7px; background: var(--bg-subtle);
+  font-family: var(--mono); font-size: 13px; line-height: 20px; color: var(--ink-soft);
+  border: 1px solid var(--rule); border-radius: 8px; padding: 2px 10px; background: var(--bg-subtle);
   white-space: nowrap;
 }
 .header-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
