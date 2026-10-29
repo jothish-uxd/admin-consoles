@@ -1730,7 +1730,162 @@ window.CATEGORIES = [
       ["Cascading impact", "What else goes with it"],
       ["Danger zone", "Settings section for irreversible actions"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21019693273234",
+        "product": "Miro",
+        "title": "Delete team confirmation",
+        "pattern": "Delete confirmation",
+        "notes": "The dialog names the team, says where it goes (Deleted Teams) and what stops working, and repeats the verb on the red button.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017571334-Delete-and-restore-teams",
+        "sourceTitle": "Miro Help: Delete and restore teams",
+        "alt": "Miro Delete Obsolete Team dialog explaining the team moves to Deleted Teams, with Delete team and Cancel buttons"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21017429125778",
+        "product": "Miro",
+        "title": "Delete profile",
+        "pattern": "Delete confirmation",
+        "notes": "Spells out the timeline (permanent after a set number of days) and that an email link is required, so the user knows it’s recoverable for now.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017571354-How-to-delete-your-profile",
+        "sourceTitle": "Miro Help: How to delete your profile",
+        "alt": "Miro Delete profile dialog explaining when the profile will be permanently deleted"
+      },
+      {
+        "src": "https://mintcdn.com/product-docs/C1Xd19VH3eRYplPn/images/box-admin-tools/deactivation-confirmation.png",
+        "product": "Box",
+        "title": "Deactivate file request",
+        "pattern": "Delete confirmation",
+        "notes": "A short, specific question with the irreversible part stated plainly (‘you will no longer be able to reactivate’).",
+        "credit": "Box",
+        "source": "https://docs.box.com/en/box-admin-tools/managing-content/file-requests/managing-file-requests",
+        "sourceTitle": "Box Docs: Managing file requests",
+        "alt": "Box Deactivate File Request confirmation dialog with Cancel and Deactivate buttons"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-81130/images/help/repository/archive-repository-warnings.png",
+        "product": "GitHub",
+        "title": "Archive with type-to-confirm",
+        "pattern": "Type-to-confirm",
+        "notes": "Lists what will stop working, then asks you to type the full repository name; the button stays disabled and reads ‘I understand the consequences’.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/repositories/archiving-a-github-repository/archiving-repositories",
+        "sourceTitle": "GitHub Docs: Archiving repositories",
+        "alt": "GitHub Archive repository dialog listing consequences, a field to type the repository name and a disabled confirm button"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/dashboards/list/recently_deleted_restore.8877b577bdba31793a79378091668656.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Recently deleted dashboards",
+        "pattern": "Archive vs. delete",
+        "notes": "Deleted dashboards go to a Recently Deleted list for 30 days, with a ‘recoverable until’ date per row and bulk Restore.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/dashboards/list/",
+        "sourceTitle": "Datadog Docs: Dashboard list",
+        "alt": "Datadog Recently Deleted dashboards list with selected rows, a Restore button and recoverable-until dates"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21119727475090",
+        "product": "Miro",
+        "title": "Admin trash",
+        "pattern": "Archive vs. delete",
+        "notes": "Trashed boards show who deleted them, time left in trash and retention date, with a quick filter for what’s about to be gone forever.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/21118388045970-Review-boards-in-Trash",
+        "sourceTitle": "Miro Help: Review boards in Trash",
+        "alt": "Miro Content explorer Trash table with owner, deleted date, time left in trash and retention until columns"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21122533003538",
+        "product": "Miro",
+        "title": "Restore or delete permanently",
+        "pattern": "Archive vs. delete",
+        "notes": "The detail panel puts the soft option (Restore) first and the permanent one in red, with deletion and modification dates for context.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/21118388045970-Review-boards-in-Trash",
+        "sourceTitle": "Miro Help: Review boards in Trash",
+        "alt": "Miro trashed board detail panel with Restore and Delete permanently buttons"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-9678/images/help/settings/restore-button.png",
+        "product": "GitHub",
+        "title": "Restore deleted repository",
+        "pattern": "Archive vs. delete",
+        "notes": "Deleted repositories stay listed for a window with a one-click Restore, so a mistaken delete isn’t a support ticket.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/repositories/creating-and-managing-repositories/restoring-a-deleted-repository",
+        "sourceTitle": "GitHub Docs: Restoring a deleted repository",
+        "alt": "GitHub deleted repositories list entry with a Restore button"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21017515322002",
+        "product": "Miro",
+        "title": "Delete user, reassign content",
+        "pattern": "Cascading impact",
+        "notes": "Removing a user asks who inherits their boards and templates, and offers a separate ‘Delete user and content’ for the heavier option.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017571234-Remove-users",
+        "sourceTitle": "Miro Help: Remove users",
+        "alt": "Miro Delete user from company dialog choosing a person to reassign boards to, with Delete user and Delete user and content buttons"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/25008759156370",
+        "product": "Miro",
+        "title": "Bulk delete from team",
+        "pattern": "Cascading impact",
+        "notes": "Bulk deletion lives behind a Bulk actions menu with the selection count beside it, never as a bare button.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017571234-Remove-users",
+        "sourceTitle": "Miro Help: Remove users",
+        "alt": "Miro team members list with three users selected and a Bulk actions menu open on Delete from team"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21017515434258",
+        "product": "Miro",
+        "title": "What others see after delete",
+        "pattern": "Cascading impact",
+        "notes": "People who open a deleted board get a clear message and a way to request restoration, the downstream side of a delete.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017572614-How-to-restore-a-deleted-board",
+        "sourceTitle": "Miro Help: How to restore a deleted board",
+        "alt": "Miro Board has been deleted message shown to a user opening a deleted board"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/23921803181586",
+        "product": "Miro",
+        "title": "Delete team section",
+        "pattern": "Danger zone",
+        "notes": "The delete action sits at the bottom of the team profile, separated from everyday fields, with its consequences and scope explained above the button.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/4766759572114-Enterprise-Developer-teams",
+        "sourceTitle": "Miro Help: Enterprise Developer teams",
+        "alt": "Miro team profile settings with a Delete DEV Team section and Delete team button at the bottom"
+      },
+      {
+        "src": "https://docs.cloud.google.com/static/compute/images/vm-deletion-new-vm.png",
+        "product": "Google Cloud",
+        "title": "Deletion protection",
+        "pattern": "Danger zone",
+        "notes": "A per-resource switch that blocks deletion until it is turned off, a deliberate extra step for critical VMs.",
+        "credit": "Google Cloud",
+        "source": "https://docs.cloud.google.com/compute/docs/instances/preventing-accidental-vm-deletion",
+        "sourceTitle": "Google Cloud Docs: Prevent accidental VM deletion",
+        "alt": "Google Cloud VM settings with an Enable deletion protection checkbox"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016968160146",
+        "product": "Miro",
+        "title": "Who can restore deleted boards",
+        "pattern": "Danger zone",
+        "notes": "Admins decide who can recover deleted content and for how long, setting the safety net before anyone needs it.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/19205385407250-Configure-who-can-restore-deleted-boards",
+        "sourceTitle": "Miro Help: Configure who can restore deleted boards",
+        "alt": "Miro admin trash settings controlling who can restore deleted boards"
+      }
+    ]
   },
   {
     slug: "import-export",
