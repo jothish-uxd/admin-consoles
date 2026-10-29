@@ -1858,7 +1858,129 @@ window.CATEGORIES = [
       ["Usage & cost", "Who is using AI, how much"],
       ["Content safety", "Filters, blocked topics, review"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://help.asana.com/servlet/rtaImage?eid=ka0Pc000000S6Gz&feoid=00NPc000003Pw7h&refid=0EMPc00000EPtu5",
+        "product": "Asana",
+        "title": "Enable Asana AI",
+        "pattern": "Feature availability",
+        "notes": "One org-level switch with plain-language consequences, and a visible ‘default off’ tag for regulated (Gov) tenants.",
+        "credit": "Asana",
+        "source": "https://help.asana.com/s/article/Asana-AI-customization",
+        "sourceTitle": "Asana Help: Asana AI customization",
+        "alt": "Asana admin checkbox labelled Enable Asana AI with a Gov default off tag"
+      },
+      {
+        "src": "https://mintcdn.com/product-docs/pLC-uWMnSTtWjsJb/images/box-ai/box-ai-settings-page-listing.png",
+        "product": "Box",
+        "title": "Box AI settings",
+        "pattern": "Feature availability",
+        "notes": "Each AI capability is listed with its own status and configure link, so admins can turn on some features and not others.",
+        "credit": "Box",
+        "source": "https://docs.box.com/en/box-ai/admins/enabling-box-ai-studio-and-managing-agents",
+        "sourceTitle": "Box Docs: Enabling Box AI Studio and managing agents",
+        "alt": "Box Admin Console AI settings page listing AI features with their enabled status"
+      },
+      {
+        "src": "https://mintcdn.com/product-docs/pLC-uWMnSTtWjsJb/images/box-ai/ai-studio-agents-table-listing.png",
+        "product": "Box",
+        "title": "AI agents table",
+        "pattern": "Feature availability",
+        "notes": "Custom AI agents are governed like any other asset: owner, status and who can use each one, with a create action on top.",
+        "credit": "Box",
+        "source": "https://docs.box.com/en/box-ai/admins/enabling-box-ai-studio-and-managing-agents",
+        "sourceTitle": "Box Docs: Enabling Box AI Studio and managing agents",
+        "alt": "Box AI Studio agents table with agent names, status and access columns"
+      },
+      {
+        "src": "https://mintcdn.com/product-docs/8QqqEjYxDfvboQc3/images/shared/box-ai-product-addendum-clickwrap-png.jpg",
+        "product": "Box",
+        "title": "AI product addendum",
+        "pattern": "Data usage controls",
+        "notes": "Before AI turns on, an admin must read and accept the data-processing terms in a scrollable clickwrap; Accept stays disabled until they agree.",
+        "credit": "Box",
+        "source": "https://docs.box.com/en/box-ai/admins/configuring-box-ai",
+        "sourceTitle": "Box Docs: Configuring Box AI",
+        "alt": "Box AI Product Addendum dialog with scrollable terms, an agreement checkbox and a disabled Accept button"
+      },
+      {
+        "src": "https://help.asana.com/servlet/rtaImage?eid=ka0Pc000000Tj4z&feoid=00NPc000003Pw7h&refid=0EMPc00000QSHuz",
+        "product": "Asana",
+        "title": "AI providers",
+        "pattern": "Model & provider settings",
+        "notes": "Admins pick which third-party providers can power AI, with data-protection promises stated right above the choices.",
+        "credit": "Asana",
+        "source": "https://help.asana.com/s/article/asana-ai-features-and-admin-controls",
+        "sourceTitle": "Asana Help: Asana AI features and admin controls",
+        "alt": "Asana domain AI settings with a Providers and APIs section listing OpenAI, Anthropic, Google, AWS Bedrock and Fireworks checkboxes"
+      },
+      {
+        "src": "https://mintcdn.com/product-docs/cwJeew3iU12hOBZZ/images/box-ai/model_filters.png",
+        "product": "Box",
+        "title": "Model list with compliance filters",
+        "pattern": "Model & provider settings",
+        "notes": "Models can be filtered by provider, tier and compliance level (FedRAMP, DoD impact), so regulated orgs only see what they may enable.",
+        "credit": "Box",
+        "source": "https://docs.box.com/en/box-ai/admins/enabling-box-ai-studio-and-managing-agents",
+        "sourceTitle": "Box Docs: Enabling Box AI Studio and managing agents",
+        "alt": "Box AI model list with a compliance filter menu for FedRAMP certification and DoD impact level"
+      },
+      {
+        "src": "https://docs.glean.com/assets/images/image-1-cc04db32556905ccc77035a4ec8bdfd6.png",
+        "product": "Glean",
+        "title": "Default model for an agent",
+        "pattern": "Model & provider settings",
+        "notes": "Model choice is also set per agent, in the builder's settings, within whatever the admin has allowed.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/administration/configure-llms",
+        "sourceTitle": "Glean Docs: Configure LLMs",
+        "alt": "Glean agent builder with settings open to choose the model"
+      },
+      {
+        "src": "https://mintcdn.com/product-docs/FfFNOXD1EjYB5JFI/images/box-ai/Monthly-Usage.png",
+        "product": "Box",
+        "title": "Monthly AI usage",
+        "pattern": "Usage & cost",
+        "notes": "A usage meter against the monthly allowance, plus per-user query limits, so admins see consumption before it becomes overage.",
+        "credit": "Box",
+        "source": "https://docs.box.com/en/box-ai/admins/viewing-box-ai-usage",
+        "sourceTitle": "Box Docs: Viewing Box AI usage",
+        "alt": "Box AI monthly usage meter with total units used and user query limit settings"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/billing/view-ai-credit-usage.5b7565e1d85a5893c6ffd7b47dd2d7c2.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "AI credits usage",
+        "pattern": "Usage & cost",
+        "notes": "Cost and usage overviews sit beside the AI products toggle, with a chart broken down by each AI feature.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/billing/ai_credits/",
+        "sourceTitle": "Datadog Docs: AI Credits",
+        "alt": "Datadog AI Credits page with an AI products toggle, cost overview and a usage bar chart by product"
+      },
+      {
+        "src": "https://blog.cloudflare.com/_image?href=https%3A%2F%2Fblog.cloudflare.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01KW460QY6YRTH1SAGBPJ3E52F.png&w=715&h=543&f=webp&fit=cover&position=center",
+        "product": "Cloudflare AI Gateway",
+        "title": "Guardrail categories",
+        "pattern": "Content safety",
+        "notes": "Each hazard category gets its own setting for prompts and for responses: ignore, flag or block.",
+        "credit": "Cloudflare",
+        "source": "https://blog.cloudflare.com/guardrails-in-ai-gateway/",
+        "sourceTitle": "Cloudflare Blog: Guardrails in AI Gateway",
+        "alt": "Cloudflare AI Gateway advanced guardrails table with flag or block settings per hazard category for prompts and responses"
+      },
+      {
+        "src": "https://blog.cloudflare.com/_image?href=https%3A%2F%2Fblog.cloudflare.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01KW47XRKH2ZRC4D3XPXMKT21X.png&w=715&h=427&f=webp&fit=cover&position=center",
+        "product": "Cloudflare AI Gateway",
+        "title": "Blocked prompt in the log",
+        "pattern": "Content safety",
+        "notes": "The request log shows exactly which category blocked a prompt and the message returned, which is what reviewers need to tune rules.",
+        "credit": "Cloudflare",
+        "source": "https://blog.cloudflare.com/guardrails-in-ai-gateway/",
+        "sourceTitle": "Cloudflare Blog: Guardrails in AI Gateway",
+        "alt": "Cloudflare AI Gateway log entry showing a prompt blocked under the Non-Violent Crimes category"
+      }
+    ]
   },
 
   /* ---------- Platform & configuration ---------- */
