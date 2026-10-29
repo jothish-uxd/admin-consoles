@@ -1614,7 +1614,107 @@ window.CATEGORIES = [
       ["Inline edit", "Edit in place in the table"],
       ["Progress & results", "Long-running jobs, partial failures"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.github.com/assets/cb-30625/images/help/issues/select-all-checkbox.png",
+        "product": "GitHub",
+        "title": "Select-all in the list header",
+        "pattern": "Selection model",
+        "notes": "The header checkbox sits beside the open/closed counts, so it’s clear what ‘all’ refers to before you select.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project",
+        "sourceTitle": "GitHub Docs: Adding items to your project",
+        "alt": "GitHub issues list with the select-all checkbox in the header next to the open and closed counts"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-38474/images/help/teams/list-of-members-selected-bulk.png",
+        "product": "GitHub",
+        "title": "Selected members",
+        "pattern": "Selection model",
+        "notes": "Row checkboxes, a mixed-state header checkbox and a live ‘2 members selected’ count keep the selection obvious.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/organizations/managing-membership-in-your-organization/removing-a-member-from-your-organization",
+        "sourceTitle": "GitHub Docs: Removing a member from your organization",
+        "alt": "GitHub organization members list with two members checked and a 2 members selected menu"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-22235/images/help/graphs/select-multiple-alerts.png",
+        "product": "GitHub",
+        "title": "Select alerts",
+        "pattern": "Selection model",
+        "notes": "Selecting alerts swaps the list header for a selection count and the actions that apply to them.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/code-security/dependabot/dependabot-alerts/viewing-and-updating-dependabot-alerts",
+        "sourceTitle": "GitHub Docs: Viewing and updating Dependabot alerts",
+        "alt": "GitHub Dependabot alerts list with two alerts selected and a header showing 2 selected"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-38857/images/help/teams/user-bulk-management-options.png",
+        "product": "GitHub",
+        "title": "Selection menu replaces filters",
+        "pattern": "Contextual action bar",
+        "notes": "Once rows are selected, a ‘members selected’ menu appears in the header with the bulk actions; export and invite stay put.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/organizations/managing-membership-in-your-organization/removing-a-member-from-your-organization",
+        "sourceTitle": "GitHub Docs: Removing a member from your organization",
+        "alt": "GitHub members list header with a members selected dropdown next to Export and Invite member buttons"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/monitors/manage_monitor/monitor_page-2.93689f1aa9becb4587e011b9b43cd171.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Monitor list bulk toolbar",
+        "pattern": "Contextual action bar",
+        "notes": "Mute, Resolve, Delete, Edit Tags, Edit Recipients and Edit Teams sit in a toolbar above the table, disabled until something is selected.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/monitors/manage/",
+        "sourceTitle": "Datadog Docs: Monitor list",
+        "alt": "Datadog monitor list with facets on the left and a row of bulk action buttons above the table"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-31119/images/help/graphs/dismiss-multiple-alerts.png",
+        "product": "GitHub",
+        "title": "Dismiss with a reason",
+        "pattern": "Bulk edit",
+        "notes": "A bulk dismiss asks for one reason that applies to every selected alert, which keeps the audit trail meaningful.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/code-security/dependabot/dependabot-alerts/viewing-and-updating-dependabot-alerts",
+        "sourceTitle": "GitHub Docs: Viewing and updating Dependabot alerts",
+        "alt": "GitHub Dismiss alerts menu listing reasons to dismiss two selected alerts"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-13183/images/help/repository/edit-properties.png",
+        "product": "GitHub",
+        "title": "Edit properties across repositories",
+        "pattern": "Bulk edit",
+        "notes": "Org admins select repositories and set custom property values on all of them at once from one ‘Edit properties’ action.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/organizations/managing-organization-settings/managing-custom-properties-for-repositories-in-your-organization",
+        "sourceTitle": "GitHub Docs: Managing custom properties for repositories",
+        "alt": "GitHub repository properties list with one repository selected and an Edit properties button"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-20968/images/help/projects-v2/edit-single-select.png",
+        "product": "GitHub",
+        "title": "Edit options in place",
+        "pattern": "Inline edit",
+        "notes": "Each option has its own pencil and remove control, so changes happen in the list rather than in a separate form.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields/about-single-select-fields",
+        "sourceTitle": "GitHub Docs: About single select fields",
+        "alt": "GitHub single select field options with a pencil icon to edit an option in place"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-20492/images/help/projects-v2/select-row-number.png",
+        "product": "GitHub",
+        "title": "Row number as handle",
+        "pattern": "Selection model",
+        "notes": "In the project table the row number is the selection and drag handle, keeping cells free for direct editing.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-table-layout",
+        "sourceTitle": "GitHub Docs: Customizing the table layout",
+        "alt": "GitHub project table rows with one row number highlighted as the selection handle"
+      }
+    ]
   },
   {
     slug: "destructive-actions",
