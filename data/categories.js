@@ -232,6 +232,83 @@ window.CATEGORIES = [
         source: "https://docs.azure.cn/en-us/entra/fundamentals/how-to-create-delete-users",
         sourceTitle: "Microsoft Learn: Create, invite and delete users",
         alt: "All users page with a user selected and the Delete button highlighted"
+      },
+      {
+        "src": "https://help.asana.com/servlet/rtaImage?eid=ka0Pc000000S5ZR&feoid=00NPc000003Pw7h&refid=0EMPc00000HLyU1",
+        "product": "Asana",
+        "title": "Members",
+        "pattern": "User directory",
+        "notes": "A full members table with role, status, licence, last activity and who added them, plus tabs for members, guests, invited and removed.",
+        "credit": "Asana",
+        "source": "https://help.asana.com/s/article/managing-members-in-an-organization",
+        "sourceTitle": "Asana Help Center: Manage members in your organization",
+        "alt": "Asana admin members table with role, status, licence and activity columns"
+      },
+      {
+        "src": "https://assets.asana.biz/transform/0c5b27b4-5e29-432c-9019-bc737212044d/productui-helpcenter-managing_your_subscription-managing-members-in-an-organization-005-en-us.png",
+        "product": "Asana",
+        "title": "Filter by member type",
+        "pattern": "User directory",
+        "notes": "Filters sit above the table as compact menus, here narrowing to super admins or admins.",
+        "credit": "Asana",
+        "source": "https://help.asana.com/s/article/managing-members-in-an-organization",
+        "sourceTitle": "Asana Help Center: Manage members in your organization",
+        "alt": "Asana members list filtered by member type"
+      },
+      {
+        "src": "https://help.asana.com/servlet/rtaImage?eid=ka0Pc000000S5ZR&feoid=00NPc000003Pw7h&refid=0EMPc00000HLxZa",
+        "product": "Asana",
+        "title": "Bulk status change",
+        "pattern": "Suspend / deactivate",
+        "notes": "Selecting rows brings up a floating bar; Change status offers pause, unpause, restore and remove for everyone selected.",
+        "credit": "Asana",
+        "source": "https://help.asana.com/s/article/managing-members-in-an-organization",
+        "sourceTitle": "Asana Help Center: Manage members in your organization",
+        "alt": "Asana members list with several rows selected and a bulk action bar for changing status"
+      },
+      {
+        "src": "https://assets.asana.biz/transform/c5039485-c857-468d-865d-7e17acee0b7e/productui-helpcenter-managing_your_subscription-managing-members-in-an-organization-004-en-us.png",
+        "product": "Asana",
+        "title": "Reactivate a member",
+        "pattern": "Suspend / deactivate",
+        "notes": "Removed members stay listed in their own tab, with reactivation one menu action away.",
+        "credit": "Asana",
+        "source": "https://help.asana.com/s/article/managing-members-in-an-organization",
+        "sourceTitle": "Asana Help Center: Manage members in your organization",
+        "alt": "Asana removed members list with a reactivate option"
+      },
+      {
+        "src": "https://storage.googleapis.com/apollo-public-assets/kb_images/add_deactivate_and_reactivate_users/i50.png",
+        "product": "Apollo",
+        "title": "Invite your team",
+        "pattern": "Invite / add user",
+        "notes": "Several email addresses at once, placed straight into a team, with the invite count shown before sending.",
+        "credit": "Apollo",
+        "source": "https://knowledge.apollo.io/hc/en-us/articles/4409130537101",
+        "sourceTitle": "Apollo Knowledge Base: Add, manage and deactivate users",
+        "alt": "Apollo invite dialog with several email addresses and a team selected"
+      },
+      {
+        "src": "https://storage.googleapis.com/apollo-public-assets/kb_images/add_deactivate_and_reactivate_users/i51.png",
+        "product": "Apollo",
+        "title": "Permission profile inline",
+        "pattern": "Edit profile",
+        "notes": "A user’s permission profile is changed from a dropdown in their row, without opening a separate page.",
+        "credit": "Apollo",
+        "source": "https://knowledge.apollo.io/hc/en-us/articles/4409130537101",
+        "sourceTitle": "Apollo Knowledge Base: Add, manage and deactivate users",
+        "alt": "Apollo users page with an inline permission profile dropdown"
+      },
+      {
+        "src": "https://storage.googleapis.com/apollo-public-assets/kb_images/add_deactivate_and_reactivate_users/i58.png",
+        "product": "Apollo",
+        "title": "Deactivate from the row menu",
+        "pattern": "Suspend / deactivate",
+        "notes": "Deactivate sits at the end of the row’s menu, after routine actions like force logout.",
+        "credit": "Apollo",
+        "source": "https://knowledge.apollo.io/hc/en-us/articles/4409130537101",
+        "sourceTitle": "Apollo Knowledge Base: Add, manage and deactivate users",
+        "alt": "Apollo users page row menu with Deactivate highlighted"
       }
     ]
   },
@@ -977,7 +1054,173 @@ window.CATEGORIES = [
       ["Versions & restore", "History and rollback"],
       ["Tags & metadata", "Taxonomy management"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://3990409212-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FyqPwsbMSaogAot23rTIu%2Fuploads%2Fgit-blob-72c4e9addbe299e4c1e1e2a9cf21436fbdece451%2Fasset-inventory-1.png?alt=media",
+        "product": "Palo Alto Networks Prisma Cloud",
+        "title": "Asset inventory",
+        "pattern": "Asset library",
+        "notes": "An inventory of every cloud resource, summarised by type and account with counts you can drill into, rather than a folder tree.",
+        "credit": "Palo Alto Networks",
+        "source": "https://docs.prismacloud.io/content-collections/cloud-and-software-inventory/asset-inventory",
+        "sourceTitle": "Prisma Cloud Docs: Asset inventory",
+        "alt": "Prisma Cloud asset inventory with resource counts grouped by service and account"
+      },
+      {
+        "src": "https://3990409212-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FyqPwsbMSaogAot23rTIu%2Fuploads%2Fgit-blob-ca4c6aa8ab958092a31b2a0c95f0efe7f5a45748%2Fasset-explorer-1.png?alt=media",
+        "product": "Palo Alto Networks Prisma Cloud",
+        "title": "Asset explorer",
+        "pattern": "Asset library",
+        "notes": "The same inventory as a dense, filterable table: name, type, account, region and risk columns side by side.",
+        "credit": "Palo Alto Networks",
+        "source": "https://docs.prismacloud.io/content-collections/cloud-and-software-inventory/asset-inventory",
+        "sourceTitle": "Prisma Cloud Docs: Asset inventory",
+        "alt": "Prisma Cloud asset explorer table of cloud resources with filters"
+      },
+      {
+        "src": "https://3990409212-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FyqPwsbMSaogAot23rTIu%2Fuploads%2Fgit-blob-dc2ac2896d3656ebe7b3c12d71d157f4152999fa%2Fasset-details-1.png?alt=media",
+        "product": "Palo Alto Networks Prisma Cloud",
+        "title": "Asset details",
+        "pattern": "Asset detail",
+        "notes": "One resource in full: identity and metadata up top, then tabs for configuration, findings and related assets.",
+        "credit": "Palo Alto Networks",
+        "source": "https://docs.prismacloud.io/content-collections/cloud-and-software-inventory/asset-inventory",
+        "sourceTitle": "Prisma Cloud Docs: Asset inventory",
+        "alt": "Prisma Cloud asset details view with metadata and tabs"
+      },
+      {
+        "src": "https://assets.asana.biz/transform/cf13ce9d-333d-4503-b5ba-a8f952bfd8b7/productui-helpcenter-managing_your_subscription-managing-members-in-an-organization-002-en-us.png",
+        "product": "Asana",
+        "title": "Remove member and keep their work",
+        "pattern": "Transfer ownership",
+        "notes": "Removing someone offers to gather their tasks into a new project and asks who should own it, so nothing is orphaned.",
+        "credit": "Asana",
+        "source": "https://help.asana.com/s/article/managing-members-in-an-organization",
+        "sourceTitle": "Asana Help Center: Manage members in your organization",
+        "alt": "Asana remove member dialog offering to create a project for the person's tasks and assign an owner"
+      },
+      {
+        "src": "https://storage.googleapis.com/apollo-public-assets/kb_images/edit_a_contact_or_account_owner/i26.png",
+        "product": "Apollo",
+        "title": "Set owner in bulk",
+        "pattern": "Transfer ownership",
+        "notes": "Reassign many records at once, with an explicit choice to cascade the new owner to related contacts.",
+        "credit": "Apollo",
+        "source": "https://knowledge.apollo.io/hc/en-us/articles/5631686093069",
+        "sourceTitle": "Apollo Knowledge Base: Edit a contact or account owner",
+        "alt": "Apollo Set owner dialog with a new owner selected and an option to update related contact owners"
+      },
+      {
+        "src": "https://storage.googleapis.com/apollo-public-assets/kb_images/add_deactivate_and_reactivate_users/i46.png",
+        "product": "Apollo",
+        "title": "Edit owner on a record",
+        "pattern": "Transfer ownership",
+        "notes": "The owner field sits in the record’s details with an inline edit action, for one-off reassignments.",
+        "credit": "Apollo",
+        "source": "https://knowledge.apollo.io/hc/en-us/articles/4409130537101",
+        "sourceTitle": "Apollo Knowledge Base: Add, manage and deactivate users",
+        "alt": "Apollo contact record with the Edit owner action highlighted"
+      },
+      {
+        "src": "https://images.ctfassets.net/spoqsaf9291f/2iS3PIrEQK48h7IaAj54cs/fa0fb649f62a43e4be1a8080b6b299b1/Screenshot_2024-04-19_at_15.35.16.png",
+        "product": "Notion",
+        "title": "Workspace security settings",
+        "pattern": "Sharing controls",
+        "notes": "Org-wide switches for public page sharing, duplicating to other workspaces and export, each explained in a line.",
+        "credit": "Notion",
+        "source": "https://www.notion.com/help/guides/understanding-notions-sharing-settings",
+        "sourceTitle": "Notion Help: Understanding Notion’s sharing settings",
+        "alt": "Notion workspace security settings with toggles for public page sharing, duplication and export"
+      },
+      {
+        "src": "https://images.ctfassets.net/spoqsaf9291f/332vSdSIMc8rGwDBv81YZo/8d5b15af47096e2f7432b4efdbed7783/Screen_Shot_2021-03-11_at_11.14.08.png",
+        "product": "Notion",
+        "title": "Page access levels",
+        "pattern": "Sharing controls",
+        "notes": "Four access levels from full access to view, each with a one-line description in the picker.",
+        "credit": "Notion",
+        "source": "https://www.notion.com/help/guides/understanding-notions-sharing-settings",
+        "sourceTitle": "Notion Help: Understanding Notion’s sharing settings",
+        "alt": "Notion share menu showing full access, can edit, can comment and can view options"
+      },
+      {
+        "src": "https://support.box.com/hc/article_attachments/4720700012563/SharedLinks_UI.png",
+        "product": "Box",
+        "title": "Shared link settings",
+        "pattern": "Sharing controls",
+        "notes": "Shared links governed by grouped radio choices: what can be shared, who can open links, the default access and what recipients may do.",
+        "credit": "Box",
+        "source": "https://support.box.com/hc/en-us/articles/360043696814-Folder-and-Account-Sharing-Settings",
+        "sourceTitle": "Box Support: Folder and account sharing settings",
+        "alt": "Box shared link settings with options for who can access links and default access"
+      },
+      {
+        "src": "https://confluence.atlassian.com/doc/files/139379/858771846/233/1791529160504/PageHistory_CollabEditing.png",
+        "product": "Confluence Data Center",
+        "title": "Page history",
+        "pattern": "Versions & restore",
+        "notes": "Every version as a row with author, date and comment, plus restore and delete per version and compare by selecting two.",
+        "credit": "Atlassian",
+        "source": "https://confluence.atlassian.com/doc/page-history-and-page-comparison-views-139379.html",
+        "sourceTitle": "Confluence Data Center docs: Page history and page comparison views",
+        "alt": "Confluence page history table with restore and delete actions for each version"
+      },
+      {
+        "src": "https://confluence.atlassian.com/doc/files/139379/321983616/386/1791529160257/CompareChanges.png",
+        "product": "Confluence Data Center",
+        "title": "Compare versions",
+        "pattern": "Versions & restore",
+        "notes": "Additions, removals and formatting changes shown side by side with a key, using strikethrough as well as colour.",
+        "credit": "Atlassian",
+        "source": "https://confluence.atlassian.com/doc/page-history-and-page-comparison-views-139379.html",
+        "sourceTitle": "Confluence Data Center docs: Page history and page comparison views",
+        "alt": "Confluence version comparison with a key for added, removed and reformatted lines"
+      },
+      {
+        "src": "https://confluence.atlassian.com/doc/files/139379/319946826/388/1791529160636/PageHistoryHeader.png",
+        "product": "Confluence Data Center",
+        "title": "Viewing an old version",
+        "pattern": "Versions & restore",
+        "notes": "A clear banner says you are looking at an old version, with compare and restore one click away.",
+        "credit": "Atlassian",
+        "source": "https://confluence.atlassian.com/doc/page-history-and-page-comparison-views-139379.html",
+        "sourceTitle": "Confluence Data Center docs: Page history and page comparison views",
+        "alt": "Confluence banner indicating an old version with compare and restore links"
+      },
+      {
+        "src": "https://support.box.com/hc/article_attachments/38417427631123",
+        "product": "Box",
+        "title": "Version history",
+        "pattern": "Versions & restore",
+        "notes": "Versions listed newest first with uploader and size; Make Current restores without deleting anything newer.",
+        "credit": "Box",
+        "source": "https://support.box.com/hc/en-us/articles/360043697054",
+        "sourceTitle": "Box Support: Accessing version history",
+        "alt": "Box version history panel with preview, download, make current and delete actions"
+      },
+      {
+        "src": "https://3990409212-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FyqPwsbMSaogAot23rTIu%2Fuploads%2Fgit-blob-69dd45741803f78fd1a0ee259407e41be69d8efc%2Fmedia_1c25bcc7f2ec368915efd6eb43cd15d828af46239.png?alt=media",
+        "product": "Palo Alto Networks Prisma Cloud",
+        "title": "Key:value tags",
+        "pattern": "Tags & metadata",
+        "notes": "Tags as removable key:value chips, added in place with Enter to apply.",
+        "credit": "Palo Alto Networks",
+        "source": "https://docs.prismacloud.io/content-collections/data-security-posture-management/how-to-articles/assets-and-files/tag-assets-within-dig-security-using-keyvalue-tagging",
+        "sourceTitle": "Prisma Cloud Docs: Tag assets using key:value tagging",
+        "alt": "Prisma Cloud DSPM tags shown as key:value chips with an input to add a new tag"
+      },
+      {
+        "src": "https://3990409212-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FyqPwsbMSaogAot23rTIu%2Fuploads%2Fgit-blob-d45f649ad082e5eb270c9e877d21b06644037208%2Fmedia_1910df78cfe1008d950113aaafb72a535a19cf029.png?alt=media",
+        "product": "Palo Alto Networks Prisma Cloud",
+        "title": "Filter inventory by tag",
+        "pattern": "Tags & metadata",
+        "notes": "Tags become a filter on the inventory, so metadata pays off in finding things, not just labelling them.",
+        "credit": "Palo Alto Networks",
+        "source": "https://docs.prismacloud.io/content-collections/data-security-posture-management/how-to-articles/assets-and-files/tag-assets-within-dig-security-using-keyvalue-tagging",
+        "sourceTitle": "Prisma Cloud Docs: Tag assets using key:value tagging",
+        "alt": "Prisma Cloud inventory filter list with a tag filter option"
+      }
+    ]
   },
   {
     slug: "storage-quotas",
