@@ -1326,7 +1326,129 @@ window.CATEGORIES = [
       ["Source permissions", "Respecting upstream access"],
       ["Content exclusions", "Keep things out of search or AI"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.coveo.com/en/assets/images/index-content/sources-page.png",
+        "product": "Coveo",
+        "title": "Sources list",
+        "pattern": "Sync status",
+        "notes": "Each source row shows its type, item count, last refresh status and next scheduled update, so admins can see failing connectors at a glance.",
+        "credit": "Coveo",
+        "source": "https://docs.coveo.com/en/3390/index-content/manage-sources",
+        "sourceTitle": "Coveo Docs: Manage sources",
+        "alt": "Coveo Sources page listing connected sources with status, item counts and refresh information"
+      },
+      {
+        "src": "https://docs.coveo.com/en/assets/images/index-content/add-a-source.png",
+        "product": "Coveo",
+        "title": "Add a source of content",
+        "pattern": "Add content source",
+        "notes": "A connector catalogue with tabs for cloud, on-premises and other source types, plus a search field and a request link when nothing fits.",
+        "credit": "Coveo",
+        "source": "https://docs.coveo.com/en/3390/index-content/manage-sources",
+        "sourceTitle": "Coveo Docs: Manage sources",
+        "alt": "Coveo Add a source of content dialog with a grid of connector tiles such as Box, Confluence and Amazon S3"
+      },
+      {
+        "src": "https://docs.coveo.com/en/assets/images/index-content/connector-recommendations.png",
+        "product": "Coveo",
+        "title": "Connector recommendations",
+        "pattern": "Add content source",
+        "notes": "When an admin searches for a system, the catalogue suggests the best-fit connector and explains when to use the alternative.",
+        "credit": "Coveo",
+        "source": "https://docs.coveo.com/en/3390/index-content/manage-sources",
+        "sourceTitle": "Coveo Docs: Manage sources",
+        "alt": "Coveo connector search with a recommendation banner explaining which connector to choose"
+      },
+      {
+        "src": "https://docs.coveo.com/en/assets/images/index-content/source-manage-menu.png",
+        "product": "Coveo",
+        "title": "Source actions menu",
+        "pattern": "Sync status",
+        "notes": "Per-source actions such as rescan, rebuild and open in content browser live in one overflow menu next to the source.",
+        "credit": "Coveo",
+        "source": "https://docs.coveo.com/en/3390/index-content/manage-sources",
+        "sourceTitle": "Coveo Docs: Manage sources",
+        "alt": "Coveo source detail with an overflow menu of management actions"
+      },
+      {
+        "src": "https://docs.coveo.com/en/assets/images/index-content/content-browser-legend.png",
+        "product": "Coveo",
+        "title": "Content browser",
+        "pattern": "Source permissions",
+        "notes": "Inspect individual indexed items, their fields and permissions to check what was crawled and who can see it.",
+        "credit": "Coveo",
+        "source": "https://docs.coveo.com/en/2053/index-content/inspect-items-with-the-content-browser",
+        "sourceTitle": "Coveo Docs: Inspect items with the content browser",
+        "alt": "Coveo Content Browser showing facets on the left and a grid of indexed item cards"
+      },
+      {
+        "src": "https://docs.glean.com/img/get-started/review-connector-crawl-task.webp",
+        "product": "Glean",
+        "title": "Review connector crawl",
+        "pattern": "Sync status",
+        "notes": "A setup checklist step that confirms each data source has finished its first crawl before rollout.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/get-started/review/review-connector-crawl",
+        "sourceTitle": "Glean Docs: Review connector crawl",
+        "alt": "Glean setup checklist with a step to review data source crawl status"
+      },
+      {
+        "src": "https://docs.glean.com/assets/images/manage-data-rules-30c1ac3727da9cb76dc926fbc4a2b5f2.png",
+        "product": "Glean",
+        "title": "Inclusion and exclusion rules",
+        "pattern": "Content exclusions",
+        "notes": "Per-connector tabs separate inclusion rules, exclusion rules and additional rules, with a warning that changes apply on the next crawl.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/connectors/connectors-settings-visibility",
+        "sourceTitle": "Glean Docs: Connector settings and visibility",
+        "alt": "Glean Confluence connector settings with collapsible inclusion, exclusion and additional rules"
+      },
+      {
+        "src": "https://docs.glean.com/assets/images/results-visibility-4a5bc22e241a48a6575526eac65d7aa1.png",
+        "product": "Glean",
+        "title": "Results visibility",
+        "pattern": "Content exclusions",
+        "notes": "Hide specific documents or sources from results without disconnecting the connector, and preview a document before changing its visibility.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/connectors/connectors-settings-visibility",
+        "sourceTitle": "Glean Docs: Connector settings and visibility",
+        "alt": "Glean connector Results display tab with a document preview and visibility controls"
+      },
+      {
+        "src": "https://dam-cdn.atl.orangelogic.com/AssetLink/56q63qp344bg8o577q75tho13rx8l7p6.png",
+        "product": "Atlassian Rovo",
+        "title": "Connect a source",
+        "pattern": "Add content source",
+        "notes": "Connected sources show their item counts; sources not yet connected sit in the same list with a single Connect action.",
+        "credit": "Atlassian",
+        "source": "https://www.atlassian.com/software/rovo/guides/admin-guide/rovo-connectors",
+        "sourceTitle": "Atlassian: Rovo connectors admin guide",
+        "alt": "Rovo source list with counts for Confluence, Jira and Slack, and Connect links for Google Drive and Teams"
+      },
+      {
+        "src": "https://images.ctfassets.net/spoqsaf9291f/687lFB9B62dMPdTgm1wyZo/4bff015b609109b92fb49d77e917fcf6/Google_Drive_Annotation__1_.png",
+        "product": "Notion",
+        "title": "AI connector source picker",
+        "pattern": "Add content source",
+        "notes": "Connected apps appear as selectable sources right inside the AI search scope menu, so users can narrow what AI searches.",
+        "credit": "Notion",
+        "source": "https://www.notion.com/help/guides/use-ai-connectors-to-access-more-of-your-teams-knowledge",
+        "sourceTitle": "Notion Help: Use AI connectors",
+        "alt": "Notion AI menu listing connected sources such as Slack and Google Drive"
+      },
+      {
+        "src": "https://images.ctfassets.net/spoqsaf9291f/36WstA84JSlKxpb4JpknMt/c16f8b263f2746ee6d21363a8dae651d/Screenshot_2024-09-23_at_2.06.45_PM.png",
+        "product": "Notion",
+        "title": "Answers respect upstream access",
+        "pattern": "Source permissions",
+        "notes": "AI answers draw only on content the person can already open in the connected tool, so permissions are inherited, not re-modelled.",
+        "credit": "Notion",
+        "source": "https://www.notion.com/help/guides/use-ai-connectors-to-access-more-of-your-teams-knowledge",
+        "sourceTitle": "Notion Help: Use AI connectors",
+        "alt": "Notion page with an AI answer panel citing sources from connected apps"
+      }
+    ]
   },
 
   /* ---------- Actions & flows ---------- */
