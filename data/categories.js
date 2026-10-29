@@ -815,7 +815,151 @@ window.CATEGORIES = [
       ["Time-bound access", "Expiring grants"],
       ["Access reviews", "Periodic certification campaigns"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/media/entitlement-management-shared/my-access-request-access.png",
+        "product": "Microsoft Entra My Access",
+        "title": "Request form with justification",
+        "pattern": "Request access",
+        "notes": "A short side panel: a couple of questions and a required business justification, rather than a separate request portal page.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/entitlement-management-request-access",
+        "sourceTitle": "Microsoft Learn: Request an access package in entitlement management",
+        "alt": "My Access request panel with additional questions and a required business justification"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/media/entitlement-management-request-access/my-access-multiple-policies.png",
+        "product": "Microsoft Entra My Access",
+        "title": "Choose how to request",
+        "pattern": "Request access",
+        "notes": "When the same access can be granted in different ways, the requester picks the policy that fits, each described in plain words.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/entitlement-management-request-access",
+        "sourceTitle": "Microsoft Learn: Request an access package in entitlement management",
+        "alt": "My Access request panel offering more than one request policy"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/media/entitlement-management-request-approve/my-access-approve-request.png",
+        "product": "Microsoft Entra My Access",
+        "title": "Approvals with decision panel",
+        "pattern": "Approval queue",
+        "notes": "Pending requests listed on the left; selecting one opens a panel with the details, approve or deny, and a reason field.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/entitlement-management-request-approve",
+        "sourceTitle": "Microsoft Learn: Approve or deny access requests in entitlement management",
+        "alt": "My Access approvals list with a side panel to approve or deny the selected request with a reason"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/privileged-identity-management/media/azure-ad-pim-approval-workflow/resources-approve-pane.png",
+        "product": "Microsoft Entra PIM",
+        "title": "Approve requests",
+        "pattern": "Approval queue",
+        "notes": "Role activation requests in one list, with requester, role, reason and time requested in each row.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/privileged-identity-management/pim-approval-workflow",
+        "sourceTitle": "Microsoft Learn: Approve or deny requests for roles in PIM",
+        "alt": "Privileged Identity Management Approve requests page listing pending role requests"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/media/entitlement-management-shared/approver-request-email.png",
+        "product": "Microsoft Entra ID",
+        "title": "Approval request email",
+        "pattern": "Approval queue",
+        "notes": "Approvers can act straight from email: who is asking, for what, and a single button into the decision.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/entitlement-management-request-approve",
+        "sourceTitle": "Microsoft Learn: Approve or deny access requests in entitlement management",
+        "alt": "Email asking an approver to review an access package request with an approve or deny button"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/media/entitlement-management-request-approve/requestor-information-requestor-answers.png",
+        "product": "Microsoft Entra My Access",
+        "title": "Request details",
+        "pattern": "Review detail",
+        "notes": "Everything the approver needs in one column: requester, access package, dates, justification and answers to the questions.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/entitlement-management-request-approve",
+        "sourceTitle": "Microsoft Learn: Approve or deny access requests in entitlement management",
+        "alt": "Request details panel showing requester, access package, dates and the requester's answers"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/privileged-identity-management/media/pim-how-to-activate-role/activate-page.png",
+        "product": "Microsoft Entra PIM",
+        "title": "Activate a role",
+        "pattern": "Time-bound access",
+        "notes": "Elevated access is switched on for a set number of hours, with scope, start time and a required reason.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/privileged-identity-management/pim-how-to-activate-role",
+        "sourceTitle": "Microsoft Learn: Activate a Microsoft Entra role in PIM",
+        "alt": "PIM Activate pane with duration, scope and justification fields"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/includes/media/entitlement-management-lifecycle-policy/expiration.png",
+        "product": "Microsoft Entra ID",
+        "title": "Assignment expiration",
+        "pattern": "Time-bound access",
+        "notes": "Access ends on a date, after a number of days, or never, and admins choose whether people can ask for an extension.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/entitlement-management-access-package-lifecycle-policy",
+        "sourceTitle": "Microsoft Learn: Change lifecycle settings for an access package",
+        "alt": "Access package lifecycle expiration settings with options for a date, number of days or never"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/privileged-identity-management/media/pim-how-to-change-default-settings/role-settings-edit.png",
+        "product": "Microsoft Entra PIM",
+        "title": "Role settings",
+        "pattern": "Time-bound access",
+        "notes": "Per-role rules for activation: maximum duration, required MFA, justification and approval, laid out as a readable settings table.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/privileged-identity-management/pim-how-to-change-default-settings",
+        "sourceTitle": "Microsoft Learn: Configure role settings in PIM",
+        "alt": "PIM role settings page listing activation and assignment rules for a role"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/media/perform-access-review/access-reviews-list-preview.png",
+        "product": "Microsoft Entra My Access",
+        "title": "Pending access reviews",
+        "pattern": "Access reviews",
+        "notes": "Each reviewer sees their open reviews with a due date and progress, so the campaign has a visible deadline.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/perform-access-review",
+        "sourceTitle": "Microsoft Learn: Review access to groups and applications",
+        "alt": "List of pending access reviews with due dates and progress"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/media/perform-access-review/user-list-preview.png",
+        "product": "Microsoft Entra My Access",
+        "title": "Review users",
+        "pattern": "Access reviews",
+        "notes": "People to review with a recommendation per row (approve or deny) based on recent sign-in activity.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/perform-access-review",
+        "sourceTitle": "Microsoft Learn: Review access to groups and applications",
+        "alt": "Open access review listing users with recommendations"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/media/perform-access-review/accept-recommendations-preview.png",
+        "product": "Microsoft Entra My Access",
+        "title": "Accept recommendations",
+        "pattern": "Access reviews",
+        "notes": "One action applies every recommendation, with a confirmation that names what will change, which reduces reviewer fatigue.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/perform-access-review",
+        "sourceTitle": "Microsoft Learn: Review access to groups and applications",
+        "alt": "Access review dialog confirming acceptance of all recommendations"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/id-governance/media/review-your-access/review-access-preview.png",
+        "product": "Microsoft Entra My Access",
+        "title": "Self-review",
+        "pattern": "Access reviews",
+        "notes": "The person’s own side of a review: a single yes or no question and a reason, nothing else.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/id-governance/review-your-access",
+        "sourceTitle": "Microsoft Learn: Review your own access",
+        "alt": "Self-review asking whether the person still needs access to a group, with a reason field"
+      }
+    ]
   },
 
   /* ---------- Content & assets ---------- */
