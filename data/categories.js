@@ -1311,6 +1311,72 @@ window.CATEGORIES = [
         "source": "https://confluence.atlassian.com/doc/delete-or-restore-a-page-139429.html",
         "sourceTitle": "Confluence Data Center docs: Delete or restore a page",
         "alt": "Confluence space trash table with restore and purge actions for each item"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/metrics/volume/metrics_volume_overview_2025-01-27.aa6565140e82fd2d7cd78a45f0fc5763.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Volume overview",
+        "pattern": "Storage overview",
+        "notes": "Two total-volume charts on top, then the biggest contributors in a sortable table with their change over the period and Export as CSV.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/metrics/volume/",
+        "sourceTitle": "Datadog Docs: Metrics volume management",
+        "alt": "Datadog Volume Overview with two volume charts and a table of metrics sorted by volume with change percentages"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-33052/images/help/repository/actions-cache-entry-list.png",
+        "product": "GitHub",
+        "title": "Cache entries by size",
+        "pattern": "Largest items",
+        "notes": "Each cache shows its size, branch and last used date, with sort and branch filters and a delete icon per row.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manage-caches",
+        "sourceTitle": "GitHub Docs: Manage caches",
+        "alt": "GitHub Caches list showing 81 cache results with size, branch, last used and a delete icon"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/metrics/volume/id_unqueried_metrics_2025-01-23.91f58aa45fdaec70a2bab6272fe1d01f.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Find unused heavy items",
+        "pattern": "Largest items",
+        "notes": "A filter for items that are large but never queried turns the ‘largest’ list into a clean-up list.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/metrics/volume/",
+        "sourceTitle": "Datadog Docs: Metrics volume management",
+        "alt": "Datadog metrics configuration facets with a filter for unqueried metrics"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-14510/images/help/repository/actions-delete-artifact-updated.png",
+        "product": "GitHub",
+        "title": "Artifact size with delete",
+        "pattern": "Largest items",
+        "notes": "Artifacts list their size next to a delete control, so freeing space happens where the space is used.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/actions/how-tos/manage-workflow-runs/remove-workflow-artifacts",
+        "sourceTitle": "GitHub Docs: Remove workflow artifacts",
+        "alt": "GitHub workflow run artifacts list with an artifact size and a trash icon"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/40078345395730",
+        "product": "Miro",
+        "title": "Limit reached",
+        "pattern": "Per-user quotas",
+        "notes": "States the quota in plain numbers (3 of 3 editable boards used), what happens next and two ways forward, instead of just blocking.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017730373-Free-Plan",
+        "sourceTitle": "Miro Help: Free Plan",
+        "alt": "Miro dialog You've reached your editable boards limit, showing 3 of 3 boards used with Create a shared board and View plans buttons"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/logs/indexes/index_details.8b278305b15e11191634b7441902b46f.jpg?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Daily quota on an index",
+        "pattern": "Per-user quotas",
+        "notes": "Quota is one numbered step in the index editor, with a volume chart right above it so admins size the cap from real data.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/logs/log_configuration/indexes/",
+        "sourceTitle": "Datadog Docs: Indexes",
+        "alt": "Datadog edit index form with numbered steps including retention period and a daily quota with a volume chart"
       }
     ]
   },
@@ -3355,6 +3421,28 @@ window.CATEGORIES = [
         "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/converting-draft-issues-to-issues",
         "sourceTitle": "GitHub Docs: Converting draft issues to issues",
         "alt": "GitHub project table rows with an item context menu button next to the row number"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-54845/images/help/package-registry/delete-container-package-version.png",
+        "product": "GitHub",
+        "title": "Row overflow menu",
+        "pattern": "Row actions",
+        "notes": "Rarely used and destructive actions (Delete version) sit in a per-row kebab menu rather than as visible buttons.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/packages/learn-github-packages/deleting-and-restoring-a-package",
+        "sourceTitle": "GitHub Docs: Deleting and restoring a package",
+        "alt": "GitHub package versions list with a row kebab menu open showing Delete version"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/dashboards/widgets/table/table_conditional_formatting.37efc410d6bc13615a935be6c834f626.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Sorted column with in-cell bars",
+        "pattern": "Sorting & pagination",
+        "notes": "The sorted column shows its arrow in the header and in-cell bars, so ranking is readable without reading every number.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/dashboards/widgets/table/",
+        "sourceTitle": "Datadog Docs: Table widget",
+        "alt": "Datadog table widget sorted descending by average nodes with colored bars inside the cells"
       }
     ]
   },
