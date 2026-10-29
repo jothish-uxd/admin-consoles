@@ -1466,7 +1466,140 @@ window.CATEGORIES = [
       ["Duplicate / clone", "Copy settings from existing"],
       ["Success & next steps", "What happens after create"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.github.com/assets/cb-33121/images/help/projects-v2/issue-create-form.png",
+        "product": "GitHub",
+        "title": "Create new issue dialog",
+        "pattern": "Create modal",
+        "notes": "Repository picker, title and body in a dialog, with a ‘Create more’ checkbox that keeps it open for entering several in a row.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue",
+        "sourceTitle": "GitHub Docs: Creating an issue",
+        "alt": "GitHub Create new issue dialog with repository selector, title, description, Create more checkbox and Create button"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/dashboards/create-dashboard.eb5fec8e46e09ec3bb248f78c11453c3.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Create a dashboard",
+        "pattern": "Create modal",
+        "notes": "Name it, then pick a layout type, each explained with a small illustration, rather than a blank form.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/dashboards/",
+        "sourceTitle": "Datadog Docs: Dashboards",
+        "alt": "Datadog Create a Dashboard dialog with a name field and two layout choices with illustrations"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-89988/images/help/repository/create-repository-name.png",
+        "product": "GitHub",
+        "title": "Name with live availability",
+        "pattern": "Create modal",
+        "notes": "Owner and name sit together like the final path, and the name is checked for availability as you type.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository",
+        "sourceTitle": "GitHub Docs: Creating a new repository",
+        "alt": "GitHub new repository form with owner menu, repository name field and a green ‘is available’ message"
+      },
+      {
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=1202,height=884,format=webp/_astro/token-summary.BFSJoL8C.png",
+        "product": "Cloudflare",
+        "title": "Review before create",
+        "pattern": "Multi-step wizard",
+        "notes": "The API token wizard ends on a plain-language summary of what the token can do, with Back and Create buttons.",
+        "credit": "Cloudflare",
+        "source": "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/",
+        "sourceTitle": "Cloudflare Docs: Create API token",
+        "alt": "Cloudflare API token summary step listing the token's permissions and resources before creation"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/getting_started/monitors/monitor_query.cc7d61c048d474419ea8f7b03a3c3207.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Numbered monitor setup",
+        "pattern": "Multi-step wizard",
+        "notes": "Monitor creation is one long page split into numbered steps (define, set conditions, notify), so all steps stay visible.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/getting_started/monitors/",
+        "sourceTitle": "Datadog Docs: Getting started with monitors",
+        "alt": "Datadog new monitor page with a numbered Define the metric step"
+      },
+      {
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=1677,height=1328,format=webp/_astro/template-customize.Bt5BDoKm.png",
+        "product": "Cloudflare",
+        "title": "Customise a token template",
+        "pattern": "Create from template",
+        "notes": "Pick a template such as ‘Edit zone DNS’, then adjust prefilled permissions, resources and IP filters before continuing.",
+        "credit": "Cloudflare",
+        "source": "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/",
+        "sourceTitle": "Cloudflare Docs: Create API token",
+        "alt": "Cloudflare create token form prefilled from a template with permissions, zone resources and client IP filtering"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-41629/images/help/projects-v2/rec-template-select.png",
+        "product": "GitHub",
+        "title": "Recommended templates for the org",
+        "pattern": "Create from template",
+        "notes": "Admins choose which templates appear first for everyone in the organization, so new projects start consistent.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-your-project/managing-project-templates-in-your-organization",
+        "sourceTitle": "GitHub Docs: Managing project templates in your organization",
+        "alt": "GitHub Customize recommended templates dialog with a filter and checkboxes for project templates"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-35262/images/help/issues/blank-issue-link.png",
+        "product": "GitHub",
+        "title": "Template chooser with blank option",
+        "pattern": "Create from template",
+        "notes": "Templates are offered first, but ‘Open a blank issue’ stays available for anything that doesn’t fit.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue",
+        "sourceTitle": "GitHub Docs: Creating an issue",
+        "alt": "GitHub issue template chooser listing Bug report, Feature request and Security vulnerability with an Open a blank issue link"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/monitors/recommended/recommended_templates.bd5da24e0e042184da8f94b289e80639.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Monitor templates",
+        "pattern": "Create from template",
+        "notes": "Template cards say what each monitor watches for and why it matters, so admins can pick one without reading its query.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/monitors/templates/",
+        "sourceTitle": "Datadog Docs: Monitor templates",
+        "alt": "Datadog recommended monitor template cards with titles and short descriptions"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-11265/images/help/projects-v2/add-item.png",
+        "product": "GitHub",
+        "title": "Add item row",
+        "pattern": "Inline create",
+        "notes": "The last table row is an always-present ‘Add item’ input, so new entries are created where they will live.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project",
+        "sourceTitle": "GitHub Docs: Adding items to your project",
+        "alt": "Bottom of a GitHub project table with an Add item input row"
+      },
+      {
+        "src": "https://docs.cloud.google.com/static/compute/images/create-similar.png",
+        "product": "Google Cloud",
+        "title": "Create similar",
+        "pattern": "Duplicate / clone",
+        "notes": "‘Create similar’ on a VM opens the create form prefilled from it, rather than copying silently, so admins can change the name and settings first.",
+        "credit": "Google Cloud",
+        "source": "https://docs.cloud.google.com/compute/docs/instances/create-vm-from-similar-instance",
+        "sourceTitle": "Google Cloud Docs: Create a VM that is similar to an existing VM",
+        "alt": "Google Cloud Compute Engine VM details toolbar with a Create similar button highlighted"
+      },
+      {
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=1204,height=940,format=webp/_astro/token-complete.Dg4S1W72.png",
+        "product": "Cloudflare",
+        "title": "Token created, shown once",
+        "pattern": "Success & next steps",
+        "notes": "Success shows the secret once with a copy button and a ready-to-run test command, the next thing the admin needs to do.",
+        "credit": "Cloudflare",
+        "source": "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/",
+        "sourceTitle": "Cloudflare Docs: Create API token",
+        "alt": "Cloudflare API token created page with the token value, a copy button and a curl command to test it"
+      }
+    ]
   },
   {
     slug: "edit-bulk-actions",
