@@ -11,9 +11,6 @@
   const HOME = "?";
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
-  // Layout trial: categories listed here get the Scale tab, the grey-to-black
-  // tier ramp and nested pattern cards. Add slugs once the layout is approved.
-  const NESTED_LAYOUT = new Set(["user-management"]);
 
   /* ---------- Theme ---------- */
   const root = document.documentElement;
@@ -278,7 +275,8 @@
       </details>`;
     }).join("");
 
-    const nested = NESTED_LAYOUT.has(c.slug) && !!G.scale;
+    // Scale tab, grey-to-black tier ramp and nested pattern cards (any category with a scale overview).
+    const nested = !!G.scale;
     const scaleCard = G.scale ? `
       <section class="doc-section" aria-labelledby="scale-h">
         <h2 id="scale-h">Designing for scale</h2>

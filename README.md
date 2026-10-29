@@ -40,7 +40,7 @@ Counts on the home page and sidebar update automatically.
 
 ## Pattern guidance
 
-Each category page has two tabs. **Patterns** opens with a "Designing for scale" overview, then one accordion per pattern with:
+Each category page has three tabs. **Scale** shows how the category changes from tens to hundreds of thousands of users (a grey-to-black tier ramp) plus principles that hold at every size. **Patterns** has one accordion per pattern; an open pattern's content sits in a nested card with:
 
 - How to think about it
 - Do / Don't
@@ -49,7 +49,7 @@ Each category page has two tabs. **Patterns** opens with a "Designing for scale"
 
 Guidance lives in `data/guidance.js`, keyed by category slug and pattern name. Patterns without guidance show "No guidance yet".
 
-Deep links: `?c=user-management#screens` or `?c=user-management#p-offboarding`. Views swap in place, so the sidebar never reloads.
+Deep links: `?c=user-management#scale`, `#patterns`, `#screens`, or a single pattern such as `#p-offboarding`. Views swap in place, so the sidebar never reloads.
 
 ## Publishing
 
