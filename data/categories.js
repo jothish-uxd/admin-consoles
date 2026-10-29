@@ -3083,7 +3083,107 @@ window.CATEGORIES = [
       ["Notification rules", "Who gets notified of what"],
       ["Announcements", "Admin-to-user messaging"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.github.com/assets/cb-20787/images/help/notifications-v2/triage-multiple-notifications-together.png",
+        "product": "GitHub",
+        "title": "Triage the inbox",
+        "pattern": "Alert center",
+        "notes": "Select several notifications and mark them Done or Unsubscribe in one go, so the inbox works like a queue.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/subscriptions-and-notifications/how-tos/viewing-and-triaging-notifications/managing-notifications-from-your-inbox",
+        "sourceTitle": "GitHub Docs: Managing notifications from your inbox",
+        "alt": "GitHub notifications inbox with two notifications selected and Done and Unsubscribe actions"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-72123/images/help/notifications-v2/custom-filter-example.png",
+        "product": "GitHub",
+        "title": "Custom inbox filters",
+        "pattern": "Alert center",
+        "notes": "Saved filters with a name and query let people carve the inbox into the views they check most.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/subscriptions-and-notifications/how-tos/viewing-and-triaging-notifications/managing-notifications-from-your-inbox",
+        "sourceTitle": "GitHub Docs: Managing notifications from your inbox",
+        "alt": "GitHub notification filters dialog with name and filter query fields for a custom filter"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/incident_response/on-call/notification_page.daa7e914865641789d565bd04bf92a24.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Page with urgency",
+        "pattern": "Alert center",
+        "notes": "A page shows what triggered, who it’s routed to and its urgency, with the actions to acknowledge or escalate in one place.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/service_management/on-call/",
+        "sourceTitle": "Datadog Docs: On-Call",
+        "alt": "Datadog On-Call page notification showing the alert, routing and urgency"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/monitors/notifications/notification_rules/notification_rules_table.53b67d9cf18528a076ffcaff24644c80.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Notification rules table",
+        "pattern": "Notification rules",
+        "notes": "Each rule lists its scope (tags), owning team, recipients and how many monitors it covers, so routing is managed centrally.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/monitors/notify/notification_rules/",
+        "sourceTitle": "Datadog Docs: Notification rules",
+        "alt": "Datadog Monitor Notification Rules table with name, scope, team, recipients and coverage columns"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/security/notification-rules-overview-1.92a734fdc624398741bb5ec477b5523d.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Security notification rules",
+        "pattern": "Notification rules",
+        "notes": "Rules read as a sentence: when this signal type at this severity, notify these channels, each with an on/off switch.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/security/notifications/rules/",
+        "sourceTitle": "Datadog Docs: Security notification rules",
+        "alt": "Datadog Security Notification Rules list with conditions, recipients and enable toggles"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/monitors/notifications/test_notification_modal.ae58decbf944c8b89818e277b8fa2a6b.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Test notifications",
+        "pattern": "Notification rules",
+        "notes": "Pick the state changes to simulate and a group, then send real test notifications before relying on the alert.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/monitors/notify/",
+        "sourceTitle": "Datadog Docs: Notifications",
+        "alt": "Datadog Test notifications dialog with selectable state transitions such as Alert and Alert Recovery and a Run Test button"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/monitors/status/header_downtimes.a539064af91493af16298f36780cfe5e.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Mute with a duration",
+        "pattern": "Notification rules",
+        "notes": "Muting asks for how long and for which groups, with an optional note, so silence has an end date and a reason.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/monitors/status/",
+        "sourceTitle": "Datadog Docs: Monitor status page",
+        "alt": "Datadog monitor status page with a Create a downtime to mute this monitor popover with duration, scope and comment"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-70021/images/help/dependabot/dependabot-notification-frequency.png",
+        "product": "GitHub",
+        "title": "Digest frequency",
+        "pattern": "Notification rules",
+        "notes": "Alerts can arrive as they happen or as a weekly or daily digest, chosen from one menu.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/manage-your-dependency-security/configure-dependabot-notifications",
+        "sourceTitle": "GitHub Docs: Configure Dependabot notifications",
+        "alt": "GitHub Dependabot alerts notification options with a frequency dropdown"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/33980377194770",
+        "product": "Miro",
+        "title": "Notification preferences matrix",
+        "pattern": "Notification rules",
+        "notes": "Each event type has a row and each channel (email, mobile, Slack) a column of checkboxes, so people tune noise per channel.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017571314-Manage-notifications-and-email-preferences",
+        "sourceTitle": "Miro Help: Manage notifications and email preferences",
+        "alt": "Miro Notification Preferences with checkbox columns for each channel against board activity events"
+      }
+    ]
   },
 
   /* ---------- Foundations ---------- */
