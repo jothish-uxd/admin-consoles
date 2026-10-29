@@ -1713,6 +1713,17 @@ window.CATEGORIES = [
         "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-table-layout",
         "sourceTitle": "GitHub Docs: Customizing the table layout",
         "alt": "GitHub project table rows with one row number highlighted as the selection handle"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/security/security_monitoring/investigate_security_signals/bulk_actions2.3156833f0e7013f839b20824b416f022.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Bulk actions on signals",
+        "pattern": "Contextual action bar",
+        "notes": "With rows selected, a ‘4 selected’ count and a Bulk Actions menu appear, grouping state changes, assignment and case creation.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/security/cloud_siem/investigate_security_signals/",
+        "sourceTitle": "Datadog Docs: Investigate security signals",
+        "alt": "Datadog signals list with four rows selected and a Bulk Actions menu open with set state, assignment and case options"
       }
     ]
   },
@@ -3289,7 +3300,63 @@ window.CATEGORIES = [
       ["Density", "Compact vs. comfortable"],
       ["Expandable rows", "Detail without leaving the list"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.dd-static.net/images/infrastructure/index/infra-list-columns.e2f6f4a7f5ec148f39e6e74cfbdc466b.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Columns panel",
+        "pattern": "Column management",
+        "notes": "A Columns button opens a panel to add columns from attributes, tags or metrics and toggle each on or off, with Reset Columns at the top.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/infrastructure/list/",
+        "sourceTitle": "Datadog Docs: Infrastructure list",
+        "alt": "Datadog host list with a Columns panel open listing columns with toggles and a Reset Columns option"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/infrastructure/index/infra-list-overview-2.85757f979cdacde45e05b06f400e3fb6.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Dense entity table",
+        "pattern": "Sorting & pagination",
+        "notes": "A ‘Showing 1–12 of 12’ count, sortable headers and compact rows with status pills keep a large fleet scannable.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/infrastructure/list/",
+        "sourceTitle": "Datadog Docs: Infrastructure list",
+        "alt": "Datadog infrastructure host list table with a result count, sortable columns and status pills"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-11417/images/help/projects-v2/sort-order-secondary.png",
+        "product": "GitHub",
+        "title": "Sort by up to two fields",
+        "pattern": "Sorting & pagination",
+        "notes": "The sort menu allows a primary and secondary field, each with its own direction toggle, and says the limit up front.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/customizing-the-table-layout",
+        "sourceTitle": "GitHub Docs: Customizing the table layout",
+        "alt": "GitHub project sort menu with two sorted fields and a direction toggle"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-49361/images/help/issues/issues-sort-dropdown.png",
+        "product": "GitHub",
+        "title": "Sort beside filters",
+        "pattern": "Sorting & pagination",
+        "notes": "Sort sits at the end of the filter row above the list, so the order is always visible with the current filters.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/filtering-and-searching-issues-and-pull-requests",
+        "sourceTitle": "GitHub Docs: Filtering and searching issues",
+        "alt": "GitHub issues list header with filter dropdowns and a Sort dropdown at the end"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-13383/images/help/projects-v2/item-context-menu-button-table.png",
+        "product": "GitHub",
+        "title": "Row menu on hover",
+        "pattern": "Row actions",
+        "notes": "Each row reveals a context menu button beside its row number, keeping per-row actions out of the way until needed.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/converting-draft-issues-to-issues",
+        "sourceTitle": "GitHub Docs: Converting draft issues to issues",
+        "alt": "GitHub project table rows with an item context menu button next to the row number"
+      }
+    ]
   },
   {
     slug: "search-filtering",
@@ -3303,7 +3370,140 @@ window.CATEGORIES = [
       ["Saved views", "Personal and shared views"],
       ["Global admin search", "Jump to any user, setting, object"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.github.com/assets/cb-49430/images/help/issues/issues-filter-dropdown.png",
+        "product": "GitHub",
+        "title": "Filter dropdown row",
+        "pattern": "Filter bar",
+        "notes": "Common filters (labels, assignees, types, sort) are dropdowns in one row above the list, next to a free-text query.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/filtering-and-searching-issues-and-pull-requests",
+        "sourceTitle": "GitHub Docs: Filtering and searching issues",
+        "alt": "GitHub issues list with a Filters dropdown and other filter menus above the list"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-13029/images/help/projects-v2/filter-example.png",
+        "product": "GitHub",
+        "title": "Filter by keyword or field",
+        "pattern": "Filter bar",
+        "notes": "One input accepts plain keywords or field:value filters, sitting directly under the view tabs.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/filtering-projects",
+        "sourceTitle": "GitHub Docs: Filtering projects",
+        "alt": "GitHub project with a Filter by keyword or by field input under the view tabs"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/logs/explorer/facet/search_facet.23e463b21ff7b5be9f3d38f5b7f0bc7e.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Facet panel with search",
+        "pattern": "Filter bar",
+        "notes": "A left facet panel shows values with counts, and a search box at the top finds facets when there are hundreds.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/logs/explorer/facets/",
+        "sourceTitle": "Datadog Docs: Log facets",
+        "alt": "Datadog facet panel with a search field and facet groups showing values and counts"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/teams/team-filter.3f0bdfe72bf8abacca6e1b3df23fa411.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Team filter with subteams",
+        "pattern": "Filter bar",
+        "notes": "A hierarchical team facet lets people include a team and its subteams in one click.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/teams/",
+        "sourceTitle": "Datadog Docs: Teams",
+        "alt": "Datadog team filter facet with nested subteams and checkboxes"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-46689/images/help/search/advanced-search.png",
+        "product": "GitHub",
+        "title": "Advanced search form",
+        "pattern": "Advanced query",
+        "notes": "Form fields for owners, dates and more build the query, which is shown live in the search bar so people learn the syntax.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/search-github/getting-started-with-searching-on-github/about-searching-on-github",
+        "sourceTitle": "GitHub Docs: About searching on GitHub",
+        "alt": "GitHub Advanced Search page with a query in the top bar and advanced option fields below"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/logs/explorer/search/log_search_bar_autocomplete.94bdeb82357ff11c2301d8f4f591ea14.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Query autocomplete",
+        "pattern": "Advanced query",
+        "notes": "The query bar suggests attributes and values as you type, with descriptions, so complex queries don't need memorised syntax.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/logs/explorer/search/",
+        "sourceTitle": "Datadog Docs: Search logs",
+        "alt": "Datadog log search bar with an autocomplete dropdown of attributes and values"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/logs/explorer/search/log_error_states.b9167523bb5c768e7c95d5b4f83d5973.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Inline syntax error",
+        "pattern": "Advanced query",
+        "notes": "An invalid query is underlined in place with a tooltip that names the problem, such as a missing parenthesis.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/logs/explorer/search/",
+        "sourceTitle": "Datadog Docs: Search logs",
+        "alt": "Datadog search bar with an underlined query and a tooltip saying Missing closing parenthesis character"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/logs/explorer/search/log_recent_searches.c0080d71d1d2d2d949c30c266c13c062.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Recent searches",
+        "pattern": "Advanced query",
+        "notes": "Focusing an empty query bar lists recent searches, so repeat investigations start in one click.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/logs/explorer/search/",
+        "sourceTitle": "Datadog Docs: Search logs",
+        "alt": "Datadog log search bar dropdown listing recent searches"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/infrastructure/index/infra-list-views.c3b1960df880c37cc5552560f3ea2c94.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Saved views panel",
+        "pattern": "Saved views",
+        "notes": "Views are listed with the default marked and ‘Save as new view’ on top; the current view shows Save Changes when edited.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/infrastructure/list/",
+        "sourceTitle": "Datadog Docs: Infrastructure list",
+        "alt": "Datadog Views panel with Save as new view, a filter field and a list of saved views"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/logs/explorer/saved_views/save.de6c862069c8b123708b04fd89d2b3bf.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Views and Save in the header",
+        "pattern": "Saved views",
+        "notes": "A Views button and a Save button sit next to the page title, so saving a view is always one click away.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/logs/explorer/saved_views/",
+        "sourceTitle": "Datadog Docs: Saved views",
+        "alt": "Datadog Logs page header with a Views button and a Save button"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-5717/images/help/projects-v2/new-view.png",
+        "product": "GitHub",
+        "title": "Views as tabs",
+        "pattern": "Saved views",
+        "notes": "Saved views are tabs across the top with a ‘New view’ button at the end, so switching views is like switching tabs.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/managing-your-views",
+        "sourceTitle": "GitHub Docs: Managing your views",
+        "alt": "GitHub project view tabs with a New view button"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-11223/images/help/projects/unsaved-changes.png",
+        "product": "GitHub",
+        "title": "Unsaved view indicator",
+        "pattern": "Saved views",
+        "notes": "A small blue dot on the view tab signals unsaved filter or sort changes without a modal or banner.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/managing-your-views",
+        "sourceTitle": "GitHub Docs: Managing your views",
+        "alt": "GitHub project view tab Issues by priority with a blue dot indicating unsaved changes"
+      }
+    ]
   },
   {
     slug: "empty-onboarding",
@@ -3317,6 +3517,95 @@ window.CATEGORIES = [
       ["No results", "Recover from a filter that found nothing"],
       ["Permission empty state", "You can't see this, here's why"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.glean.com/img/get-started/manage-llm-assistant-task.webp",
+        "product": "Glean",
+        "title": "Prepare your workspace checklist",
+        "pattern": "Setup checklist",
+        "notes": "Setup is an ordered checklist with completed steps ticked, the current step expanded with its explanation and a primary action, and later steps collapsed.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/get-started/review/manage-llm-assistant",
+        "sourceTitle": "Glean Docs: Manage LLM and Assistant settings",
+        "alt": "Glean Prepare your workspace checklist with completed steps and the Manage LLM and Assistant settings step expanded"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/19479175124114",
+        "product": "Miro",
+        "title": "No issues found",
+        "pattern": "No results",
+        "notes": "An empty result framed as good news (‘no issues’) with a friendly illustration, rather than a blank panel.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/19479150111378-Miro-Accessibility-Checker",
+        "sourceTitle": "Miro Help: Accessibility checker",
+        "alt": "Miro Accessibility checker panel showing no issues found next to a board"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016044564626",
+        "product": "Miro",
+        "title": "Board does not exist",
+        "pattern": "No results",
+        "notes": "Explains the likely reasons (deleted, never existed, typo) and what to check, instead of a bare 404.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/5225385943954-I-can-t-access-or-edit-a-Miro-board",
+        "sourceTitle": "Miro Help: I can't access or edit a Miro board",
+        "alt": "Miro Board does not exist message asking the user to check the URL"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016057935250",
+        "product": "Miro",
+        "title": "No access to board",
+        "pattern": "Permission empty state",
+        "notes": "Says which account you’re signed in as and offers ‘Request access’ or ‘Switch your profile’, the two real ways forward.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/5225385943954-I-can-t-access-or-edit-a-Miro-board",
+        "sourceTitle": "Miro Help: I can't access or edit a Miro board",
+        "alt": "Miro No access to board dialog with Request access and Switch your profile buttons"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016019782162",
+        "product": "Miro",
+        "title": "Board isn’t shared with you",
+        "pattern": "Permission empty state",
+        "notes": "Same structure as no access but worded for sharing, so the person knows an owner, not an admin, can fix it.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017572194-Board-access-rights",
+        "sourceTitle": "Miro Help: Board access rights",
+        "alt": "Miro You don't have permissions to view this board dialog with a Request access button"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016019763858",
+        "product": "Miro",
+        "title": "Request editor rights",
+        "pattern": "Permission empty state",
+        "notes": "With view-only access the toolbar explains the current role and offers ‘Request editor rights’ in place, not a dead end.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017572194-Board-access-rights",
+        "sourceTitle": "Miro Help: Board access rights",
+        "alt": "Miro board toolbar tooltip saying you're a commenter with a link to ask for editor rights"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016044566418",
+        "product": "Miro",
+        "title": "Access revoked",
+        "pattern": "Permission empty state",
+        "notes": "A short, specific message when access changes mid-session, so people don’t think the product broke.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/5225385943954-I-can-t-access-or-edit-a-Miro-board",
+        "sourceTitle": "Miro Help: I can't access or edit a Miro board",
+        "alt": "Miro Access revoked message saying sharing settings for the board have changed"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016057938450",
+        "product": "Miro",
+        "title": "No longer shared or removed",
+        "pattern": "Permission empty state",
+        "notes": "A full-page state that lists the possible causes with next steps for each, plus a way back to the dashboard.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/5225385943954-I-can-t-access-or-edit-a-Miro-board",
+        "sourceTitle": "Miro Help: I can't access or edit a Miro board",
+        "alt": "Miro full-page message This board is no longer shared or has been removed with options below"
+      }
+    ]
   }
 ];
