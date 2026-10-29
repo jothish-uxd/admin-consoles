@@ -4,6 +4,10 @@ A personal pattern library of admin console UIs — like Mobbin, but just for me
 
 Static site, no build step. Open `index.html` or serve the folder.
 
+## Design
+
+Mirrors the Enterprise Library docs: white page, Geist and Geist Mono, hairline rules instead of boxes, and a light sidebar with collapsible sections (icon, label, chevron; open/closed is remembered per browser). Only screenshots sit in framed containers. Light and dark themes, reduced motion and Windows High Contrast are respected.
+
 ## Structure
 
 ```

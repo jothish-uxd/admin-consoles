@@ -22,10 +22,21 @@
     return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
   function paintToggle(btn) {
-    const dark = effectiveTheme() === "dark";
-    btn.setAttribute("aria-pressed", String(dark));
-    btn.querySelector("span").textContent = dark ? "Dark" : "Light";
+    btn.setAttribute("aria-pressed", String(effectiveTheme() === "dark"));
   }
+
+  /* Section icons for the sidebar (24px, stroke, monochrome) */
+  const GROUP_ICONS = {
+    people: '<circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.8-3.3 3.2-5.3 6-5.3s5.2 2 6 5.3"/><circle cx="17" cy="9" r="2.4"/><path d="M16.2 14.3c2.4.3 4.1 2.1 4.8 5"/>',
+    content: '<path d="M3 7.5a2 2 0 0 1 2-2h4.2l2 2.5H19a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+    actions: '<path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/>',
+    governance: '<path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12.2l2.3 2.3 4.2-4.6"/>',
+    platform: '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+    foundations: '<path d="M12 3.5l8.5 4.5-8.5 4.5L3.5 8z"/><path d="M3.5 12.5l8.5 4.5 8.5-4.5"/><path d="M3.5 16.5l8.5 4.5 8.5-4.5"/>'
+  };
+  const navIcon = id => `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${GROUP_ICONS[id] || ""}</svg>`;
+  const NAV_CHEVRON = '<svg class="nav-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10l4-4 4 4"/></svg>';
+  const NAV_COLLAPSE_KEY = "ac-nav-collapsed";
 
   /* ---------- Sidebar ---------- */
   function renderSidebar() {
@@ -33,38 +44,35 @@
     if (!side) return;
     const groupsHtml = GROUPS.map(g => {
       const items = CATS.filter(c => c.group === g.id).map(c => `
-        <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}">
-          ${esc(c.name)}<span>${c.screens.length || ""}</span>
-        </a></li>`).join("");
-      return `<section class="nav-section" aria-labelledby="nav-${g.id}">
-          <h2 class="nav-group" id="nav-${g.id}">${esc(g.name)}</h2>
-          <ul class="nav-list">${items}</ul>
-        </section>`;
+        <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}"><span>${esc(c.name)}</span>${c.screens.length ? `<small>${c.screens.length}</small>` : ""}</a></li>`).join("");
+      return `<div class="nav-group">
+          <h2 class="nav-heading" id="nav-${g.id}"><button class="nav-toggle" type="button" aria-expanded="true" aria-controls="nav-${g.id}-list">${navIcon(g.id)}<span>${esc(g.name)}</span>${NAV_CHEVRON}</button></h2>
+          <ul class="nav-list" id="nav-${g.id}-list" aria-labelledby="nav-${g.id}">${items}</ul>
+        </div>`;
     }).join("");
 
     side.innerHTML = `
-      <div class="brand">
-        <a class="brand-link" href="${HOME}">
-          <span class="brand-mark" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 16 16"><rect x="1" y="1" width="5" height="14" rx="1.5" fill="#17202a"/><rect x="8" y="1" width="7" height="6" rx="1.5" fill="#17202a"/><rect x="8" y="9" width="7" height="6" rx="1.5" fill="#17202a" opacity=".45"/></svg>
-          </span>
-          <span class="brand-title">Admin Consoles</span>
-        </a>
-        <p>A personal library of admin UI patterns, sorted by what the admin is trying to do.</p>
-      </div>
-      <nav aria-label="Categories">
-        <ul class="nav-list">
-          <li><a class="nav-link" href="${HOME}" data-slug="">All categories<span>${CATS.length}</span></a></li>
+      <div class="nav-group">
+        <h2 class="nav-heading" id="nav-library">Library</h2>
+        <ul class="nav-list" aria-labelledby="nav-library">
+          <li><a class="nav-link" href="${HOME}" data-slug=""><span>All categories</span><small>${CATS.length}</small></a></li>
         </ul>
-        ${groupsHtml}
-      </nav>
-      <div class="sidebar-foot">
-        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Dark theme" aria-pressed="false">
-          <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
-          <span>Light</span>
-        </button>
-        <div>Personal inspiration · Sleepy · © 2026</div>
-      </div>`;
+      </div>
+      ${groupsHtml}
+      <p class="sidebar-credit">Personal inspiration for admin console design, by Sleepy, © 2026</p>`;
+
+    /* Collapsible sections. Open or closed is a per-viewer convenience, so it lives in this browser only. */
+    let collapsed = [];
+    try { collapsed = JSON.parse(localStorage.getItem(NAV_COLLAPSE_KEY) || "[]"); } catch (e) {}
+    const toggles = [...side.querySelectorAll(".nav-toggle")];
+    toggles.forEach(btn => {
+      setNavGroup(btn, !collapsed.includes(btn.getAttribute("aria-controls")));
+      btn.addEventListener("click", () => {
+        setNavGroup(btn, btn.getAttribute("aria-expanded") !== "true");
+        const ids = toggles.filter(b => b.getAttribute("aria-expanded") === "false").map(b => b.getAttribute("aria-controls"));
+        try { localStorage.setItem(NAV_COLLAPSE_KEY, JSON.stringify(ids)); } catch (e) {}
+      });
+    });
 
     /* The sidebar is rendered once and never re-rendered: category links
        swap only the content area (see router below). This also restores
@@ -98,26 +106,37 @@
     });
 
     const menuBtn = $("#menu-button");
-    if (menuBtn) {
-      menuBtn.addEventListener("click", () => {
-        const open = side.classList.toggle("open");
-        menuBtn.setAttribute("aria-expanded", String(open));
-        menuBtn.textContent = open ? "Close" : "Menu";
-      });
-      document.addEventListener("keydown", e => {
-        if (e.key === "Escape" && side.classList.contains("open")) { menuBtn.click(); menuBtn.focus(); }
-      });
-    }
+    menuBtn.addEventListener("click", () => side.classList.contains("is-open") ? closeMenu(false) : openMenu());
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(true); });
+  }
+
+  function setNavGroup(btn, open) {
+    btn.setAttribute("aria-expanded", String(open));
+    document.getElementById(btn.getAttribute("aria-controls")).hidden = !open;
+  }
+  function openMenu() {
+    const side = $("#sidebar");
+    side.classList.add("is-open");
+    $("#menu-button").setAttribute("aria-expanded", "true");
+    const target = side.querySelector('[aria-current="page"]') || side.querySelector("a");
+    if (target) target.focus();
+  }
+  function closeMenu(returnFocus) {
+    const side = $("#sidebar");
+    if (!side.classList.contains("is-open")) return;
+    side.classList.remove("is-open");
+    $("#menu-button").setAttribute("aria-expanded", "false");
+    if (returnFocus) $("#menu-button").focus();
   }
 
   /* ---------- Home ---------- */
   function renderHome() {
     document.title = "Admin Consoles — Pattern Library";
     $("#content").innerHTML = `
-      <header class="hero">
-        <p class="eyebrow">Personal pattern library</p>
-        <h1 tabindex="-1">How admins add, change and remove things.</h1>
-        <p class="hero-copy">Screens from real admin consoles, grouped by the job the admin is doing rather than by product. Pick a category to see the patterns worth collecting and the references saved so far.</p>
+      <header class="hero is-home">
+        <p class="page-kicker">Personal pattern library</p>
+        <h1 class="page-title" tabindex="-1">How admins add, change and remove things.</h1>
+        <p class="page-lede">Screens from real admin consoles, grouped by the job the admin is doing rather than by product. Pick a category to see the patterns worth collecting and the references saved so far.</p>
         <ul class="stats" id="stats"></ul>
       </header>
       <div class="toolbar" role="search">
@@ -148,20 +167,12 @@
     const status = $("#results-status");
 
     function card(c) {
-      const shown = c.patterns.slice(0, 3).map(p => `<li>${esc(p[0])}</li>`).join("");
-      const more = c.patterns.length > 3 ? `<li>+${c.patterns.length - 3}</li>` : "";
       const count = c.screens.length ? plural(c.screens.length, "screen") : plural(c.patterns.length, "pattern");
-      return `<li class="cat-card">
-        <div class="thumb">${window.drawWireframe(c.thumb)}</div>
-        <div class="cat-body">
-          <div class="cat-title-row">
-            <h3><a href="${catUrl(c)}">${esc(c.name)}</a></h3>
-            <span class="count">${count}</span>
-          </div>
-          <p>${esc(c.summary)}</p>
-          <ul class="tags" aria-label="Patterns">${shown}${more}</ul>
-        </div>
-      </li>`;
+      return `<li><a class="gallery-item" href="${catUrl(c)}">
+        <span class="gallery-thumb" aria-hidden="true">${window.drawWireframe(c.thumb)}</span>
+        <span class="gallery-head"><strong>${esc(c.name)}</strong><span class="status-tag${c.screens.length ? " is-live" : ""}">${count}</span></span>
+        <p>${esc(c.summary)}</p>
+      </a></li>`;
     }
 
     function matches(c, q) {
@@ -180,7 +191,7 @@
         if (!list.length) return "";
         return `<section class="group-section" aria-labelledby="g-${g.id}">
           <div class="group-head"><h2 id="g-${g.id}">${esc(g.name)}</h2><p>${esc(g.blurb)}</p></div>
-          <ul class="grid">${list.map(card).join("")}</ul>
+          <ul class="gallery">${list.map(card).join("")}</ul>
         </section>`;
       }).join("");
       out.innerHTML = html || `<div class="empty-results"><strong>Nothing matches “${esc(search.value)}”.</strong><br>Try a pattern name like “delete”, “invite” or “SSO”.</div>`;
@@ -204,7 +215,7 @@
     const main = $("#content");
     if (idx < 0) {
       document.title = "Not found — Admin Consoles";
-      main.innerHTML = `<div class="hero"><h1 tabindex="-1">Category not found.</h1><p class="hero-copy"><a href="${HOME}">Back to all categories</a></p></div>`;
+      main.innerHTML = `<div class="hero"><h1 class="page-title" tabindex="-1">Category not found.</h1><p class="page-lede"><a href="${HOME}">Back to all categories</a></p></div>`;
       return;
     }
     const c = CATS[idx];
@@ -239,18 +250,18 @@
       const thumbs = shots.length ? `
         <div class="g-shots">
           <div class="g-shots-head"><h4>Examples</h4>
-            <button type="button" class="link-btn" data-goto-screens="${esc(name)}">See ${plural(shots.length, "screen")} in Screens</button></div>
+            <button type="button" class="text-button" data-goto-screens="${esc(name)}">See ${plural(shots.length, "screen")} in Screens</button></div>
           <ul class="mini-shots">${shots.slice(0, 4).map(s => `<li><a href="${esc(s.src)}" target="_blank" rel="noopener noreferrer" class="mini-shot">
             <img src="${esc(s.src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('broken')">
             <span>${esc(s.product)}<span class="visually-hidden">: ${esc(s.title)}, opens in new tab</span></span></a></li>`).join("")}</ul>
         </div>` : "";
       const body = g ? `
         <section class="g-sec g-think"><h4>How to think about it</h4>${list(g.think)}</section>
-        <div class="g-dd">
+        <div class="g-cols">
           <section class="g-sec g-do"><h4>${ICON.do} Do</h4>${list(g.do, "is-do")}</section>
           <section class="g-sec g-dont"><h4>${ICON.dont} Don’t</h4>${list(g.dont, "is-dont")}</section>
         </div>
-        <div class="g-dd">
+        <div class="g-cols">
           <section class="g-sec"><h4>Accessibility &amp; universal design</h4>
             <ul class="g-list g-access">${g.access.map(([t, x]) => `<li>${tagHtml(t)}<span>${esc(x)}</span></li>`).join("")}</ul></section>
           <section class="g-sec g-scale"><h4>At enterprise scale</h4>${list(g.scale)}</section>
@@ -258,20 +269,19 @@
       return `<details class="acc" id="${pid(name)}">
         <summary>
           <span class="acc-title"><h3>${esc(name)}</h3><span class="acc-desc">${esc(desc)}</span></span>
-          <span class="acc-meta">${shots.length ? `<span class="badge">${plural(shots.length, "screen")}</span>` : ""}${g ? "" : `<span class="badge badge-muted">No guidance yet</span>`}${ICON.chev}</span>
+          <span class="acc-meta">${shots.length ? `<span class="tag">${plural(shots.length, "screen")}</span>` : ""}${g ? "" : `<span class="tag is-muted">No guidance yet</span>`}${ICON.chev}</span>
         </summary>
         <div class="acc-body">${body}${thumbs}</div>
       </details>`;
     }).join("");
 
     const scaleCard = G.scale ? `
-      <section class="card scale-card" aria-labelledby="scale-h">
-        <p class="eyebrow">Designing for scale</p>
-        <h2 id="scale-h">From tens to hundreds of thousands</h2>
-        <p class="scale-intro">${esc(G.scale.intro)}</p>
-        <ol class="tiers">${G.scale.tiers.map(([t, x], i) => `<li><span class="tier-step" aria-hidden="true">${i + 1}</span><strong>${esc(t)}</strong><span>${esc(x)}</span></li>`).join("")}</ol>
-        <h3 class="principles-h">Principles that hold at every size</h3>
-        ${list(G.scale.principles, "principles")}
+      <section class="doc-section" aria-labelledby="scale-h">
+        <h2 id="scale-h">Designing for scale</h2>
+        <p>${esc(G.scale.intro)}</p>
+        <ol class="tiers">${G.scale.tiers.map(([t, x], i, all) => `<li${i === all.length - 1 ? ' class="is-focus"' : ""}><span class="tier-tag">${String(i + 1).padStart(2, "0")}</span><strong>${esc(t)}</strong><span>${esc(x)}</span></li>`).join("")}</ol>
+        <h3 class="sub">Principles that hold at every size</h3>
+        <ul class="check-list">${G.scale.principles.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
       </section>` : "";
 
     const usedPatterns = c.patterns.map(p => p[0]).filter(p => c.screens.some(s => s.pattern === p));
@@ -302,28 +312,30 @@
 
     main.innerHTML = `
       <header class="hero">
-        <p class="crumbs"><a href="${HOME}">All categories</a> / ${esc(g ? g.name : "")}</p>
-        <h1 tabindex="-1">${esc(c.name)}</h1>
-        <p class="hero-copy">${esc(c.summary)}</p>
+        <p class="page-kicker">${esc(g ? g.name : "")} · ${plural(c.patterns.length, "pattern")}${c.screens.length ? ` · ${plural(c.screens.length, "screen")}` : ""}</p>
+        <h1 class="page-title" tabindex="-1">${esc(c.name)}</h1>
+        <p class="page-lede">${esc(c.summary)}</p>
       </header>
-      <div class="tabs" role="tablist" aria-label="${esc(c.name)} sections">
-        <button type="button" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="true">Patterns <span class="count">${c.patterns.length}</span></button>
-        <button type="button" role="tab" id="tab-screens" aria-controls="panel-screens" aria-selected="false" tabindex="-1">Screens <span class="count">${c.screens.length}</span></button>
+      <div class="tabbar">
+        <div class="tablist" role="tablist" aria-label="${esc(c.name)} sections">
+          <button type="button" class="tab" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="true">Patterns <span class="count">${c.patterns.length}</span></button>
+          <button type="button" class="tab" role="tab" id="tab-screens" aria-controls="panel-screens" aria-selected="false" tabindex="-1">Screens <span class="count">${c.screens.length}</span></button>
+        </div>
       </div>
       <div class="tab-panel" role="tabpanel" id="panel-patterns" aria-labelledby="tab-patterns" tabindex="0">
         ${scaleCard}
-        <section class="card" aria-labelledby="patterns-h">
-          <div class="acc-head">
+        <section class="doc-section" aria-labelledby="patterns-h">
+          <div class="section-head">
             <div><h2 id="patterns-h">Patterns</h2><p>Open a pattern for how to think about it, what to do and avoid, accessibility, and how it holds up at scale.</p></div>
-            <button type="button" class="ghost-btn" id="toggle-all" aria-expanded="false">Expand all</button>
+            <button type="button" class="text-button" id="toggle-all" aria-expanded="false">Expand all</button>
           </div>
           <div class="accordion">${accordion}</div>
         </section>
       </div>
       <div class="tab-panel" role="tabpanel" id="panel-screens" aria-labelledby="tab-screens" tabindex="0" hidden>
-        <section class="card" aria-labelledby="screens-h">
+        <section class="doc-section" aria-labelledby="screens-h">
           <h2 id="screens-h">Screens</h2>
-          <p>Saved references from real products.</p>
+          <p>Saved references from real products, linked from each vendor’s public documentation.</p>
           ${screens}
         </section>
       </div>`;
@@ -402,8 +414,13 @@
      content area in place, so the sidebar never reloads or moves. */
   function markCurrent(slug) {
     document.querySelectorAll("#sidebar .nav-link").forEach(a => {
-      if ((a.dataset.slug || "") === (slug || "")) a.setAttribute("aria-current", "page");
-      else a.removeAttribute("aria-current");
+      if ((a.dataset.slug || "") === (slug || "")) {
+        a.setAttribute("aria-current", "page");
+        // The current page is never hidden inside a collapsed section.
+        const list = a.closest(".nav-list[id]");
+        const btn = list && document.querySelector(`.nav-toggle[aria-controls="${list.id}"]`);
+        if (btn && btn.getAttribute("aria-expanded") === "false") setNavGroup(btn, true);
+      } else a.removeAttribute("aria-current");
     });
   }
 
@@ -436,8 +453,7 @@
     route();
     // Content starts at the top; the sidebar stays exactly where it is.
     window.scrollTo({ top: 0, behavior: "instant" });
-    const side = $("#sidebar"), menuBtn = $("#menu-button");
-    if (side && side.classList.contains("open") && menuBtn) menuBtn.click();
+    closeMenu(false);
     const h1 = $("#content h1");
     if (h1) h1.focus({ preventScroll: true });
   });
