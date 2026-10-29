@@ -1710,7 +1710,140 @@ window.CATEGORIES = [
       ["Export & SIEM streaming", "Getting logs out"],
       ["Alerts on events", "Notify on risky actions"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=3450,height=1738,format=webp/_astro/Audit_logs_v2_organization_dashboard.De-uwPva.png",
+        "product": "Cloudflare",
+        "title": "Organization audit logs",
+        "pattern": "Audit log table",
+        "notes": "One org-wide log spanning every account: time, actor, action, resource and result in a dense, scannable table.",
+        "credit": "Cloudflare",
+        "source": "https://developers.cloudflare.com/changelog/post/2026-06-24-audit-logs-v2-organization-dashboard-ui/",
+        "sourceTitle": "Cloudflare Changelog: Audit logs v2 organization dashboard",
+        "alt": "Cloudflare organization audit logs table with timestamp, actor, action and resource columns"
+      },
+      {
+        "src": "https://docs.cloud.google.com/static/logging/docs/images/logs-explorer-interface.png",
+        "product": "Google Cloud Logging",
+        "title": "Logs Explorer",
+        "pattern": "Audit log table",
+        "notes": "Query editor on top, a histogram of volume over time, field facets on the left and expandable entries below.",
+        "credit": "Google Cloud",
+        "source": "https://docs.cloud.google.com/logging/docs/view/overview",
+        "sourceTitle": "Google Cloud Docs: View and analyze logs",
+        "alt": "Google Cloud Logs Explorer with query pane, field explorer, histogram and query results"
+      },
+      {
+        "src": "https://images.ctfassets.net/zsv3d0ugroxu/5rDJIxkaZxc4Q4jATqVy94/b39be249924ee9f0338e0df6090bad68/Detailed_panel_full_screen",
+        "product": "Atlassian Guard",
+        "title": "Activity detail panel",
+        "pattern": "Event detail",
+        "notes": "Selecting a row opens a side panel with actor, location, IP and the full event context without losing your place in the list.",
+        "credit": "Atlassian",
+        "source": "https://support.atlassian.com/security-and-access-policies/docs/view-audit-log-activities/",
+        "sourceTitle": "Atlassian Support: View audit log activities",
+        "alt": "Atlassian organization audit log with a detail panel open on the right"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/audit_logs/inspect_changes.ff02585a891cad5e15d4887bf6b7e2af.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Inspect changes diff",
+        "pattern": "Event detail",
+        "notes": "Configuration changes show as a before/after diff, with additions in green and removals in red.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/audit_trail/",
+        "sourceTitle": "Datadog Docs: Audit Trail",
+        "alt": "Datadog audit event side panel showing a JSON diff of a monitor configuration change"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/audit_logs/monitor_change_diff.a75602f4ffd0ea59de3e0fe8f255ad82.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Single change, in plain words",
+        "pattern": "Event detail",
+        "notes": "The event header states the change as a sentence (who modified which monitor) before showing the exact field diff.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/audit_trail/guides/track_monitor_access_and_configuration_changes/",
+        "sourceTitle": "Datadog Docs: Track monitor access and configuration changes",
+        "alt": "Datadog audit event showing user modified a monitor, with a diff adding a tag"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/audit_logs/attributes.14eb439122bddb3283b02721dea0ff5c.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Filter from an attribute",
+        "pattern": "Filters & saved views",
+        "notes": "Any attribute in an event can become a filter (include or exclude) straight from the detail panel.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/audit_trail/",
+        "sourceTitle": "Datadog Docs: Audit Trail",
+        "alt": "Datadog audit event attributes with a menu to filter by or exclude a value"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/audit_logs/notable_events.2e9700c7a1eb13fcb9c3178765d24654.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Notable events facet",
+        "pattern": "Filters & saved views",
+        "notes": "A curated Notable events toggle cuts a huge log down to the changes that usually matter, alongside product facets.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/audit_trail/",
+        "sourceTitle": "Datadog Docs: Audit Trail",
+        "alt": "Datadog audit facet panel with Notable events checked and product facets below"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/audit_logs/audit_dashboard.4e932e7da78f3a91a086ee8a31f43f24.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Audit overview dashboard",
+        "pattern": "Filters & saved views",
+        "notes": "An out-of-the-box dashboard summarises who is changing what, so admins start from trends rather than raw rows.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/audit_trail/",
+        "sourceTitle": "Datadog Docs: Audit Trail",
+        "alt": "Datadog Audit Trail overview dashboard with charts of events by product and user"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/audit_logs/audit_events_forwarding.e0020de4485e16c36afb054c1d721704.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Forward to custom destinations",
+        "pattern": "Export & SIEM streaming",
+        "notes": "Each destination shows its filter query, status and estimated volume, so admins can stream only login events to a SIEM.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/audit_trail/forwarding_audit_events",
+        "sourceTitle": "Datadog Docs: Forwarding audit events to custom destinations",
+        "alt": "Datadog custom destinations list with an active SIEM destination filtered to login events"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/audit_logs/retention_period.ae9827c126577cf57f0e783f38371c70.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Audit retention period",
+        "pattern": "Export & SIEM streaming",
+        "notes": "Retention is set in one dropdown with clear options, a reminder that anything older must be exported elsewhere.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/audit_trail/",
+        "sourceTitle": "Datadog Docs: Audit Trail",
+        "alt": "Datadog Audit Trail retention setting with a dropdown of retention periods"
+      },
+      {
+        "src": "https://images.ctfassets.net/zsv3d0ugroxu/6CuUZuZXE0SLgDTRSu9GTe/e2682cadc28c33eff6c21085bb92249e/Screenshot_Detect-alerts-list.png",
+        "product": "Atlassian Guard",
+        "title": "Detect alerts list",
+        "pattern": "Alerts on events",
+        "notes": "Risky activity becomes alerts with severity, status and assignee, so triage happens in a queue rather than in the raw log.",
+        "credit": "Atlassian",
+        "source": "https://support.atlassian.com/security-and-access-policies/docs/view-an-alert",
+        "sourceTitle": "Atlassian Support: View an alert",
+        "alt": "Atlassian Guard Detect alerts list showing four example alerts with status and assignee"
+      },
+      {
+        "src": "https://images.ctfassets.net/zsv3d0ugroxu/4wzxRzIt3t7pxamFP6UpHw/46c0a5b58016f019b53b159dcc7309e8/Screenshot_detect-alert-annotated.png",
+        "product": "Atlassian Guard",
+        "title": "Alert detail",
+        "pattern": "Alerts on events",
+        "notes": "An alert explains what happened, who did it and recommended next steps, with status and assignee in a side column.",
+        "credit": "Atlassian",
+        "source": "https://support.atlassian.com/security-and-access-policies/docs/view-an-alert",
+        "sourceTitle": "Atlassian Support: View an alert",
+        "alt": "Annotated Atlassian Guard alert page with sections numbered in two columns"
+      }
+    ]
   },
   {
     slug: "ai-governance",
