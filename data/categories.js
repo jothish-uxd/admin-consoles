@@ -2384,7 +2384,195 @@ window.CATEGORIES = [
       ["Add seats", "Purchase flows with proration"],
       ["Invoices & payment", "History and methods"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.github.com/assets/cb-81597/images/help/billing/cancel-pending-changes-org.png",
+        "product": "GitHub",
+        "title": "Current plan with pending change",
+        "pattern": "Plan overview",
+        "notes": "Plan, features, price per seat and a seats-used meter in one card, with a banner for a scheduled downgrade and a Cancel link.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/billing/how-tos/manage-plan-and-licenses/manage-pending-changes",
+        "sourceTitle": "GitHub Docs: Manage pending changes",
+        "alt": "GitHub Current plan card for GitHub Team with seats used, Add seats link and a pending downgrade banner with Cancel"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/billing/subscription_details.05bafa4e33fd025417731e644e1d2f70.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Subscription summary and details",
+        "pattern": "Plan overview",
+        "notes": "Contract terms (plan, commitment, dates) at the top, then each product's quantity, unit price and on-demand rate in collapsible groups.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/billing/",
+        "sourceTitle": "Datadog Docs: Billing",
+        "alt": "Datadog Plan page with subscription summary, payment method card and subscription details grouped by product"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/plan_and_usage/bill-overview-main-light.0ccecfb1e1b2ee1d3482e08f677419e1.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Bill overview",
+        "pattern": "Plan overview",
+        "notes": "Month-to-date spend against the previous month, with a stacked chart by product so admins see what is driving the bill.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/plan_and_usage/bill_overview/",
+        "sourceTitle": "Datadog Docs: Bill overview",
+        "alt": "Datadog bill overview with month-to-date cost, comparison to last month and a stacked bar chart by product"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-37384/images/help/billing/org-budget-example.png",
+        "product": "GitHub",
+        "title": "Spending budgets",
+        "pattern": "Plan overview",
+        "notes": "Per-product budgets show spend against limit with a progress bar, and whether usage stops when the budget is reached.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/billing/how-tos/set-up-budgets",
+        "sourceTitle": "GitHub Docs: Set up budgets",
+        "alt": "GitHub organization budgets list with spend progress bars for Actions budgets"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-36645/images/help/copilot/enable-access-for-selected-members.png",
+        "product": "GitHub",
+        "title": "Assign seats to people or teams",
+        "pattern": "Seat assignment",
+        "notes": "Seats can be granted to individual users or whole teams from one search field, with the billing impact linked right there.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access/grant-access",
+        "sourceTitle": "GitHub Docs: Grant access to Copilot",
+        "alt": "GitHub Enable Copilot access dialog with tabs for users and teams and a search field"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-31963/images/help/copilot/cancel-copilot-seat.png",
+        "product": "GitHub",
+        "title": "Reclaim a seat",
+        "pattern": "Seat assignment",
+        "notes": "Select a member in Access management and ‘Cancel seat’ appears in the selection bar, keeping reclaiming as easy as assigning.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access/revoke-access",
+        "sourceTitle": "GitHub Docs: Revoke access to Copilot",
+        "alt": "GitHub Copilot access management list with one member selected and a Cancel seat button"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/38132163160850",
+        "product": "Miro",
+        "title": "License pool across billing groups",
+        "pattern": "Seat assignment",
+        "notes": "A headline count of assigned versus total licenses (2,015 of 2,037), with the groups that draw from the pool listed below.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/6574185673874-Billing-groups",
+        "sourceTitle": "Miro Help: Billing groups",
+        "alt": "Miro admin Billing groups page showing 2,015 of 2,037 full licenses used and a list of billing groups"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/38132135303058",
+        "product": "Miro",
+        "title": "Group license detail",
+        "pattern": "Seat assignment",
+        "notes": "Inside a group, each member’s license type, role and last active date help admins spot seats worth reclaiming.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/20150819688338-Soft-quotas-for-billing-groups",
+        "sourceTitle": "Miro Help: Soft quotas for billing groups",
+        "alt": "Miro billing group detail with license counts and a member table showing license type and last active date"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-55150/images/help/enterprises/enterprise-filter-pending-invitations.png",
+        "product": "GitHub",
+        "title": "Filter invitations by license",
+        "pattern": "Seat assignment",
+        "notes": "Pending invitations hold licenses too; filtering them by license type shows seats committed but not yet used.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/enterprise-cloud@latest/admin/managing-accounts-and-repositories/managing-users-in-your-enterprise/viewing-people-in-your-enterprise",
+        "sourceTitle": "GitHub Docs: Viewing people in your enterprise",
+        "alt": "GitHub enterprise Invitations page with License, Organizations and Source filter menus"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-53422/images/help/enterprises/ghas-add-licenses.png",
+        "product": "GitHub",
+        "title": "Add licenses with live cost",
+        "pattern": "Add seats",
+        "notes": "A stepper for total licenses updates the new monthly payment and the prorated amount due today before you confirm.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/billing/how-tos/products/manage-ghas-licenses",
+        "sourceTitle": "GitHub Docs: Manage Advanced Security licenses",
+        "alt": "GitHub Advanced Security license screen with a quantity stepper, monthly payment, amount due today and Confirm licenses button"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21017592958994",
+        "product": "Miro",
+        "title": "Proration on the invoice",
+        "pattern": "Add seats",
+        "notes": "Adding a license shows as two lines, remaining time charged and unused time credited, so the prorated total is explainable.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360021047619-Understanding-your-invoice",
+        "sourceTitle": "Miro Help: Understanding your invoice",
+        "alt": "Miro invoice lines showing a charge for remaining time and a credit for unused time after adding licenses"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21019603655442",
+        "product": "Miro",
+        "title": "Order summary",
+        "pattern": "Add seats",
+        "notes": "Seats, billing period, tax and total are itemised before payment, with a promo code link kept secondary.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/4408846055314-Taxes",
+        "sourceTitle": "Miro Help: Taxes",
+        "alt": "Miro checkout order summary with seat price, tax and total before payment"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-29441/images/help/business-accounts/download-invoice.png",
+        "product": "GitHub",
+        "title": "Past invoices",
+        "pattern": "Invoices & payment",
+        "notes": "A plain table of invoice number, date, amount and status, each with a download, for finance teams who just need the PDF.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/billing/how-tos/set-up-payment/manage-enterprise-invoice",
+        "sourceTitle": "GitHub Docs: Manage your enterprise invoice",
+        "alt": "GitHub Past invoices table with invoice numbers, dates, amounts, status and download links"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-72099/images/help/business-accounts/pay-invoice-button.png",
+        "product": "GitHub",
+        "title": "Invoice due with Pay now",
+        "pattern": "Invoices & payment",
+        "notes": "The billing overview surfaces the latest invoice amount and due date with a Pay now button beside current usage.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/billing/how-tos/set-up-payment/manage-enterprise-invoice",
+        "sourceTitle": "GitHub Docs: Manage your enterprise invoice",
+        "alt": "GitHub enterprise billing overview with current usage and a latest invoice card with a Pay now button"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016927933074",
+        "product": "Miro",
+        "title": "Invoices in billing settings",
+        "pattern": "Invoices & payment",
+        "notes": "Invoices sit in their own tab of billing settings alongside plan and payment details.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360010961020-Payment-options-invoicing-and-automated-payments",
+        "sourceTitle": "Miro Help: Payment options",
+        "alt": "Miro billing settings Invoices tab listing invoices"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21016927931666",
+        "product": "Miro",
+        "title": "Choose payment method",
+        "pattern": "Invoices & payment",
+        "notes": "Card or bank transfer as two clear choices, with card details only shown for the option picked.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360010961020-Payment-options-invoicing-and-automated-payments",
+        "sourceTitle": "Miro Help: Payment options",
+        "alt": "Miro Choose how you'd like to pay dialog with Card and Bank transfer options and card fields"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/billing/PaymentMethodOverview.e946755fe70e2b62f640a17b53c25317.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Payment method and billing contact",
+        "pattern": "Invoices & payment",
+        "notes": "Payment method and billing contact each get an edit action next to the subscription summary, separate from usage.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/billing/",
+        "sourceTitle": "Datadog Docs: Billing",
+        "alt": "Datadog Plan page with a payment method card and billing contact details"
+      }
+    ]
   },
   {
     slug: "integrations-api",
