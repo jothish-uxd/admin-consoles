@@ -36,8 +36,10 @@
         <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}">
           ${esc(c.name)}<span>${c.screens.length || ""}</span>
         </a></li>`).join("");
-      return `<h2 class="nav-group" id="nav-${g.id}">${esc(g.name)}</h2>
-        <ul class="nav-list" aria-labelledby="nav-${g.id}">${items}</ul>`;
+      return `<section class="nav-section" aria-labelledby="nav-${g.id}">
+          <h2 class="nav-group" id="nav-${g.id}">${esc(g.name)}</h2>
+          <ul class="nav-list">${items}</ul>
+        </section>`;
     }).join("");
 
     side.innerHTML = `
