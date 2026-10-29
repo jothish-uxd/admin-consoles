@@ -1529,7 +1529,173 @@ window.CATEGORIES = [
       ["Scope & targeting", "Who and what a policy applies to"],
       ["Simulate / test", "Preview impact before enforcing"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://images.ctfassets.net/zsv3d0ugroxu/6LmH29GyYkq7fEmAVo5BuF/093dbf1ba64c2bf23b9202b947d1e774/Screenshot_data_security_policy_active_controls.png",
+        "product": "Atlassian Guard",
+        "title": "Data security policy controls",
+        "pattern": "Policy list",
+        "notes": "One policy, many rules: each control (export, public links, app access, anonymous access) lists its status and which data it covers.",
+        "credit": "Atlassian",
+        "source": "https://support.atlassian.com/security-and-access-policies/docs/edit-a-data-security-policy/",
+        "sourceTitle": "Atlassian Support: Edit a data security policy",
+        "alt": "Atlassian data security policy screen listing active controls with their status"
+      },
+      {
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=1152,height=304,format=webp/_astro/cf-firewall-rules-list.Co9nTUAW.png",
+        "product": "Cloudflare",
+        "title": "Ordered rules list",
+        "pattern": "Policy list",
+        "notes": "Rules run in priority order: each row has its action, an inline on/off toggle and drag handles to reorder. (Firewall Rules has since moved to WAF custom rules.)",
+        "credit": "Cloudflare",
+        "source": "https://developers.cloudflare.com/firewall/cf-dashboard/create-edit-delete-rules/",
+        "sourceTitle": "Cloudflare Docs: Create, edit, and delete rules",
+        "alt": "Cloudflare firewall rules list with action, description, enable toggle and reorder controls"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-14841/images/help/repository/ruleset-history-options.png",
+        "product": "GitHub",
+        "title": "Ruleset history",
+        "pattern": "Policy list",
+        "notes": "Every change to a ruleset is versioned; admins can compare versions, restore an earlier one or download it as JSON.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository",
+        "sourceTitle": "GitHub Docs: Managing rulesets for a repository",
+        "alt": "GitHub ruleset history with a menu offering compare changes, restore and download"
+      },
+      {
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=2360,height=1088,format=webp/_astro/gateway-create-with-ai.BYG07coh.png",
+        "product": "Cloudflare One",
+        "title": "Create policy with AI",
+        "pattern": "Policy builder",
+        "notes": "Gateway firewall policies can be drafted from a plain-language description, then reviewed in the normal builder before saving.",
+        "credit": "Cloudflare",
+        "source": "https://developers.cloudflare.com/changelog/post/2026-05-12-natural-language-policy-creation/",
+        "sourceTitle": "Cloudflare Changelog: Natural language policy creation",
+        "alt": "Cloudflare Gateway firewall policies page with a Create with AI button next to Add a policy"
+      },
+      {
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=983,height=289,format=webp/_astro/firewall-rules-expression-builder-value.Cm4ecLGt.png",
+        "product": "Cloudflare",
+        "title": "Expression builder",
+        "pattern": "Policy builder",
+        "notes": "Field, operator and value dropdowns build each condition, with a live preview of the generated expression underneath.",
+        "credit": "Cloudflare",
+        "source": "https://developers.cloudflare.com/firewall/cf-dashboard/create-edit-delete-rules/",
+        "sourceTitle": "Cloudflare Docs: Create, edit, and delete rules",
+        "alt": "Cloudflare expression builder row with field, operator and value selectors and an expression preview"
+      },
+      {
+        "src": "https://confluence.atlassian.com/doc/files/1108681072/1108681073/1/1643588430528/retention-rules-global-all.png",
+        "product": "Confluence Data Center",
+        "title": "Global retention rules",
+        "pattern": "Retention policies",
+        "notes": "One global rule for page versions, attachments and trash, followed by a table of spaces that are exempt with their own rules.",
+        "credit": "Atlassian",
+        "source": "https://confluence.atlassian.com/doc/set-retention-rules-to-delete-unwanted-data-1108681072.html",
+        "sourceTitle": "Confluence Docs: Set retention rules to delete unwanted data",
+        "alt": "Confluence global retention rules with a list of space exemptions"
+      },
+      {
+        "src": "https://confluence.atlassian.com/doc/files/1108681072/1108681076/1/1643588430799/retention-rules-space.png",
+        "product": "Confluence Data Center",
+        "title": "Space retention rules",
+        "pattern": "Retention policies",
+        "notes": "Space admins choose keep-all, keep by count or keep by age for versions and trash, each with plain-language helper text.",
+        "credit": "Atlassian",
+        "source": "https://confluence.atlassian.com/doc/set-retention-rules-to-delete-unwanted-data-1108681072.html",
+        "sourceTitle": "Confluence Docs: Set retention rules to delete unwanted data",
+        "alt": "Confluence space tools retention rules tab with options for page versions, attachments and trash"
+      },
+      {
+        "src": "https://confluence.atlassian.com/doc/files/1108681072/1108681075/1/1643588430720/exemptions-table.png",
+        "product": "Confluence Data Center",
+        "title": "Space exemptions",
+        "pattern": "Scope & targeting",
+        "notes": "Exceptions to the global policy are listed per space with who set them and the effective rule, so overrides stay visible.",
+        "credit": "Atlassian",
+        "source": "https://confluence.atlassian.com/doc/set-retention-rules-to-delete-unwanted-data-1108681072.html",
+        "sourceTitle": "Confluence Docs: Set retention rules to delete unwanted data",
+        "alt": "Table of space exemptions showing each space's retention rules and who last modified them"
+      },
+      {
+        "src": "https://images.ctfassets.net/spoqsaf9291f/3lPHkODsTqNyr8c7nNolmz/30ae25171d5c376363dca92e6519c6ab/Legal_holds_entrypoint.png",
+        "product": "Notion",
+        "title": "Legal holds entry point",
+        "pattern": "Legal hold",
+        "notes": "Legal holds sit under Data & compliance next to retention settings, so admins see both preservation controls together.",
+        "credit": "Notion",
+        "source": "https://www.notion.com/help/legal-holds",
+        "sourceTitle": "Notion Help: Legal holds",
+        "alt": "Notion settings Data and compliance page with a legal holds section"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/22137403285010",
+        "product": "Miro",
+        "title": "Boards under legal hold",
+        "pattern": "Legal hold",
+        "notes": "Each case lists the held boards with classification labels, owners and last-modified dates, filterable by search.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/22120628583570-Review-boards-under-legal-hold",
+        "sourceTitle": "Miro Help: Review boards under legal hold",
+        "alt": "Miro legal hold case page listing boards with classification, owner and last modified date"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/22136887470610",
+        "product": "Miro",
+        "title": "Close hold confirmation",
+        "pattern": "Legal hold",
+        "notes": "Releasing a hold warns that content not covered by other holds or retention may be deleted forever, with a destructive red action.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/21922521629330-Close-a-legal-hold",
+        "sourceTitle": "Miro Help: Close a legal hold",
+        "alt": "Miro Close hold dialog warning that data not protected by other holds might be deleted"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-110007/images/help/repository/rule-insights.png",
+        "product": "GitHub",
+        "title": "Rule insights with Evaluate mode",
+        "pattern": "Simulate / test",
+        "notes": "Rulesets can run in Evaluate mode: insights show which pushes would have failed, labelled evaluate, without blocking anyone.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository",
+        "sourceTitle": "GitHub Docs: Managing rulesets for a repository",
+        "alt": "GitHub Rule Insights listing pass, bypass and fail results, with the failure marked evaluate"
+      },
+      {
+        "src": "https://docs.cloud.google.com/static/policy-intelligence/img/simulator-results.png",
+        "product": "Google Cloud IAM",
+        "title": "Policy Simulator results",
+        "pattern": "Simulate / test",
+        "notes": "Replays 90 days of access logs against a proposed policy and summarises how many accesses would be revoked, gained or unknown.",
+        "credit": "Google Cloud",
+        "source": "https://docs.cloud.google.com/iam/docs/simulating-access",
+        "sourceTitle": "Google Cloud Docs: Test role changes with Policy Simulator",
+        "alt": "Google Cloud Policy Simulator results with proposed changes and a table of access changes"
+      },
+      {
+        "src": "https://docs.cloud.google.com/static/policy-intelligence/img/simulator-policy-diff.png",
+        "product": "Google Cloud IAM",
+        "title": "Proposed policy diff",
+        "pattern": "Simulate / test",
+        "notes": "A side-by-side diff of the current and proposed policy, with removed bindings highlighted, before anything is applied.",
+        "credit": "Google Cloud",
+        "source": "https://docs.cloud.google.com/iam/docs/simulating-access",
+        "sourceTitle": "Google Cloud Docs: Test role changes with Policy Simulator",
+        "alt": "Side-by-side JSON diff of current and proposed IAM policy with removed lines highlighted"
+      },
+      {
+        "src": "https://docs.cloud.google.com/static/policy-intelligence/img/simulator-access-change-details-2x.png",
+        "product": "Google Cloud IAM",
+        "title": "Access change details",
+        "pattern": "Simulate / test",
+        "notes": "Drill into one affected access to see existing versus proposed access for a specific resource and permission.",
+        "credit": "Google Cloud",
+        "source": "https://docs.cloud.google.com/iam/docs/simulating-access",
+        "sourceTitle": "Google Cloud Docs: Test role changes with Policy Simulator",
+        "alt": "Access change details panel showing access revoked, existing access granted and proposed access not granted"
+      }
+    ]
   },
   {
     slug: "audit-logs",
