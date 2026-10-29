@@ -2936,7 +2936,140 @@ window.CATEGORIES = [
       ["Reports", "Scheduled and downloadable"],
       ["Recommendations", "Suggested actions for admins"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://help.miro.com/hc/article_attachments/23921781994386",
+        "product": "Miro",
+        "title": "Admin insights overview",
+        "pattern": "Admin home",
+        "notes": "A row of headline numbers (licenses allocated, total users, active teams, projects, boards) each with a 30-day change, above an active-users chart. (Miro has since replaced this page with Analytics.)",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360019358000-Admin-Insights-Deprecated",
+        "sourceTitle": "Miro Help: Admin Insights (deprecated)",
+        "alt": "Miro admin Insights page with KPI tiles for licenses, users, teams, projects and boards above an Active users bar chart"
+      },
+      {
+        "src": "https://mintcdn.com/product-docs/xwgKJKhu_rJvniNQ/images/box-admin-tools/platforminsights-default-updated.png",
+        "product": "Box",
+        "title": "Platform insights",
+        "pattern": "Admin home",
+        "notes": "Usage trend charts sit beside summary cards, giving admins a one-page read on how the platform is being used.",
+        "credit": "Box",
+        "source": "https://docs.box.com/en/box-admin-tools/reporting-and-insights/platform-insights",
+        "sourceTitle": "Box Docs: Platform insights",
+        "alt": "Box Admin Console Platform Insights page with usage trend charts and summary metric cards"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-26806/images/help/copilot/copilot-usage-overview.png",
+        "product": "GitHub",
+        "title": "Seat usage at a glance",
+        "pattern": "Admin home",
+        "notes": "Two numbers that matter (seats assigned, estimated monthly cost) at the top of the Copilot admin page, each linking to the detail.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-organization/review-activity/review-user-activity-data",
+        "sourceTitle": "GitHub Docs: Review user activity data",
+        "alt": "GitHub Copilot Business overview showing seats assigned and estimated monthly cost"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/23921781999762",
+        "product": "Miro",
+        "title": "Active users over time",
+        "pattern": "Adoption metrics",
+        "notes": "Monthly active users as bars, with a hover tooltip for exact counts and a period selector.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360019358000-Admin-Insights-Deprecated",
+        "sourceTitle": "Miro Help: Admin Insights (deprecated)",
+        "alt": "Miro Active users bar chart by month with a tooltip"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/23921804622482",
+        "product": "Miro",
+        "title": "Active boards",
+        "pattern": "Adoption metrics",
+        "notes": "Created versus active boards on the same chart separates growth from real usage.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360019358000-Admin-Insights-Deprecated",
+        "sourceTitle": "Miro Help: Admin Insights (deprecated)",
+        "alt": "Miro Active boards bar chart comparing new and active boards"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/23921804630546",
+        "product": "Miro",
+        "title": "Popular templates",
+        "pattern": "Adoption metrics",
+        "notes": "A ranked list with usage bars shows which templates teams actually adopt, which helps decide what to promote.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360019358000-Admin-Insights-Deprecated",
+        "sourceTitle": "Miro Help: Admin Insights (deprecated)",
+        "alt": "Miro Popular templates ranked list with usage bars"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-101335/images/help/security-overview/security-overview-enablement-trends.png",
+        "product": "GitHub",
+        "title": "Feature enablement trends",
+        "pattern": "Adoption metrics",
+        "notes": "Shows how many repositories have each security feature turned on over 30 days, so rollout progress is measurable.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/code-security/how-tos/view-and-interpret-data/analyze-organization-data/assessing-adoption-code-security",
+        "sourceTitle": "GitHub Docs: Assessing adoption of code security",
+        "alt": "GitHub security overview Enablement trends chart and table for Dependabot over 30 days"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/billing/usage-details-v2-01.850f197eb967fc41a20d409e4cff9a8e.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Usage summary tiles",
+        "pattern": "Reports",
+        "notes": "One tile per product with this month's usage and the change, scannable before drilling into any one product.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/plan_and_usage/usage_details/",
+        "sourceTitle": "Datadog Docs: Usage details",
+        "alt": "Datadog Usage Summary with a grid of product usage tiles"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/billing/UsageTrendsOverviewAndCSV.511d56eaaef4d2cc465947bc7ddb1e49.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Usage trends with CSV",
+        "pattern": "Reports",
+        "notes": "Small-multiple trend charts per product with a ‘Download as CSV’ action, for admins who report outside the tool.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/plan_and_usage/usage_details/",
+        "sourceTitle": "Datadog Docs: Usage details",
+        "alt": "Datadog Usage Trends charts per product with a Download as CSV button highlighted"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-155037/images/help/security-overview/security-overview-dashboard-filters-3-tab.png",
+        "product": "GitHub",
+        "title": "Report filters and date range",
+        "pattern": "Reports",
+        "notes": "A date range and filter bar sit above the whole report, so every chart answers the same question.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/code-security/how-tos/view-and-interpret-data/analyze-organization-data/viewing-security-insights",
+        "sourceTitle": "GitHub Docs: Viewing security insights",
+        "alt": "GitHub security overview dashboard with date range and filter controls above charts"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/cloud_cost/recommendations/cost_recommendations_1.4c0a58bb9a1f570d3c5d80231ef07d5d.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Cost recommendations",
+        "pattern": "Recommendations",
+        "notes": "Potential monthly and annual savings up top, then a breakdown by recommendation type, each with its own savings estimate.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/cloud_cost_management/recommendations/",
+        "sourceTitle": "Datadog Docs: Cloud cost recommendations",
+        "alt": "Datadog Cloud Cost Recommendations with potential savings totals, a donut chart and a list of top recommendations"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/monitors/quality/filter_monitor_quality.08a574bf94f02723494d4f8d792e160f.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Monitors that need improvement",
+        "pattern": "Recommendations",
+        "notes": "A single ratio bar of healthy versus ‘to improve’ monitors, filterable by team and service, turns hygiene into a to-do list.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/monitors/quality/",
+        "sourceTitle": "Datadog Docs: Monitor quality",
+        "alt": "Datadog Monitor Quality bar showing 34 healthy monitors and 98 monitors to improve with filters"
+      }
+    ]
   },
   {
     slug: "notifications",
