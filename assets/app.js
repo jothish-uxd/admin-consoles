@@ -11,6 +11,9 @@
   const HOME = "?";
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
+  // Layout trial: categories listed here get the Scale tab, the grey-to-black
+  // tier ramp and nested pattern cards. Add slugs once the layout is approved.
+  const NESTED_LAYOUT = new Set(["user-management"]);
 
   /* ---------- Theme ---------- */
   const root = document.documentElement;
@@ -275,11 +278,12 @@
       </details>`;
     }).join("");
 
+    const nested = NESTED_LAYOUT.has(c.slug) && !!G.scale;
     const scaleCard = G.scale ? `
       <section class="doc-section" aria-labelledby="scale-h">
         <h2 id="scale-h">Designing for scale</h2>
         <p>${esc(G.scale.intro)}</p>
-        <ol class="tiers">${G.scale.tiers.map(([t, x], i, all) => `<li${i === all.length - 1 ? ' class="is-focus"' : ""}><span class="tier-tag">${String(i + 1).padStart(2, "0")}</span><strong>${esc(t)}</strong><span>${esc(x)}</span></li>`).join("")}</ol>
+        <ol class="tiers${nested ? " is-ramp" : ""}">${G.scale.tiers.map(([t, x], i, all) => `<li${!nested && i === all.length - 1 ? ' class="is-focus"' : ""}><span class="tier-tag">${String(i + 1).padStart(2, "0")}</span><strong>${esc(t)}</strong><span>${esc(x)}</span></li>`).join("")}</ol>
         <h3 class="sub">Principles that hold at every size</h3>
         <ul class="check-list">${G.scale.principles.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
       </section>` : "";
@@ -318,18 +322,20 @@
       </header>
       <div class="tabbar">
         <div class="tablist" role="tablist" aria-label="${esc(c.name)} sections">
-          <button type="button" class="tab" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="true">Patterns <span class="count">${c.patterns.length}</span></button>
+          ${nested ? `<button type="button" class="tab" role="tab" id="tab-scale" aria-controls="panel-scale" aria-selected="true">Scale</button>` : ""}
+          <button type="button" class="tab" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="${!nested}"${nested ? ' tabindex="-1"' : ""}>Patterns <span class="count">${c.patterns.length}</span></button>
           <button type="button" class="tab" role="tab" id="tab-screens" aria-controls="panel-screens" aria-selected="false" tabindex="-1">Screens <span class="count">${c.screens.length}</span></button>
         </div>
       </div>
-      <div class="tab-panel" role="tabpanel" id="panel-patterns" aria-labelledby="tab-patterns" tabindex="0">
-        ${scaleCard}
+      ${nested ? `<div class="tab-panel" role="tabpanel" id="panel-scale" aria-labelledby="tab-scale" tabindex="0">${scaleCard}</div>` : ""}
+      <div class="tab-panel" role="tabpanel" id="panel-patterns" aria-labelledby="tab-patterns" tabindex="0"${nested ? " hidden" : ""}>
+        ${nested ? "" : scaleCard}
         <section class="doc-section" aria-labelledby="patterns-h">
           <div class="section-head">
             <div><h2 id="patterns-h">Patterns</h2><p>Open a pattern for how to think about it, what to do and avoid, accessibility, and how it holds up at scale.</p></div>
             <button type="button" class="text-button" id="toggle-all" aria-expanded="false">Expand all</button>
           </div>
-          <div class="accordion">${accordion}</div>
+          <div class="accordion${nested ? " is-nested" : ""}">${accordion}</div>
         </section>
       </div>
       <div class="tab-panel" role="tabpanel" id="panel-screens" aria-labelledby="tab-screens" tabindex="0" hidden>
@@ -399,10 +405,12 @@
     });
     accs.forEach(d => d.addEventListener("toggle", syncToggle));
 
-    /* deep links: #screens, or #p-pattern-name */
+    /* deep links: #scale, #patterns, #screens, or #p-pattern-name */
     const h = location.hash.slice(1);
-    if (h === "screens") selectTab($("#tab-screens"));
+    const tabFor = $("#tab-" + CSS.escape(h));
+    if (tabFor && tabFor.getAttribute("role") === "tab") selectTab(tabFor);
     else if (h.startsWith("p-") && $("#" + CSS.escape(h))) {
+      selectTab($("#tab-patterns"));
       const d = $("#" + CSS.escape(h));
       d.open = true; syncToggle();
       requestAnimationFrame(() => d.scrollIntoView({ block: "start" }));

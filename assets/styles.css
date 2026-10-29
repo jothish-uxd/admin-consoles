@@ -342,6 +342,38 @@ a.gallery-item:focus-visible { outline-offset: -2px; border-radius: 0; }
 .tiers li.is-focus .tier-tag,
 .tiers li.is-focus span:last-child { color: color-mix(in srgb, var(--bg) 75%, var(--ink)); }
 
+/* Tier ramp (trial): cool grey, then slate, then black, so scale reads as a progression */
+:root {
+  --tier-1-bg: #eef1f4; --tier-1-ink: #171717; --tier-1-soft: #4f5863;
+  --tier-2-bg: #4b5563; --tier-2-ink: #ffffff; --tier-2-soft: #e3e7ec;
+  --tier-3-bg: #171717; --tier-3-ink: #ffffff; --tier-3-soft: #c9c9c9;
+  --nest-bg: #f5f7f9; --nest-rule: #e1e5ea;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tier-1-bg: #1b1f24; --tier-1-ink: #ededed; --tier-1-soft: #a8b0ba;
+    --tier-2-bg: #8590a0; --tier-2-ink: #0a0a0a; --tier-2-soft: #1b1f24;
+    --tier-3-bg: #ededed; --tier-3-ink: #0a0a0a; --tier-3-soft: #3d3d3d;
+    --nest-bg: #121519; --nest-rule: #262b31;
+  }
+}
+:root[data-theme="dark"] {
+  --tier-1-bg: #1b1f24; --tier-1-ink: #ededed; --tier-1-soft: #a8b0ba;
+  --tier-2-bg: #8590a0; --tier-2-ink: #0a0a0a; --tier-2-soft: #1b1f24;
+  --tier-3-bg: #ededed; --tier-3-ink: #0a0a0a; --tier-3-soft: #3d3d3d;
+  --nest-bg: #121519; --nest-rule: #262b31;
+}
+.tiers.is-ramp { border: 0; gap: 0; }
+.tiers.is-ramp li { border: 0; padding: 26px 22px 24px; }
+.tiers.is-ramp li:nth-child(1) { background: var(--tier-1-bg); color: var(--tier-1-ink); }
+.tiers.is-ramp li:nth-child(2) { background: var(--tier-2-bg); color: var(--tier-2-ink); }
+.tiers.is-ramp li:nth-child(3) { background: var(--tier-3-bg); color: var(--tier-3-ink); }
+.tiers.is-ramp li:nth-child(1) .tier-tag, .tiers.is-ramp li:nth-child(1) span:last-child { color: var(--tier-1-soft); }
+.tiers.is-ramp li:nth-child(2) .tier-tag, .tiers.is-ramp li:nth-child(2) span:last-child { color: var(--tier-2-soft); }
+.tiers.is-ramp li:nth-child(3) .tier-tag, .tiers.is-ramp li:nth-child(3) span:last-child { color: var(--tier-3-soft); }
+.tiers.is-ramp li:first-child { border-radius: 12px 0 0 12px; }
+.tiers.is-ramp li:last-child { border-radius: 0 12px 12px 0; }
+
 .check-list { margin: 0; padding: 0; list-style: none; max-width: 72ch; display: grid; gap: 12px; }
 .check-list li { position: relative; padding-left: 24px; color: var(--ink-soft); font-size: 14.5px; }
 .check-list li::before {
@@ -381,6 +413,18 @@ a.gallery-item:focus-visible { outline-offset: -2px; border-radius: 0; }
 .acc[open] .chev { transform: rotate(180deg); }
 
 .acc-body { padding: 4px 0 40px; display: grid; gap: 36px; }
+/* Nested (trial): an open pattern's content sits in a soft card under its row */
+.accordion.is-nested .acc[open] { border-bottom-color: transparent; }
+.accordion.is-nested .acc[open] > summary .acc-title h3 { font-weight: 600; }
+.accordion.is-nested .acc-body {
+  margin: 0 0 20px;
+  padding: 28px 28px 30px;
+  background: var(--nest-bg);
+  border: 1px solid var(--nest-rule);
+  border-radius: 12px;
+}
+.accordion.is-nested .acc[open] + .acc { border-top: 1px solid var(--rule); }
+.accordion.is-nested .ref { background: var(--bg); }
 .g-sec h4 {
   margin: 0 0 12px;
   display: flex; align-items: center; gap: 6px;
@@ -500,6 +544,9 @@ a.ref:hover { background: var(--ink); color: var(--bg); border-color: var(--ink)
 @media (max-width: 700px) {
   .header-badge, .header-sep { display: none; }
   .tiers { grid-template-columns: 1fr; }
+  .tiers.is-ramp li:first-child { border-radius: 12px 12px 0 0; }
+  .tiers.is-ramp li:last-child { border-radius: 0 0 12px 12px; }
+  .accordion.is-nested .acc-body { padding: 20px 18px 22px; }
 }
 @media (max-width: 560px) {
   .main { padding: 36px 16px 80px; }
@@ -516,6 +563,8 @@ a.ref:hover { background: var(--ink); color: var(--bg); border-color: var(--ink)
 }
 @media (forced-colors: active) {
   .nav-link[aria-current] { text-decoration: underline; }
+  .tiers.is-ramp li { border: 1px solid CanvasText; }
+  .accordion.is-nested .acc-body { border: 1px solid CanvasText; }
   .chip[aria-pressed="true"], .tiers li.is-focus { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: Highlight; }
   .tab { border-bottom-color: Canvas; }
   .tab[aria-selected="true"] { border-bottom-color: Highlight; }
