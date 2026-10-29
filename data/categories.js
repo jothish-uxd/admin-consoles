@@ -1899,7 +1899,96 @@ window.CATEGORIES = [
       ["Validation & errors", "Row-level error reporting"],
       ["Export", "Format, scope, delivery"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.dd-static.net/images/cloud_cost/upload_file.9f0128207666fe1246181574a0adfe49.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Upload a file",
+        "pattern": "CSV import",
+        "notes": "A drop zone for CSV or JSON with the required columns listed underneath, so people know the format before they upload.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/cloud_cost_management/setup/custom/",
+        "sourceTitle": "Datadog Docs: Custom costs",
+        "alt": "Datadog Upload your file dialog with a drag-and-drop area and a list of required fields"
+      },
+      {
+        "src": "https://images.ctfassets.net/zsv3d0ugroxu/2Nel240U8yy2BDizswjuCL/0bd27522a4e85c8ff07db7e1a355fde6/Jira_fields_dropdown_menu",
+        "product": "Jira",
+        "title": "Map a column to a field",
+        "pattern": "Field mapping",
+        "notes": "The field picker groups targets into system fields, existing custom fields and link types, and offers ‘Create a new custom field’ at the bottom.",
+        "credit": "Atlassian",
+        "source": "https://support.atlassian.com/jira-software-cloud/docs/mapping-csv-data-to-jira-fields/",
+        "sourceTitle": "Atlassian Support: Map CSV data to Jira fields",
+        "alt": "Jira CSV import field dropdown grouped into system fields, existing custom fields and link types, with Create a new custom field selected"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/reference_tables/schema_setup.f512c689625e83b2af2208bfcc6918d5.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Preview and set schema",
+        "pattern": "Field mapping",
+        "notes": "A numbered flow ends in a preview of the uploaded rows where each column’s type and the primary key are chosen in place.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/reference_tables/",
+        "sourceTitle": "Datadog Docs: Reference Tables",
+        "alt": "Datadog new reference table step with a data preview table, column type dropdowns and primary key selection"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-39868/images/help/repository/csv-render-error.png",
+        "product": "GitHub",
+        "title": "Parse error with a fix",
+        "pattern": "Validation & errors",
+        "notes": "The error names the problem and the line (‘No commas found… in line 0’) and links to how to fix it, instead of a generic failure.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files",
+        "sourceTitle": "GitHub Docs: Working with non-code files",
+        "alt": "GitHub CSV file view with an error message saying no commas were found in line 0"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/logs/archives/archive_errors_details.ee33beebe9724e5cb6acdca3083c5b06.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Error details per destination",
+        "pattern": "Validation & errors",
+        "notes": "Failures are listed per destination with a plain explanation and what to check, so a partial failure doesn’t hide the rest. (Shown for log archives.)",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/logs/log_configuration/archives/",
+        "sourceTitle": "Datadog Docs: Log archives",
+        "alt": "Datadog log archives list with an expanded error message explaining a failed destination"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/logs/explorer/export3.4da74e74b5149e0f78620b02dac2efb6.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Export from the current view",
+        "pattern": "Export",
+        "notes": "An Export menu on the results offers CSV download alongside saving to a dashboard, notebook or monitor, all scoped to the current query.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/logs/explorer/export/",
+        "sourceTitle": "Datadog Docs: Export logs",
+        "alt": "Datadog Log Explorer with an export menu listing download as CSV and other destinations"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-28062/images/help/billing/premium-request-analytics-chart-download.png",
+        "product": "GitHub",
+        "title": "Download chart data",
+        "pattern": "Export",
+        "notes": "Every chart has its own options menu to view as a table or download CSV or PNG, so exports live next to the data they cover.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/billing/how-tos/products/view-productlicense-use",
+        "sourceTitle": "GitHub Docs: View product and license use",
+        "alt": "GitHub usage chart with an options menu offering View as table, Download CSV and Download PNG"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21537454176914",
+        "product": "Miro",
+        "title": "Export formats",
+        "pattern": "Export",
+        "notes": "One Export submenu lists every format (PDF, image, CSV, backup, embed), each named by what you get rather than file extension alone.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017572754-How-to-export-your-board",
+        "sourceTitle": "Miro Help: How to export your board",
+        "alt": "Miro board menu with an Export submenu listing PDF, image, CSV and backup options"
+      }
+    ]
   },
 
   /* ---------- Governance & compliance ---------- */
