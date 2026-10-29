@@ -2586,7 +2586,162 @@ window.CATEGORIES = [
       ["Create API key", "Scopes, expiry, reveal once"],
       ["Webhooks", "Endpoints, events, delivery logs"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://help.miro.com/hc/article_attachments/5021611044242",
+        "product": "Miro",
+        "title": "Marketplace",
+        "pattern": "Integration catalog",
+        "notes": "Featured and categorised apps with short descriptions, so people can browse by job rather than knowing the vendor name.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360017731093-How-to-install-apps",
+        "sourceTitle": "Miro Help: How to install apps",
+        "alt": "Miro Marketplace page with featured app cards and categories"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/getting_started/integrations/ad_integrations_1.49b95c9ec5e558552a4e97e4f567604f.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Integrations catalog",
+        "pattern": "Integration catalog",
+        "notes": "A searchable grid of integration tiles with logos, with installed ones marked so admins see what’s already connected.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/getting_started/integrations/",
+        "sourceTitle": "Datadog Docs: Getting started with integrations",
+        "alt": "Datadog integrations page with a grid of integration tiles"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/actions/connections/new-connection-2.6163cdeab0f54d3d983bb6caa2e08f5c.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "New connection",
+        "pattern": "Integration catalog",
+        "notes": "Connecting a service asks only for a name, the identity type and credentials, in one short form.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/actions/connections/",
+        "sourceTitle": "Datadog Docs: Connections",
+        "alt": "Datadog Create a New Connection dialog with connection name, identifier type and credentials fields"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-118277/images/github-apps/install-app.png",
+        "product": "GitHub",
+        "title": "Permissions before install",
+        "pattern": "App permissions",
+        "notes": "Before install, the app’s scope (all or selected repositories) and each read/write permission are listed in plain words.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/apps/using-github-apps/installing-a-github-app-from-github-marketplace-for-your-organizations",
+        "sourceTitle": "GitHub Docs: Installing a GitHub App from Marketplace",
+        "alt": "GitHub install app page with repository scope options and a list of read and write permissions"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-37629/images/help/settings/settings-third-party-deny-edit.png",
+        "product": "GitHub",
+        "title": "Third-party access policy",
+        "pattern": "App permissions",
+        "notes": "With access restricted, only approved apps reach org data; each approved app has its status and an edit control to revoke.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data/denying-access-to-a-previously-approved-oauth-app-for-your-organization",
+        "sourceTitle": "GitHub Docs: Denying access to a previously approved OAuth app",
+        "alt": "GitHub Third-party application access policy page listing an approved app with an edit icon"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-56741/images/help/settings/revoke-github-app.png",
+        "product": "GitHub",
+        "title": "Authorized apps with Revoke",
+        "pattern": "App permissions",
+        "notes": "Each authorized app shows its owner and last used date next to a Revoke button, which helps spot stale grants.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/apps/using-github-apps/reviewing-and-revoking-authorization-of-github-apps",
+        "sourceTitle": "GitHub Docs: Reviewing and revoking authorization of GitHub Apps",
+        "alt": "GitHub Authorized GitHub Apps tab with apps, last used dates and Revoke buttons"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/23921780921490",
+        "product": "Miro",
+        "title": "Allow only listed apps",
+        "pattern": "App permissions",
+        "notes": "A single switch flips the org from open to an allowlist, then admins add apps by name or ID.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/4404659741458-App-management",
+        "sourceTitle": "Miro Help: App management",
+        "alt": "Miro admin Apps settings with an Allow only apps from the list below toggle and an app search field"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21019791264274",
+        "product": "Miro",
+        "title": "Request an app",
+        "pattern": "App permissions",
+        "notes": "When an app isn’t allowed, members can send a request to admins instead of hitting a dead end.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/4592785249810-App-request-flow",
+        "sourceTitle": "Miro Help: App request flow",
+        "alt": "Miro dialog for a member to send an app request to the admin"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/mobile_third_party_access/org-management-page.d97e0a6fb48c8444a8358c2e98d04f00.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Third-party access",
+        "pattern": "App permissions",
+        "notes": "Connected apps are listed with enabled/disabled filters; opening one shows status, last used and a Disable Application action.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/org_settings/oauth_apps/",
+        "sourceTitle": "Datadog Docs: OAuth apps",
+        "alt": "Datadog Mobile and Third-Party Access page with an app detail panel showing status and Disable Application"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/mobile_third_party_access/app-detail-scopes.5b2fa64ab35efc6a4b768a49cd98e70a.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "App scopes",
+        "pattern": "App permissions",
+        "notes": "A Scopes tab lists exactly what the app can access, and a Users tab shows who authorised it.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/org_settings/oauth_apps/",
+        "sourceTitle": "Datadog Docs: OAuth apps",
+        "alt": "Datadog app detail with Scopes and Users tabs listing granted scopes"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/unrevoke-api-key.d96d9cf946574c12dd8e74464145f5c3.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "API keys table",
+        "pattern": "Create API key",
+        "notes": "Keys are listed by name, owner, masked value and creation date, with revoked keys kept visible and restorable.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/api-app-keys/",
+        "sourceTitle": "Datadog Docs: API and application keys",
+        "alt": "Datadog API Keys list with status filter, masked keys, creation dates and an unrevoke action"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-17251/images/help/settings/personal-access-tokens.png",
+        "product": "GitHub",
+        "title": "Copy token now",
+        "pattern": "Create API key",
+        "notes": "A new token is shown once with a copy button and a warning that it won’t be shown again.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens",
+        "sourceTitle": "GitHub Docs: Managing your personal access tokens",
+        "alt": "GitHub personal access tokens page with a newly created token and a copy icon"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-38063/images/enterprise/site-admin-settings/click-global-webhook.png",
+        "product": "GitHub",
+        "title": "Webhooks list",
+        "pattern": "Webhooks",
+        "notes": "Each endpoint is listed by its URL with edit and delete actions, and the events it sends.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/viewing-webhook-deliveries",
+        "sourceTitle": "GitHub Docs: Viewing webhook deliveries",
+        "alt": "GitHub webhooks list with a webhook URL and Edit and Delete buttons"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-26490/images/enterprise/site-admin-settings/global-webhooks-recent-deliveries.png",
+        "product": "GitHub",
+        "title": "Recent deliveries",
+        "pattern": "Webhooks",
+        "notes": "Every delivery has a success or failure icon, an ID and a timestamp; opening one shows the request and response for redelivery.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/viewing-webhook-deliveries",
+        "sourceTitle": "GitHub Docs: Viewing webhook deliveries",
+        "alt": "GitHub Recent Deliveries list with status icons, delivery IDs and timestamps"
+      }
+    ]
   },
   {
     slug: "settings",
