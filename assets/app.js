@@ -53,9 +53,9 @@
 
     side.innerHTML = `
       <div class="nav-group">
-        <h2 class="nav-heading" id="nav-library">Library</h2>
+        <h2 class="nav-heading" id="nav-library">Getting started</h2>
         <ul class="nav-list" aria-labelledby="nav-library">
-          <li><a class="nav-link" href="${HOME}" data-slug=""><span>All categories</span><small>${CATS.length}</small></a></li>
+          <li><a class="nav-link" href="${HOME}" data-slug=""><span>Overview</span><small>${CATS.length}</small></a></li>
         </ul>
       </div>
       ${groupsHtml}
@@ -134,7 +134,6 @@
     document.title = "Admin Consoles — Pattern Library";
     $("#content").innerHTML = `
       <header class="hero is-home">
-        <p class="page-kicker">Personal pattern library</p>
         <h1 class="page-title" tabindex="-1">How admins add, change and remove things.</h1>
         <p class="page-lede">Screens from real admin consoles, grouped by the job the admin is doing rather than by product. Pick a category to see the patterns worth collecting and the references saved so far.</p>
         <ul class="stats" id="stats"></ul>
