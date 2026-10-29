@@ -496,7 +496,162 @@ window.CATEGORIES = [
       ["Nested groups", "Hierarchy and inheritance"],
       ["Directory sync", "SCIM / HRIS-sourced groups, read-only states"]
     ],
-    screens: []
+    screens: [
+      {
+        "src": "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-manage-groups/new-group.png",
+        "product": "Microsoft Entra ID",
+        "title": "Groups list with New group",
+        "pattern": "Create group",
+        "notes": "New group lives in the command bar above the directory of groups, next to bulk and download actions.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/fundamentals/how-to-manage-groups",
+        "sourceTitle": "Microsoft Learn: Manage Microsoft Entra groups and group membership",
+        "alt": "Microsoft Entra groups page with the New group option highlighted"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/users/media/groups-create-rule/create-new-group.png",
+        "product": "Microsoft Entra ID",
+        "title": "New group form",
+        "pattern": "Create group",
+        "notes": "Group type and membership type (assigned or dynamic) are chosen up front, with owners named at creation.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/users/groups-create-rule",
+        "sourceTitle": "Microsoft Learn: Create or update a dynamic membership group",
+        "alt": "Microsoft Entra new group form with group type, name, owners and membership type"
+      },
+      {
+        "src": "https://experienceleague.adobe.com/en/docs/support-resources/adobe-support-tools-guide/adobe-admin-console/media_13e6785831a0157bd8ea4499a92f57a621f3e8ca2.png?width=750&format=png&optimize=medium",
+        "product": "Adobe Admin Console",
+        "title": "User groups",
+        "pattern": "Create group",
+        "notes": "User groups listed per organization, with Add User Group at the top and edit actions in each row’s menu.",
+        "credit": "Adobe",
+        "source": "https://experienceleague.adobe.com/en/docs/support-resources/adobe-support-tools-guide/adobe-admin-console/manage-user-groups",
+        "sourceTitle": "Adobe Experience League: Manage user groups in the Global Admin Console",
+        "alt": "Adobe Global Admin Console user groups tab with the Edit user group option"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-manage-groups/add-members.png",
+        "product": "Microsoft Entra ID",
+        "title": "Add members during creation",
+        "pattern": "Manage members",
+        "notes": "People can be picked while the group is being created, so it isn’t born empty.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/fundamentals/how-to-manage-groups",
+        "sourceTitle": "Microsoft Learn: Manage Microsoft Entra groups and group membership",
+        "alt": "Selecting members for a new Microsoft Entra group"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-manage-groups/groups-members-owners.png",
+        "product": "Microsoft Entra ID",
+        "title": "Group overview",
+        "pattern": "Manage members",
+        "notes": "Members and owners are separate entries in the group’s menu, keeping who manages the group distinct from who belongs to it.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/fundamentals/how-to-manage-groups",
+        "sourceTitle": "Microsoft Learn: Manage Microsoft Entra groups and group membership",
+        "alt": "Microsoft Entra group overview with Members and Owners menu options"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-manage-groups/groups-remove-member.png",
+        "product": "Microsoft Entra ID",
+        "title": "Remove a member",
+        "pattern": "Manage members",
+        "notes": "Select in the member list, then Remove in the command bar: the same pattern as everywhere else in the console.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/fundamentals/how-to-manage-groups",
+        "sourceTitle": "Microsoft Learn: Manage Microsoft Entra groups and group membership",
+        "alt": "Microsoft Entra group members list with one member selected and Remove highlighted"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/users/media/groups-create-rule/update-dynamic-group-rule.png",
+        "product": "Microsoft Entra ID",
+        "title": "Dynamic membership rule builder",
+        "pattern": "Dynamic groups",
+        "notes": "Rows of attribute, operator and value joined by And/Or, with a text editor alongside for complex rules.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/users/groups-create-rule",
+        "sourceTitle": "Microsoft Learn: Create or update a dynamic membership group",
+        "alt": "Microsoft Entra dynamic membership rule builder"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/identity/users/media/groups-create-rule/group-status.png",
+        "product": "Microsoft Entra ID",
+        "title": "Membership processing status",
+        "pattern": "Dynamic groups",
+        "notes": "The group shows whether its rule has finished evaluating and when membership last changed.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/users/groups-create-rule",
+        "sourceTitle": "Microsoft Learn: Create or update a dynamic membership group",
+        "alt": "Microsoft Entra dynamic group overview showing membership processing status"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-manage-groups/nested-groups-selected.png",
+        "product": "Microsoft Entra ID",
+        "title": "Add a group to another group",
+        "pattern": "Nested groups",
+        "notes": "Nesting is managed from the child group’s Group memberships page, choosing which parent groups it joins.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/fundamentals/how-to-manage-groups",
+        "sourceTitle": "Microsoft Learn: Manage Microsoft Entra groups and group membership",
+        "alt": "Making a Microsoft Entra group a member of another group"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/fundamentals/media/how-to-manage-groups/remove-nested-group.png",
+        "product": "Microsoft Entra ID",
+        "title": "Group memberships",
+        "pattern": "Nested groups",
+        "notes": "Lists the parent groups a group belongs to, so inherited access can be traced and removed.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/fundamentals/how-to-manage-groups",
+        "sourceTitle": "Microsoft Learn: Manage Microsoft Entra groups and group membership",
+        "alt": "Microsoft Entra group memberships page showing parent groups"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/teams/team-filter.3f0bdfe72bf8abacca6e1b3df23fa411.png?auto=format&fit=max&w=850",
+        "product": "Datadog",
+        "title": "Team filter with subteams",
+        "pattern": "Nested groups",
+        "notes": "Parent teams expand to show subteams, each with its own checkbox, so people can pick a team with or without its children.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/teams/",
+        "sourceTitle": "Datadog Docs: Teams",
+        "alt": "Datadog team filter with a parent team expanded to show selected subteams"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/entra/includes/media/cloud-sync-sign-in/cloud-sync-configurations.png",
+        "product": "Microsoft Entra ID",
+        "title": "Cloud Sync configurations",
+        "pattern": "Directory sync",
+        "notes": "Each sync configuration listed with its status, the entry point for checking whether directory sync is healthy.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/hybrid/on-demand-provision",
+        "sourceTitle": "Microsoft Learn: On-demand provisioning using cloud sync",
+        "alt": "Microsoft Entra Connect Cloud Sync configurations page"
+      },
+      {
+        "src": "https://docs.azure.cn/en-us/Entra/identity/monitoring-health/media/concept-provisioning-logs/steps.png",
+        "product": "Microsoft Entra ID",
+        "title": "Provisioning log steps",
+        "pattern": "Directory sync",
+        "notes": "One synced object, step by step: imported, checked for scope, matched, then provisioned, each with a result.",
+        "credit": "Microsoft",
+        "source": "https://docs.azure.cn/en-us/entra/identity/monitoring-health/concept-provisioning-logs",
+        "sourceTitle": "Microsoft Learn: Provisioning logs in Microsoft Entra ID",
+        "alt": "Microsoft Entra provisioning log Steps tab showing each sync step with its result"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/account_management/saml/create_mapping.8a9905c485c106611e1c3ab430e419b8.png?auto=format&fit=max&w=850",
+        "product": "Datadog",
+        "title": "Map identity provider groups",
+        "pattern": "Directory sync",
+        "notes": "A group attribute from the identity provider is mapped to a role, so membership is managed upstream, not in Datadog.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/account_management/saml/mapping/",
+        "sourceTitle": "Datadog Docs: Mapping SAML attributes to roles and teams",
+        "alt": "Datadog New Mapping dialog linking a SAML attribute to a role"
+      }
+    ]
   },
   {
     slug: "security-identity",
