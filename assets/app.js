@@ -55,7 +55,7 @@
       <div class="nav-group">
         <h2 class="nav-heading" id="nav-library">Getting started</h2>
         <ul class="nav-list" aria-labelledby="nav-library">
-          <li><a class="nav-link" href="${HOME}" data-slug=""><span>Overview</span><small>${CATS.length}</small></a></li>
+          <li><a class="nav-link" href="${HOME}" data-slug=""><span>Overview</span></a></li>
         </ul>
       </div>
       ${groupsHtml}
