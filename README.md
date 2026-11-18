@@ -27,11 +27,11 @@ Screenshots come from the public help centres and docs of GitHub, Datadog, Miro,
 
 **Header search** (every page, ⌘K): searches the 23 category names and the 116 pattern names, shown as two groups, Categories then Patterns. Each typed word has to match the start of a word in a name, so "bulk add" finds "Bulk add users". Choosing a category opens its page; choosing a pattern opens that category's Patterns tab with the pattern selected. On narrow screens and at high zoom it collapses to a search button.
 
-**Category pages** have three tabs:
+**Category pages** have three tabs, opening on Patterns:
 
-- **Scale**: how the category changes from a small team to hundreds of thousands of users, shown as a cool-grey tier ramp, plus principles that hold at every size.
 - **Patterns**: a row of chips, one per pattern (a dropdown when the space is narrow); the chosen pattern shows below with previous / next. Its card leads with *How to think about it*, then a 2×2 of *Recommended*, *Avoid*, *At enterprise scale* and *Accessibility* (WCAG 2.2 criteria, linked to W3C Understanding docs), and *Universal design* (the 7 Principles) along the bottom.
 - **Screens**: the saved screenshots, filterable by pattern. Each opens in a side sheet with the details on the left and the image on the right, a Group › Category › Pattern title, previous / next, and a link to the source page.
+- **Scale**: how the category changes from a small team to hundreds of thousands of users, shown as a cool-grey tier ramp, plus principles that hold at every size.
 
 Deep links: `?c=user-management#scale`, `#patterns`, `#screens`, or a single pattern such as `#p-offboarding`. Pages swap in place, so the sidebar keeps its position and scroll.
 

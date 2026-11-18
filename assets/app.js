@@ -346,13 +346,12 @@
       </header>
       <div class="tabbar">
         <div class="tablist" role="tablist" aria-label="${esc(c.name)} sections">
-          ${nested ? `<button type="button" class="tab" role="tab" id="tab-scale" aria-controls="panel-scale" aria-selected="true">Scale</button>` : ""}
-          <button type="button" class="tab" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="${!nested}"${nested ? ' tabindex="-1"' : ""}>Patterns <span class="count">${c.patterns.length}</span></button>
+          <button type="button" class="tab" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="true">Patterns <span class="count">${c.patterns.length}</span></button>
           <button type="button" class="tab" role="tab" id="tab-screens" aria-controls="panel-screens" aria-selected="false" tabindex="-1">Screens <span class="count">${c.screens.length}</span></button>
+          ${nested ? `<button type="button" class="tab" role="tab" id="tab-scale" aria-controls="panel-scale" aria-selected="false" tabindex="-1">Scale</button>` : ""}
         </div>
       </div>
-      ${nested ? `<div class="tab-panel" role="tabpanel" id="panel-scale" aria-labelledby="tab-scale" tabindex="0">${scaleCard}</div>` : ""}
-      <div class="tab-panel" role="tabpanel" id="panel-patterns" aria-labelledby="tab-patterns" tabindex="0"${nested ? " hidden" : ""}>
+      <div class="tab-panel" role="tabpanel" id="panel-patterns" aria-labelledby="tab-patterns" tabindex="0">
         ${nested ? "" : scaleCard}
         ${refined ? patternBrowser : `<section class="doc-section" aria-labelledby="patterns-h">
           <div class="section-head">
@@ -368,7 +367,8 @@
           <p>Saved references from real products, linked from each vendor’s public documentation.</p>
           ${screens}
         </section>
-      </div>`;
+      </div>
+      ${nested ? `<div class="tab-panel" role="tabpanel" id="panel-scale" aria-labelledby="tab-scale" tabindex="0" hidden>${scaleCard}</div>` : ""}`;
 
     /* tabs */
     const tabs = [...main.querySelectorAll('[role="tab"]')];
