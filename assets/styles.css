@@ -689,22 +689,11 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .is-refined { --nest-bg: #111317; --nest-rule: #23272d; } }
 :root[data-theme="dark"] .is-refined { --nest-bg: #111317; --nest-rule: #23272d; }
 
-/* ---------- Pattern browser (master–detail; trial: User management) ---------- */
-.pat-layout { container-type: inline-size; display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 0 36px; align-items: start; }
-.pat-nav { position: sticky; top: calc(var(--header-h, 64px) + 24px); }
-.pat-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
-/* Same treatment as the main nav links. */
-.pat-item {
-  position: relative; width: 100%; display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
-  padding: 7px 10px; border: 0; border-radius: 6px; background: none; text-align: left;
-  color: var(--ink-soft); font: inherit; font-size: 14px; line-height: 1.45; cursor: pointer;
-  transition: color .12s ease, background-color .12s ease;
-}
-.pat-item:hover { color: var(--ink); background: var(--bg-subtle); }
-.pat-item[aria-current] { color: var(--ink); font-weight: 600; background: var(--bg-hover); }
-.pat-item[aria-current]::before { content: ""; position: absolute; left: 0; top: 7px; bottom: 7px; border-left: 3px solid var(--ink); border-radius: 2px; }
-.pat-item:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
-.pat-count { flex: none; font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--ink-faint); }
+/* ---------- Pattern browser (chips above the card; trial: User management) ---------- */
+.pat-layout { container-type: inline-size; display: block; margin-top: 24px; }
+.pat-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.pat-item { cursor: pointer; }
+.pat-item:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 .pat-select { display: none; }
 .pat-select label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--ink); }
@@ -735,17 +724,15 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .pat-step:hover { background: var(--bg-hover); }
 .pat-step:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
-/* Not enough room for a list beside the card (small windows, high zoom): use the dropdown. */
-@container (max-width: 760px) {
+/* Very narrow (phones, 400% zoom): chips would wrap into a wall, so use the dropdown. */
+@container (max-width: 480px) {
   .pat-nav { display: none; }
-  .pat-select { display: block; grid-column: 1 / -1; margin-bottom: 20px; }
-  .pat-detail { grid-column: 1 / -1; }
+  .pat-select { display: block; margin-bottom: 20px; }
 }
 @supports not (container-type: inline-size) {
-  @media (max-width: 1100px) { .pat-layout { grid-template-columns: 1fr; } .pat-nav { display: none; } .pat-select { display: block; margin-bottom: 20px; } }
+  @media (max-width: 560px) { .pat-nav { display: none; } .pat-select { display: block; margin-bottom: 20px; } }
 }
 @media (max-width: 560px) { .pat-card { padding: 18px 16px 20px; } .pat-pager { flex-direction: column; } .pat-step { max-width: none; } .pat-step.is-next { margin-left: 0; text-align: left; } }
 @media (forced-colors: active) {
-  .pat-item[aria-current] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
   .pat-card { border: 1px solid CanvasText; }
 }

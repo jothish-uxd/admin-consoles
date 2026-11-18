@@ -339,15 +339,15 @@
           <p>Drop images into <code>screens/${esc(c.slug)}/</code> and add an entry to this category’s <code>screens</code> list in <code>data/categories.js</code>. Tag each with one of the patterns so it gets counted.</p>
         </div>`;
 
-    // Refined: master–detail pattern browser. A vertical list (or a native select when the
-    // space is narrow, including at high zoom) chooses which pattern's card is shown.
+    // Refined: pattern chips above the card (a native select when the space is very narrow,
+    // including at high zoom); the chosen pattern's card shows below.
     const pcount = name => c.screens.filter(s => s.pattern === name).length;
     const patternBrowser = refined ? `<section class="doc-section" aria-labelledby="patterns-h">
           <div class="section-head"><div><h2 id="patterns-h">Patterns</h2><p>Pick a pattern to see how to think about it, what to do and avoid, how it holds up at scale, and accessibility.</p></div></div>
           <div class="pat-layout">
-            <nav class="pat-nav" aria-label="Patterns in ${esc(c.name)}">
-              <ol class="pat-list">${c.patterns.map(([name], i) => `<li><button type="button" class="pat-item" data-i="${i}" aria-controls="pat-detail"><span class="pat-name">${esc(name)}</span>${pcount(name) ? `<span class="pat-count" aria-label="${plural(pcount(name), "screen")}">${pcount(name)}</span>` : ""}</button></li>`).join("")}</ol>
-            </nav>
+            <div class="pat-nav" role="group" aria-label="Choose a pattern">
+              ${c.patterns.map(([name], i) => `<button type="button" class="chip pat-item" data-i="${i}" aria-pressed="false" aria-controls="pat-detail">${esc(name)}</button>`).join("")}
+            </div>
             <div class="pat-select">
               <label for="pat-select">Pattern</label>
               <select id="pat-select" aria-controls="pat-detail">${c.patterns.map(([name], i) => `<option value="${i}">${i + 1}. ${esc(name)}</option>`).join("")}</select>
@@ -475,7 +475,7 @@
           ${prev ? `<button type="button" class="pat-step" data-i="${i - 1}"><span>Previous</span>${esc(prev[0])}</button>` : "<span></span>"}
           ${next ? `<button type="button" class="pat-step is-next" data-i="${i + 1}"><span>Next</span>${esc(next[0])}</button>` : ""}
         </nav>`;
-      patItems.forEach(b => +b.dataset.i === i ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current"));
+      patItems.forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
       if (patSelect) patSelect.value = String(i);
       if (updateHash) history.replaceState(null, "", "#" + pid(name));
       if (announce) $("#pat-status").textContent = `Showing ${name}, pattern ${i + 1} of ${c.patterns.length}`;
@@ -486,7 +486,7 @@
         if (b) showPattern(+b.dataset.i, { announce: true });
       });
       main.querySelector(".pat-nav").addEventListener("keydown", e => {
-        const k = { ArrowDown: 1, ArrowUp: -1 }[e.key];
+        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
         const at = patItems.indexOf(document.activeElement);
         if (!k || at < 0) return;
         e.preventDefault();
