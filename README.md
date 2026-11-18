@@ -39,7 +39,7 @@ Deep links: `?c=user-management#scale`, `#patterns`, `#screens`, or a single pat
 
 ## Design
 
-Mirrors the Enterprise Library docs: white page, Geist and Geist Mono, hairline rules instead of boxes. The left nav starts with **Getting started → Overview**, then one collapsible section per group (icon, label, chevron; open/closed is remembered per browser) with a screen count per category. The header shows the wordmark and a version badge (`v0.1 preview`). Only screenshots and open pattern cards sit in framed containers. Light and dark themes, reduced motion and Windows High Contrast are supported.
+White page, Geist and Geist Mono, hairline rules instead of boxes. The left nav starts with **Getting started → Overview**, then one collapsible section per group (icon, label, chevron; open/closed is remembered per browser) with a screen count per category. The header shows the wordmark and a version badge (`v0.1 preview`). Only screenshots and open pattern cards sit in framed containers. Light and dark themes, reduced motion and Windows High Contrast are supported.
 
 ## Structure
 
