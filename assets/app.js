@@ -246,6 +246,18 @@
       const name = (window.UD || {})[tag] || "";
       return `<span class="ref ref-ud" title="Universal Design: ${esc(name)}">${esc(name || tag)}</span>`;
     }
+    // Refined: Recommended and Avoid side by side in one two-column table.
+    function refinedDoDont(g) {
+      const rows = Math.max(g.do.length, g.dont.length);
+      const cell = (t, cls, icon) => t ? `<td class="${cls}"><span class="g-mark" aria-hidden="true">${icon}</span>${esc(t)}</td>` : `<td class="${cls} is-blank"></td>`;
+      return `<section class="g-sec g-dd">
+          <table class="g-table">
+            <caption class="visually-hidden">Recommended and avoid</caption>
+            <thead><tr><th scope="col">Recommended</th><th scope="col">Avoid</th></tr></thead>
+            <tbody>${Array.from({ length: rows }, (_, i) => `<tr>${cell(g.do[i], "is-do", "✓")}${cell(g.dont[i], "is-dont", "✕")}</tr>`).join("")}</tbody>
+          </table>
+        </section>`;
+    }
     // Refined: WCAG items under Accessibility (beside scale), Universal Design as its own full-width section.
     function refinedAccess(g) {
       const wcag = g.access.filter(([t]) => t.startsWith("WCAG"));
@@ -256,7 +268,7 @@
           <section class="g-sec g-scale"><h4>At enterprise scale</h4>${list(g.scale)}</section>
         </div>
         ${ud.length ? `<section class="g-sec g-ud"><h4>Universal design</h4>
-          <ul class="g-ud-list">${ud.map(([t, x]) => `<li><span class="g-ud-label"><span class="g-ud-n">Principle ${esc(t.replace(/\D+/g, ""))}</span>${esc((window.UD || {})[t] || t)}</span><span class="g-ud-text">${esc(x)}</span></li>`).join("")}</ul></section>` : ""}`;
+          <ul class="g-ud-list">${ud.map(([t, x]) => `<li class="g-ud-card"><span class="g-ud-label"><span class="g-ud-n">Principle ${esc(t.replace(/\D+/g, ""))}</span>${esc((window.UD || {})[t] || t)}</span><span class="g-ud-text">${esc(x)}</span></li>`).join("")}</ul></section>` : ""}`;
     }
     const list = (items, cls = "") => `<ul class="g-list ${cls}">${items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
 
@@ -273,10 +285,10 @@
         </div>` : "";
       const body = g ? `
         <section class="g-sec g-think"><h4>How to think about it</h4>${list(g.think)}</section>
-        <div class="g-cols">
-          <section class="g-sec g-do"><h4>${refined ? "Recommended" : ICON.do + " Do"}</h4>${list(g.do, "is-do")}</section>
-          <section class="g-sec g-dont"><h4>${refined ? "Avoid" : ICON.dont + " Don’t"}</h4>${list(g.dont, "is-dont")}</section>
-        </div>
+        ${refined ? refinedDoDont(g) : `<div class="g-cols">
+          <section class="g-sec g-do"><h4>${ICON.do} Do</h4>${list(g.do, "is-do")}</section>
+          <section class="g-sec g-dont"><h4>${ICON.dont} Don’t</h4>${list(g.dont, "is-dont")}</section>
+        </div>`}
         ${refined ? refinedAccess(g) : `<div class="g-cols">
           <section class="g-sec"><h4>Accessibility &amp; universal design</h4>
             <ul class="g-list g-access">${g.access.map(([t, x]) => `<li>${tagHtml(t)}<span>${esc(x)}</span></li>`).join("")}</ul></section>
