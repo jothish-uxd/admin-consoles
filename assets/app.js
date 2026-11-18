@@ -341,7 +341,6 @@
     main.classList.toggle("is-refined", refined);
     main.innerHTML = `
       <header class="hero">
-        <p class="page-kicker">${esc(g ? g.name : "")} · ${plural(c.patterns.length, "pattern")}${c.screens.length ? ` · ${plural(c.screens.length, "screen")}` : ""}</p>
         <h1 class="page-title" tabindex="-1">${esc(c.name)}</h1>
         <p class="page-lede">${esc(c.summary)}</p>
       </header>
