@@ -684,3 +684,7 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
   .is-refined .accordion.is-nested .acc-body.g-compact { padding: 18px 18px 20px; }
 }
 
+/* Slightly softer card tone for the refined pattern card. */
+.is-refined { --nest-bg: #f8f9fb; --nest-rule: #e6e9ee; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .is-refined { --nest-bg: #111317; --nest-rule: #23272d; } }
+:root[data-theme="dark"] .is-refined { --nest-bg: #111317; --nest-rule: #23272d; }
