@@ -10,7 +10,7 @@
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
   /* Categories whose screenshots open in the sheet (trial). */
-  const SHEET_CATEGORIES = new Set(["tables-grids"]);
+  const SHEET_CATEGORIES = new Set(["tables-grids", "search-filtering", "empty-onboarding"]);
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
 
