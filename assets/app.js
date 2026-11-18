@@ -247,7 +247,7 @@
       return `<span class="ref ref-ud" title="Universal Design: ${esc(name)}">${esc(name || tag)}</span>`;
     }
     // Refined card: a short lead, then a 2×2 grid. Top row is what to do (Recommended | Avoid);
-    // bottom row is the lenses (At enterprise scale | Accessibility + Universal design).
+    // bottom row is the lenses (At enterprise scale | Accessibility); Universal design spans the foot.
     function refinedBody(g) {
       const wcag = g.access.filter(([t]) => t.startsWith("WCAG"));
       const ud = g.access.filter(([t]) => !t.startsWith("WCAG"));
@@ -258,11 +258,9 @@
           ${sec("g-do", "Recommended", list(g.do, "is-do"))}
           ${sec("g-dont", "Avoid", list(g.dont, "is-dont"))}
           ${sec("g-scale", "At enterprise scale", list(g.scale))}
-          <div class="g-blk g-incl">
-            ${wcag.length ? `<section><h4>Accessibility</h4><ul class="g-inline">${wcag.map(([t, x]) => `<li>${tagHtml(t)} ${esc(x)}</li>`).join("")}</ul></section>` : ""}
-            ${ud.length ? `<section><h4>Universal design</h4><ul class="g-inline">${ud.map(([t, x]) => `<li><strong>${esc((window.UD || {})[t] || t)}.</strong> ${esc(x)}</li>`).join("")}</ul></section>` : ""}
-          </div>
-        </div>`;
+          ${sec("g-a11y", "Accessibility", wcag.length ? `<ul class="g-inline">${wcag.map(([t, x]) => `<li>${tagHtml(t)} ${esc(x)}</li>`).join("")}</ul>` : `<p class="g-none">No specific criteria for this pattern.</p>`)}
+        </div>
+        ${ud.length ? sec("g-foot", "Universal design", `<ul class="g-inline g-ud-cols">${ud.map(([t, x]) => `<li><strong>${esc((window.UD || {})[t] || t)}.</strong> ${esc(x)}</li>`).join("")}</ul>`) : ""}`;
     }
     const list = (items, cls = "") => `<ul class="g-list ${cls}">${items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
 

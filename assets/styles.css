@@ -668,7 +668,9 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .g-quad > .g-blk:nth-child(even) { padding-left: 28px; }
 .g-quad > .g-blk:nth-child(n+3) { border-top: 1px solid var(--nest-rule); }
 .g-quad > .g-blk:nth-child(-n+2) { padding-top: 0; }
-.g-incl { display: grid; gap: 18px; align-content: start; }
+.g-foot { padding-top: 20px; margin-top: 2px; border-top: 1px solid var(--nest-rule); }
+.g-inline.g-ud-cols { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 10px 56px; }
+.g-none { margin: 0; color: var(--ink-faint); font-size: 14px; }
 .g-incl h4, .g-blk > h4 { margin: 0 0 10px; font-size: 15px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); }
 .g-blk.g-scale { border-left: 0; padding-left: 0; }
 .g-inline { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
