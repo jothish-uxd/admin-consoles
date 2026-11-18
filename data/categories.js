@@ -1567,7 +1567,7 @@ window.CATEGORIES = [
         "alt": "GitHub new repository form with owner menu, repository name field and a green ‘is available’ message"
       },
       {
-        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=1202,height=884,format=webp/_astro/token-summary.BFSJoL8C.png",
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=2953,height=1949,format=webp/_astro/token-summary.B2YcuQmd.png",
         "product": "Cloudflare",
         "title": "Review before create",
         "pattern": "Multi-step wizard",
@@ -1589,7 +1589,7 @@ window.CATEGORIES = [
         "alt": "Datadog new monitor page with a numbered Define the metric step"
       },
       {
-        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=1677,height=1328,format=webp/_astro/template-customize.Bt5BDoKm.png",
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=2953,height=1955,format=webp/_astro/template-customize.BZQKf5iV.png",
         "product": "Cloudflare",
         "title": "Customise a token template",
         "pattern": "Create from template",
@@ -1655,7 +1655,7 @@ window.CATEGORIES = [
         "alt": "Google Cloud Compute Engine VM details toolbar with a Create similar button highlighted"
       },
       {
-        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=1204,height=940,format=webp/_astro/token-complete.Dg4S1W72.png",
+        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=2953,height=1955,format=webp/_astro/token-complete.ethtDojh.png",
         "product": "Cloudflare",
         "title": "Token created, shown once",
         "pattern": "Success & next steps",
