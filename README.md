@@ -23,23 +23,21 @@ Screenshots come from the public help centres and docs of GitHub, Datadog, Miro,
 
 ## Pages
 
-**Overview** (home): the categories as a gallery with wireframe thumbnails, totals, a search field (⌘K to focus) and group filter chips.
+**Overview** (home): the categories as a gallery with wireframe thumbnails, totals and group filter chips.
+
+**Header search** (every page, ⌘K): searches the pattern names. Each typed word has to match the start of a word in a name, so "bulk add" finds "Bulk add users". Choosing a result opens that category's Patterns tab with the pattern selected. On narrow screens and at high zoom it collapses to a search button.
 
 **Category pages** have three tabs:
 
-- **Scale**: how the category changes from a small team to hundreds of thousands of users, shown as a cool grey → slate → black tier ramp, plus principles that hold at every size.
-- **Patterns**: one accordion per pattern. An open pattern's content sits in a nested card with:
-  - How to think about it
-  - Do / Don't
-  - Accessibility & universal design, tagged with WCAG 2.2 success criteria (linked to W3C Understanding docs) or the 7 Principles of Universal Design
-  - At enterprise scale
-- **Screens**: the saved screenshots, filterable by pattern. Each card shows the product, what to notice, and a credit with a link to the source page.
+- **Scale**: how the category changes from a small team to hundreds of thousands of users, shown as a cool-grey tier ramp, plus principles that hold at every size.
+- **Patterns**: a row of chips, one per pattern (a dropdown when the space is narrow); the chosen pattern shows below with previous / next. Its card leads with *How to think about it*, then a 2×2 of *Recommended*, *Avoid*, *At enterprise scale* and *Accessibility* (WCAG 2.2 criteria, linked to W3C Understanding docs), and *Universal design* (the 7 Principles) along the bottom.
+- **Screens**: the saved screenshots, filterable by pattern. Each opens in a side sheet with the details on the left and the image on the right, a Group › Category › Pattern title, previous / next, and a link to the source page.
 
 Deep links: `?c=user-management#scale`, `#patterns`, `#screens`, or a single pattern such as `#p-offboarding`. Pages swap in place, so the sidebar keeps its position and scroll.
 
 ## Design
 
-White page, Geist and Geist Mono, hairline rules instead of boxes. The left nav starts with **Getting started → Overview**, then one collapsible section per group (icon, label, chevron; open/closed is remembered per browser) with a screen count per category. The header shows the wordmark and a version badge (`v0.1 preview`). Only screenshots and open pattern cards sit in framed containers. Light and dark themes, reduced motion and Windows High Contrast are supported.
+White page, Geist and Geist Mono, hairline rules instead of boxes. The left nav starts with **Overview**, then one collapsible section per group (icon, label, chevron; open/closed is remembered per browser) with a screen count per category. The header shows the wordmark and a version badge (`v0.1 preview`). Only screenshots and open pattern cards sit in framed containers. Light and dark themes, reduced motion and Windows High Contrast are supported.
 
 ## Structure
 

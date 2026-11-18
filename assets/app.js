@@ -138,13 +138,7 @@
         <p class="page-lede">Real screens grouped by the job the admin is doing, not by product, with guidance on usability, accessibility and scale for each pattern.</p>
         <ul class="stats" id="stats"></ul>
       </header>
-      <div class="toolbar" role="search">
-        <div class="search">
-          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <label class="visually-hidden" for="search">Search categories and patterns</label>
-          <input id="search" type="search" placeholder="Search patterns" aria-keyshortcuts="Meta+K Control+K" autocomplete="off">
-          <kbd class="kbd" aria-hidden="true">⌘K</kbd>
-        </div>
+      <div class="toolbar">
         <div class="chips" id="chips" role="group" aria-label="Filter by group"></div>
       </div>
       <p class="visually-hidden" id="results-status" role="status" aria-live="polite"></p>
@@ -161,7 +155,6 @@
       `<button type="button" class="chip" data-group="${g.id}" aria-pressed="${i === 0}">${esc(g.name)}</button>`).join("");
 
     let activeGroup = "all";
-    const search = $("#search");
     const out = $("#categories");
     const status = $("#results-status");
 
@@ -174,18 +167,11 @@
       </a></li>`;
     }
 
-    function matches(c, q) {
-      if (!q) return true;
-      const hay = [c.name, c.summary, ...c.patterns.flat(), ...c.screens.map(s => `${s.product} ${s.title} ${s.pattern}`)].join(" ").toLowerCase();
-      return q.split(/\s+/).every(t => hay.includes(t));
-    }
-
     function render() {
-      const q = search.value.trim().toLowerCase();
       const groups = activeGroup === "all" ? GROUPS : GROUPS.filter(g => g.id === activeGroup);
       let shown = 0;
       const html = groups.map(g => {
-        const list = CATS.filter(c => c.group === g.id && matches(c, q));
+        const list = CATS.filter(c => c.group === g.id);
         shown += list.length;
         if (!list.length) return "";
         return `<section class="group-section" aria-labelledby="g-${g.id}">
@@ -193,8 +179,8 @@
           <ul class="gallery">${list.map(card).join("")}</ul>
         </section>`;
       }).join("");
-      out.innerHTML = html || `<div class="empty-results"><strong>Nothing matches “${esc(search.value)}”.</strong><br>Try a pattern name like “delete”, “invite” or “SSO”.</div>`;
-      status.textContent = q || activeGroup !== "all" ? `${plural(shown, "category")} shown` : "";
+      out.innerHTML = html;
+      status.textContent = activeGroup !== "all" ? `${plural(shown, "category")} shown` : "";
     }
 
     chips.addEventListener("click", e => {
@@ -204,7 +190,6 @@
       chips.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
       render();
     });
-    search.addEventListener("input", render);
     render();
   }
 
@@ -463,7 +448,7 @@
       $("#pat-detail").innerHTML = `
         <header class="pat-head">
           <p class="pat-pos">Pattern ${i + 1} of ${c.patterns.length}</p>
-          <h3 class="pat-title" id="${pid(name)}">${esc(name)}</h3>
+          <h3 class="pat-title" id="${pid(name)}" tabindex="-1">${esc(name)}</h3>
           <p class="pat-desc">${esc(desc)}</p>
           ${n ? `<button type="button" class="text-button pat-shots" data-goto-screens="${esc(name)}">See ${plural(n, "screen")} in Screens</button>` : ""}
         </header>
@@ -698,13 +683,138 @@
 
   addEventListener("popstate", route);
 
-  document.addEventListener("keydown", e => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-      const search = $("#search");
-      if (search) { e.preventDefault(); search.focus(); }
+  /* ---------- Header search: the 116 pattern names; every typed word must start a word in the name ---------- */
+  const patId = name => "p-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const words = s => s.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  const PATTERNS = CATS.flatMap(c => c.patterns.map(([name, desc]) => ({
+    name, desc, cat: c.name, href: `${catUrl(c)}#${patId(name)}`,
+    nameWords: words(name)
+  })));
+
+  function findPatterns(q) {
+    const terms = words(q);
+    if (!terms.length) return [];
+    return PATTERNS.map((p, order) => {
+      if (!terms.every(t => p.nameWords.some(w => w.startsWith(t)))) return null;
+      const lead = p.name.toLowerCase().startsWith(q.trim().toLowerCase()) ? 1 : 0;
+      return { p, score: lead, order };
+    }).filter(Boolean).sort((a, b) => b.score - a.score || a.order - b.order).map(r => r.p);
+  }
+  // Bold the start of each word that a typed term matched.
+  function markName(name, q) {
+    const terms = words(q);
+    return name.split(/(\s+|[^A-Za-z0-9\s]+)/).map(part => {
+      const lower = part.toLowerCase();
+      const t = terms.filter(t => lower.startsWith(t)).sort((a, b) => b.length - a.length)[0];
+      return t ? `<mark>${esc(part.slice(0, t.length))}</mark>${esc(part.slice(t.length))}` : esc(part);
+    }).join("");
+  }
+
+  function initSearch() {
+    const box = $("#hsearch"), input = $("#hs-input"), list = $("#hs-list"), status = $("#hs-status");
+    const opener = $("#hs-open"), cancel = $("#hs-cancel"), header = $(".site-header");
+    if (!box) return;
+    let results = [], active = -1, timer = 0;
+
+    function setOpen(open) {
+      list.hidden = !open;
+      input.setAttribute("aria-expanded", String(open));
+      if (!open) setActive(-1);
     }
-  });
+    function setActive(i) {
+      active = i;
+      [...list.children].forEach((li, j) => li.setAttribute("aria-selected", String(j === i)));
+      if (i < 0) input.removeAttribute("aria-activedescendant");
+      else {
+        input.setAttribute("aria-activedescendant", `hs-opt-${i}`);
+        list.children[i].scrollIntoView({ block: "nearest" });
+      }
+    }
+    function render() {
+      const q = input.value;
+      results = findPatterns(q);
+      if (!words(q).length) { list.innerHTML = ""; setOpen(false); status.textContent = ""; return; }
+      list.innerHTML = results.length
+        ? results.map((p, i) => `<li role="option" id="hs-opt-${i}" aria-selected="false" data-i="${i}">
+            <span class="hs-name">${markName(p.name, q)}</span><span class="hs-cat">${esc(p.cat)}</span></li>`).join("")
+        : `<li class="hs-empty" role="option" aria-disabled="true" aria-selected="false">No patterns match “${esc(q.trim())}”</li>`;
+      setOpen(true);
+      setActive(-1);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        status.textContent = results.length ? `${plural(results.length, "pattern")} found. Use up and down arrows to choose.` : "No patterns found.";
+      }, 400);
+    }
+    function go(i) {
+      const p = results[i];
+      if (!p) return;
+      input.value = "";
+      render();
+      closeCompact(false);
+      input.blur();
+      try { history.pushState(null, "", p.href); } catch (err) { location.href = p.href; return; }
+      route();
+      closeMenu(false);
+      const t = document.getElementById(patId(p.name));
+      if (t) { t.scrollIntoView({ block: "start" }); t.focus({ preventScroll: true }); }
+    }
+    function openCompact() {
+      header.classList.add("is-searching");
+      opener.setAttribute("aria-expanded", "true");
+      input.focus();
+    }
+    function closeCompact(returnFocus) {
+      if (!header.classList.contains("is-searching")) return;
+      header.classList.remove("is-searching");
+      opener.setAttribute("aria-expanded", "false");
+      if (returnFocus) opener.focus();
+    }
+
+    input.addEventListener("input", render);
+    input.addEventListener("focus", () => { if (words(input.value).length) render(); });
+    input.addEventListener("keydown", e => {
+      const n = results.length;
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (list.hidden) render();
+        if (n) setActive(active < n - 1 ? active + 1 : 0);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (n) setActive(active > 0 ? active - 1 : n - 1);
+      } else if (e.key === "Enter") {
+        if (!list.hidden && n) { e.preventDefault(); go(active < 0 ? 0 : active); }
+      } else if (e.key === "Escape") {
+        e.stopPropagation();
+        if (!list.hidden) setOpen(false);
+        else if (input.value) { input.value = ""; render(); }
+        else closeCompact(true);
+      }
+    });
+    // Keep focus in the field while choosing with a pointer.
+    list.addEventListener("mousedown", e => e.preventDefault());
+    list.addEventListener("click", e => {
+      const li = e.target.closest("[data-i]");
+      if (li) go(+li.dataset.i);
+    });
+    box.addEventListener("focusout", e => {
+      if (box.contains(e.relatedTarget)) return;
+      setOpen(false);
+      if (e.relatedTarget !== opener) closeCompact(false);
+    });
+    opener.addEventListener("click", openCompact);
+    cancel.addEventListener("click", () => { input.value = ""; render(); closeCompact(true); });
+
+    document.addEventListener("keydown", e => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        if ($(".sheet-layer")) return;
+        e.preventDefault();
+        if (getComputedStyle(opener).display !== "none") openCompact(); else input.focus();
+        input.select();
+      }
+    });
+  }
 
   renderSidebar();
+  initSearch();
   route();
 })();
