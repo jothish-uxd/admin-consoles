@@ -58,7 +58,7 @@
         </ul>
       </div>
       ${groupsHtml}
-      <p class="sidebar-credit">Personal inspiration for admin console design, by Sleepy, © 2026</p>`;
+      <p class="sidebar-credit">Patterns for enterprise admin consoles, by Jothish John, © 2026</p>`;
 
     /* Collapsible sections. Open or closed is a per-viewer convenience, so it lives in this browser only. */
     let collapsed = [];
