@@ -9,6 +9,8 @@
   // Links stay on the current page path (index.html or its alias category.html)
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
+  /* Categories whose screenshots open in the sheet (trial). */
+  const SHEET_CATEGORIES = new Set(["tables-grids"]);
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
 
@@ -286,8 +288,9 @@
       </section>` : "";
 
     const usedPatterns = c.patterns.map(p => p[0]).filter(p => c.screens.some(s => s.pattern === p));
-    const screenCard = s => `<li data-pattern="${esc(s.pattern || "")}"><figure class="screen">
-          <a class="screen-img" href="${esc(s.src)}" target="_blank" rel="noopener noreferrer">
+    const useSheet = SHEET_CATEGORIES.has(c.slug);
+    const screenCard = (s, i) => `<li data-pattern="${esc(s.pattern || "")}"><figure class="screen">
+          <a class="screen-img" href="${esc(s.src)}" target="_blank" rel="noopener noreferrer"${useSheet ? ` data-sheet="${i}" aria-label="View ${esc(s.product)} · ${esc(s.title)} larger"` : ""}>
             <img src="${esc(s.src)}" alt="${esc(s.alt || `${s.product}: ${s.title}`)}" loading="lazy" referrerpolicy="no-referrer"
               onerror="this.closest('.screen-img').classList.add('broken')">
             <span class="broken-note">Image unavailable at source</span>
@@ -381,6 +384,12 @@
       if (b) filterScreens(b.dataset.p);
     });
     main.onclick = e => {
+      const shot = e.target.closest("a[data-sheet]");
+      if (shot && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button)) {
+        e.preventDefault();
+        openSheet(c, +shot.dataset.sheet, shot);
+        return;
+      }
       const b = e.target.closest("[data-goto-screens]");
       if (!b) return;
       filterScreens(b.dataset.gotoScreens);
@@ -414,6 +423,140 @@
     }
   }
 
+  /* ---------- Screen sheet ----------
+     A wide drawer from the right: the screenshot on the left, its notes and
+     source on the right, and previous / next through every screen in the
+     category. Trial: only the categories listed here use it. */
+  const SHEET_W = "90vw";
+  let sheet = null;
+
+  function openSheet(c, index, opener) {
+    closeSheet(true);
+    const list = c.screens;
+    const layer = document.createElement("div");
+    layer.className = "sheet-layer";
+    layer.style.setProperty("--sheet-w", SHEET_W);
+    layer.innerHTML = `
+      <div class="sheet__scrim" data-close></div>
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+        <header class="sheet__head">
+          <p class="sheet__crumb">${esc(c.name)} · Screens</p>
+          <div class="sheet__top">
+            <div class="sheet__pager" role="group" aria-label="Move between screens">
+              <button type="button" class="sheet__step" data-step="-1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m10 3.5-4.5 4.5 4.5 4.5"/></svg></button>
+              <span class="sheet__count" id="sheet-count"></span>
+              <button type="button" class="sheet__step" data-step="1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5"/></svg></button>
+            </div>
+            <button type="button" class="icon-button sheet__close" data-close aria-label="Close screen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+          </div>
+        </header>
+        <div class="sheet__main">
+          <div class="sheet__media" id="sheet-media"></div>
+          <aside class="sheet__aside">
+            <div id="sheet-detail"></div>
+            <nav class="sheet__list" aria-label="All screens in ${esc(c.name)}">
+              <h3 class="sheet__list-h">All screens <span class="count">${list.length}</span></h3>
+              <ol>${list.map((s, i) => `<li><button type="button" data-goto="${i}"><span class="sheet__list-n">${i + 1}</span><span><strong>${esc(s.product)} · ${esc(s.title)}</strong><small>${esc(s.pattern || "")}</small></span></button></li>`).join("")}</ol>
+            </nav>
+          </aside>
+        </div>
+        <p class="visually-hidden" role="status" id="sheet-status"></p>
+      </div>`;
+    document.body.appendChild(layer);
+
+    const behind = [document.querySelector(".site-header"), document.querySelector(".app-shell"), document.querySelector(".skip-link")].filter(Boolean);
+    behind.forEach(el => el.setAttribute("inert", ""));
+    document.documentElement.classList.add("has-sheet");
+
+    const state = { c, list, index: -1, layer, behind, opener };
+    sheet = state;
+
+    layer.addEventListener("click", e => {
+      if (e.target.closest("[data-close]")) return closeSheet();
+      const st = e.target.closest("[data-step]");
+      if (st) return stepSheet(+st.dataset.step, true);
+      const g = e.target.closest("[data-goto]");
+      if (g) return showSheet(+g.dataset.goto, true);
+    });
+    layer.addEventListener("keydown", e => {
+      if (e.key === "Escape") { e.preventDefault(); closeSheet(); }
+      else if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && !e.target.closest("input, textarea, select")) {
+        e.preventDefault(); stepSheet(e.key === "ArrowRight" ? 1 : -1, true);
+      } else if (e.key === "Tab") trapSheetFocus(e);
+    });
+
+    showSheet(index, false);
+    layer.querySelector("#sheet-title").focus();
+  }
+
+  function showSheet(i, announce) {
+    const st = sheet;
+    if (!st || i < 0 || i >= st.list.length) return;
+    st.index = i;
+    const s = st.list[i], n = st.list.length, L = st.layer;
+    L.querySelector("#sheet-media").innerHTML = `
+      <figure class="sheet__figure">
+        <a class="sheet__img" href="${esc(s.src)}" target="_blank" rel="noopener noreferrer">
+          <img src="${esc(s.src)}" alt="${esc(s.alt || `${s.product}: ${s.title}`)}" referrerpolicy="no-referrer"
+            onerror="this.closest('.sheet__img').classList.add('broken')">
+          <span class="broken-note">Image unavailable at source</span>
+          <span class="visually-hidden"> (open full-size image in a new tab)</span>
+        </a>
+      </figure>`;
+    L.querySelector("#sheet-detail").innerHTML = `
+      ${s.pattern ? `<p class="sheet__pattern">${esc(s.pattern)}</p>` : ""}
+      <h2 class="sheet__title" id="sheet-title" tabindex="-1">${esc(s.product)} · ${esc(s.title)}</h2>
+      ${s.notes ? `<p class="sheet__notes">${esc(s.notes)}</p>` : ""}
+      <p class="sheet__credit">Screenshot © ${esc(s.credit || s.product)}${s.source ? ` · <a href="${esc(s.source)}" target="_blank" rel="noopener noreferrer">${esc(s.sourceTitle || "Source")}<span class="visually-hidden"> (opens in new tab)</span></a>` : ""}</p>
+      <div class="sheet__links">
+        ${s.source ? `<a class="sheet__btn is-primary" href="${esc(s.source)}" target="_blank" rel="noopener noreferrer">Open source page<span class="visually-hidden"> (opens in new tab)</span></a>` : ""}
+        <a class="sheet__btn" href="${esc(s.src)}" target="_blank" rel="noopener noreferrer">Open image<span class="visually-hidden"> in a new tab</span></a>
+      </div>`;
+    L.querySelector("#sheet-count").innerHTML = `<span class="visually-hidden">Screen </span>${i + 1} of ${n}`;
+    const prev = L.querySelector('[data-step="-1"]'), next = L.querySelector('[data-step="1"]');
+    prev.setAttribute("aria-label", i > 0 ? `Previous screen: ${st.list[i - 1].product} · ${st.list[i - 1].title}` : "Previous screen");
+    next.setAttribute("aria-label", i < n - 1 ? `Next screen: ${st.list[i + 1].product} · ${st.list[i + 1].title}` : "Next screen");
+    prev.toggleAttribute("aria-disabled", i === 0);
+    next.toggleAttribute("aria-disabled", i === n - 1);
+    L.querySelectorAll("[data-goto]").forEach(b => {
+      const on = +b.dataset.goto === i;
+      on ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current");
+      if (on) b.scrollIntoView({ block: "nearest" });
+    });
+    L.querySelector(".sheet__media").scrollTop = 0;
+    if (announce) L.querySelector("#sheet-status").textContent = `Now showing ${s.product} · ${s.title}, ${i + 1} of ${n}`;
+  }
+
+  function stepSheet(d, keepFocus) {
+    if (!sheet) return;
+    const to = sheet.index + d;
+    if (to < 0 || to >= sheet.list.length) return;
+    const active = document.activeElement;
+    showSheet(to, true);
+    if (keepFocus && active && !sheet.layer.contains(active)) sheet.layer.querySelector("#sheet-title").focus();
+  }
+
+  function trapSheetFocus(e) {
+    const f = [...sheet.layer.querySelectorAll('a[href], button:not([disabled]), [tabindex="0"]')].filter(el => el.offsetParent !== null);
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !sheet.layer.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  function closeSheet(silent) {
+    if (!sheet) return;
+    const st = sheet;
+    sheet = null;
+    st.behind.forEach(el => el.removeAttribute("inert"));
+    document.documentElement.classList.remove("has-sheet");
+    st.layer.remove();
+    if (silent) return;
+    const card = document.querySelector(`#screen-list a[data-sheet="${st.index}"]`);
+    const back = card && !card.closest("li").hidden ? card : st.opener;
+    if (back && document.contains(back)) back.focus();
+  }
+
   /* ---------- Router ----------
      Home and category views share one shell. Internal links swap the
      content area in place, so the sidebar never reloads or moves. */
@@ -430,6 +573,7 @@
   }
 
   function route() {
+    closeSheet(true);
     const slug = slugFromUrl(location.href);
     document.body.dataset.page = slug ? "category" : "home";
     markCurrent(slug);
