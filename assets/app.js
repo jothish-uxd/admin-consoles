@@ -438,9 +438,9 @@
     layer.style.setProperty("--sheet-w", SHEET_W);
     layer.innerHTML = `
       <div class="sheet__scrim" data-close></div>
-      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-crumb sheet-title">
         <header class="sheet__head">
-          <p class="sheet__crumb">${esc(c.name)} · Screens</p>
+          <h2 class="sheet__crumb" id="sheet-crumb"></h2>
           <div class="sheet__top">
             <div class="sheet__pager" role="group" aria-label="Move between screens">
               <button type="button" class="sheet__step" data-step="-1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m10 3.5-4.5 4.5 4.5 4.5"/></svg></button>
@@ -451,7 +451,6 @@
           </div>
         </header>
         <div class="sheet__main">
-          <div class="sheet__media" id="sheet-media"></div>
           <aside class="sheet__aside">
             <div id="sheet-detail"></div>
             <nav class="sheet__list" aria-label="All screens in ${esc(c.name)}">
@@ -459,6 +458,7 @@
               <ol>${list.map((s, i) => `<li><button type="button" data-goto="${i}"><span class="sheet__list-n">${i + 1}</span><span><strong>${esc(s.product)} · ${esc(s.title)}</strong><small>${esc(s.pattern || "")}</small></span></button></li>`).join("")}</ol>
             </nav>
           </aside>
+          <div class="sheet__media" id="sheet-media"></div>
         </div>
         <p class="visually-hidden" role="status" id="sheet-status"></p>
       </div>`;
@@ -504,14 +504,14 @@
         </a>
       </figure>`;
     L.querySelector("#sheet-detail").innerHTML = `
-      ${s.pattern ? `<p class="sheet__pattern">${esc(s.pattern)}</p>` : ""}
-      <h2 class="sheet__title" id="sheet-title" tabindex="-1">${esc(s.product)} · ${esc(s.title)}</h2>
+      <h3 class="sheet__title" id="sheet-title" tabindex="-1">${esc(s.product)} · ${esc(s.title)}</h3>
       ${s.notes ? `<p class="sheet__notes">${esc(s.notes)}</p>` : ""}
       <p class="sheet__credit">Screenshot © ${esc(s.credit || s.product)}${s.source ? ` · <a href="${esc(s.source)}" target="_blank" rel="noopener noreferrer">${esc(s.sourceTitle || "Source")}<span class="visually-hidden"> (opens in new tab)</span></a>` : ""}</p>
       <div class="sheet__links">
         ${s.source ? `<a class="sheet__btn is-primary" href="${esc(s.source)}" target="_blank" rel="noopener noreferrer">Open source page<span class="visually-hidden"> (opens in new tab)</span></a>` : ""}
         <a class="sheet__btn" href="${esc(s.src)}" target="_blank" rel="noopener noreferrer">Open image<span class="visually-hidden"> in a new tab</span></a>
       </div>`;
+    L.querySelector("#sheet-crumb").innerHTML = `<span class="sheet__crumb-section">${esc(st.c.name)}</span>${s.pattern ? `<svg class="sheet__crumb-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5"/></svg><span class="visually-hidden">, </span><span class="sheet__crumb-sub">${esc(s.pattern)}</span>` : ""}`;
     L.querySelector("#sheet-count").innerHTML = `<span class="visually-hidden">Screen </span>${i + 1} of ${n}`;
     const prev = L.querySelector('[data-step="-1"]'), next = L.querySelector('[data-step="1"]');
     prev.setAttribute("aria-label", i > 0 ? `Previous screen: ${st.list[i - 1].product} · ${st.list[i - 1].title}` : "Previous screen");
