@@ -1566,17 +1566,7 @@ window.CATEGORIES = [
         "sourceTitle": "GitHub Docs: Creating a new repository",
         "alt": "GitHub new repository form with owner menu, repository name field and a green ‘is available’ message"
       },
-      {
-        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=2953,height=1949,format=webp/_astro/token-summary.B2YcuQmd.png",
-        "product": "Cloudflare",
-        "title": "Review before create",
-        "pattern": "Multi-step wizard",
-        "notes": "The API token wizard ends on a plain-language summary of what the token can do, with Back and Create buttons.",
-        "credit": "Cloudflare",
-        "source": "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/",
-        "sourceTitle": "Cloudflare Docs: Create API token",
-        "alt": "Cloudflare API token summary step listing the token's permissions and resources before creation"
-      },
+      
       {
         "src": "https://docs.dd-static.net/images/getting_started/monitors/monitor_query.cc7d61c048d474419ea8f7b03a3c3207.png?auto=format&fit=max&w=850&dpr=2",
         "product": "Datadog",
@@ -1588,17 +1578,7 @@ window.CATEGORIES = [
         "sourceTitle": "Datadog Docs: Getting started with monitors",
         "alt": "Datadog new monitor page with a numbered Define the metric step"
       },
-      {
-        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=2953,height=1955,format=webp/_astro/template-customize.BZQKf5iV.png",
-        "product": "Cloudflare",
-        "title": "Customise a token template",
-        "pattern": "Create from template",
-        "notes": "Pick a template such as ‘Edit zone DNS’, then adjust prefilled permissions, resources and IP filters before continuing.",
-        "credit": "Cloudflare",
-        "source": "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/",
-        "sourceTitle": "Cloudflare Docs: Create API token",
-        "alt": "Cloudflare create token form prefilled from a template with permissions, zone resources and client IP filtering"
-      },
+      
       {
         "src": "https://docs.github.com/assets/cb-41629/images/help/projects-v2/rec-template-select.png",
         "product": "GitHub",
@@ -1655,15 +1635,59 @@ window.CATEGORIES = [
         "alt": "Google Cloud Compute Engine VM details toolbar with a Create similar button highlighted"
       },
       {
-        "src": "https://developers.cloudflare.com/cdn-cgi/image/onerror=redirect,width=2953,height=1955,format=webp/_astro/token-complete.ethtDojh.png",
-        "product": "Cloudflare",
-        "title": "Token created, shown once",
+        "src": "https://docs.dd-static.net/images/cloud_cost/setup/aws_cloudformation_setup_2.35c44f183ae6fa032053a0d3b34fa178.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Choose a method, then numbered steps",
+        "pattern": "Multi-step wizard",
+        "notes": "The setup starts by picking how to do it (CloudFormation, Terraform or manual, with the recommended one marked), then walks through numbered, collapsible steps on one page.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/cloud_cost_management/setup/aws/",
+        "sourceTitle": "Datadog Docs: Set up Cloud Cost Management for AWS",
+        "alt": "Datadog AWS cost setup with three method cards, CloudFormation marked recommended, and numbered collapsible steps below"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21017318779282",
+        "product": "Miro",
+        "title": "Domain verification steps",
+        "pattern": "Multi-step wizard",
+        "notes": "Verifying a domain is laid out as a short checklist on one page, with the DNS value to copy in place and help for admins who can't reach their DNS settings.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/360034831793-Domain-control",
+        "sourceTitle": "Miro Help: Domain control",
+        "alt": "Miro admin page listing steps to complete domain verification with a TXT record value and copy button"
+      },
+      {
+        "src": "https://docs.github.com/assets/cb-30334/images/help/repository/add-template-drop-down-menu.png",
+        "product": "GitHub",
+        "title": "Add a template",
+        "pattern": "Create from template",
+        "notes": "Standard templates (Bug report, Feature request) sit beside a blank Custom template, each with a one-line description of what it is for.",
+        "credit": "GitHub",
+        "source": "https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository",
+        "sourceTitle": "GitHub Docs: Configuring issue templates for your repository",
+        "alt": "GitHub Add template dropdown listing Bug report, Feature request and Custom template with descriptions"
+      },
+      {
+        "src": "https://docs.dd-static.net/images/getting_started/dashboards/configure_clone_dashboard.54aba6d6dc377c3c61bb3e2af65357b1.png?auto=format&fit=max&w=850&dpr=2",
+        "product": "Datadog",
+        "title": "Clone dashboard",
+        "pattern": "Duplicate / clone",
+        "notes": "Clone lives in the dashboard's configure menu and the copy opens straight away, clearly titled ‘(cloned)’ so nobody edits the original by mistake.",
+        "credit": "Datadog",
+        "source": "https://docs.datadoghq.com/getting_started/dashboards/",
+        "sourceTitle": "Datadog Docs: Getting started with dashboards",
+        "alt": "Datadog dashboard titled Demo Dashboard (cloned) with the Configure menu open on Clone dashboard"
+      },
+      {
+        "src": "https://help.miro.com/hc/article_attachments/21017683265554",
+        "product": "Miro",
+        "title": "Save the recovery code",
         "pattern": "Success & next steps",
-        "notes": "Success shows the secret once with a copy button and a ready-to-run test command, the next thing the admin needs to do.",
-        "credit": "Cloudflare",
-        "source": "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/",
-        "sourceTitle": "Cloudflare Docs: Create API token",
-        "alt": "Cloudflare API token created page with the token value, a copy button and a curl command to test it"
+        "notes": "The last step shows a one-time code with a copy button and asks the person to confirm they've saved it before Continue, so the one critical next step can't be skipped.",
+        "credit": "Miro",
+        "source": "https://help.miro.com/hc/en-us/articles/7935469290002-Enterprise-two-factor-authentication-2FA-user-guide",
+        "sourceTitle": "Miro Help: Enterprise two-factor authentication user guide",
+        "alt": "Miro two-factor setup final step showing a recovery code with a Copy button, an I have recorded this code checkbox and Continue"
       }
     ]
   },
