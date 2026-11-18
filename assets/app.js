@@ -134,8 +134,8 @@
     document.title = "Admin Consoles — Pattern Library";
     $("#content").innerHTML = `
       <header class="hero is-home">
-        <h1 class="page-title" tabindex="-1">How admins add, change and remove things.</h1>
-        <p class="page-lede">Screens from real admin consoles, grouped by the job the admin is doing rather than by product. Pick a category to see the patterns worth collecting and the references saved so far.</p>
+        <h1 class="page-title" tabindex="-1">Patterns for enterprise admin consoles.</h1>
+        <p class="page-lede">Real screens grouped by the job the admin is doing, not by product, with guidance on usability, accessibility and scale for each pattern.</p>
         <ul class="stats" id="stats"></ul>
       </header>
       <div class="toolbar" role="search">
