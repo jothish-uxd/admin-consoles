@@ -1,56 +1,83 @@
 # Admin Consoles
 
-A personal pattern library of admin console UIs — like Mobbin, but just for me and just for admin work. Screens are grouped by the job the admin is doing (adding users, deleting things, setting policy) rather than by product.
+A personal inspiration library of admin console UI patterns. Screens are grouped by the job the admin is doing (adding users, setting policy, deleting things) rather than by product, and each pattern comes with guidance on usability, accessibility and enterprise scale.
+
+**Live site:** https://jothish-uxd.github.io/admin-consoles/
 
 Static site, no build step. Open `index.html` or serve the folder.
 
+## What's in it
+
+23 categories in 6 groups, 116 patterns and about 300 screenshots from public vendor documentation.
+
+| Group | Categories |
+|---|---|
+| People & access | User management, Roles & permissions, Groups & teams, Security & identity, Access requests & approvals |
+| Content & assets | Asset management, Storage & quotas, Knowledge & content sources |
+| Actions & flows | Creation flows, Edit & bulk actions, Destructive actions, Import & export |
+| Governance & compliance | Policies & rules, Audit logs & activity, AI governance |
+| Platform & configuration | Billing & licenses, Integrations & API keys, Org settings, Usage & insights, Notifications & alerts |
+| Foundations | Tables & data grids, Search & filtering, Empty states & onboarding |
+
+Screenshots come from the public help centres and docs of GitHub, Datadog, Miro, Atlassian (Jira, Confluence, Guard, Rovo), Google Cloud, Cloudflare, Box, Asana, Notion, Glean, Coveo, Okta, Palo Alto Networks, Adobe, Microsoft and others. Every screen is credited and links back to the page it came from.
+
+## Pages
+
+**Overview** (home): the categories as a gallery with wireframe thumbnails, totals, a search field (⌘K to focus) and group filter chips.
+
+**Category pages** have three tabs:
+
+- **Scale**: how the category changes from a small team to hundreds of thousands of users, shown as a cool grey → slate → black tier ramp, plus principles that hold at every size.
+- **Patterns**: one accordion per pattern. An open pattern's content sits in a nested card with:
+  - How to think about it
+  - Do / Don't
+  - Accessibility & universal design, tagged with WCAG 2.2 success criteria (linked to W3C Understanding docs) or the 7 Principles of Universal Design
+  - At enterprise scale
+- **Screens**: the saved screenshots, filterable by pattern. Each card shows the product, what to notice, and a credit with a link to the source page.
+
+Deep links: `?c=user-management#scale`, `#patterns`, `#screens`, or a single pattern such as `#p-offboarding`. Pages swap in place, so the sidebar keeps its position and scroll.
+
 ## Design
 
-Mirrors the Enterprise Library docs: white page, Geist and Geist Mono, hairline rules instead of boxes, and a light sidebar with collapsible sections (icon, label, chevron; open/closed is remembered per browser). Only screenshots sit in framed containers. Light and dark themes, reduced motion and Windows High Contrast are respected.
+Mirrors the Enterprise Library docs: white page, Geist and Geist Mono, hairline rules instead of boxes. The left nav starts with **Getting started → Overview**, then one collapsible section per group (icon, label, chevron; open/closed is remembered per browser) with a screen count per category. The header shows the wordmark and a version badge (`v0.1 preview`). Only screenshots and open pattern cards sit in framed containers. Light and dark themes, reduced motion and Windows High Contrast are supported.
 
 ## Structure
 
 ```
-index.html            App shell: home view + category views (?c=slug)
-                      Home: all categories, search (⌘K / Ctrl+K to focus), group filters
+index.html            App shell: Overview and category pages (?c=slug)
 category.html         Alias of index.html, kept so older links work
 data/categories.js    Groups, categories, patterns and screen entries
-data/guidance*.js     Per-pattern guidance: think, do, dont, accessibility, scale (one file per group)
+data/guidance*.js     Scale tiers and per-pattern guidance, one file per group
 assets/               Styles, app script, monochrome wireframe thumbnails
-screens/<slug>/       Screenshot images, one folder per category
+screens/<slug>/       Optional local screenshots, one folder per category
 ```
 
 ## Adding a screenshot
 
-1. Put the image in `screens/<category-slug>/`.
-2. Add an entry to that category's `screens` array in `data/categories.js`:
+Add an entry to the category's `screens` array in `data/categories.js`. Most screens link directly to the image on the vendor's docs; a local file in `screens/<category-slug>/` works too.
 
 ```js
 {
-  src: "screens/user-management/okta-add-person.png",
-  product: "Okta",
-  title: "Add person modal",
-  pattern: "Invite / add user",   // match one of the category's patterns
-  notes: "Activation choice lives inline.",
-  source: "https://..."           // optional
+  src: "https://docs.example.com/images/add-user.png",  // or "screens/user-management/add-user.png"
+  product: "Example",
+  title: "Add user dialog",
+  pattern: "Invite / add user",     // must match one of the category's patterns
+  notes: "What's worth noticing in this screen.",
+  credit: "Example Inc.",
+  source: "https://docs.example.com/add-users",
+  sourceTitle: "Example Docs: Add users",
+  alt: "Describe the screen for screen reader users"
 }
 ```
 
-Counts on the home page and sidebar update automatically.
+Remote images load with `referrerpolicy="no-referrer"`; if one stops loading, the card shows a placeholder instead of a broken image. Counts on the Overview and in the sidebar update automatically.
 
-## Pattern guidance
+When you change data or styles, bump the `?v=` query on the script and stylesheet tags in `index.html` and `category.html` (keep both files identical) so browsers pick up the new version straight away.
 
-Each category page has three tabs. **Scale** shows how the category changes from tens to hundreds of thousands of users (a grey-to-black tier ramp) plus principles that hold at every size. **Patterns** has one accordion per pattern; an open pattern's content sits in a nested card with:
+## Known gaps
 
-- How to think about it
-- Do / Don't
-- Accessibility & universal design, tagged with WCAG 2.2 success criteria (linked to W3C Understanding docs) or the 7 Principles of Universal Design
-- At enterprise scale
-
-Guidance lives in `data/guidance.js`, keyed by category slug and pattern name. Patterns without guidance show "No guidance yet".
-
-Deep links: `?c=user-management#scale`, `#patterns`, `#screens`, or a single pattern such as `#p-offboarding`. Views swap in place, so the sidebar never reloads.
+Some patterns are rarely shown in public docs and have no screens yet: table density and expandable rows, empty tables, global admin search, undo toasts, settings save patterns, banners and announcements, and bulk-job progress.
 
 ## Publishing
 
-Settings → Pages → Deploy from branch → `main` / root.
+GitHub Pages, deployed from `main` / root.
