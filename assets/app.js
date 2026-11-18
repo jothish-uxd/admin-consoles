@@ -683,18 +683,22 @@
 
   addEventListener("popstate", route);
 
-  /* ---------- Header search: the 116 pattern names; every typed word must start a word in the name ---------- */
+  /* ---------- Header search: the 23 category names and the 116 pattern names; every typed word must start a word in the name ---------- */
   const patId = name => "p-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   const words = s => s.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
-  const PATTERNS = CATS.flatMap(c => c.patterns.map(([name, desc]) => ({
-    name, desc, cat: c.name, href: `${catUrl(c)}#${patId(name)}`,
+  const groupName = id => (GROUPS.find(g => g.id === id) || {}).name || "";
+  const CAT_ITEMS = CATS.map(c => ({
+    kind: "category", name: c.name, sub: groupName(c.group), href: catUrl(c), nameWords: words(c.name)
+  }));
+  const PATTERNS = CATS.flatMap(c => c.patterns.map(([name]) => ({
+    kind: "pattern", name, sub: c.name, href: `${catUrl(c)}#${patId(name)}`, target: patId(name),
     nameWords: words(name)
   })));
 
-  function findPatterns(q) {
+  function findIn(items, q) {
     const terms = words(q);
     if (!terms.length) return [];
-    return PATTERNS.map((p, order) => {
+    return items.map((p, order) => {
       if (!terms.every(t => p.nameWords.some(w => w.startsWith(t)))) return null;
       const lead = p.name.toLowerCase().startsWith(q.trim().toLowerCase()) ? 1 : 0;
       return { p, score: lead, order };
@@ -723,26 +727,33 @@
     }
     function setActive(i) {
       active = i;
-      [...list.children].forEach((li, j) => li.setAttribute("aria-selected", String(j === i)));
+      const opts = [...list.querySelectorAll("[data-i]")];
+      opts.forEach((o, j) => o.setAttribute("aria-selected", String(j === i)));
       if (i < 0) input.removeAttribute("aria-activedescendant");
       else {
         input.setAttribute("aria-activedescendant", `hs-opt-${i}`);
-        list.children[i].scrollIntoView({ block: "nearest" });
+        opts[i].scrollIntoView({ block: "nearest" });
       }
     }
     function render() {
       const q = input.value;
-      results = findPatterns(q);
+      const cats = findIn(CAT_ITEMS, q), pats = findIn(PATTERNS, q);
+      results = [...cats, ...pats];
       if (!words(q).length) { list.innerHTML = ""; setOpen(false); status.textContent = ""; return; }
+      const opt = (p, i) => `<div role="option" id="hs-opt-${i}" aria-selected="false" data-i="${i}">
+            <span class="hs-name">${markName(p.name, q)}</span><span class="hs-cat">${esc(p.sub)}</span></div>`;
+      const group = (id, label, items, start) => items.length ? `<div class="hs-group" role="group" aria-labelledby="hs-gl-${id}">
+            <div class="hs-glabel" id="hs-gl-${id}" role="presentation">${label}</div>${items.map((p, k) => opt(p, start + k)).join("")}</div>` : "";
       list.innerHTML = results.length
-        ? results.map((p, i) => `<li role="option" id="hs-opt-${i}" aria-selected="false" data-i="${i}">
-            <span class="hs-name">${markName(p.name, q)}</span><span class="hs-cat">${esc(p.cat)}</span></li>`).join("")
-        : `<li class="hs-empty" role="option" aria-disabled="true" aria-selected="false">No patterns match “${esc(q.trim())}”</li>`;
+        ? group("c", "Categories", cats, 0) + group("p", "Patterns", pats, cats.length)
+        : `<div class="hs-empty" role="option" aria-disabled="true" aria-selected="false">No categories or patterns match “${esc(q.trim())}”</div>`;
       setOpen(true);
       setActive(-1);
       clearTimeout(timer);
       timer = setTimeout(() => {
-        status.textContent = results.length ? `${plural(results.length, "pattern")} found. Use up and down arrows to choose.` : "No patterns found.";
+        status.textContent = results.length
+          ? `${[cats.length && plural(cats.length, "category"), pats.length && plural(pats.length, "pattern")].filter(Boolean).join(" and ")} found. Use up and down arrows to choose.`
+          : "No categories or patterns found.";
       }, 400);
     }
     function go(i) {
@@ -755,7 +766,7 @@
       try { history.pushState(null, "", p.href); } catch (err) { location.href = p.href; return; }
       route();
       closeMenu(false);
-      const t = document.getElementById(patId(p.name));
+      const t = p.target ? document.getElementById(p.target) : $("#content h1");
       if (t) { t.scrollIntoView({ block: "start" }); t.focus({ preventScroll: true }); }
     }
     function openCompact() {

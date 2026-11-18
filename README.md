@@ -25,7 +25,7 @@ Screenshots come from the public help centres and docs of GitHub, Datadog, Miro,
 
 **Overview** (home): the categories as a gallery with wireframe thumbnails, totals and group filter chips.
 
-**Header search** (every page, ⌘K): searches the pattern names. Each typed word has to match the start of a word in a name, so "bulk add" finds "Bulk add users". Choosing a result opens that category's Patterns tab with the pattern selected. On narrow screens and at high zoom it collapses to a search button.
+**Header search** (every page, ⌘K): searches the 23 category names and the 116 pattern names, shown as two groups, Categories then Patterns. Each typed word has to match the start of a word in a name, so "bulk add" finds "Bulk add users". Choosing a category opens its page; choosing a pattern opens that category's Patterns tab with the pattern selected. On narrow screens and at high zoom it collapses to a search button.
 
 **Category pages** have three tabs:
 
