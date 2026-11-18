@@ -37,7 +37,7 @@ Deep links: `?c=user-management#scale`, `#patterns`, `#screens`, or a single pat
 
 ## Design
 
-White page, Geist and Geist Mono, hairline rules instead of boxes. The left nav starts with **Overview**, then one collapsible section per group (icon, label, chevron; open/closed is remembered per browser) with a screen count per category. The header shows the wordmark and a version badge (`v0.1 preview`). Only screenshots and open pattern cards sit in framed containers. Light and dark themes, reduced motion and Windows High Contrast are supported.
+White page, Geist and Geist Mono, hairline rules instead of boxes. The left nav starts with **Overview**, then one collapsible section per group (icon, label, chevron; open/closed is remembered per browser) with a screen count per category. The header shows the wordmark and a version badge (`v0.2 preview`). Only screenshots and open pattern cards sit in framed containers. Light and dark themes, reduced motion and Windows High Contrast are supported.
 
 ## Structure
 
@@ -75,6 +75,10 @@ When you change data or styles, bump the `?v=` query on the script and styleshee
 ## Known gaps
 
 Some patterns are rarely shown in public docs and have no screens yet: table density and expandable rows, empty tables, global admin search, undo toasts, settings save patterns, banners and announcements, and bulk-job progress.
+
+## Versions
+
+The header badge shows the current version. See [CHANGELOG.md](CHANGELOG.md) for what changed in each one; each version is also a git tag (`v0.1`, `v0.2`).
 
 ## Publishing
 
