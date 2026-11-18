@@ -246,24 +246,23 @@
       const name = (window.UD || {})[tag] || "";
       return `<span class="ref ref-ud" title="Universal Design: ${esc(name)}">${esc(name || tag)}</span>`;
     }
-    // Refined card: one row per section, label on the left and content on the right,
-    // separated by hairlines. Order runs from framing to rules to inclusion to evidence.
-    function refinedBody(g, name, shots) {
+    // Refined card: a short lead, then a 2×2 grid. Top row is what to do (Recommended | Avoid);
+    // bottom row is the lenses (At enterprise scale | Accessibility + Universal design).
+    function refinedBody(g) {
       const wcag = g.access.filter(([t]) => t.startsWith("WCAG"));
       const ud = g.access.filter(([t]) => !t.startsWith("WCAG"));
-      const row = (cls, label, content) => `<section class="g-row ${cls}"><h4>${label}</h4><div class="g-row-body">${content}</div></section>`;
-      return [
-        row("g-think", "How to think about it", list(g.think)),
-        row("g-do", "Recommended", list(g.do, "is-do")),
-        row("g-dont", "Avoid", list(g.dont, "is-dont")),
-        row("g-scale", "At enterprise scale", list(g.scale)),
-        wcag.length ? row("g-a11y", "Accessibility", `<ul class="g-pairs">${wcag.map(([t, x]) => `<li>${tagHtml(t)}<span>${esc(x)}</span></li>`).join("")}</ul>`) : "",
-        ud.length ? row("g-ud", "Universal design", `<ul class="g-pairs">${ud.map(([t, x]) => `<li><span class="g-ud-label"><span class="g-ud-n">Principle ${esc(t.replace(/\D+/g, ""))}</span>${esc((window.UD || {})[t] || t)}</span><span>${esc(x)}</span></li>`).join("")}</ul>`) : "",
-        shots.length ? row("g-ex", "Examples", `<ul class="mini-shots">${shots.slice(0, 4).map(s => `<li><a href="${esc(s.src)}" target="_blank" rel="noopener noreferrer" class="mini-shot">
-            <img src="${esc(s.src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('broken')">
-            <span>${esc(s.product)}<span class="visually-hidden">: ${esc(s.title)}, opens in new tab</span></span></a></li>`).join("")}</ul>
-            <button type="button" class="text-button g-ex-link" data-goto-screens="${esc(name)}">See ${plural(shots.length, "screen")} in Screens</button>`) : ""
-      ].join("");
+      const sec = (cls, label, content) => `<section class="g-blk ${cls}"><h4>${label}</h4>${content}</section>`;
+      return `
+        ${sec("g-lead", "How to think about it", list(g.think))}
+        <div class="g-quad">
+          ${sec("g-do", "Recommended", list(g.do, "is-do"))}
+          ${sec("g-dont", "Avoid", list(g.dont, "is-dont"))}
+          ${sec("g-scale", "At enterprise scale", list(g.scale))}
+          <div class="g-blk g-incl">
+            ${wcag.length ? `<section><h4>Accessibility</h4><ul class="g-inline">${wcag.map(([t, x]) => `<li>${tagHtml(t)} ${esc(x)}</li>`).join("")}</ul></section>` : ""}
+            ${ud.length ? `<section><h4>Universal design</h4><ul class="g-inline">${ud.map(([t, x]) => `<li><strong>${esc((window.UD || {})[t] || t)}.</strong> ${esc(x)}</li>`).join("")}</ul></section>` : ""}
+          </div>
+        </div>`;
     }
     const list = (items, cls = "") => `<ul class="g-list ${cls}">${items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
 
@@ -283,7 +282,7 @@
           <span class="acc-title"><h3>${esc(name)}</h3><span class="acc-desc">${esc(desc)}</span></span>
           <span class="acc-meta">${shots.length ? `<span class="tag">${plural(shots.length, "screen")}</span>` : ""}${ICON.chev}</span>
         </summary>
-        <div class="acc-body g-rows">${refinedBody(g, name, shots)}</div>
+        <div class="acc-body g-compact">${refinedBody(g)}</div>
       </details>`;
       const body = g ? `
         <section class="g-sec g-think"><h4>How to think about it</h4>${list(g.think)}</section>
