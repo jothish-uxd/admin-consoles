@@ -453,10 +453,6 @@
         <div class="sheet__main">
           <aside class="sheet__aside">
             <div id="sheet-detail"></div>
-            <nav class="sheet__list" aria-label="All screens in ${esc(c.name)}">
-              <h3 class="sheet__list-h">All screens <span class="count">${list.length}</span></h3>
-              <ol>${list.map((s, i) => `<li><button type="button" data-goto="${i}"><span class="sheet__list-n">${i + 1}</span><span><strong>${esc(s.product)} · ${esc(s.title)}</strong><small>${esc(s.pattern || "")}</small></span></button></li>`).join("")}</ol>
-            </nav>
           </aside>
           <div class="sheet__media" id="sheet-media"></div>
         </div>
@@ -475,8 +471,6 @@
       if (e.target.closest("[data-close]")) return closeSheet();
       const st = e.target.closest("[data-step]");
       if (st) return stepSheet(+st.dataset.step, true);
-      const g = e.target.closest("[data-goto]");
-      if (g) return showSheet(+g.dataset.goto, true);
     });
     layer.addEventListener("keydown", e => {
       if (e.key === "Escape") { e.preventDefault(); closeSheet(); }
@@ -506,11 +500,8 @@
     L.querySelector("#sheet-detail").innerHTML = `
       <h3 class="sheet__title" id="sheet-title" tabindex="-1">${esc(s.product)} · ${esc(s.title)}</h3>
       ${s.notes ? `<p class="sheet__notes">${esc(s.notes)}</p>` : ""}
-      <p class="sheet__credit">Screenshot © ${esc(s.credit || s.product)}${s.source ? ` · <a href="${esc(s.source)}" target="_blank" rel="noopener noreferrer">${esc(s.sourceTitle || "Source")}<span class="visually-hidden"> (opens in new tab)</span></a>` : ""}</p>
-      <div class="sheet__links">
-        ${s.source ? `<a class="sheet__btn is-primary" href="${esc(s.source)}" target="_blank" rel="noopener noreferrer">Open source page<span class="visually-hidden"> (opens in new tab)</span></a>` : ""}
-        <a class="sheet__btn" href="${esc(s.src)}" target="_blank" rel="noopener noreferrer">Open image<span class="visually-hidden"> in a new tab</span></a>
-      </div>`;
+      <p class="sheet__credit">Screenshot © ${esc(s.credit || s.product)}${s.sourceTitle ? ` · ${esc(s.sourceTitle)}` : ""}</p>
+      ${s.source ? `<p class="sheet__links"><a class="sheet__link" href="${esc(s.source)}" target="_blank" rel="noopener noreferrer">Open source page<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12"/></svg><span class="visually-hidden"> (opens in new tab)</span></a></p>` : ""}`;
     L.querySelector("#sheet-crumb").innerHTML = `<span class="sheet__crumb-section">${esc(st.c.name)}</span>${s.pattern ? `<svg class="sheet__crumb-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5"/></svg><span class="visually-hidden">, </span><span class="sheet__crumb-sub">${esc(s.pattern)}</span>` : ""}`;
     L.querySelector("#sheet-count").innerHTML = `<span class="visually-hidden">Screen </span>${i + 1} of ${n}`;
     const prev = L.querySelector('[data-step="-1"]'), next = L.querySelector('[data-step="1"]');
@@ -518,11 +509,6 @@
     next.setAttribute("aria-label", i < n - 1 ? `Next screen: ${st.list[i + 1].product} · ${st.list[i + 1].title}` : "Next screen");
     prev.toggleAttribute("aria-disabled", i === 0);
     next.toggleAttribute("aria-disabled", i === n - 1);
-    L.querySelectorAll("[data-goto]").forEach(b => {
-      const on = +b.dataset.goto === i;
-      on ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current");
-      if (on) b.scrollIntoView({ block: "nearest" });
-    });
     L.querySelector(".sheet__media").scrollTop = 0;
     if (announce) L.querySelector("#sheet-status").textContent = `Now showing ${s.product} · ${s.title}, ${i + 1} of ${n}`;
   }

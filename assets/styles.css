@@ -615,34 +615,11 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .sheet__notes { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
 .sheet__credit { margin: 14px 0 0; font-size: 12.5px; color: var(--ink-faint); }
 .sheet__credit a { color: var(--ink-soft); }
-.sheet__links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-.sheet__btn {
-  display: inline-flex; align-items: center; height: 34px; padding: 0 12px; border: 1px solid var(--rule); border-radius: 8px;
-  color: var(--ink); text-decoration: none; font-size: 13.5px; font-weight: 500; background: var(--bg);
-}
-.sheet__btn:hover { background: var(--bg-hover); }
-.sheet__btn.is-primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.sheet__btn.is-primary:hover { opacity: .88; }
-.sheet__btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-
-.sheet__list { border-top: 1px solid var(--rule); padding-top: 20px; }
-.sheet__list-h { margin: 0 0 8px; font-size: 13px; font-weight: 600; }
-.sheet__list-h .count { font-family: var(--mono); font-weight: 400; color: var(--ink-faint); margin-left: 4px; }
-.sheet__list ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
-/* Same treatment as the main nav links: soft ink, subtle hover, current = bold ink + bar. */
-.sheet__list button {
-  position: relative; width: 100%; display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; align-items: baseline; text-align: left;
-  padding: 6px 10px; border: 0; border-radius: 6px; background: none; color: var(--ink-soft); font: inherit; font-size: 14px; line-height: 1.45; cursor: pointer;
-  transition: color .12s ease, background-color .12s ease;
-}
-.sheet__list button:hover { color: var(--ink); background: var(--bg-subtle); }
-.sheet__list button[aria-current="true"] { color: var(--ink); background: var(--bg-hover); }
-.sheet__list button[aria-current="true"] strong { font-weight: 600; }
-.sheet__list button[aria-current="true"]::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; border-left: 3px solid var(--ink); border-radius: 2px; }
-.sheet__list button:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
-.sheet__list-n { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
-.sheet__list strong { display: block; font-size: 14px; font-weight: 400; line-height: 1.45; }
-.sheet__list small { display: block; margin-top: 1px; font-size: 12px; color: var(--ink-faint); }
+.sheet__links { margin: 16px 0 0; }
+.sheet__link { display: inline-flex; align-items: center; gap: 4px; color: var(--ink); font-size: 14px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rule-strong); }
+.sheet__link:hover { text-decoration-color: currentColor; }
+.sheet__link svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sheet__link:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
 
 @media (max-width: 960px) {
   .sheet { width: 100%; border-left: 0; }
@@ -655,7 +632,4 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 }
 @media (forced-colors: active) {
   .sheet { border-left: 1px solid CanvasText; }
-  .sheet__list button[aria-current="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
-  .sheet__list button[aria-current="true"]::before { border-left-color: HighlightText; }
-  .sheet__btn.is-primary { border: 1px solid ButtonText; }
 }
