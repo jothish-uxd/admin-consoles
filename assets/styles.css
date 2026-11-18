@@ -634,7 +634,7 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
   .sheet { border-left: 1px solid CanvasText; }
 }
 
-/* ---------- Refined Scale + pattern layout (trial: User management) ---------- */
+/* ---------- Refined Scale + pattern layout (all categories) ---------- */
 .is-refined .doc-section .sub-h2 { margin: 48px 0 16px; font-size: 20px; font-weight: 600; letter-spacing: -.025em; }
 /* Cool-grey ramp: three subtle steps, light to slightly darker (dark mode: dark to slightly lighter). */
 .is-refined .tiers.is-ramp {

@@ -9,8 +9,6 @@
   // Links stay on the current page path (index.html or its alias category.html)
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
-  /* Categories using the refined Scale and pattern layout (trial). */
-  const REFINED_CATEGORIES = new Set(["user-management"]);
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
 
@@ -225,8 +223,8 @@
     document.title = `${c.name} — Admin Consoles`;
 
     const G = (window.GUIDANCE || {})[c.slug] || {};
-    // Refined layout, trialled on User management first.
-    const refined = REFINED_CATEGORIES.has(c.slug);
+    // Refined Scale + pattern browser layout, used by every category with guidance.
+    const refined = !!G.patterns;
     const GP = G.patterns || {};
     const pid = name => "p-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     const kebab = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
