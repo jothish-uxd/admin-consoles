@@ -53,8 +53,7 @@
 
     side.innerHTML = `
       <div class="nav-group">
-        <h2 class="nav-heading" id="nav-library">Getting started</h2>
-        <ul class="nav-list" aria-labelledby="nav-library">
+        <ul class="nav-list">
           <li><a class="nav-link" href="${HOME}" data-slug=""><span>Overview</span></a></li>
         </ul>
       </div>
