@@ -9,8 +9,6 @@
   // Links stay on the current page path (index.html or its alias category.html)
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
-  /* Groups whose screenshots open in the sheet (rolling out group by group). */
-  const SHEET_GROUPS = new Set(["foundations", "people"]);
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
 
@@ -288,9 +286,8 @@
       </section>` : "";
 
     const usedPatterns = c.patterns.map(p => p[0]).filter(p => c.screens.some(s => s.pattern === p));
-    const useSheet = SHEET_GROUPS.has(c.group);
     const screenCard = (s, i) => `<li data-pattern="${esc(s.pattern || "")}"><figure class="screen">
-          <a class="screen-img" href="${esc(s.src)}" target="_blank" rel="noopener noreferrer"${useSheet ? ` data-sheet="${i}" aria-label="View ${esc(s.product)} · ${esc(s.title)} larger"` : ""}>
+          <a class="screen-img" href="${esc(s.src)}" target="_blank" rel="noopener noreferrer" data-sheet="${i}" aria-label="View ${esc(s.product)} · ${esc(s.title)} larger">
             <img src="${esc(s.src)}" alt="${esc(s.alt || `${s.product}: ${s.title}`)}" loading="lazy" referrerpolicy="no-referrer"
               onerror="this.closest('.screen-img').classList.add('broken')">
             <span class="broken-note">Image unavailable at source</span>
@@ -426,7 +423,7 @@
   /* ---------- Screen sheet ----------
      A wide drawer from the right: the screenshot on the left, its notes and
      source on the right, and previous / next through every screen in the
-     category. Only the groups in SHEET_GROUPS use it for now. */
+     category. */
   const SHEET_W = "90vw";
   let sheet = null;
 
