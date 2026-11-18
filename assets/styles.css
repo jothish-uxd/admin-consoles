@@ -633,3 +633,29 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 @media (forced-colors: active) {
   .sheet { border-left: 1px solid CanvasText; }
 }
+
+/* ---------- Refined Scale + pattern layout (trial: User management) ---------- */
+.is-refined .doc-section .sub-h2 { margin: 48px 0 16px; font-size: 20px; font-weight: 600; letter-spacing: -.025em; }
+/* Softer ramp: neither end at the extremes, step 2 a true middle grey. */
+.is-refined .tiers.is-ramp {
+  --tier-1-bg: #e3e8ee; --tier-1-ink: #171717; --tier-1-soft: #4a535e;
+  --tier-2-bg: #8a94a1; --tier-2-ink: #0d0f12; --tier-2-soft: #1c2128;
+  --tier-3-bg: #2f363f; --tier-3-ink: #ffffff; --tier-3-soft: #d3d8de;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .is-refined .tiers.is-ramp {
+    --tier-1-bg: #242a31; --tier-1-ink: #ededed; --tier-1-soft: #a9b1bb;
+    --tier-2-bg: #7d8796; --tier-2-ink: #0a0a0a; --tier-2-soft: #1b1f24;
+    --tier-3-bg: #bfc6cf; --tier-3-ink: #0a0a0a; --tier-3-soft: #2c3138;
+  }
+}
+:root[data-theme="dark"] .is-refined .tiers.is-ramp {
+  --tier-1-bg: #242a31; --tier-1-ink: #ededed; --tier-1-soft: #a9b1bb;
+  --tier-2-bg: #7d8796; --tier-2-ink: #0a0a0a; --tier-2-soft: #1b1f24;
+  --tier-3-bg: #bfc6cf; --tier-3-ink: #0a0a0a; --tier-3-soft: #2c3138;
+}
+/* Pattern card: every section title at one level, more prominent; no icons on Do / Don't titles. */
+.is-refined .g-sec h4 { margin: 0 0 14px; font-size: 15px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); }
+.is-refined .g-shots-head h4 { font-size: 15px; font-weight: 600; color: var(--ink); }
+/* Subtle divider before "At enterprise scale". */
+.is-refined .g-scale { border-left: 1px solid var(--rule-strong); padding-left: 24px; }

@@ -9,6 +9,8 @@
   // Links stay on the current page path (index.html or its alias category.html)
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
+  /* Categories using the refined Scale and pattern layout (trial). */
+  const REFINED_CATEGORIES = new Set(["user-management"]);
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
 
@@ -131,6 +133,7 @@
 
   /* ---------- Home ---------- */
   function renderHome() {
+    $("#content").classList.remove("is-refined");
     document.title = "Admin Consoles — Pattern Library";
     $("#content").innerHTML = `
       <header class="hero is-home">
@@ -153,8 +156,8 @@
     const totalScreens = CATS.reduce((n, c) => n + c.screens.length, 0);
     $("#stats").innerHTML = `
       <li><strong>${CATS.length}</strong><span>categories</span></li>
-      <li><strong>${totalPatterns}</strong><span>patterns to collect</span></li>
-      <li><strong>${totalScreens}</strong><span>screens saved</span></li>`;
+      <li><strong>${totalPatterns}</strong><span>patterns</span></li>
+      <li><strong>${totalScreens}</strong><span>screenshots collected</span></li>`;
 
     const chips = $("#chips");
     chips.innerHTML = [{ id: "all", name: "All" }, ...GROUPS].map((g, i) =>
@@ -222,6 +225,8 @@
     document.title = `${c.name} — Admin Consoles`;
 
     const G = (window.GUIDANCE || {})[c.slug] || {};
+    // Refined layout, trialled on User management first.
+    const refined = REFINED_CATEGORIES.has(c.slug);
     const GP = G.patterns || {};
     const pid = name => "p-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     const kebab = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -257,8 +262,8 @@
       const body = g ? `
         <section class="g-sec g-think"><h4>How to think about it</h4>${list(g.think)}</section>
         <div class="g-cols">
-          <section class="g-sec g-do"><h4>${ICON.do} Do</h4>${list(g.do, "is-do")}</section>
-          <section class="g-sec g-dont"><h4>${ICON.dont} Don’t</h4>${list(g.dont, "is-dont")}</section>
+          <section class="g-sec g-do"><h4>${refined ? "" : ICON.do + " "}Do</h4>${list(g.do, "is-do")}</section>
+          <section class="g-sec g-dont"><h4>${refined ? "" : ICON.dont + " "}Don’t</h4>${list(g.dont, "is-dont")}</section>
         </div>
         <div class="g-cols">
           <section class="g-sec"><h4>Accessibility &amp; universal design</h4>
@@ -281,7 +286,7 @@
         <h2 id="scale-h">Designing for scale</h2>
         <p>${esc(G.scale.intro)}</p>
         <ol class="tiers${nested ? " is-ramp" : ""}">${G.scale.tiers.map(([t, x], i, all) => `<li${!nested && i === all.length - 1 ? ' class="is-focus"' : ""}><span class="tier-tag">${String(i + 1).padStart(2, "0")}</span><strong>${esc(t)}</strong><span>${esc(x)}</span></li>`).join("")}</ol>
-        <h3 class="sub">Principles that hold at every size</h3>
+        ${refined ? `<h2 class="sub-h2" id="principles-h">Principles that hold at every size</h2>` : `<h3 class="sub">Principles that hold at every size</h3>`}
         <ul class="check-list">${G.scale.principles.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
       </section>` : "";
 
@@ -311,6 +316,7 @@
           <p>Drop images into <code>screens/${esc(c.slug)}/</code> and add an entry to this category’s <code>screens</code> list in <code>data/categories.js</code>. Tag each with one of the patterns so it gets counted.</p>
         </div>`;
 
+    main.classList.toggle("is-refined", refined);
     main.innerHTML = `
       <header class="hero">
         <p class="page-kicker">${esc(g ? g.name : "")} · ${plural(c.patterns.length, "pattern")}${c.screens.length ? ` · ${plural(c.screens.length, "screen")}` : ""}</p>
