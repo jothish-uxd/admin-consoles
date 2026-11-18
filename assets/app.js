@@ -246,29 +246,24 @@
       const name = (window.UD || {})[tag] || "";
       return `<span class="ref ref-ud" title="Universal Design: ${esc(name)}">${esc(name || tag)}</span>`;
     }
-    // Refined: Recommended and Avoid side by side in one two-column table.
-    function refinedDoDont(g) {
-      const rows = Math.max(g.do.length, g.dont.length);
-      const cell = (t, cls, icon) => t ? `<td class="${cls}"><span class="g-mark" aria-hidden="true">${icon}</span>${esc(t)}</td>` : `<td class="${cls} is-blank"></td>`;
-      return `<section class="g-sec g-dd">
-          <table class="g-table">
-            <caption class="visually-hidden">Recommended and avoid</caption>
-            <thead><tr><th scope="col">Recommended</th><th scope="col">Avoid</th></tr></thead>
-            <tbody>${Array.from({ length: rows }, (_, i) => `<tr>${cell(g.do[i], "is-do", "✓")}${cell(g.dont[i], "is-dont", "✕")}</tr>`).join("")}</tbody>
-          </table>
-        </section>`;
-    }
-    // Refined: WCAG items under Accessibility (beside scale), Universal Design as its own full-width section.
-    function refinedAccess(g) {
+    // Refined card: one row per section, label on the left and content on the right,
+    // separated by hairlines. Order runs from framing to rules to inclusion to evidence.
+    function refinedBody(g, name, shots) {
       const wcag = g.access.filter(([t]) => t.startsWith("WCAG"));
       const ud = g.access.filter(([t]) => !t.startsWith("WCAG"));
-      return `<div class="g-cols">
-          ${wcag.length ? `<section class="g-sec"><h4>Accessibility</h4>
-            <ul class="g-list g-access">${wcag.map(([t, x]) => `<li>${tagHtml(t)}<span>${esc(x)}</span></li>`).join("")}</ul></section>` : ""}
-          <section class="g-sec g-scale"><h4>At enterprise scale</h4>${list(g.scale)}</section>
-        </div>
-        ${ud.length ? `<section class="g-sec g-ud"><h4>Universal design</h4>
-          <ul class="g-ud-list">${ud.map(([t, x]) => `<li class="g-ud-card"><span class="g-ud-label"><span class="g-ud-n">Principle ${esc(t.replace(/\D+/g, ""))}</span>${esc((window.UD || {})[t] || t)}</span><span class="g-ud-text">${esc(x)}</span></li>`).join("")}</ul></section>` : ""}`;
+      const row = (cls, label, content) => `<section class="g-row ${cls}"><h4>${label}</h4><div class="g-row-body">${content}</div></section>`;
+      return [
+        row("g-think", "How to think about it", list(g.think)),
+        row("g-do", "Recommended", list(g.do, "is-do")),
+        row("g-dont", "Avoid", list(g.dont, "is-dont")),
+        row("g-scale", "At enterprise scale", list(g.scale)),
+        wcag.length ? row("g-a11y", "Accessibility", `<ul class="g-pairs">${wcag.map(([t, x]) => `<li>${tagHtml(t)}<span>${esc(x)}</span></li>`).join("")}</ul>`) : "",
+        ud.length ? row("g-ud", "Universal design", `<ul class="g-pairs">${ud.map(([t, x]) => `<li><span class="g-ud-label"><span class="g-ud-n">Principle ${esc(t.replace(/\D+/g, ""))}</span>${esc((window.UD || {})[t] || t)}</span><span>${esc(x)}</span></li>`).join("")}</ul>`) : "",
+        shots.length ? row("g-ex", "Examples", `<ul class="mini-shots">${shots.slice(0, 4).map(s => `<li><a href="${esc(s.src)}" target="_blank" rel="noopener noreferrer" class="mini-shot">
+            <img src="${esc(s.src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('broken')">
+            <span>${esc(s.product)}<span class="visually-hidden">: ${esc(s.title)}, opens in new tab</span></span></a></li>`).join("")}</ul>
+            <button type="button" class="text-button g-ex-link" data-goto-screens="${esc(name)}">See ${plural(shots.length, "screen")} in Screens</button>`) : ""
+      ].join("");
     }
     const list = (items, cls = "") => `<ul class="g-list ${cls}">${items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
 
@@ -283,17 +278,24 @@
             <img src="${esc(s.src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('broken')">
             <span>${esc(s.product)}<span class="visually-hidden">: ${esc(s.title)}, opens in new tab</span></span></a></li>`).join("")}</ul>
         </div>` : "";
+      if (refined && g) return `<details class="acc" id="${pid(name)}">
+        <summary>
+          <span class="acc-title"><h3>${esc(name)}</h3><span class="acc-desc">${esc(desc)}</span></span>
+          <span class="acc-meta">${shots.length ? `<span class="tag">${plural(shots.length, "screen")}</span>` : ""}${ICON.chev}</span>
+        </summary>
+        <div class="acc-body g-rows">${refinedBody(g, name, shots)}</div>
+      </details>`;
       const body = g ? `
         <section class="g-sec g-think"><h4>How to think about it</h4>${list(g.think)}</section>
-        ${refined ? refinedDoDont(g) : `<div class="g-cols">
+        <div class="g-cols">
           <section class="g-sec g-do"><h4>${ICON.do} Do</h4>${list(g.do, "is-do")}</section>
           <section class="g-sec g-dont"><h4>${ICON.dont} Don’t</h4>${list(g.dont, "is-dont")}</section>
-        </div>`}
-        ${refined ? refinedAccess(g) : `<div class="g-cols">
+        </div>
+        <div class="g-cols">
           <section class="g-sec"><h4>Accessibility &amp; universal design</h4>
             <ul class="g-list g-access">${g.access.map(([t, x]) => `<li>${tagHtml(t)}<span>${esc(x)}</span></li>`).join("")}</ul></section>
           <section class="g-sec g-scale"><h4>At enterprise scale</h4>${list(g.scale)}</section>
-        </div>`}` : `<p class="g-empty">Guidance for this pattern hasn’t been written yet.</p>`;
+        </div>` : `<p class="g-empty">Guidance for this pattern hasn’t been written yet.</p>`;
       return `<details class="acc" id="${pid(name)}">
         <summary>
           <span class="acc-title"><h3>${esc(name)}</h3><span class="acc-desc">${esc(desc)}</span></span>
