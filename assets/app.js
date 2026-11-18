@@ -502,7 +502,13 @@
       ${s.notes ? `<p class="sheet__notes">${esc(s.notes)}</p>` : ""}
       <p class="sheet__credit">Screenshot © ${esc(s.credit || s.product)}${s.sourceTitle ? ` · ${esc(s.sourceTitle)}` : ""}</p>
       ${s.source ? `<p class="sheet__links"><a class="sheet__link" href="${esc(s.source)}" target="_blank" rel="noopener noreferrer">Open source page<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12"/></svg><span class="visually-hidden"> (opens in new tab)</span></a></p>` : ""}`;
-    L.querySelector("#sheet-crumb").innerHTML = `<span class="sheet__crumb-section">${esc(st.c.name)}</span>${s.pattern ? `<svg class="sheet__crumb-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5"/></svg><span class="visually-hidden">, </span><span class="sheet__crumb-sub">${esc(s.pattern)}</span>` : ""}`;
+    const chev = `<svg class="sheet__crumb-chev" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5"/></svg><span class="visually-hidden">, </span>`;
+    const grp = GROUPS.find(x => x.id === st.c.group);
+    L.querySelector("#sheet-crumb").innerHTML = [
+      grp ? `<span class="sheet__crumb-section">${esc(grp.name)}</span>` : "",
+      `<span class="sheet__crumb-section">${esc(st.c.name)}</span>`,
+      s.pattern ? `<span class="sheet__crumb-sub">${esc(s.pattern)}</span>` : ""
+    ].filter(Boolean).join(chev);
     L.querySelector("#sheet-count").innerHTML = `<span class="visually-hidden">Screen </span>${i + 1} of ${n}`;
     const prev = L.querySelector('[data-step="-1"]'), next = L.querySelector('[data-step="1"]');
     prev.setAttribute("aria-label", i > 0 ? `Previous screen: ${st.list[i - 1].product} · ${st.list[i - 1].title}` : "Previous screen");
