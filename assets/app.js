@@ -246,6 +246,18 @@
       const name = (window.UD || {})[tag] || "";
       return `<span class="ref ref-ud" title="Universal Design: ${esc(name)}">${esc(name || tag)}</span>`;
     }
+    // Refined: WCAG items under Accessibility (beside scale), Universal Design as its own full-width section.
+    function refinedAccess(g) {
+      const wcag = g.access.filter(([t]) => t.startsWith("WCAG"));
+      const ud = g.access.filter(([t]) => !t.startsWith("WCAG"));
+      return `<div class="g-cols">
+          ${wcag.length ? `<section class="g-sec"><h4>Accessibility</h4>
+            <ul class="g-list g-access">${wcag.map(([t, x]) => `<li>${tagHtml(t)}<span>${esc(x)}</span></li>`).join("")}</ul></section>` : ""}
+          <section class="g-sec g-scale"><h4>At enterprise scale</h4>${list(g.scale)}</section>
+        </div>
+        ${ud.length ? `<section class="g-sec g-ud"><h4>Universal design</h4>
+          <ul class="g-ud-list">${ud.map(([t, x]) => `<li><span class="g-ud-label"><span class="g-ud-n">Principle ${esc(t.replace(/\D+/g, ""))}</span>${esc((window.UD || {})[t] || t)}</span><span class="g-ud-text">${esc(x)}</span></li>`).join("")}</ul></section>` : ""}`;
+    }
     const list = (items, cls = "") => `<ul class="g-list ${cls}">${items.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
 
     const accordion = c.patterns.map(([name, desc]) => {
@@ -262,14 +274,14 @@
       const body = g ? `
         <section class="g-sec g-think"><h4>How to think about it</h4>${list(g.think)}</section>
         <div class="g-cols">
-          <section class="g-sec g-do"><h4>${refined ? "" : ICON.do + " "}Do</h4>${list(g.do, "is-do")}</section>
-          <section class="g-sec g-dont"><h4>${refined ? "" : ICON.dont + " "}Don’t</h4>${list(g.dont, "is-dont")}</section>
+          <section class="g-sec g-do"><h4>${refined ? "Recommended" : ICON.do + " Do"}</h4>${list(g.do, "is-do")}</section>
+          <section class="g-sec g-dont"><h4>${refined ? "Avoid" : ICON.dont + " Don’t"}</h4>${list(g.dont, "is-dont")}</section>
         </div>
-        <div class="g-cols">
+        ${refined ? refinedAccess(g) : `<div class="g-cols">
           <section class="g-sec"><h4>Accessibility &amp; universal design</h4>
             <ul class="g-list g-access">${g.access.map(([t, x]) => `<li>${tagHtml(t)}<span>${esc(x)}</span></li>`).join("")}</ul></section>
           <section class="g-sec g-scale"><h4>At enterprise scale</h4>${list(g.scale)}</section>
-        </div>` : `<p class="g-empty">Guidance for this pattern hasn’t been written yet.</p>`;
+        </div>`}` : `<p class="g-empty">Guidance for this pattern hasn’t been written yet.</p>`;
       return `<details class="acc" id="${pid(name)}">
         <summary>
           <span class="acc-title"><h3>${esc(name)}</h3><span class="acc-desc">${esc(desc)}</span></span>
