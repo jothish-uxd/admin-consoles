@@ -19,7 +19,7 @@ Static site, no build step. Open `index.html` or serve the folder.
 | Platform & configuration | Billing & licenses, Integrations & API keys, Org settings, Usage & insights, Notifications & alerts |
 | Foundations | Tables & data grids, Search & filtering, Empty states & onboarding |
 
-Screenshots come from the public help centres and docs of GitHub, Datadog, Miro, Atlassian (Jira, Confluence, Guard, Rovo), Google Cloud, Cloudflare, Box, Asana, Notion, Glean, Coveo, Okta, Palo Alto Networks, Adobe, Microsoft and others. Every screen is credited and links back to the page it came from.
+Screenshots come from the public help centres and docs of GitHub, Datadog, Miro, Atlassian (Jira, Confluence, Guard, Rovo), Google Cloud, Cloudflare, Box, Asana, Notion, Glean, Coveo, Palo Alto Networks, Adobe, Apollo, Plaid and Microsoft. Every screen is credited and links back to the page it came from.
 
 ## Pages
 
