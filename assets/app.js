@@ -339,6 +339,23 @@
           <p>Drop images into <code>screens/${esc(c.slug)}/</code> and add an entry to this category’s <code>screens</code> list in <code>data/categories.js</code>. Tag each with one of the patterns so it gets counted.</p>
         </div>`;
 
+    // Refined: master–detail pattern browser. A vertical list (or a native select when the
+    // space is narrow, including at high zoom) chooses which pattern's card is shown.
+    const pcount = name => c.screens.filter(s => s.pattern === name).length;
+    const patternBrowser = refined ? `<section class="doc-section" aria-labelledby="patterns-h">
+          <div class="section-head"><div><h2 id="patterns-h">Patterns</h2><p>Pick a pattern to see how to think about it, what to do and avoid, how it holds up at scale, and accessibility.</p></div></div>
+          <div class="pat-layout">
+            <nav class="pat-nav" aria-label="Patterns in ${esc(c.name)}">
+              <ol class="pat-list">${c.patterns.map(([name], i) => `<li><button type="button" class="pat-item" data-i="${i}" aria-controls="pat-detail"><span class="pat-name">${esc(name)}</span>${pcount(name) ? `<span class="pat-count" aria-label="${plural(pcount(name), "screen")}">${pcount(name)}</span>` : ""}</button></li>`).join("")}</ol>
+            </nav>
+            <div class="pat-select">
+              <label for="pat-select">Pattern</label>
+              <select id="pat-select" aria-controls="pat-detail">${c.patterns.map(([name], i) => `<option value="${i}">${i + 1}. ${esc(name)}</option>`).join("")}</select>
+            </div>
+            <div class="pat-detail" id="pat-detail" tabindex="-1"></div>
+          </div>
+          <p class="visually-hidden" role="status" id="pat-status"></p>
+        </section>` : "";
     main.classList.toggle("is-refined", refined);
     main.innerHTML = `
       <header class="hero">
@@ -356,13 +373,13 @@
       ${nested ? `<div class="tab-panel" role="tabpanel" id="panel-scale" aria-labelledby="tab-scale" tabindex="0">${scaleCard}</div>` : ""}
       <div class="tab-panel" role="tabpanel" id="panel-patterns" aria-labelledby="tab-patterns" tabindex="0"${nested ? " hidden" : ""}>
         ${nested ? "" : scaleCard}
-        <section class="doc-section" aria-labelledby="patterns-h">
+        ${refined ? patternBrowser : `<section class="doc-section" aria-labelledby="patterns-h">
           <div class="section-head">
             <div><h2 id="patterns-h">Patterns</h2><p>Open a pattern for how to think about it, what to do and avoid, accessibility, and how it holds up at scale.</p></div>
             <button type="button" class="text-button" id="toggle-all" aria-expanded="false">Expand all</button>
           </div>
           <div class="accordion${nested ? " is-nested" : ""}">${accordion}</div>
-        </section>
+        </section>`}
       </div>
       <div class="tab-panel" role="tabpanel" id="panel-screens" aria-labelledby="tab-screens" tabindex="0" hidden>
         <section class="doc-section" aria-labelledby="screens-h">
@@ -426,21 +443,78 @@
     const accs = [...main.querySelectorAll("details.acc")];
     const toggleAll = $("#toggle-all");
     const syncToggle = () => {
+      if (!toggleAll) return;
       const allOpen = accs.every(d => d.open);
       toggleAll.textContent = allOpen ? "Collapse all" : "Expand all";
       toggleAll.setAttribute("aria-expanded", String(allOpen));
     };
-    toggleAll.addEventListener("click", () => {
+    if (toggleAll) toggleAll.addEventListener("click", () => {
       const open = !accs.every(d => d.open);
       accs.forEach(d => { d.open = open; });
       syncToggle();
     });
     accs.forEach(d => d.addEventListener("toggle", syncToggle));
 
+    /* pattern browser (refined categories) */
+    const patItems = [...main.querySelectorAll(".pat-item")];
+    const patSelect = $("#pat-select");
+    function showPattern(i, { announce = false, updateHash = true } = {}) {
+      const [name, desc] = c.patterns[i];
+      const g = GP[name];
+      const n = pcount(name);
+      const prev = c.patterns[i - 1], next = c.patterns[i + 1];
+      $("#pat-detail").innerHTML = `
+        <header class="pat-head">
+          <p class="pat-pos">Pattern ${i + 1} of ${c.patterns.length}</p>
+          <h3 class="pat-title" id="${pid(name)}">${esc(name)}</h3>
+          <p class="pat-desc">${esc(desc)}</p>
+          ${n ? `<button type="button" class="text-button pat-shots" data-goto-screens="${esc(name)}">See ${plural(n, "screen")} in Screens</button>` : ""}
+        </header>
+        <div class="pat-card g-compact">${g ? refinedBody(g) : `<p class="g-empty">Guidance for this pattern hasn’t been written yet.</p>`}</div>
+        <nav class="pat-pager" aria-label="Previous and next pattern">
+          ${prev ? `<button type="button" class="pat-step" data-i="${i - 1}"><span>Previous</span>${esc(prev[0])}</button>` : "<span></span>"}
+          ${next ? `<button type="button" class="pat-step is-next" data-i="${i + 1}"><span>Next</span>${esc(next[0])}</button>` : ""}
+        </nav>`;
+      patItems.forEach(b => +b.dataset.i === i ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current"));
+      if (patSelect) patSelect.value = String(i);
+      if (updateHash) history.replaceState(null, "", "#" + pid(name));
+      if (announce) $("#pat-status").textContent = `Showing ${name}, pattern ${i + 1} of ${c.patterns.length}`;
+    }
+    if (patItems.length) {
+      main.querySelector(".pat-nav").addEventListener("click", e => {
+        const b = e.target.closest(".pat-item");
+        if (b) showPattern(+b.dataset.i, { announce: true });
+      });
+      main.querySelector(".pat-nav").addEventListener("keydown", e => {
+        const k = { ArrowDown: 1, ArrowUp: -1 }[e.key];
+        const at = patItems.indexOf(document.activeElement);
+        if (!k || at < 0) return;
+        e.preventDefault();
+        const to = patItems[Math.min(Math.max(at + k, 0), patItems.length - 1)];
+        to.focus(); showPattern(+to.dataset.i, { announce: true });
+      });
+      patSelect.addEventListener("change", () => showPattern(+patSelect.value, { announce: true }));
+      $("#pat-detail").addEventListener("click", e => {
+        const st = e.target.closest(".pat-step");
+        if (!st) return;
+        const i = +st.dataset.i;
+        showPattern(i, { announce: true });
+        const nav = main.querySelector(".pat-nav");
+        const target = nav && nav.offsetParent ? patItems[i] : patSelect;
+        target.focus({ preventScroll: true });
+        $("#pat-detail").scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      });
+      showPattern(0, { updateHash: false });
+    }
+
     /* deep links: #scale, #patterns, #screens, or #p-pattern-name */
     const h = location.hash.slice(1);
     const tabFor = $("#tab-" + CSS.escape(h));
     if (tabFor && tabFor.getAttribute("role") === "tab") selectTab(tabFor);
+    else if (h.startsWith("p-") && patItems.length && c.patterns.some(([n]) => pid(n) === h)) {
+      selectTab($("#tab-patterns"));
+      showPattern(c.patterns.findIndex(([n]) => pid(n) === h));
+    }
     else if (h.startsWith("p-") && $("#" + CSS.escape(h))) {
       selectTab($("#tab-patterns"));
       const d = $("#" + CSS.escape(h));
