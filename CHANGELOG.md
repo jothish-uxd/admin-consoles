@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.1 preview — 2026-11-19
+
+### Added
+- **By group / A–Z switch** in the sidebar, under Overview. By group shows the six collapsible group sections; A–Z lists all 23 categories alphabetically. The choice is remembered in your browser.
+
 ## v0.2 preview — 2026-11-17
 
 ### Added
