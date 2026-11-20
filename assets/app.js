@@ -37,6 +37,7 @@
   const navIcon = id => `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${GROUP_ICONS[id] || ""}</svg>`;
   const NAV_CHEVRON = '<svg class="nav-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10l4-4 4 4"/></svg>';
   const NAV_COLLAPSE_KEY = "ac-nav-collapsed";
+  const NAV_VIEW_KEY = "ac-nav-view";
 
   /* ---------- Sidebar ---------- */
   function renderSidebar() {
@@ -51,13 +52,24 @@
         </div>`;
     }).join("");
 
+    const navItem = c => `
+        <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}"><span>${esc(c.name)}</span>${c.screens.length ? `<small>${c.screens.length}</small>` : ""}</a></li>`;
+    const azHtml = [...CATS].sort((a, b) => a.name.localeCompare(b.name)).map(navItem).join("");
+
     side.innerHTML = `
       <div class="nav-group">
         <ul class="nav-list">
           <li><a class="nav-link" href="${HOME}" data-slug=""><span>Overview</span></a></li>
         </ul>
       </div>
-      ${groupsHtml}
+      <div class="nav-sort" role="group" aria-label="Show categories">
+        <button type="button" class="nav-sort__btn" data-view="group" aria-pressed="true">By group</button>
+        <button type="button" class="nav-sort__btn" data-view="az" aria-pressed="false"><span aria-hidden="true">A–Z</span><span class="visually-hidden">A to Z</span></button>
+      </div>
+      <div class="nav-view" id="nav-view-group">${groupsHtml}</div>
+      <div class="nav-view" id="nav-view-az" hidden>
+        <ul class="nav-list nav-az" aria-label="Categories, A to Z">${azHtml}</ul>
+      </div>
       <p class="sidebar-credit">Patterns for enterprise admin consoles, by Jothish John, © 2026</p>`;
 
     /* Collapsible sections. Open or closed is a per-viewer convenience, so it lives in this browser only. */
@@ -73,6 +85,19 @@
       });
     });
 
+    /* By group or A–Z. Also a per-viewer convenience, remembered in this browser only. */
+    const sortBtns = [...side.querySelectorAll(".nav-sort__btn")];
+    const setView = (view, save) => {
+      sortBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === view)));
+      $("#nav-view-group").hidden = view !== "group";
+      $("#nav-view-az").hidden = view !== "az";
+      if (save) try { localStorage.setItem(NAV_VIEW_KEY, view); } catch (e) {}
+    };
+    let view = "group";
+    try { if (localStorage.getItem(NAV_VIEW_KEY) === "az") view = "az"; } catch (e) {}
+    setView(view, false);
+    sortBtns.forEach(b => b.addEventListener("click", () => setView(b.dataset.view, true)));
+
     /* The sidebar is rendered once and never re-rendered: category links
        swap only the content area (see router below). This also restores
        the nav's scroll offset after a full reload. */
@@ -84,7 +109,7 @@
       side.scrollTop = Number(saved) || 0;
     }
     // If the current item still isn't visible (deep link, first visit), bring it into view once.
-    const current = side.querySelector('[aria-current="page"]');
+    const current = [...side.querySelectorAll('[aria-current="page"]')].find(a => a.offsetParent);
     if (current) {
       const s = side.getBoundingClientRect(), r = current.getBoundingClientRect();
       if (r.top < s.top || r.bottom > s.bottom) {
