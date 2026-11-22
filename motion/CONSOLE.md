@@ -6,6 +6,13 @@ Every clip is set in one mock product, the Echo Base Console, so the clips read 
 
 Fixed in every clip, in this order. Admin only shows when the person is an admin.
 
+How it's ordered: by role first, then in logical order within each group.
+- **By role:** Workspace is for everyone, so it comes first; Admin is for admins only, so it sits below and the member view is a clean subset.
+- **Workspace, general to personal:** Home (where you land), Archives (what you browse), My access (your own grants).
+- **Admin, in the order work flows:** who is in the org (People), what they can open (Access), what the org has (Content), how AI works on it (AI), oversight of all of it (Compliance), how it's going (Insights), what it costs (Billing), and set-once configuration last (Settings).
+
+Not alphabetical: rails are scanned by task, and alphabetical order would split related areas. Add new sections where they fit this flow.
+
 | Section | `data-at` | Holds |
 |---|---|---|
 | **Workspace** · Home | `home` | Setup checklist, admin home, recommendations |
