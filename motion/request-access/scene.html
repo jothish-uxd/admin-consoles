@@ -116,6 +116,9 @@ td.act { text-align: right; width: 150px; }
 
 /* Cursor */
 #cursor { position: absolute; left: 0; top: 0; width: 22px; height: 22px; z-index: 50; pointer-events: none; transform-origin: 3px 2px; }
+#endcard { position: fixed; inset: 0; background: #f5f7f9; opacity: 0; z-index: 100; }
+#endcard p { position: absolute; left: 0; right: 0; top: 75%; transform: translateY(-50%); margin: 0; text-align: center;
+  font-size: 18px; color: #666; letter-spacing: -.005em; }
 #ring { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 2px solid var(--ink); opacity: 0; z-index: 49; }
 </style>
 </head>
@@ -195,6 +198,8 @@ td.act { text-align: right; width: 150px; }
   <svg id="cursor" viewBox="0 0 22 22"><path d="M3 2l14.5 8.2-6.3 1.4-2.9 5.9z" fill="#171717" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
 </div>
 
+<div id="endcard"><p>Patterns for enterprise admin consoles, by Jothish John, © 2026</p></div>
+
 <script>
 const $ = id => document.getElementById(id);
 const TEXT = "Exhaust port analysis for the Yavin briefing.";
@@ -226,7 +231,7 @@ const T = {
   reqClick: 1.30, drawerIn: [1.36, 1.86],
   viewerClick: 2.50, sevenClick: 3.30, taClick: 3.80,
   type: [3.95, 5.45], submitClick: 6.00, swap: [6.32, 6.62],
-  approve: 7.55, doneClick: 8.35, drawerOut: [8.40, 8.80], rowFlip: 8.95, end: 10.0
+  approve: 7.55, doneClick: 8.35, drawerOut: [8.40, 8.80], rowFlip: 8.95, endCard: [10.0, 10.45], end: 11.5
 };
 let CUR, CAM;
 function build() {
@@ -334,6 +339,9 @@ function renderAt(t) {
   $("accNew").style.opacity = f;
   $("accNew").style.transform = `scale(${.9 + .1 * f})`;
   $("reqBtn").style.opacity = 1 - f;
+
+  // end card: fade to grey with the credit, held to the end
+  $("endcard").style.opacity = span(t, ...T.endCard);
 }
 
 /* Sound cue times, read by render.py. */
