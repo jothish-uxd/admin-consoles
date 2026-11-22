@@ -7,7 +7,7 @@
 
 ### Added
 - **Pattern clips.** A short clip can sit above a pattern's card on the Patterns tab. The first one is *Access requests › Request access*: a 15-second walkthrough in a mock Echo Base console that ends on a grey credit card, with small interaction sounds and no music, and a soft sonar ping as the credit appears. It waits on its first frame with a play button and never starts on its own; Play / Pause / Replay and Sound on / off sit in the corner. *What happens in this clip*, a collapsed grey accordion under the clip, lists the steps as text. When a clip ends, a grey end card shows the replay button with the credit (**Patterns for Enterprise Admin Consoles** / Jothish John · © 2026) centred in its lower half. Sound on / off is remembered in your browser. In every clip the signed-in user is Lavanya Sienna, with a Star Wars title that fits the scene (Jedi in training when she asks, Jedi Master when she approves).
-- **Clip length:** clips with 5 or more steps run 15 seconds, including the end card.
+- **Clip length:** clips with 5 or more steps run 15 seconds, including the end card. The extra time goes to the moments that matter: every click, and key beats such as the high-risk tooltip, which the camera also zooms in on.
 - **Access requests clips:** *Request access* and *Approval queue* (oldest-first queue, an escalation warning, bulk approval for low-risk requests only, a single high-risk approval from its row, and Undo).
 
 ## v0.2.1 preview — 2026-11-19

@@ -205,7 +205,7 @@ function build() {
   // camera: focus x, focus y, scale
   const cam = [
     [0.00, 640, 360, 1.00], [0.35, 640, 360, 1.00], [1.40, 720, 330, 1.27], [2.70, 720, 340, 1.27],
-    [3.20, 640, 320, 1.38], [3.90, 640, 320, 1.38], [4.30, 740, 330, 1.27], [4.70, 760, 420, 1.18], [5.45, 760, 420, 1.18],
+    [3.20, 560, 330, 1.68], [3.90, 560, 330, 1.68], [4.30, 740, 330, 1.27], [4.70, 760, 420, 1.18], [5.45, 760, 420, 1.18],
     [6.20, 1010, 300, 1.50], [6.90, 1010, 300, 1.50], [7.40, 900, 380, 1.28], [8.30, 660, 370, 1.06], [9.3, 650, 368, 1.05]
   ];
   return { cam, cur };
@@ -280,7 +280,11 @@ function events() {
   ];
 }
 
-Motion.scene({ T, duration: 15, clicks: [T.cb2, T.cb3, T.cb4, T.bulkClick, T.rowClick], build, render, events });
+Motion.scene({
+  T, duration: 15, clicks: [T.cb2, T.cb3, T.cb4, T.bulkClick, T.rowClick], build, render, events,
+  // linger on the high-risk tooltip, and on the rows leaving the queue
+  slow: [[2.90, 4.0, 2.6], [4.8, 5.4, 1.6], [6.9, 7.45, 1.6]]
+});
 </script>
 </body>
 </html>

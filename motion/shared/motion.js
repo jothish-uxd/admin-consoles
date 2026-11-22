@@ -7,8 +7,12 @@
      render(t) sets the scene's own state for time t
      events() returns sound cues [[name, t], ...]; the end-card sonar is added here
      duration (optional) total length in seconds. The action before the end card
-              is slowed evenly to fit; the end card keeps its own length.
+              is stretched to fit; the end card keeps its own length.
               House rule: clips whose steps list has 5 or more steps run 15 s.
+     slow     (optional) extra moments to linger on, [[from, to, weight], ...] in
+              scene seconds; weight 2 plays that stretch at half speed.
+   Every click is slowed automatically (CLICK_SLOW), so the viewer sees the cursor
+   arrive, the press and what changed. Ordinary moves get whatever time is left.
    Everything is a pure function of time, so render.py can step through it
    frame by frame. Open a scene with ?play to watch it live. */
 (function () {
@@ -35,10 +39,45 @@
   }
 
   const CREDIT = ["Patterns for Enterprise Admin Consoles", "Jothish John · © 2026"];
-  let S, CAM, CUR, PACE = 1;
-  // Real seconds -> scene seconds: the action is slowed by PACE, the end card isn't.
-  const storyTime = t => { const e = S.T.endCard[0] * PACE; return t < e ? t / PACE : S.T.endCard[0] + (t - e); };
-  const realTime = t => t < S.T.endCard[0] ? t * PACE : S.T.endCard[0] * PACE + (t - S.T.endCard[0]);
+  let S, CAM, CUR;
+  /* Time warp. Scene seconds before the end card are weighted: 1 normally, more
+     around clicks and `slow` moments. Real time = PACE × the running sum of weights,
+     with PACE chosen so the clip lands on `duration`. Weights ramp in and out so
+     motion never jerks. */
+  const CLICK_SLOW = [0.40, 0.55, 2.0];   // seconds before, seconds after, weight
+  const RAMP = 0.18, STEP = 0.002;
+  let CUM = null, PACE = 1;
+  const smooth = x => x * x * (3 - 2 * x);
+  function weight(t) {
+    let w = 1;
+    for (const [a, b, k] of S.slowAll) {
+      const up = smooth(clamp01((t - (a - RAMP)) / RAMP)), down = smooth(clamp01(((b + RAMP) - t) / RAMP));
+      w = Math.max(w, 1 + (k - 1) * Math.min(up, down));
+    }
+    return w;
+  }
+  function buildWarp(def) {
+    const E = def.T.endCard[0];
+    S.slowAll = [...def.clicks.map(c => [c - CLICK_SLOW[0], c + CLICK_SLOW[1], CLICK_SLOW[2]]), ...(def.slow || [])];
+    const n = Math.ceil(E / STEP);
+    CUM = new Float64Array(n + 1);
+    for (let i = 1; i <= n; i++) CUM[i] = CUM[i - 1] + weight((i - .5) * STEP) * STEP;
+    PACE = def.duration ? (def.duration - (def.T.end - E)) / CUM[n] : 1;
+  }
+  const contentReal = () => PACE * CUM[CUM.length - 1];
+  function realTime(t) {
+    const E = S.T.endCard[0];
+    if (t >= E) return contentReal() + (t - E);
+    const i = Math.min(CUM.length - 2, Math.floor(t / STEP)), f = t / STEP - i;
+    return PACE * (CUM[i] + (CUM[i + 1] - CUM[i]) * f);
+  }
+  function storyTime(real) {
+    if (real >= contentReal()) return S.T.endCard[0] + (real - contentReal());
+    const target = real / PACE;
+    let lo = 0, hi = CUM.length - 1;
+    while (hi - lo > 1) { const m = (lo + hi) >> 1; if (CUM[m] <= target) lo = m; else hi = m; }
+    return (lo + (target - CUM[lo]) / (CUM[hi] - CUM[lo])) * STEP;
+  }
 
   function renderAt(real) {
     const T = S.T, t = storyTime(real);
@@ -76,8 +115,7 @@
     stage.insertAdjacentHTML("beforeend",
       '<div id="ring"></div><svg id="cursor" viewBox="0 0 22 22"><path d="M3 2l14.5 8.2-6.3 1.4-2.9 5.9z" fill="#171717" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>');
     document.body.insertAdjacentHTML("beforeend", `<div id="endcard"><p><b>${CREDIT[0]}</b><span>${CREDIT[1]}</span></p></div>`);
-    const tail = def.T.end - def.T.endCard[0];
-    PACE = def.duration ? (def.duration - tail) / def.T.endCard[0] : 1;
+    buildWarp(def);
     window.EVENTS = [...def.events(), ["sonar", def.T.endCard[0] + 0.25]].map(([n, t]) => [n, +realTime(t).toFixed(3)]);
     window.DURATION = def.duration || def.T.end;
     window.renderAt = renderAt;

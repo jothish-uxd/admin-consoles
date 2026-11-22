@@ -250,7 +250,11 @@ function events() {
   return ev;
 }
 
-Motion.scene({ T, duration: 15, clicks: [T.reqClick, T.viewerClick, T.sevenClick, T.taClick, T.submitClick, T.doneClick], build, render, events });
+Motion.scene({
+  T, duration: 15, clicks: [T.reqClick, T.viewerClick, T.sevenClick, T.taClick, T.submitClick, T.doneClick], build, render, events,
+  // linger on the approval landing, and on the row's new access at the end
+  slow: [[7.45, 8.05, 2.0], [8.9, 9.4, 1.8]]
+});
 </script>
 </body>
 </html>

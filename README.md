@@ -90,7 +90,7 @@ python3 motion/render.py request-access --stills 1.3,4.8,7.9   # check single fr
 
 Open a scene with `?play` to watch it live in a browser while editing.
 
-Clips whose steps list has 5 or more steps run 15 seconds: set `duration: 15` in the scene's `Motion.scene({ ... })` call, and the action is slowed evenly to fit, with the end card kept at its own length.
+Clips whose steps list has 5 or more steps run 15 seconds: set `duration: 15` in the scene's `Motion.scene({ ... })` call, and the clip is stretched to fit, with the end card kept at its own length. Time isn't stretched evenly: every click is slowed automatically so viewers see the cursor arrive, the press and what changed, and `slow: [[from, to, weight], ...]` lingers on other key moments (a tooltip, rows leaving a list). Ordinary moves get whatever time is left.
 
 ## Known gaps
 
