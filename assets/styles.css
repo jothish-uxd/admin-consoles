@@ -765,6 +765,15 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .clip-big:hover { background: #171717; transform: scale(1.05); }
 .clip-big:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .clip-frame.is-playing .clip-big { display: none; }
+.clip-frame.is-ended .clip-big svg { margin-left: 0; }
+/* End card: grey over the last frame; the credit sits centred in the lower half, clear of the replay button. */
+.clip-end { position: absolute; inset: 0; display: none; background: var(--nest-bg); }
+.clip-frame.is-ended .clip-end { display: block; }
+.clip-frame.is-ended .clip-btn, .clip-frame.is-ended .clip-big { background: var(--ink); color: var(--bg); }
+.clip-end p {
+  position: absolute; left: 24px; right: 24px; top: 75%; transform: translateY(-50%); margin: 0;
+  text-align: center; font-size: 14px; color: var(--ink-soft); text-wrap: balance;
+}
 
 /* Steps: a collapsed accordion in the same grey as the pattern card. */
 .clip-steps { margin-top: 12px; background: var(--nest-bg); border: 1px solid var(--nest-rule); border-radius: 12px; }
@@ -787,6 +796,7 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
   .clip-frame { border: 1px solid CanvasText; }
   .clip-btn, .clip-big { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
   .clip-steps { border: 1px solid CanvasText; }
+  .clip-end { background: Canvas; } .clip-end p { color: CanvasText; }
 }
 
 /* ---------- Header search ---------- */

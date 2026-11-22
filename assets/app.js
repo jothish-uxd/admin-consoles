@@ -9,6 +9,7 @@
   // Links stay on the current page path (index.html or its alias category.html)
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
+  const CREDIT = "Patterns for enterprise admin consoles, by Jothish John, © 2026";
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
 
@@ -70,7 +71,7 @@
       <div class="nav-view" id="nav-view-az" hidden>
         <ul class="nav-list nav-az" aria-label="Categories, A to Z">${azHtml}</ul>
       </div>
-      <p class="sidebar-credit">Patterns for enterprise admin consoles, by Jothish John, © 2026</p>`;
+      <p class="sidebar-credit">${CREDIT}</p>`;
 
     /* Collapsible sections. Open or closed is a per-viewer convenience, so it lives in this browser only. */
     let collapsed = [];
@@ -552,6 +553,7 @@
         <div class="clip-frame">
           <video class="clip-video" src="${esc(v.src)}" poster="${esc(v.poster || "")}" muted playsinline preload="metadata"
             aria-label="${esc(v.label || name)}" aria-describedby="clip-steps"></video>
+          <div class="clip-end" aria-hidden="true"><p>${esc(CREDIT)}</p></div>
           <button type="button" class="clip-big" data-clip="big">${CLIP_ICON.play}<span class="visually-hidden">Play clip</span></button>
           <div class="clip-bar">
             <button type="button" class="clip-btn" data-clip="play"></button>
@@ -576,7 +578,8 @@
       soundBtn.innerHTML = `${CLIP_ICON[vid.muted ? "off" : "on"]}<span>${vid.muted ? "Sound off" : "Sound on"}</span>`;
       soundBtn.setAttribute("aria-pressed", String(!vid.muted));
       frame.classList.toggle("is-playing", !vid.paused && !vid.ended);
-      bigBtn.lastElementChild.textContent = vid.ended ? "Replay clip" : "Play clip";
+      frame.classList.toggle("is-ended", vid.ended);
+      bigBtn.innerHTML = `${CLIP_ICON[vid.ended ? "replay" : "play"]}<span class="visually-hidden">${vid.ended ? "Replay clip" : "Play clip"}</span>`;
     };
     ["play", "pause", "ended", "volumechange"].forEach(e => vid.addEventListener(e, paint));
     playBtn.addEventListener("click", () => { if (vid.paused || vid.ended) vid.play().catch(() => {}); else vid.pause(); });
