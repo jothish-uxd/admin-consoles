@@ -28,6 +28,19 @@ window.VIDEOS = {
         "She approves the three together. They're marked Approved and leave the list, the Pending count drops to 3, and a toast offers Undo.",
         "She approves Ahsoka's high-risk request from its own row. It leaves the list, and the toast confirms Ahsoka's request was approved, again with Undo."
       ]
+    },
+    "Review detail": {
+      src: "media/access-requests/review-detail.mp4",
+      poster: "media/access-requests/review-detail.jpg",
+      label: "Review detail, shown in a mock Echo Base console",
+      steps: [
+        "Lavanya Sienna, a Jedi Master, opens Bodhi Rook's request for Editor on shield generator telemetry. It's marked High risk in words, and a line confirms it isn't her own request or resource.",
+        "Who's asking: Bodhi is a cargo pilot and contractor on Rogue One. His manager is Cassian Andor, and he has two Viewer grants today.",
+        "What he'd get, in plain language: changing calibration and deleting readings for every shield sensor, with the permission code shown small. The risk is spelled out: a bad change can take the shield offline.",
+        "Context: 1 of 6 on his team has Editor. A flag says this is unusual, since only 2 of 41 contractors have Editor on shield systems.",
+        "She narrows the request: coolant sensors only, for 4 hours instead of 1 day. The summary marks it as changed and says Bodhi will see what she changed.",
+        "A comment is required for high-risk approvals, so Approve stays disabled until she writes one. She approves with changes, and the decision record is saved to the audit log."
+      ]
     }
   }
 };

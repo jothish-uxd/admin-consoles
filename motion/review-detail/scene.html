@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Review detail · motion scene</title>
+<!--
+  Source for media/access-requests/review-detail.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 24px 32px; }
+.bc { font-size: 12px; color: var(--faint); margin-bottom: 8px; }
+.bc b { color: var(--soft); font-weight: 500; }
+.ttl { display: flex; align-items: center; gap: 12px; }
+h1 { font-size: 22px; }
+.riskw { font-size: 12px; font-weight: 600; color: #fff; background: var(--ink); border-radius: 999px; padding: 3px 10px; }
+.sub { margin: 6px 0 0; font-size: 13px; color: var(--soft); display: flex; gap: 14px; align-items: center; }
+.sod { display: inline-flex; gap: 5px; align-items: center; color: var(--ink); }
+.sod svg { width: 13px; height: 13px; }
+.cols { display: grid; grid-template-columns: 1fr 318px; gap: 28px; margin-top: 20px; }
+.sec { padding: 14px 16px; border: 1px solid var(--rule); border-radius: 10px; margin-bottom: 12px; position: relative; }
+.sec h3 { margin: 0 0 10px; font-size: 13px; font-weight: 600; display: flex; gap: 8px; align-items: center; }
+.sec h3 .k { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); font-weight: 400; }
+.sec.focus { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
+dl { margin: 0; display: grid; grid-template-columns: 112px 1fr; row-gap: 6px; font-size: 13px; }
+dt { color: var(--faint); }
+dd { margin: 0; color: var(--ink); }
+dd .m { color: var(--soft); }
+.who { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+.who .n { font-weight: 600; font-size: 14px; }
+.who .r { font-size: 12px; color: var(--soft); }
+.av.lg { width: 36px; height: 36px; font-size: 12px; }
+.plain { font-size: 13px; line-height: 1.5; color: var(--ink); margin: 0 0 8px; }
+.plain .code { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); }
+.riskline { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: var(--soft); }
+.riskline b { color: var(--ink); }
+.bars { display: flex; gap: 4px; margin: 2px 0 8px; }
+.bars i { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--rule-strong); display: grid; place-items: center; font-style: normal; font-size: 9px; font-weight: 600; color: var(--soft); background: var(--bg); }
+.bars i.ed { background: var(--ink); border-color: var(--ink); color: #fff; }
+.peer { font-size: 13px; color: var(--ink); }
+.peer .m { color: var(--soft); }
+.flag { margin-top: 10px; display: flex; gap: 10px; align-items: flex-start; padding: 9px 11px; border-radius: 8px; background: var(--hover); font-size: 13px; line-height: 1.45; position: relative; }
+.flag .ic { width: 18px; height: 18px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; display: grid; place-items: center; flex: none; margin-top: 1px; }
+.flag b { font-weight: 600; }
+
+/* decision panel */
+.dec { border: 1px solid var(--rule-strong); border-radius: 12px; padding: 16px; position: relative; background: var(--bg); }
+.dec h2 { margin: 0 0 12px; font-size: 15px; font-weight: 600; }
+.fld { margin-bottom: 12px; }
+.fld .l { font-size: 12px; font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; }
+.fld .l span { font-weight: 400; color: var(--faint); }
+.ro { height: 34px; border: 1px solid var(--rule); border-radius: 8px; display: flex; align-items: center; padding: 0 10px; font-size: 13px; background: var(--subtle); justify-content: space-between; }
+.ro span { color: var(--faint); font-size: 12px; }
+.sel { height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; font-size: 13px; position: relative; }
+.sel.open { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.sel .v { position: relative; height: 18px; flex: 1; }
+.sel .v span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.menu { position: absolute; left: 0; right: 0; top: 38px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.1); padding: 4px; z-index: 5; opacity: 0; }
+.menu div { padding: 7px 9px; border-radius: 6px; font-size: 13px; }
+.menu div .s { display: block; font-size: 11px; color: var(--faint); }
+.menu div.hov { background: var(--hover); }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; }
+.seg div { height: 32px; display: grid; place-items: center; font-size: 12px; color: var(--soft); border-right: 1px solid var(--rule); }
+.seg div:last-child { border-right: 0; }
+.seg div.on { background: var(--ink); color: #fff; font-weight: 500; }
+.sum { font-size: 12px; line-height: 1.45; padding: 9px 10px; border-radius: 8px; background: var(--subtle); color: var(--soft); margin-bottom: 12px; position: relative; height: 54px; }
+.sum b { color: var(--ink); font-weight: 600; }
+.sum > div { position: absolute; left: 10px; right: 10px; top: 9px; }
+.chg { font-family: "Geist Mono", monospace; font-size: 10px; border: 1px solid var(--ink); border-radius: 999px; padding: 0 6px; color: var(--ink); margin-left: 4px; }
+.ta { border: 1px solid var(--rule-strong); border-radius: 8px; height: 54px; padding: 8px 10px; font-size: 12.5px; line-height: 1.45; }
+.ta.focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.ta .ph { color: #b0b0b0; }
+.caret { display: inline-block; width: 1.5px; height: 14px; background: var(--ink); vertical-align: -3px; margin-left: 1px; }
+.acts { display: flex; gap: 8px; margin-top: 14px; }
+.acts .btn { flex: 1; height: 36px; }
+.acts .btn.pri { flex: 1.6; }
+.acts .btn.dis { background: #bdbdbd; border-color: #bdbdbd; }
+.spin { width: 13px; height: 13px; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; }
+
+.result { position: absolute; inset: 0; border-radius: 12px; background: var(--bg); padding: 18px 16px; opacity: 0; }
+.ok { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+.ok .ic { width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; flex: none; }
+.ok .t { font-size: 15px; font-weight: 600; }
+.ok .s { font-size: 12px; color: var(--soft); margin-top: 2px; }
+.rec { font-size: 12px; }
+.rec .h { font-size: 11px; color: var(--faint); margin-bottom: 6px; font-family: "Geist Mono", monospace; }
+.rec dl { grid-template-columns: 82px 1fr; font-size: 12px; row-gap: 5px; }
+.logged { margin-top: 14px; display: inline-flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: var(--hover); color: var(--ink); opacity: 0; }
+.logged svg { width: 12px; height: 12px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="chev" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb">/ Approvals / <b>Bodhi Rook’s request</b></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav">
+      <div>Resources</div><div>My requests</div><div class="on">Approvals</div>
+      <div class="lbl">Admin</div><div>Access reviews</div><div>Audit log</div>
+    </div>
+    <div class="main">
+      <div class="ttl"><h1>Shield generator telemetry · Editor</h1><span class="riskw">High risk</span></div>
+      <p class="sub"><span>Requested 6h ago · 1 day</span><span>Owner: Base Engineering</span>
+        <span class="sod"><svg><use href="#tick"/></svg>Not your request, not your resource</span></p>
+      <div class="cols">
+        <div>
+          <section class="sec" id="secWho">
+            <h3><span class="k">01</span>Who’s asking</h3>
+            <div class="who"><span class="av lg">BR</span><div><div class="n">Bodhi Rook</div><div class="r">Cargo pilot · contractor until Mar 2027</div></div></div>
+            <dl>
+              <dt>Team</dt><dd>Rogue One</dd>
+              <dt>Manager</dt><dd>Cassian Andor</dd>
+              <dt>Has today</dt><dd>Cargo manifests <span class="m">Viewer</span> · Hangar 3 schedules <span class="m">Viewer</span></dd>
+            </dl>
+          </section>
+          <section class="sec" id="secWhat">
+            <h3><span class="k">02</span>What they’d get</h3>
+            <p class="plain">Change calibration and delete readings for every sensor on the main shield generator. <span class="code">telemetry.shield:write</span></p>
+            <div class="riskline"><span><b>High risk:</b> a bad change can take the shield offline during an attack.</span></div>
+          </section>
+          <section class="sec" id="secCtx">
+            <h3><span class="k">03</span>Context</h3>
+            <div class="bars"><i class="ed">CA</i><i>JE</i><i>K2</i><i>CI</i><i>BM</i><i>BR</i></div>
+            <div class="peer">1 of 6 on Rogue One has Editor <span class="m">(Cassian Andor). 4 have Viewer.</span></div>
+            <div class="flag" id="flag"><span class="ic">!</span><div><b>Unusual for contractors.</b> 2 of 41 contractors have Editor on shield systems.</div></div>
+          </section>
+        </div>
+        <div class="dec" id="dec">
+          <h2>Your decision</h2>
+          <div class="fld"><div class="l">Access level</div><div class="ro">Editor <span>as requested</span></div></div>
+          <div class="fld"><div class="l">Scope <span>You can narrow this</span></div>
+            <div class="sel" id="scope"><div class="v"><span id="sc0">All shield sensors</span><span id="sc1" style="opacity:0">Coolant sensors only</span></div><svg width="14" height="14" style="color:#8f8f8f"><use href="#chev"/></svg>
+              <div class="menu" id="menu"><div>All shield sensors<span class="s">As requested · 214 sensors</span></div><div id="optCool">Coolant sensors only<span class="s">12 sensors</span></div><div>Read-only sensors<span class="s">Viewer access</span></div></div>
+            </div></div>
+          <div class="fld"><div class="l">How long</div><div class="seg"><div id="d4">4 hours</div><div id="d1">1 day</div><div>7 days</div></div></div>
+          <div class="sum"><div id="sumA"><b>Grant:</b> Editor on all shield sensors for 1 day, as requested.</div>
+            <div id="sumB" style="opacity:0"><b>Grant:</b> Editor on coolant sensors for 4 hours <span class="chg">changed</span><br>Bodhi will see what you changed.</div></div>
+          <div class="fld"><div class="l">Comment <span>Required for high-risk approvals</span></div>
+            <div class="ta" id="ta"><span id="typed"></span><span class="caret" id="caret" style="opacity:0"></span><span class="ph" id="ph">Why you’re approving</span></div></div>
+          <div class="acts"><span class="btn">Deny</span><span class="btn pri dis" id="apBtn"><span id="apLbl">Approve with changes</span><span class="spin" id="spin" style="display:none"></span></span></div>
+          <div class="result" id="result">
+            <div class="ok"><span class="ic"><svg width="16" height="16"><use href="#tick"/></svg></span><div><div class="t">Approved with changes</div><div class="s">Bodhi has been told what changed.</div></div></div>
+            <div class="rec"><div class="h">DECISION RECORD</div>
+              <dl><dt>Granted</dt><dd>Editor · coolant sensors</dd><dt>Ends</dt><dd>Tonight, 23:40</dd><dt>Asked for</dt><dd>All sensors · 1 day</dd>
+                <dt>Approver</dt><dd>Lavanya Sienna</dd><dt>Comment</dt><dd id="recC">Scoped to the coolant fix. Ends tonight.</dd></dl></div>
+            <div class="logged" id="logged"><svg><use href="#tick"/></svg>Saved to audit log</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const TEXT = "Scoped to the coolant fix. Ends tonight.";
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  who: [0.9, 2.0], what: [2.3, 3.4], ctx: [3.7, 5.0], flagPulse: [4.2, 5.0],
+  scopeClick: 5.85, menu: [5.9, 6.6], coolClick: 6.55, fourClick: 7.25, sumSwap: [7.3, 7.55],
+  taClick: 7.85, type: [8.0, 9.3], approveClick: 9.85, swap: [10.15, 10.45], logged: 10.85,
+  endCard: [12.3, 12.75], end: 13.8
+};
+
+function build() {
+  const sc = at("scope", 40, 0), cool = at("optCool", -40, 0), four = at("d4"), ta = at("ta", 20, 0), ap = at("apBtn");
+  // the menu is hidden at build time; place it now so its option has a position
+  const cur = [
+    [0.00, 760, 640], [0.40, 760, 640], [2.0, 700, 640], [5.0, 1000, 560],
+    [5.75, sc[0], sc[1] + 3], [5.95, sc[0], sc[1] + 3], [6.45, cool[0], cool[1] + 3], [6.65, cool[0], cool[1] + 3],
+    [7.15, four[0], four[1] + 3], [7.35, four[0], four[1] + 3], [7.75, ta[0], ta[1]], [7.95, ta[0], ta[1]],
+    [9.30, ta[0] + 90, ta[1] + 40], [9.75, ap[0], ap[1] + 3], [10.2, ap[0], ap[1] + 3],
+    [11.3, ap[0] - 140, ap[1] + 20], [12.3, ap[0] - 150, ap[1] + 24]
+  ];
+  // camera: focus x, focus y, scale
+  const w = at("secWho"), wh = at("secWhat"), c = at("secCtx"), d = at("dec");
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.45, 640, 360, 1.00],
+    [1.10, w[0] + 60, w[1] + 10, 1.62], [2.05, w[0] + 60, w[1] + 10, 1.62],
+    [2.45, wh[0] + 60, wh[1], 1.72], [3.45, wh[0] + 60, wh[1], 1.72],
+    [3.85, c[0] + 60, c[1], 1.66], [5.05, c[0] + 60, c[1], 1.66],
+    [5.65, d[0], d[1] - 120, 1.72], [7.45, d[0], d[1] - 90, 1.72],
+    [7.95, d[0], d[1] + 40, 1.72], [9.40, d[0], d[1] + 50, 1.72],
+    [9.85, d[0], d[1] + 70, 1.66], [10.15, d[0], d[1] + 70, 1.66], [10.6, d[0], d[1] - 120, 1.74], [11.2, d[0], d[1] - 120, 1.74],
+    [11.6, 720, 360, 1.08], [12.3, 716, 360, 1.06]
+  ];
+  return { cam, cur };
+}
+
+function swap(ids, k) { ids.forEach((id, i) => { $(id).style.opacity = Math.max(0, 1 - Math.abs(k - i)); }); }
+
+function render(t) {
+  // section focus rings as the camera visits each
+  [["secWho", T.who], ["secWhat", T.what], ["secCtx", T.ctx]].forEach(([id, [a, b]]) => $(id).classList.toggle("focus", t >= a && t < b));
+  const p = t > T.flagPulse[0] && t < T.flagPulse[1] ? Math.sin((t - T.flagPulse[0]) / (T.flagPulse[1] - T.flagPulse[0]) * Math.PI) : 0;
+  $("flag").style.boxShadow = `0 0 0 ${p * 4}px rgba(23,23,23,${.14 * p})`;
+
+  // scope menu
+  const mo = span(t, T.menu[0], T.menu[0] + .15, easeOut) * (1 - span(t, T.menu[1] - .08, T.menu[1]));
+  $("menu").style.opacity = mo;
+  $("menu").style.transform = `translateY(${(1 - mo) * -4}px)`;
+  $("scope").classList.toggle("open", mo > .05);
+  $("optCool").classList.toggle("hov", t > T.coolClick - .25 && t < T.menu[1]);
+  swap(["sc0", "sc1"], span(t, T.coolClick, T.coolClick + .15));
+
+  // duration
+  $("d4").classList.toggle("on", t >= T.fourClick);
+  $("d1").classList.toggle("on", t < T.fourClick);
+  swap(["sumA", "sumB"], span(t, ...T.sumSwap));
+
+  // comment
+  const focused = t >= T.taClick && t < T.approveClick;
+  $("ta").classList.toggle("focus", focused);
+  const n = Math.round(TEXT.length * span(t, ...T.type, x => x));
+  $("typed").textContent = TEXT.slice(0, n);
+  $("ph").style.display = n ? "none" : "";
+  $("caret").style.opacity = focused && (t < T.type[0] || t > T.type[1] ? Math.floor(t * 2.4) % 2 === 0 : true) ? 1 : 0;
+  // Approve stays disabled until there's a comment
+  $("apBtn").classList.toggle("dis", n < 8);
+  $("apBtn").style.background = t >= T.approveClick - .05 && t < T.swap[1] ? "#333" : "";
+
+  const busy = t >= T.approveClick && t < T.swap[1];
+  $("apLbl").style.display = busy ? "none" : "";
+  $("spin").style.display = busy ? "" : "none";
+  $("spin").style.transform = `rotate(${t * 900}deg)`;
+  const sw = span(t, ...T.swap);
+  $("result").style.opacity = sw;
+  $("result").style.transform = `translateY(${(1 - sw) * 6}px)`;
+  const lg = span(t, T.logged, T.logged + .25, easeOut);
+  $("logged").style.opacity = lg;
+  $("logged").style.transform = `scale(${.92 + .08 * lg})`;
+}
+
+function events() {
+  const ev = [["click", T.scopeClick], ["click", T.coolClick], ["click", T.fourClick], ["click", T.taClick]];
+  for (let i = 1; i <= TEXT.length; i++) {
+    const tt = T.type[0] + (T.type[1] - T.type[0]) * (i - .5) / TEXT.length;
+    if (TEXT[i - 1] !== " ") ev.push(["key", +tt.toFixed(3)]);
+  }
+  ev.push(["click", T.approveClick], ["chime", T.swap[0]], ["pop", T.logged]);
+  return ev;
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.scopeClick, T.coolClick, T.fourClick, T.taClick, T.approveClick], build, render, events,
+  // linger on each piece of context, and on the decision record
+  slow: [[1.0, 2.0, 1.5], [2.4, 3.4, 1.5], [3.9, 5.0, 1.7], [7.3, 7.6, 1.8], [10.4, 11.2, 1.8]]
+});
+</script>
+</body>
+</html>
