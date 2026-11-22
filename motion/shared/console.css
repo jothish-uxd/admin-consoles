@@ -1,0 +1,58 @@
+/* Shared look for motion scenes: the mock console, cursor, click ring and end card.
+   Each scene links this, then adds its own styles. */
+@font-face { font-family: "Geist"; src: url("../fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Geist Mono"; src: url("../fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; }
+:root {
+  --bg: #ffffff; --subtle: #fafafa; --hover: #f2f2f2; --ink: #171717; --soft: #666; --faint: #8f8f8f;
+  --rule: #ebebeb; --rule-strong: #d4d4d4; --backdrop: #f3f3f3;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1280px; height: 720px; overflow: hidden; background: var(--backdrop); }
+body { font-family: "Geist", system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+#stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; }
+
+/* App window */
+.win { position: absolute; left: 40px; top: 20px; width: 1200px; height: 680px; background: var(--bg);
+  border: 1px solid var(--rule-strong); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 40px rgba(0,0,0,.06); }
+.top { position: absolute; left: 0; right: 0; top: 0; height: 52px; border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; gap: 12px; padding: 0 20px; font-size: 14px; }
+.brand { display: flex; align-items: center; gap: 9px; font-weight: 600; letter-spacing: -.01em; }
+.brand svg { width: 18px; height: 18px; }
+.crumb { color: var(--faint); }
+.crumb b { color: var(--soft); font-weight: 500; }
+.me { margin-left: auto; display: flex; align-items: center; gap: 10px; color: var(--soft); font-size: 13px; }
+.av { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600;
+  background: var(--hover); border: 1px solid var(--rule-strong); color: var(--ink); flex: none; }
+.av.dark { background: var(--ink); color: #fff; border-color: var(--ink); }
+.nav { position: absolute; left: 0; top: 52px; bottom: 0; width: 200px; border-right: 1px solid var(--rule); padding: 18px 12px; }
+.nav div { padding: 8px 10px; border-radius: 6px; font-size: 14px; color: var(--soft); margin-bottom: 2px; }
+.nav div.on { background: var(--hover); color: var(--ink); font-weight: 600; }
+.nav .lbl { font-size: 12px; color: var(--faint); padding: 14px 10px 6px; }
+.main { position: absolute; left: 200px; right: 0; top: 52px; bottom: 0; padding: 28px 32px; }
+h1 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
+.lede { margin: 6px 0 22px; color: var(--soft); font-size: 14px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; font-weight: 500; font-size: 12px; color: var(--faint); padding: 0 12px 10px; border-bottom: 1px solid var(--rule); }
+td { padding: 0 12px; height: 54px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+td:first-child { color: var(--ink); font-weight: 500; }
+tr.hl td { background: var(--subtle); }
+.cls { font-family: "Geist Mono", monospace; font-size: 12px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 8px; color: var(--soft); }
+.cls.r { border-color: var(--ink); color: var(--ink); }
+.none { color: var(--faint); }
+.acc-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink); font-weight: 500;
+  background: var(--hover); border-radius: 999px; padding: 3px 10px 3px 8px; }
+.acc-badge svg { width: 13px; height: 13px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 7px;
+  font: 500 13px "Geist"; border: 1px solid var(--rule-strong); background: var(--bg); color: var(--ink); }
+.btn.pri { background: var(--ink); color: #fff; border-color: var(--ink); }
+.btn.ghost { border-color: transparent; color: var(--soft); }
+td.act { text-align: right; width: 150px; }
+.scrim { position: absolute; inset: 52px 0 0 0; background: #000; opacity: 0; }
+#cursor { position: absolute; left: 0; top: 0; width: 22px; height: 22px; z-index: 50; pointer-events: none; transform-origin: 3px 2px; }
+#endcard { position: fixed; inset: 0; background: #f5f7f9; opacity: 0; z-index: 100; }
+#endcard p { position: absolute; left: 0; right: 0; top: 75%; transform: translateY(-50%); margin: 0; text-align: center;
+  font-size: 18px; line-height: 1.5; color: #666; letter-spacing: -.005em; }
+#endcard b { display: block; font-weight: 600; color: #171717; }
+#endcard span { display: block; }
+#ring { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 2px solid var(--ink); opacity: 0; z-index: 49; }

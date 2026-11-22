@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Approval queue · motion scene</title>
+<!--
+  Source for media/access-requests/approval-queue.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.lede { margin-bottom: 16px; }
+.bar { display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 1px solid var(--rule); margin-bottom: 0; }
+.tabs { display: flex; gap: 22px; font-size: 14px; }
+.tabs div { padding: 0 0 10px; color: var(--soft); display: flex; gap: 6px; align-items: center; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
+.tabs .n { font-family: "Geist Mono", monospace; font-size: 11px; font-weight: 400; color: var(--faint); position: relative; display: inline-block; min-width: 14px; height: 15px; }
+.tabs .n span { position: absolute; left: 0; top: 0; }
+.tools { display: flex; gap: 8px; padding-bottom: 8px; }
+.pill { height: 28px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12px; color: var(--soft); }
+.pill b { color: var(--ink); font-weight: 500; }
+
+/* queue rows: a grid, so rows can collapse */
+.q { font-size: 13px; position: relative; }
+.qh, .qr { display: grid; grid-template-columns: 34px 1.2fr 1.3fr 1.55fr 108px 62px 138px; align-items: center; column-gap: 10px; padding: 0 8px; }
+.qh { height: 40px; font-size: 12px; color: var(--faint); font-weight: 500; border-bottom: 1px solid var(--rule); }
+.qr { height: 62px; border-bottom: 1px solid var(--rule); overflow: hidden; position: relative; background: var(--bg); }
+.qr.sel { background: var(--subtle); }
+.qr .two { line-height: 1.35; min-width: 0; }
+.qr .two .a { color: var(--ink); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qr .two .b { color: var(--faint); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.who { display: flex; gap: 10px; align-items: center; min-width: 0; }
+.reason { color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.age { line-height: 1.35; }
+.age .a { color: var(--ink); font-family: "Geist Mono", monospace; font-size: 12px; }
+.esc { display: inline-block; margin-top: 3px; font-size: 11px; font-weight: 500; color: #fff; background: var(--ink); border-radius: 999px; padding: 1px 7px; }
+.risk { font-family: "Geist Mono", monospace; font-size: 11px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 7px; color: var(--soft); justify-self: start; }
+.risk.hi { border-color: var(--ink); color: var(--ink); }
+.acts { display: flex; gap: 6px; justify-content: flex-end; position: relative; }
+.acts .btn { height: 30px; padding: 0 10px; font-size: 12px; }
+.done-mark { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; gap: 6px; align-items: center; font-weight: 500; color: var(--ink); opacity: 0; white-space: nowrap; }
+.done-mark i { width: 18px; height: 18px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; }
+.cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--rule-strong); display: grid; place-items: center; background: var(--bg); }
+.cb svg { width: 11px; height: 11px; opacity: 0; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on svg { opacity: 1; }
+.cb.off { background: var(--hover); border-style: dashed; }
+
+/* bulk bar sits over the header row */
+.bulk { position: absolute; left: 0; right: 0; top: 0; height: 40px; background: var(--ink); color: #fff; border-radius: 8px; display: flex; align-items: center; gap: 12px; padding: 0 8px 0 16px; font-size: 13px; opacity: 0; }
+.bulk .cnt { font-weight: 600; position: relative; width: 82px; height: 18px; }
+.bulk .cnt span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.bulk .hint { color: #a3a3a3; font-size: 12px; }
+.bulk .sp { margin-left: auto; }
+.bulk .btn { height: 28px; font-size: 12px; }
+.bulk .btn.inv { background: #fff; color: var(--ink); border-color: #fff; }
+.bulk .btn.clr { background: transparent; color: #d4d4d4; border-color: transparent; }
+
+.tip { position: absolute; z-index: 20; background: var(--ink); color: #fff; font-size: 12px; line-height: 1.4; padding: 7px 10px; border-radius: 7px; width: 214px; opacity: 0; }
+.tip::before { content: ""; position: absolute; left: 10px; top: -5px; width: 10px; height: 10px; background: var(--ink); transform: rotate(45deg); }
+
+.toast { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 18px; padding: 0 8px 0 16px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+.toast .msg { display: flex; gap: 10px; align-items: center; position: relative; }
+.toast .u { font-weight: 600; padding: 6px 10px; border-radius: 6px; background: rgba(255,255,255,.12); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb">/ <b>Approvals</b></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav">
+      <div>Resources</div><div>My requests</div><div class="on">Approvals</div>
+      <div class="lbl">Admin</div><div>Access reviews</div><div>Audit log</div>
+    </div>
+    <div class="main">
+      <h1>Approvals</h1>
+      <p class="lede">Requests waiting on you, oldest first. Low-risk requests can be approved together.</p>
+      <div class="bar">
+        <div class="tabs">
+          <div class="on">Pending <span class="n" id="nPend"><span id="nP6">6</span><span id="nP3" style="opacity:0">3</span><span id="nP2" style="opacity:0">2</span></span></div>
+          <div>Approved <span class="n" id="nApp" style="min-width:16px"><span id="nA12">12</span><span id="nA15" style="opacity:0">15</span><span id="nA16" style="opacity:0">16</span></span></div>
+          <div>Denied <span class="n">3</span></div>
+        </div>
+        <div class="tools"><span class="pill">Sort <b>Oldest first</b></span><span class="pill">Risk <b>All</b></span></div>
+      </div>
+      <div class="q" id="q">
+        <div class="qh" id="qh"><span class="cb"></span><span>Requester</span><span>Asking for</span><span>Reason</span><span>Waiting</span><span>Risk</span><span></span></div>
+        <div class="bulk" id="bulk">
+          <span class="cnt"><span id="c1">1 selected</span><span id="c2" style="opacity:0">2 selected</span><span id="c3" style="opacity:0">3 selected</span></span>
+          <span class="hint">Low risk only</span>
+          <span class="sp"></span>
+          <span class="btn clr">Clear</span><span class="btn">Deny</span><span class="btn inv" id="bulkApprove">Approve <span id="bulkN">3</span></span>
+        </div>
+        <!-- rows -->
+        <div class="qr" id="r1">
+          <span class="cb off" id="cb1"></span>
+          <div class="who"><span class="av">AT</span><div class="two"><div class="a">Ahsoka Tano</div><div class="b">Commander</div></div></div>
+          <div class="two"><div class="a">Holonet relay keys</div><div class="b">Editor · 30 days</div></div>
+          <div class="reason">Rotate keys after the Ord Mantell breach</div>
+          <div class="age"><div class="a">2d 4h</div><span class="esc" id="esc1">Escalates in 3h</span></div>
+          <span class="risk hi">High</span>
+          <div class="acts"><span class="btn" id="dn1">Deny</span><span class="btn pri" id="ap1">Approve</span>
+            <span class="done-mark" id="dm1"><i><svg width="11" height="11" style="color:#fff"><use href="#tick"/></svg></i>Approved</span></div>
+        </div>
+        <div class="qr" id="r2">
+          <span class="cb" id="cb2"><svg style="color:#fff"><use href="#tick"/></svg></span>
+          <div class="who"><span class="av">WA</span><div class="two"><div class="a">Wedge Antilles</div><div class="b">Pilot, Red Squadron</div></div></div>
+          <div class="two"><div class="a">X-wing flight logs</div><div class="b">Viewer · 7 days</div></div>
+          <div class="reason">Debrief prep for the Yavin run</div>
+          <div class="age"><div class="a">1d 6h</div></div>
+          <span class="risk">Low</span>
+          <div class="acts"><span class="btn">Deny</span><span class="btn pri">Approve</span>
+            <span class="done-mark" id="dm2"><i><svg width="11" height="11" style="color:#fff"><use href="#tick"/></svg></i>Approved</span></div>
+        </div>
+        <div class="qr" id="r3">
+          <span class="cb" id="cb3"><svg style="color:#fff"><use href="#tick"/></svg></span>
+          <div class="who"><span class="av">BD</span><div class="two"><div class="a">Biggs Darklighter</div><div class="b">Pilot, Red Squadron</div></div></div>
+          <div class="two"><div class="a">X-wing flight logs</div><div class="b">Viewer · 7 days</div></div>
+          <div class="reason">Same debrief, flying as Wedge’s wingman</div>
+          <div class="age"><div class="a">1d 5h</div></div>
+          <span class="risk">Low</span>
+          <div class="acts"><span class="btn">Deny</span><span class="btn pri">Approve</span>
+            <span class="done-mark" id="dm3"><i><svg width="11" height="11" style="color:#fff"><use href="#tick"/></svg></i>Approved</span></div>
+        </div>
+        <div class="qr" id="r4">
+          <span class="cb" id="cb4"><svg style="color:#fff"><use href="#tick"/></svg></span>
+          <div class="who"><span class="av">CA</span><div class="two"><div class="a">Cassian Andor</div><div class="b">Intelligence officer</div></div></div>
+          <div class="two"><div class="a">Yavin IV supply manifests</div><div class="b">Viewer · 7 days</div></div>
+          <div class="reason">Trace crates missing from the last supply run</div>
+          <div class="age"><div class="a">20h</div></div>
+          <span class="risk">Low</span>
+          <div class="acts"><span class="btn">Deny</span><span class="btn pri">Approve</span>
+            <span class="done-mark" id="dm4"><i><svg width="11" height="11" style="color:#fff"><use href="#tick"/></svg></i>Approved</span></div>
+        </div>
+        <div class="qr" id="r5">
+          <span class="cb off"></span>
+          <div class="who"><span class="av">BR</span><div class="two"><div class="a">Bodhi Rook</div><div class="b">Cargo pilot · contractor</div></div></div>
+          <div class="two"><div class="a">Shield generator telemetry</div><div class="b">Editor · 1 day</div></div>
+          <div class="reason">Recalibrate the coolant sensor readings</div>
+          <div class="age"><div class="a">6h</div></div>
+          <span class="risk hi">High</span>
+          <div class="acts"><span class="btn">Deny</span><span class="btn pri">Approve</span></div>
+        </div>
+        <div class="qr" id="r6">
+          <span class="cb off"></span>
+          <div class="who"><span class="av">JE</span><div class="two"><div class="a">Jyn Erso</div><div class="b">Field agent</div></div></div>
+          <div class="two"><div class="a">Death Star plans · archive</div><div class="b">Viewer · 7 days</div></div>
+          <div class="reason">Cross-check the exhaust port data</div>
+          <div class="age"><div class="a">2h</div></div>
+          <span class="risk hi">High</span>
+          <div class="acts"><span class="btn">Deny</span><span class="btn pri">Approve</span></div>
+        </div>
+      </div>
+      <div class="tip" id="tip">High-risk requests are approved one at a time, from their row.</div>
+    </div>
+    <div class="toast" id="toast">
+      <span class="msg"><i><svg width="11" height="11"><use href="#tick"/></svg></i>
+        <span style="position:relative;display:inline-block;width:250px;height:18px">
+          <span id="t1" style="position:absolute;left:0;top:0">3 requests approved</span>
+          <span id="t2" style="position:absolute;left:0;top:0;opacity:0">Approved Ahsoka Tano’s request</span>
+        </span></span>
+      <span class="u">Undo</span>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (seconds) ---------- */
+const T = {
+  escPulse: [0.8, 1.9],
+  cb2: 1.75, cb3: 2.15, cb4: 2.55, bulkIn: [1.78, 2.0],
+  tip: [3.05, 3.95],
+  bulkClick: 4.40, bulkDone: 4.48, bulkCollapse: [4.85, 5.30], toast1: [4.75, 5.0],
+  rowClick: 6.45, rowDone: 6.52, rowCollapse: [6.95, 7.40],
+  toastOut: [8.55, 8.85], endCard: [9.30, 9.75], end: 10.8
+};
+
+function build() {
+  const c2 = at("cb2"), c3 = at("cb3"), c4 = at("cb4"), c1 = at("cb1"), ba = at("bulkApprove"), ap = at("ap1");
+  // tooltip sits under the disabled checkbox on row 1
+  const tip = $("tip"), q = $("q");
+  tip.style.left = ($("cb1").offsetLeft + q.offsetLeft - 6) + "px";
+  tip.style.top = ($("r1").offsetTop + q.offsetTop + 46) + "px";
+  // row 1 stays put when rows 2-4 collapse, so its Approve button doesn't move
+  const cur = [
+    [0.00, 820, 660], [0.45, 820, 660], [1.62, c2[0] + 4, c2[1] + 3], [1.85, c2[0] + 4, c2[1] + 3],
+    [2.08, c3[0] + 4, c3[1] + 3], [2.25, c3[0] + 4, c3[1] + 3], [2.48, c4[0] + 4, c4[1] + 3], [2.66, c4[0] + 4, c4[1] + 3],
+    [3.00, c1[0] + 4, c1[1] + 3], [3.95, c1[0] + 4, c1[1] + 3],
+    [4.32, ba[0], ba[1] + 2], [4.60, ba[0], ba[1] + 2],
+    [5.40, ap[0] - 60, ap[1] + 70], [6.35, ap[0], ap[1] + 2], [6.75, ap[0], ap[1] + 2],
+    [8.20, 980, 560], [9.3, 990, 566]
+  ];
+  // camera: focus x, focus y, scale
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.35, 640, 360, 1.00], [1.40, 720, 330, 1.27], [2.70, 720, 340, 1.27],
+    [3.20, 640, 320, 1.38], [3.90, 640, 320, 1.38], [4.30, 740, 330, 1.27], [4.70, 760, 420, 1.18], [5.45, 760, 420, 1.18],
+    [6.20, 1010, 300, 1.50], [6.90, 1010, 300, 1.50], [7.40, 900, 380, 1.28], [8.30, 660, 370, 1.06], [9.3, 650, 368, 1.05]
+  ];
+  return { cam, cur };
+}
+
+/* cross-fade a stack of absolutely placed labels: show index k (fractional allowed) */
+function swap(ids, k) { ids.forEach((id, i) => { $(id).style.opacity = Math.max(0, 1 - Math.abs(k - i)); }); }
+function collapse(row, k) {
+  const r = $(row);
+  r.style.height = 62 * (1 - k) + "px";
+  r.style.opacity = 1 - Math.min(1, k * 1.6);
+  r.style.borderBottomWidth = k > .98 ? "0" : "1px";
+}
+
+function render(t) {
+  // escalation badge pulses while the camera arrives
+  const p = t > T.escPulse[0] && t < T.escPulse[1] ? Math.sin((t - T.escPulse[0]) / (T.escPulse[1] - T.escPulse[0]) * Math.PI * 2) : 0;
+  $("esc1").style.boxShadow = `0 0 0 ${Math.max(0, p) * 5}px rgba(23,23,23,${.18 * Math.max(0, p)})`;
+
+  // selection
+  const n = (t >= T.cb2) + (t >= T.cb3) + (t >= T.cb4);
+  [["cb2", "r2", T.cb2], ["cb3", "r3", T.cb3], ["cb4", "r4", T.cb4]].forEach(([cb, r, at]) => {
+    const on = t >= at && t < T.bulkDone;
+    $(cb).classList.toggle("on", t >= at);
+    $(r).classList.toggle("sel", on);
+  });
+  const bIn = span(t, ...T.bulkIn, easeOut) * (1 - span(t, T.bulkDone, T.bulkDone + .25));
+  $("bulk").style.opacity = bIn;
+  $("bulk").style.transform = `translateY(${(1 - bIn) * -4}px)`;
+  // header hides under the bar and returns only once the bar is gone, so the two never show through each other
+  $("qh").style.opacity = t < T.bulkDone ? 1 - bIn : span(t, T.bulkDone + .25, T.bulkDone + .45);
+  swap(["c1", "c2", "c3"], Math.max(0, n - 1));
+
+  // tooltip on the disabled high-risk checkbox
+  const tp = span(t, T.tip[0], T.tip[0] + .2, easeOut) * (1 - span(t, T.tip[1] - .2, T.tip[1]));
+  $("tip").style.opacity = tp;
+  $("tip").style.transform = `translateY(${(1 - tp) * 4}px)`;
+
+  // bulk approve
+  $("bulkApprove").style.background = t >= T.bulkClick - .05 && t < T.bulkDone + .1 ? "#e5e5e5" : "";
+  ["2", "3", "4"].forEach(i => {
+    const m = span(t, T.bulkDone, T.bulkDone + .2, easeOut);
+    $("dm" + i).style.opacity = m;
+    $("r" + i).querySelectorAll(".acts .btn").forEach(b => { b.style.opacity = 1 - m; });
+    collapse("r" + i, span(t, ...T.bulkCollapse));
+  });
+
+  // row approve for the escalating high-risk request
+  $("ap1").style.background = t >= T.rowClick - .05 && t < T.rowDone + .1 ? "#333" : "";
+  const m1 = span(t, T.rowDone, T.rowDone + .2, easeOut);
+  $("dm1").style.opacity = m1;
+  $("dn1").style.opacity = $("ap1").style.opacity = 1 - m1;
+  $("esc1").style.opacity = 1 - m1;
+  collapse("r1", span(t, ...T.rowCollapse));
+
+  // tab counts
+  swap(["nP6", "nP3", "nP2"], span(t, T.bulkCollapse[0], T.bulkCollapse[0] + .2) + span(t, T.rowCollapse[0], T.rowCollapse[0] + .2));
+  swap(["nA12", "nA15", "nA16"], span(t, T.bulkCollapse[0], T.bulkCollapse[0] + .2) + span(t, T.rowCollapse[0], T.rowCollapse[0] + .2));
+
+  // toast
+  const to = span(t, ...T.toast1, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to;
+  $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * 10}px)`;
+  swap(["t1", "t2"], span(t, T.rowDone + .05, T.rowDone + .3));
+}
+
+function events() {
+  return [
+    ["click", T.cb2], ["click", T.cb3], ["click", T.cb4],
+    ["click", T.bulkClick], ["chime", T.bulkDone], ["pop", T.toast1[0]], ["whoosh", T.bulkCollapse[0]],
+    ["click", T.rowClick], ["chime", T.rowDone], ["whoosh", T.rowCollapse[0]]
+  ];
+}
+
+Motion.scene({ T, clicks: [T.cb2, T.cb3, T.cb4, T.bulkClick, T.rowClick], build, render, events });
+</script>
+</body>
+</html>

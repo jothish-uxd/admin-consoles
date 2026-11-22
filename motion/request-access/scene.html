@@ -5,62 +5,13 @@
 <title>Request access · motion scene</title>
 <!--
   Source for media/access-requests/request-access.mp4.
-  Everything on screen is a pure function of time: renderAt(seconds).
-  motion/render.py steps through it at 30 fps and records each frame.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
   Open this file in a browser and add ?play to watch it live.
 -->
+<link rel="stylesheet" href="../shared/console.css">
 <style>
-@font-face { font-family: "Geist"; src: url("../fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; }
-@font-face { font-family: "Geist Mono"; src: url("../fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; }
-:root {
-  --bg: #ffffff; --subtle: #fafafa; --hover: #f2f2f2; --ink: #171717; --soft: #666; --faint: #8f8f8f;
-  --rule: #ebebeb; --rule-strong: #d4d4d4; --backdrop: #f3f3f3;
-}
-* { box-sizing: border-box; }
-html, body { margin: 0; width: 1280px; height: 720px; overflow: hidden; background: var(--backdrop); }
-body { font-family: "Geist", system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
-#stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; }
-
-/* App window */
-.win { position: absolute; left: 40px; top: 20px; width: 1200px; height: 680px; background: var(--bg);
-  border: 1px solid var(--rule-strong); border-radius: 14px; overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 40px rgba(0,0,0,.06); }
-.top { position: absolute; left: 0; right: 0; top: 0; height: 52px; border-bottom: 1px solid var(--rule);
-  display: flex; align-items: center; gap: 12px; padding: 0 20px; font-size: 14px; }
-.brand { display: flex; align-items: center; gap: 9px; font-weight: 600; letter-spacing: -.01em; }
-.brand svg { width: 18px; height: 18px; }
-.crumb { color: var(--faint); }
-.crumb b { color: var(--soft); font-weight: 500; }
-.me { margin-left: auto; display: flex; align-items: center; gap: 10px; color: var(--soft); font-size: 13px; }
-.av { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600;
-  background: var(--hover); border: 1px solid var(--rule-strong); color: var(--ink); flex: none; }
-.av.dark { background: var(--ink); color: #fff; border-color: var(--ink); }
-.nav { position: absolute; left: 0; top: 52px; bottom: 0; width: 200px; border-right: 1px solid var(--rule); padding: 18px 12px; }
-.nav div { padding: 8px 10px; border-radius: 6px; font-size: 14px; color: var(--soft); margin-bottom: 2px; }
-.nav div.on { background: var(--hover); color: var(--ink); font-weight: 600; }
-.nav .lbl { font-size: 12px; color: var(--faint); padding: 14px 10px 6px; }
-.main { position: absolute; left: 200px; right: 0; top: 52px; bottom: 0; padding: 28px 32px; }
-h1 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
-.lede { margin: 6px 0 22px; color: var(--soft); font-size: 14px; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th { text-align: left; font-weight: 500; font-size: 12px; color: var(--faint); padding: 0 12px 10px; border-bottom: 1px solid var(--rule); }
-td { padding: 0 12px; height: 54px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
-td:first-child { color: var(--ink); font-weight: 500; }
-tr.hl td { background: var(--subtle); }
-.cls { font-family: "Geist Mono", monospace; font-size: 12px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 8px; color: var(--soft); }
-.cls.r { border-color: var(--ink); color: var(--ink); }
-.none { color: var(--faint); }
-.acc-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink); font-weight: 500;
-  background: var(--hover); border-radius: 999px; padding: 3px 10px 3px 8px; }
-.acc-badge svg { width: 13px; height: 13px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 7px;
-  font: 500 13px "Geist"; border: 1px solid var(--rule-strong); background: var(--bg); color: var(--ink); }
-.btn.pri { background: var(--ink); color: #fff; border-color: var(--ink); }
-.btn.ghost { border-color: transparent; color: var(--soft); }
-td.act { text-align: right; width: 150px; }
 
 /* Drawer */
-.scrim { position: absolute; inset: 52px 0 0 0; background: #000; opacity: 0; }
 .drawer { position: absolute; top: 52px; right: 0; bottom: 0; width: 440px; background: var(--bg); border-left: 1px solid var(--rule-strong);
   box-shadow: -16px 0 40px rgba(0,0,0,.08); }
 .dh { padding: 22px 24px 18px; border-bottom: 1px solid var(--rule); position: relative; }
@@ -114,14 +65,6 @@ td.act { text-align: right; width: 150px; }
 .cross { position: relative; }
 .cross > span { position: absolute; left: 0; top: 0; white-space: nowrap; }
 
-/* Cursor */
-#cursor { position: absolute; left: 0; top: 0; width: 22px; height: 22px; z-index: 50; pointer-events: none; transform-origin: 3px 2px; }
-#endcard { position: fixed; inset: 0; background: #f5f7f9; opacity: 0; z-index: 100; }
-#endcard p { position: absolute; left: 0; right: 0; top: 75%; transform: translateY(-50%); margin: 0; text-align: center;
-  font-size: 18px; line-height: 1.5; color: #666; letter-spacing: -.005em; }
-#endcard b { display: block; font-weight: 600; color: #171717; }
-#endcard span { display: block; }
-#ring { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 2px solid var(--ink); opacity: 0; z-index: 49; }
 </style>
 </head>
 <body>
@@ -196,37 +139,12 @@ td.act { text-align: right; width: 150px; }
       </div>
     </div>
   </div>
-  <div id="ring"></div>
-  <svg id="cursor" viewBox="0 0 22 22"><path d="M3 2l14.5 8.2-6.3 1.4-2.9 5.9z" fill="#171717" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
 </div>
 
-<div id="endcard"><p><b>Patterns for Enterprise Admin Consoles</b><span>Jothish John · © 2026</span></p></div>
-
+<script src="../shared/motion.js"></script>
 <script>
-const $ = id => document.getElementById(id);
+const { $, at, span, easeOut, clamp01 } = Motion;
 const TEXT = "Exhaust port analysis for the Yavin briefing.";
-
-/* ---------- time helpers ---------- */
-const clamp01 = x => Math.max(0, Math.min(1, x));
-const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;      // easeInOutCubic
-const easeOut = x => 1 - Math.pow(1 - x, 3);
-const span = (t, a, b, f = ease) => f(clamp01((t - a) / (b - a)));
-const lerp = (a, b, k) => a + (b - a) * k;
-// Piecewise keyframes [[time, value...], ...] eased between neighbours.
-function track(keys, t) {
-  if (t <= keys[0][0]) return keys[0].slice(1);
-  for (let i = 1; i < keys.length; i++) {
-    const [t1] = keys[i], [t0] = keys[i - 1];
-    if (t <= t1) { const k = ease((t - t0) / (t1 - t0)); return keys[i].slice(1).map((v, j) => lerp(keys[i - 1][j + 1], v, k)); }
-  }
-  return keys[keys.length - 1].slice(1);
-}
-/* Element centre in stage coordinates (layout position, ignores transforms). */
-function at(id, dx = 0, dy = 0) {
-  let el = $(id), x = el.offsetWidth / 2, y = el.offsetHeight / 2;
-  while (el && el.id !== "stage") { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; }
-  return [x + dx, y + dy];
-}
 
 /* ---------- timeline (seconds) ---------- */
 const T = {
@@ -235,13 +153,12 @@ const T = {
   type: [3.95, 5.45], submitClick: 6.00, swap: [6.32, 6.62],
   approve: 7.55, doneClick: 8.35, drawerOut: [8.40, 8.80], rowFlip: 8.95, endCard: [10.0, 10.45], end: 11.5
 };
-let CUR, CAM;
 function build() {
   const req = at("reqBtn"), viewer = at("optViewer", -120, 0), seven = at("seg7"), ta = at("ta", 40, 4),
         sub = at("submitBtn");
   // Done is hidden at build time; it appears where Submit was.
   const doneAt = [sub[0] + 26, sub[1]];
-  CUR = [
+  const cur = [
     [0.00, 860, 640], [0.25, 860, 640], [1.18, req[0] + 8, req[1] + 4], [1.45, req[0] + 8, req[1] + 4],
     [1.95, req[0] - 40, req[1] + 40], [2.42, viewer[0], viewer[1]], [2.62, viewer[0], viewer[1]],
     [3.22, seven[0], seven[1]], [3.40, seven[0], seven[1]], [3.74, ta[0], ta[1]], [3.95, ta[0], ta[1]],
@@ -250,38 +167,17 @@ function build() {
     [9.30, 1000, 560], [10.0, 1010, 566]
   ];
   // camera: focus x, focus y, scale
-  CAM = [
+  const cam = [
     [0.00, 640, 360, 1.00], [0.15, 640, 360, 1.00], [1.20, 760, 366, 1.28], [1.45, 760, 366, 1.28],
     [2.20, 1010, 250, 1.62], [3.15, 1010, 262, 1.62], [3.70, 1010, 420, 1.70], [5.35, 1010, 430, 1.70],
     [5.90, 1010, 520, 1.62], [6.40, 1010, 520, 1.62], [6.95, 1010, 300, 1.62], [7.70, 1010, 310, 1.62], [8.25, 1010, 520, 1.45],
     [9.05, 700, 330, 1.16], [10.0, 694, 332, 1.14]
   ];
+  return { cam, cur };
 }
 
 /* ---------- render ---------- */
-function renderAt(t) {
-  // camera
-  let [fx, fy, s] = track(CAM, t);
-  const hw = 640 / s, hh = 360 / s;
-  fx = Math.min(Math.max(fx, hw), 1280 - hw); fy = Math.min(Math.max(fy, hh), 720 - hh);
-  $("stage").style.transform = `translate(${640 - fx * s}px, ${360 - fy * s}px) scale(${s})`;
-
-  // cursor + press
-  const [cx, cy] = track(CUR, t);
-  const clicks = [T.reqClick, T.viewerClick, T.sevenClick, T.taClick, T.submitClick, T.doneClick];
-  let press = 0, ring = null;
-  for (const c of clicks) {
-    if (t >= c - .07 && t <= c + .1) press = Math.max(press, 1 - Math.abs(t - c) / .1);
-    if (t >= c && t <= c + .45) ring = (t - c) / .45;
-  }
-  $("cursor").style.transform = `translate(${cx - 3}px, ${cy - 2}px) scale(${1 - .14 * press})`;
-  $("cursor").style.opacity = t > 9.6 ? 1 - span(t, 9.6, 10, x => x) : 1;
-  const r = $("ring");
-  if (ring !== null) {
-    r.style.left = cx + "px"; r.style.top = cy + "px";
-    r.style.opacity = .35 * (1 - ring); r.style.transform = `scale(${.4 + .9 * easeOut(ring)})`;
-  } else r.style.opacity = 0;
-
+function render(t) {
   // request button pressed, row highlight
   $("reqBtn").style.background = t >= T.reqClick - .05 && t < T.drawerIn[1] ? "#f2f2f2" : "";
   $("row").classList.toggle("hl", (t > 0.9 && t < T.drawerOut[0]) || t > T.rowFlip - .1);
@@ -342,30 +238,19 @@ function renderAt(t) {
   $("accNew").style.transform = `scale(${.9 + .1 * f})`;
   $("reqBtn").style.opacity = 1 - f;
 
-  // end card: fade to grey with the credit, held to the end
-  $("endcard").style.opacity = span(t, ...T.endCard);
 }
 
-/* Sound cue times, read by render.py. */
-window.EVENTS = (() => {
+function events() {
   const ev = [["click", T.reqClick], ["whoosh", T.drawerIn[0]], ["click", T.viewerClick], ["click", T.sevenClick], ["click", T.taClick]];
   for (let i = 1; i <= TEXT.length; i++) {
     const tt = T.type[0] + (T.type[1] - T.type[0]) * (i - .5) / TEXT.length;
     if (TEXT[i - 1] !== " ") ev.push(["key", +tt.toFixed(3)]);
   }
-  ev.push(["click", T.submitClick], ["whoosh", T.swap[0]], ["chime", T.approve], ["click", T.doneClick], ["pop", T.rowFlip], ["sonar", T.endCard[0] + 0.25]);
+  ev.push(["click", T.submitClick], ["whoosh", T.swap[0]], ["chime", T.approve], ["click", T.doneClick], ["pop", T.rowFlip]);
   return ev;
-})();
-window.DURATION = T.end;
+}
 
-document.fonts.ready.then(() => {
-  build(); renderAt(0); window.READY = true;
-  if (location.search.includes("play")) {
-    const t0 = performance.now();
-    const loop = () => { renderAt(((performance.now() - t0) / 1000) % T.end); requestAnimationFrame(loop); };
-    loop();
-  }
-});
+Motion.scene({ T, clicks: [T.reqClick, T.viewerClick, T.sevenClick, T.taClick, T.submitClick, T.doneClick], build, render, events });
 </script>
 </body>
 </html>
