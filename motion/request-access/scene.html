@@ -202,7 +202,7 @@ function build() {
     [0.00, 640, 360, 1.00], [0.45, 640, 360, 1.00],
     [1.40, cx, mid(H.denied), 1.50], [2.20, cx, mid(H.denied), 1.50],     // denied page, whole card
     [3.00, cx, mid(H.form), 1.24], [4.90, cx, mid(H.form), 1.24],         // whole form
-    [5.50, cx, mid(H.form) + 40, 1.32], [8.00, cx, mid(H.form) + 40, 1.32], // a little closer: reason, hint, who reviews, Send
+    [5.50, cx, mid(H.form) + 75, 1.32], [8.00, cx, mid(H.form) + 75, 1.32], // a little closer: reason, hint, who reviews, Send
     [8.70, cx, mid(H.status), 1.52], [11.0, cx, mid(H.status), 1.52],     // status, whole card
     [11.8, 680, 340, 1.10], [12.1, 678, 340, 1.09]
   ];
@@ -273,7 +273,7 @@ function events() {
 }
 
 Motion.scene({
-  T, duration: 15, clicks: [T.reqClick, T.readClick, T.sevenClick, T.taClick, T.sendClick], build, render, events,
+  T, duration: 15, clicks: [T.reqClick, T.readClick, T.sevenClick, T.taClick, T.sendClick], clamp: 140, build, render, events,
   // linger on: the denied page and who reviews, the prefilled resource, the reason example,
   // the "sent to" confirmation with follow-up and cancel, and the approval
   slow: [[0.8, 1.9, 1.5], [2.8, 3.5, 1.5], [5.0, 5.4, 1.6], [8.25, 9.6, 1.6], [9.85, 10.7, 1.7]]

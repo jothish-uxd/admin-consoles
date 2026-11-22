@@ -35,6 +35,10 @@ def main():
         pg.goto(url)
         pg.wait_for_function("window.READY === true")
         dur, events = pg.evaluate("[window.DURATION, window.EVENTS]")
+        # every click must land above the site's player bar (see SAFE_Y in motion.js)
+        for c in pg.evaluate("window.AUDIT()"):
+            if not c["ok"]:
+                print(f"WARNING click at {c['t']}s lands at ({c['x']}, {c['y']}) on screen: under the player bar or off frame", file=sys.stderr)
 
         if a.audio_only:
             b.close()

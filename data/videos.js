@@ -199,6 +199,19 @@ window.VIDEOS = {
         "Restore v11 asks first, and explains that it becomes a new version, v13, while the current v12 stays in history, so the restore can be undone too.",
         "She restores. v13, restored from v11, is now current at the top, v12 is still listed below it, and the restore is logged with her name."
       ]
+    },
+    "Tags & metadata": {
+      src: "media/asset-management/tags-metadata.mp4",
+      poster: "media/asset-management/tags-metadata.jpg",
+      label: "Tags and metadata, shown in a mock Echo Base console",
+      steps: [
+        "The admin is in Content, where files carry the tags Hoth, hoth and \"Hoth \" for the same thing, and switches to the Tags tab.",
+        "Free tags are listed with how many items use each one; every tag has a text name, with a colour dot only as an extra cue. A notice says three tags look alike, and the trailing space is shown as text.",
+        "She selects them and chooses Merge. Rename sits beside it; the unused tag old-ops, on 0 items, is the only one offered to retire.",
+        "The merge dialog suggests keeping Hoth, the most used, and says 98 items move to it, the other two become synonyms so searches still find them, and the merge runs as a job across all items.",
+        "She merges. Hoth now shows 1,338 items with its synonyms, and a message confirms the job is running and logged.",
+        "Beside the tags, managed fields hold the vocabularies policies rely on, such as Classification and a Mission hierarchy, and an auto-tag rule shows 2 exceptions for her to review. Import taxonomy sits in the header."
+      ]
     }
   }
 };

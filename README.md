@@ -101,6 +101,8 @@ Framing: whatever the viewer should look at sits in the middle of the frame and 
 
 If something to centre sits near the window's edge, pass `clamp: false` so the camera can move past the edge of the stage (the backdrop there is the same grey).
 
+Player bar: on the site, the player's control bar covers the bottom of the frame. Every click, and the thing it lands on, stays above y = 590 of 720 (`SAFE_Y` in `shared/motion.js`). `render.py` warns when a click lands lower, and `python3 motion/audit.py` checks every scene. To lift a low button while keeping the clamp, pass `clamp: <px>` (extra room past the bottom of the stage) instead of `false`.
+
 Length: clips with fewer than 5 steps run 10 seconds (`duration: 10`); clips with 5 or more run 15 (`duration: 15`).
 
 Set the length with `duration` in the scene's `Motion.scene({ ... })` call, and the clip is stretched to fit, with the end card kept at its own length. Time isn't stretched evenly: every click is slowed automatically so viewers see the cursor arrive, the press and what changed, and `slow: [[from, to, weight], ...]` lingers on other key moments (a tooltip, rows leaving a list). Ordinary moves get whatever time is left.

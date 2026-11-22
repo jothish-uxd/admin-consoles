@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tags &amp; metadata · motion scene</title>
+<!--
+  Source for media/asset-management/tags-metadata.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: the Tags tab inside Content (All content → Tags).
+
+  Follows the Tags & metadata card (data/guidance-content.js):
+  - free tags with a count per tag; managed fields with controlled vocabularies (think 1, do 1-2)
+  - notice of near-duplicates Hoth / hoth / "Hoth " (think 2, avoid 1)
+  - select → Merge; dialog with item count, suggested keeper, synonyms, runs as a job (do 3, avoid 2, UD 3, scale 1, 3)
+  - text names with colour dots as an extra cue (avoid 3, WCAG 1.4.1)
+  - auto-tag rule with exceptions to review; Import taxonomy (do 4, scale 1-2)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 22px 32px; }
+.hd { display: flex; align-items: center; gap: 10px; }
+h1 { font-size: 21px; flex: 1; }
+.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
+.body { position: relative; margin-top: 16px; height: 500px; }
+.body > div { position: absolute; inset: 0; }
+.cols { display: grid; grid-template-columns: 590px 1fr; gap: 20px; }
+.bar { position: relative; height: 46px; margin-bottom: 10px; }
+.bar > div { position: absolute; inset: 0; display: flex; align-items: center; gap: 10px; padding: 0 8px 0 14px; border-radius: 10px; font-size: 13px; }
+.note { border: 1px solid var(--rule-strong); background: var(--subtle); }
+.note b, .bulk b { font-weight: 600; }
+.note .btn, .bulk .btn { margin-left: auto; height: 30px; font-size: 12.5px; }
+.bulk { background: var(--ink); color: #fff; opacity: 0; }
+.bulk .btn { margin-left: 0; background: #fff; color: var(--ink); border-color: #fff; }
+.bulk .btn.first { margin-left: auto; }
+.bulk .btn.o { background: transparent; color: #fff; border-color: rgba(255,255,255,.4); }
+td { height: 46px; font-size: 13px; }
+td.c { width: 30px; padding-right: 0; }
+.cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--rule-strong); display: grid; place-items: center; background: var(--bg); color: #fff; }
+.cb svg { width: 11px; height: 11px; opacity: 0; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on svg { opacity: 1; }
+.tg { display: inline-flex; align-items: center; gap: 7px; color: var(--ink); font-weight: 500; }
+.tg i { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.sp { font-family: "Geist Mono", monospace; font-size: 10.5px; color: var(--soft); border: 1px dashed var(--rule-strong); border-radius: 4px; padding: 0 4px; }
+.syn { display: block; font-size: 11.5px; color: var(--soft); font-weight: 400; margin-top: 2px; }
+tr.gone td { border-bottom-width: 0; }
+.card { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; font-size: 13px; }
+.card h3 { margin: 0 0 10px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; }
+.card h3 span { font-size: 12px; font-weight: 400; color: var(--soft); }
+.fld { padding: 8px 0; border-top: 1px solid var(--rule); }
+.fld:first-of-type { border-top: 0; padding-top: 0; }
+.fld .n { color: var(--ink); font-weight: 500; display: flex; justify-content: space-between; }
+.fld .n em { font-style: normal; font-weight: 400; font-size: 12px; color: var(--faint); }
+.vals { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+.rule { display: flex; flex-direction: column; gap: 6px; color: var(--soft); line-height: 1.45; }
+.rule b { color: var(--ink); font-weight: 500; }
+.rule .x { display: flex; align-items: center; gap: 8px; }
+.rule .x .btn { height: 28px; font-size: 12px; margin-left: auto; }
+.pop { position: absolute; left: 230px; top: 52px; width: 360px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,.14); padding: 14px; z-index: 10; opacity: 0; font-size: 13px; line-height: 1.45; }
+.pop > b { display: block; font-size: 14px; margin-bottom: 8px; }
+.pop .lbl { font-size: 12px; color: var(--faint); margin-bottom: 4px; }
+.pop .sel { border: 1.5px solid var(--ink); border-radius: 8px; height: 36px; display: flex; align-items: center; gap: 8px; padding: 0 10px; color: var(--ink); font-weight: 500; }
+.pop .sel em { font-style: normal; font-weight: 400; color: var(--soft); font-size: 12px; margin-left: auto; }
+.pop .m { color: var(--soft); margin-top: 10px; }
+.pop .r { margin-top: 12px; display: flex; gap: 8px; justify-content: flex-end; }
+.pop .btn { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crA" data-path="Content / All content"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#tick"/></svg></i>Merging 3 tags across 1,338 items · running as a job · logged</div>
+    </div>
+    <div class="nav" data-at="content" data-role="admin"></div>
+    <div class="main">
+      <div class="hd" id="hd"><h1 style="position:relative;height:28px"><span id="h0" style="position:absolute">Content</span><span id="h1" style="position:absolute;opacity:0">Tags &amp; metadata</span></h1>
+        <span class="btn" id="impB" style="opacity:0">Import taxonomy</span><span class="btn" id="nfB" style="opacity:0">New managed field</span></div>
+      <div class="tabs"><div id="tAll" class="on">All content</div><div id="tTags">Tags</div><div>Storage</div><div>Trash</div><div>Sources</div></div>
+      <div class="body">
+        <div id="vAll">
+          <table><thead><tr><th>Name</th><th>Owner</th><th>Tags</th><th>Modified</th></tr></thead><tbody>
+            <tr><td>Hoth evacuation plan.docx</td><td>Gen. Rieekan</td><td><span class="cls">Hoth</span> <span class="cls">Operations</span></td><td>Today</td></tr>
+            <tr><td>Shield gate schedule.xlsx</td><td>Toryn Farr</td><td><span class="cls">hoth</span></td><td>Yesterday</td></tr>
+            <tr><td>Tauntaun patrol routes.pdf</td><td>Cal Alder</td><td><span class="cls">Hoth&nbsp;</span> <span class="cls">Patrol</span></td><td>Nov 19</td></tr>
+            <tr><td>Endor landing survey.pdf</td><td>Gen. Madine</td><td><span class="cls">Endor</span></td><td>Nov 18</td></tr>
+          </tbody></table>
+        </div>
+        <div id="vTags" style="opacity:0">
+          <div class="cols">
+            <div id="left" style="position:relative">
+              <div class="bar" id="bar">
+                <div class="note" id="note">3 tags look alike: <b>Hoth, hoth, "Hoth "</b> · 1,338 items<span class="btn" id="selB">Select them</span></div>
+                <div class="bulk" id="bulk"><b>3 tags selected</b> · 1,338 items<span class="btn first" id="mergeB">Merge</span><span class="btn o">Rename</span></div>
+              </div>
+              <table id="tbl"><thead><tr><th class="c"></th><th>Tag</th><th>Used on</th><th>Last used</th><th></th></tr></thead><tbody>
+                <tr id="rA"><td class="c"><span class="cb" id="cA"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#3b82f6"></i><span><span id="hA">Hoth</span><span class="syn" id="synA" style="opacity:0;height:0">Synonyms: hoth, "Hoth "</span></span></span></td><td id="nA">1,240 items</td><td>Today</td><td></td></tr>
+                <tr id="rB"><td class="c"><span class="cb" id="cB"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#3b82f6"></i>hoth</span></td><td>86 items</td><td>Yesterday</td><td></td></tr>
+                <tr id="rC"><td class="c"><span class="cb" id="cC"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#3b82f6"></i>Hoth <span class="sp">trailing space</span></span></td><td>12 items</td><td>Nov 19</td><td></td></tr>
+                <tr><td class="c"><span class="cb"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#16a34a"></i>Endor</span></td><td>430 items</td><td>Nov 18</td><td></td></tr>
+                <tr><td class="c"><span class="cb"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#f59e0b"></i>Yavin IV</span></td><td>310 items</td><td>Nov 12</td><td></td></tr>
+                <tr><td class="c"><span class="cb"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#a3a3a3"></i>old-ops</span></td><td class="none">0 items</td><td>Mar 2</td><td class="act" style="width:70px"><span class="btn ghost" style="height:28px">Retire</span></td></tr>
+              </tbody></table>
+              <div class="pop" id="pop"><b>Merge 3 tags</b>
+                <div class="lbl">Keep</div><div class="sel"><i style="width:9px;height:9px;border-radius:50%;background:#3b82f6"></i>Hoth<em>most used · 1,240</em></div>
+                <div class="m">98 items move to Hoth. <b style="color:var(--ink);font-weight:500">hoth</b> and <b style="color:var(--ink);font-weight:500">"Hoth "</b> become synonyms, so searches still find them. Runs as a job across all items.</div>
+                <div class="r"><span class="btn ghost">Cancel</span><span class="btn pri" id="okB">Merge 3 tags</span></div></div>
+            </div>
+            <div id="right">
+              <div class="card"><h3>Managed fields <span>for policies</span></h3>
+                <div class="fld"><div class="n">Classification <em>required · 3 values</em></div><div class="vals"><span class="cls">Public</span><span class="cls">Internal</span><span class="cls r">Restricted</span></div></div>
+                <div class="fld"><div class="n">Mission <em>14 terms · hierarchy</em></div><div class="vals"><span class="cls">Hoth › Echo Base</span><span class="cls">Endor</span><span class="cls">Yavin IV</span><span class="cls">+11</span></div></div>
+              </div>
+              <div class="card"><h3>Auto-tag rules <span>2 rules</span></h3>
+                <div class="rule"><div>Files in <b>Echo Base / Operations</b> get <b>Mission: Hoth</b></div>
+                  <div class="x"><span>Applied to 1,180 items · 2 exceptions</span><span class="btn">Review</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  tabClick: 1.60, toTags: [1.70, 2.05], selClick: 3.90, mergeClick: 5.30, pop: [5.40, 5.70],
+  okClick: 7.50, merged: 7.65, toastOut: [9.4, 9.7], endCard: [11.4, 11.85], end: 12.9
+};
+
+function build() {
+  const tt = at("tTags"), sb = at("selB"), mb = at("mergeB"), ok = at("okB"), lf = at("left"), rt = at("right"), hd = at("hd");
+  const LX = lf[0] + 20, RX = rt[0];
+  const cur = [
+    [0.00, 860, 650], [0.40, 860, 650], [1.45, tt[0], tt[1] + 3], [1.75, tt[0], tt[1] + 3],
+    [3.75, sb[0], sb[1] + 3], [4.05, sb[0], sb[1] + 3], [5.15, mb[0], mb[1] + 3], [5.45, mb[0], mb[1] + 3],
+    [7.35, ok[0], ok[1] + 3], [7.75, ok[0], ok[1] + 3], [9.2, ok[0] + 120, ok[1] + 140], [11.4, ok[0] + 124, ok[1] + 144]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.20, 740, hd[1] + 90, 1.32], [2.10, 740, hd[1] + 90, 1.32],         // All content: Hoth, hoth, "Hoth " on files; the Tags tab
+    [2.80, LX, lf[1] - 30, 1.42], [4.00, LX, lf[1] - 30, 1.42],           // the notice and the counts
+    [4.60, LX + 40, lf[1] - 70, 1.5], [5.30, LX + 40, lf[1] - 70, 1.5],   // selected, Merge
+    [5.80, lf[0] + 130, lf[1] - 40, 1.55], [7.50, lf[0] + 130, lf[1] - 40, 1.55], // the dialog: count, keeper, synonyms, job
+    [8.10, 740, 250, 1.3], [9.30, 740, 250, 1.3],                          // toast, Hoth with synonyms
+    [9.90, RX, rt[1] + 55, 1.5], [10.9, RX, rt[1] + 55, 1.5],              // managed fields, rules with exceptions
+    [11.25, 660, 360, 1.05], [11.4, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function seq(a, b, t, at0) { $(a).style.opacity = 1 - span(t, at0, at0 + .14); $(b).style.opacity = span(t, at0 + .16, at0 + .32); }
+
+function render(t) {
+  // way in: All content → Tags
+  const tg = t >= T.tabClick;
+  $("tAll").classList.toggle("on", !tg); $("tTags").classList.toggle("on", tg);
+  $("crA").innerHTML = "/ Content / <b>" + (tg ? "Tags" : "All content") + "</b>";
+  seq("vAll", "vTags", t, T.toTags[0]);
+  seq("h0", "h1", t, T.toTags[0]);
+  $("impB").style.opacity = $("nfB").style.opacity = span(t, T.toTags[0] + .16, T.toTags[1]);
+
+  // select the look-alikes, then merge
+  const sel = t >= T.selClick && t < T.merged;
+  ["cA", "cB", "cC"].forEach(id => $(id).classList.toggle("on", sel));
+  ["rA", "rB", "rC"].forEach(id => $(id).classList.toggle("hl", sel));
+  if (t < T.merged) seq("note", "bulk", t, T.selClick + .05);
+  else { $("bulk").style.opacity = 1 - span(t, T.merged, T.merged + .15); $("note").style.opacity = 0; }
+  $("mergeB").style.background = t >= T.mergeClick - .05 && t < T.merged ? "#e5e5e5" : "";
+  const po = span(t, T.pop[0], T.pop[1], easeOut) * (1 - span(t, T.merged, T.merged + .2));
+  $("pop").style.opacity = po; $("pop").style.transform = `translateY(${(1 - po) * -6}px)`;
+  $("okB").style.background = t >= T.okClick - .05 && t < T.merged + .1 ? "#333" : "";
+
+  // merged: duplicates fold away, Hoth gains their items and lists them as synonyms
+  const g = span(t, T.merged + .2, T.merged + .55, easeOut);
+  ["rB", "rC"].forEach(id => {
+    const r = $(id); r.classList.toggle("gone", g > .9);
+    r.querySelectorAll("td").forEach(td => { td.style.height = (46 * (1 - g)) + "px"; td.style.opacity = 1 - Math.min(1, g * 2); td.style.overflow = "hidden"; });
+    r.style.display = g >= 1 ? "none" : "";
+  });
+  $("nA").textContent = t >= T.merged + .4 ? "1,338 items" : "1,240 items";
+  const sy = span(t, T.merged + .45, T.merged + .7);
+  $("synA").style.opacity = sy; $("synA").style.height = sy > 0 ? "" : "0";
+  $("rA").querySelectorAll("td").forEach(td => td.style.height = (46 + 14 * sy) + "px");
+
+  const to = span(t, T.merged, T.merged + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to; $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  return [["click", T.tabClick], ["click", T.selClick], ["click", T.mergeClick], ["pop", T.pop[0]], ["click", T.okClick], ["chime", T.merged], ["whoosh", 9.5]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.tabClick, T.selClick, T.mergeClick, T.okClick], build, render, events, clamp: false,
+  // linger on: the counts and the notice, the merge dialog, the result, the managed fields and rules
+  slow: [[2.6, 3.8, 1.6], [5.7, 7.4, 1.8], [7.9, 9.2, 1.6], [9.8, 10.9, 1.6]]
+});
+</script>
+</body>
+</html>

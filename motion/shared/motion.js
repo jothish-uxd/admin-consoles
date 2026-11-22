@@ -121,10 +121,11 @@
 
   function renderAt(real) {
     const T = S.T, t = storyTime(real);
-    // camera, clamped so the view never leaves the stage
+    // camera, clamped so the view never leaves the stage; clamp: <px> lets it go that far past the bottom,
+    // so a low button can be lifted above the player bar
     let [fx, fy, s] = track(CAM, t);
     const hw = 640 / s, hh = 360 / s;
-    if (S.clamp !== false) { fx = Math.min(Math.max(fx, hw), 1280 - hw); fy = Math.min(Math.max(fy, hh), 720 - hh); }
+    if (S.clamp !== false) { fx = Math.min(Math.max(fx, hw), 1280 - hw); fy = Math.min(Math.max(fy, hh), 720 - hh + (+S.clamp || 0)); }
     $("stage").style.transform = `translate(${640 - fx * s}px, ${360 - fy * s}px) scale(${s})`;
 
     // cursor, press and click ring
@@ -149,6 +150,21 @@
     $("endcard").style.opacity = span(t, ...T.endCard);
   }
 
+  // Player-bar check: where each click lands on screen. The site's player bar covers
+  // the bottom of the frame (about 84 of 720 px at typical widths, more on small screens),
+  // so every click and the thing it lands on must sit above SAFE_Y.
+  const SAFE_Y = 590;
+  function audit() {
+    return S.clicks.map(c => {
+      let [fx, fy, s] = track(CAM, c);
+      const hw = 640 / s, hh = 360 / s;
+      if (S.clamp !== false) { fx = Math.min(Math.max(fx, hw), 1280 - hw); fy = Math.min(Math.max(fy, hh), 720 - hh + (+S.clamp || 0)); }
+      const [cx, cy] = track(CUR, c);
+      const x = 640 + (cx - fx) * s, y = 360 + (cy - fy) * s;
+      return { t: c, x: Math.round(x), y: Math.round(y), ok: y <= SAFE_Y && x > 30 && x < 1250 && y > 30 };
+    });
+  }
+
   function scene(def) {
     S = def;
     fillConsole();
@@ -159,7 +175,7 @@
     buildWarp(def);
     window.EVENTS = def.events().map(([n, t]) => [n, +realTime(t).toFixed(3)]);
     window.DURATION = def.duration || def.T.end;
-    window.renderAt = renderAt;
+    window.renderAt = renderAt; window.AUDIT = audit;
     document.fonts.ready.then(() => {
       ({ cam: CAM, cur: CUR } = def.build());
       renderAt(0); window.READY = true;
