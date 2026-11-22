@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.2 preview — 2026-11-21
+
+### Added
+- **Pattern clips.** A short clip can sit above a pattern's card on the Patterns tab. The first one is *Access requests › Request access*: a 10-second walkthrough in a mock Echo Base console, with small interaction sounds and no music. It plays once, muted, on arrival (not at all if you prefer reduced motion), with Play / Replay and Sound on / off buttons. *What happens in this clip* lists the steps as text. Sound on / off is remembered in your browser.
+
 ## v0.2.1 preview — 2026-11-19
 
 ### Added

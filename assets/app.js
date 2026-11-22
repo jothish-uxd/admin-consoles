@@ -476,11 +476,13 @@
           <p class="pat-desc">${esc(desc)}</p>
           ${n ? `<button type="button" class="text-button pat-shots" data-goto-screens="${esc(name)}">See ${plural(n, "screen")} in Screens</button>` : ""}
         </header>
+        ${clipHtml(c.slug, name)}
         <div class="pat-card g-compact">${g ? refinedBody(g) : `<p class="g-empty">Guidance for this pattern hasn’t been written yet.</p>`}</div>
         <nav class="pat-pager" aria-label="Previous and next pattern">
           ${prev ? `<button type="button" class="pat-step" data-i="${i - 1}"><span>Previous</span>${esc(prev[0])}</button>` : "<span></span>"}
           ${next ? `<button type="button" class="pat-step is-next" data-i="${i + 1}"><span>Next</span>${esc(next[0])}</button>` : ""}
         </nav>`;
+      initClip($("#pat-detail"));
       patItems.forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
       if (patSelect) patSelect.value = String(i);
       if (updateHash) history.replaceState(null, "", "#" + pid(name));
@@ -527,6 +529,61 @@
       d.open = true; syncToggle();
       requestAnimationFrame(() => d.scrollIntoView({ block: "start" }));
     }
+  }
+
+  /* ---------- Pattern clips ----------
+     A short muted-by-default clip above the pattern card (data/videos.js).
+     Plays once on arrival unless the visitor prefers reduced motion; the
+     controls are plain buttons, and the steps list is the text alternative.
+     Sound on/off is remembered per browser. */
+  const SOUND_KEY = "ac-clip-sound";
+  const CLIP_ICON = {
+    play: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7.5-4.5z" fill="currentColor"/></svg>',
+    pause: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3h2.5v10H4.5zM9 3h2.5v10H9z" fill="currentColor"/></svg>',
+    replay: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 8a4.8 4.8 0 1 0 1.5-3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M3 2.5v3h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    on: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6h2.5l3.5-3v10L5 10H2.5z" fill="currentColor"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.8a6 6 0 0 1 0 8.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+    off: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6h2.5l3.5-3v10L5 10H2.5z" fill="currentColor"/><path d="M11 6l3.5 4M14.5 6L11 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'
+  };
+  function clipHtml(slug, name) {
+    const v = ((window.VIDEOS || {})[slug] || {})[name];
+    if (!v) return "";
+    return `<figure class="pat-clip">
+        <div class="clip-frame">
+          <video class="clip-video" src="${esc(v.src)}" poster="${esc(v.poster || "")}" muted playsinline preload="metadata"
+            aria-label="${esc(v.label || name)}" aria-describedby="clip-steps"></video>
+          <div class="clip-bar">
+            <button type="button" class="clip-btn" data-clip="play"></button>
+            <button type="button" class="clip-btn" data-clip="sound" aria-pressed="false"></button>
+          </div>
+        </div>
+        ${v.steps ? `<details class="clip-steps"><summary>What happens in this clip</summary>
+          <ol id="clip-steps">${v.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol></details>` : ""}
+      </figure>`;
+  }
+  function initClip(scope) {
+    const vid = $(".clip-video", scope);
+    if (!vid) return;
+    const playBtn = $('[data-clip="play"]', scope), soundBtn = $('[data-clip="sound"]', scope);
+    let sound = false;
+    try { sound = localStorage.getItem(SOUND_KEY) === "on"; } catch (e) {}
+    const paint = () => {
+      const state = vid.ended ? "replay" : vid.paused ? "play" : "pause";
+      playBtn.innerHTML = `${CLIP_ICON[state]}<span>${{ replay: "Replay", play: "Play", pause: "Pause" }[state]}</span>`;
+      soundBtn.innerHTML = `${CLIP_ICON[vid.muted ? "off" : "on"]}<span>${vid.muted ? "Sound off" : "Sound on"}</span>`;
+      soundBtn.setAttribute("aria-pressed", String(!vid.muted));
+    };
+    ["play", "pause", "ended", "volumechange"].forEach(e => vid.addEventListener(e, paint));
+    playBtn.addEventListener("click", () => { if (vid.paused || vid.ended) vid.play().catch(() => {}); else vid.pause(); });
+    soundBtn.addEventListener("click", () => {
+      vid.muted = !vid.muted;
+      try { localStorage.setItem(SOUND_KEY, vid.muted ? "off" : "on"); } catch (e) {}
+    });
+    vid.addEventListener("click", () => playBtn.click());
+    vid.muted = !sound;
+    paint();
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Browsers may refuse to autoplay with sound until the visitor has interacted; fall back to muted.
+    vid.play().catch(() => { vid.muted = true; vid.play().catch(() => {}); });
   }
 
   /* ---------- Screen sheet ----------
