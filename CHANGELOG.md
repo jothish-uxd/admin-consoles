@@ -2,8 +2,11 @@
 
 ## v0.2.2 preview — 2026-11-21
 
+### Changed
+- **Sidebar credit** is now two lines: **Patterns for Enterprise Admin Consoles**, then Jothish John · © 2026.
+
 ### Added
-- **Pattern clips.** A short clip can sit above a pattern's card on the Patterns tab. The first one is *Access requests › Request access*: an 11-second walkthrough in a mock Echo Base console that ends on a grey credit card, with small interaction sounds and no music. It waits on its first frame with a play button and never starts on its own; Play / Pause / Replay and Sound on / off sit in the corner. *What happens in this clip*, a collapsed grey accordion under the clip, lists the steps as text. When a clip ends, a grey end card shows the replay button with the credit, “Patterns for enterprise admin consoles, by Jothish John, © 2026”, centred in its lower half. Sound on / off is remembered in your browser. In every clip the signed-in user is Lavanya Sienna, with a Star Wars title that fits the scene (here, Jedi in training).
+- **Pattern clips.** A short clip can sit above a pattern's card on the Patterns tab. The first one is *Access requests › Request access*: an 11-second walkthrough in a mock Echo Base console that ends on a grey credit card, with small interaction sounds and no music. It waits on its first frame with a play button and never starts on its own; Play / Pause / Replay and Sound on / off sit in the corner. *What happens in this clip*, a collapsed grey accordion under the clip, lists the steps as text. When a clip ends, a grey end card shows the replay button with the credit (**Patterns for Enterprise Admin Consoles** / Jothish John · © 2026) centred in its lower half. Sound on / off is remembered in your browser. In every clip the signed-in user is Lavanya Sienna, with a Star Wars title that fits the scene (here, Jedi in training).
 
 ## v0.2.1 preview — 2026-11-19
 
@@ -23,7 +26,7 @@
 - **Category tabs** are now Patterns, Screens, Scale, and each category opens on Patterns. Links ending in `#scale` still work.
 - **Scale tab:** a cool-grey tier ramp with dark-mode colours. *Principles that hold at every size* now has the same heading level as *Designing for scale*.
 - **Overview hero:** "Patterns for enterprise admin consoles." Stats read categories, patterns and screenshots collected.
-- **Sidebar:** the Getting started heading is gone, and the credit reads "Patterns for enterprise admin consoles, by Jothish John, © 2026".
+- **Sidebar:** the Getting started heading is gone, and the credit read "Patterns for enterprise admin consoles, by Jothish John, © 2026".
 - **Category page eyebrow** (group · patterns · screens) removed, because its counts read as belonging to the group.
 
 ### Removed

@@ -9,7 +9,8 @@
   // Links stay on the current page path (index.html or its alias category.html)
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
-  const CREDIT = "Patterns for enterprise admin consoles, by Jothish John, © 2026";
+  const CREDIT = ["Patterns for Enterprise Admin Consoles", "Jothish John · © 2026"];
+  const creditHtml = () => `<strong>${esc(CREDIT[0])}</strong><span>${esc(CREDIT[1])}</span>`;
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
 
@@ -71,7 +72,7 @@
       <div class="nav-view" id="nav-view-az" hidden>
         <ul class="nav-list nav-az" aria-label="Categories, A to Z">${azHtml}</ul>
       </div>
-      <p class="sidebar-credit">${CREDIT}</p>`;
+      <p class="sidebar-credit">${creditHtml()}</p>`;
 
     /* Collapsible sections. Open or closed is a per-viewer convenience, so it lives in this browser only. */
     let collapsed = [];
@@ -553,7 +554,7 @@
         <div class="clip-frame">
           <video class="clip-video" src="${esc(v.src)}" poster="${esc(v.poster || "")}" muted playsinline preload="metadata"
             aria-label="${esc(v.label || name)}" aria-describedby="clip-steps"></video>
-          <div class="clip-end" aria-hidden="true"><p>${esc(CREDIT)}</p></div>
+          <div class="clip-end" aria-hidden="true"><p>${creditHtml()}</p></div>
           <button type="button" class="clip-big" data-clip="big">${CLIP_ICON.play}<span class="visually-hidden">Play clip</span></button>
           <div class="clip-bar">
             <button type="button" class="clip-btn" data-clip="play"></button>
