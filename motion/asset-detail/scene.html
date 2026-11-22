@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Asset detail · motion scene</title>
+<!--
+  Source for media/asset-management/asset-detail.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+
+  Follows the Asset detail card (data/guidance-content.js):
+  - sections Details, Access, Activity (think 1, WCAG 2.4.6)
+  - "Why you're here" banner: arrived from a problem (think 2)
+  - details as a description list: owner, location, size, dates, label (do 1, WCAG 1.3.1)
+  - access by route, in words, including link and inherited; summarised (do 2, avoid 2, UD 4, scale 1)
+  - recent activity, link to a filtered audit log (do 3, scale 2)
+  - admin actions together, no owner controls (do 4, avoid 3)
+  - "contents not opened · your visit is logged" (avoid 1, scale 3)
+  - remove external access with its consequence; access and activity update
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 22px 32px; }
+.hd { display: flex; align-items: center; gap: 12px; }
+.fi { width: 34px; height: 40px; border: 1.5px solid var(--rule-strong); border-radius: 5px; display: grid; place-items: end center; padding-bottom: 4px; font-family: "Geist Mono", monospace; font-size: 9px; color: var(--soft); flex: none; }
+h1 { font-size: 21px; }
+.lab { font-size: 11.5px; font-weight: 600; color: #fff; background: var(--ink); border-radius: 999px; padding: 2px 9px; }
+.av-note { margin-left: auto; font-size: 12px; color: var(--soft); display: inline-flex; gap: 6px; align-items: center; padding: 4px 10px; border-radius: 999px; background: var(--hover); white-space: nowrap; }
+.av-note svg { width: 12px; height: 12px; }
+.why { margin-top: 12px; display: flex; gap: 10px; align-items: center; padding: 9px 14px; border: 1px solid var(--ink); border-radius: 10px; font-size: 13px; }
+.why .ic { width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 11px; font-weight: 700; flex: none; }
+.why b { font-weight: 600; }
+.why .m { color: var(--soft); }
+.acts { margin-top: 12px; display: flex; gap: 8px; align-items: center; position: relative; }
+.acts .l { font-size: 12px; color: var(--faint); margin-right: 4px; }
+.acts .btn { height: 32px; font-size: 12.5px; }
+.pop { position: absolute; top: 40px; width: 330px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,.14); padding: 14px; z-index: 10; opacity: 0; font-size: 13px; line-height: 1.45; }
+.pop b { display: block; font-size: 14px; margin-bottom: 4px; }
+.pop .m { color: var(--soft); }
+.pop .r { margin-top: 12px; display: flex; gap: 8px; justify-content: flex-end; }
+.pop .btn { height: 32px; font-size: 12.5px; }
+.cols { margin-top: 14px; display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
+.sec { border: 1px solid var(--rule); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; }
+.sec h2 { margin: 0 0 10px; font-size: 14px; font-weight: 600; display: flex; gap: 8px; align-items: baseline; }
+.sec h2 span { font-size: 12px; font-weight: 400; color: var(--faint); }
+.sec h2 a { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+dl { margin: 0; display: grid; grid-template-columns: 92px 1fr; row-gap: 8px; font-size: 13px; }
+dt { color: var(--faint); }
+dd { margin: 0; color: var(--ink); }
+dd .off { font-size: 11.5px; font-weight: 600; margin-left: 6px; border: 1px solid var(--ink); border-radius: 999px; padding: 0 6px; }
+.acc { display: grid; gap: 6px; }
+.ar { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 8px; background: var(--subtle); font-size: 13px; position: relative; min-height: 42px; }
+.ar .ic { width: 26px; height: 26px; border-radius: 7px; background: var(--bg); border: 1px solid var(--rule); display: grid; place-items: center; flex: none; }
+.ar .ic svg { width: 14px; height: 14px; }
+.ar .t { color: var(--ink); font-weight: 500; }
+.ar .s { font-size: 12px; color: var(--soft); }
+.ar .rt { margin-left: auto; font-size: 12px; color: var(--soft); white-space: nowrap; }
+.ar.pub { background: var(--bg); border: 1px solid var(--ink); }
+.ar .sw { position: relative; flex: 1; height: 36px; }
+.ar .sw > div { position: absolute; left: 0; top: 0; right: 0; display: flex; gap: 10px; align-items: center; }
+.more { font-size: 12px; color: var(--soft); margin-top: 8px; display: flex; justify-content: space-between; }
+.more a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.act { display: grid; gap: 0; position: relative; }
+.ev { display: flex; gap: 10px; align-items: baseline; font-size: 12.5px; padding: 7px 0; border-bottom: 1px solid var(--rule); }
+.ev:last-child { border-bottom: 0; }
+.ev .d { width: 8px; height: 8px; border-radius: 50%; background: var(--rule-strong); flex: none; transform: translateY(-1px); }
+.ev .d.k { background: var(--ink); }
+.ev .w { color: var(--ink); }
+.ev .w b { font-weight: 600; }
+.ev .tm { margin-left: auto; color: var(--faint); white-space: nowrap; font-size: 12px; }
+.ev.new { overflow: hidden; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="eye" viewBox="0 0 16 16"><path d="M1.5 8s2.4-4.5 6.5-4.5S14.5 8 14.5 8 12.1 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="link" viewBox="0 0 16 16"><path d="M6.8 9.2l2.4-2.4M7 4.6l.9-.9a2.6 2.6 0 0 1 3.7 3.7l-.9.9M9 11.4l-.9.9a2.6 2.6 0 0 1-3.7-3.7l.9-.9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="grp" viewBox="0 0 16 16"><circle cx="6" cy="5.5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 13c.4-2.4 2-3.6 4-3.6s3.6 1.2 4 3.6M10.5 3.6a2 2 0 0 1 0 3.8M12 9.6c1 .5 1.7 1.6 2 3.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+  <symbol id="fold" viewBox="0 0 16 16"><path d="M2.5 4.5h4l1.2 1.5h5.8v7h-11z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+  <symbol id="user" viewBox="0 0 16 16"><circle cx="8" cy="5.5" r="2.7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.8 14c.6-2.8 2.7-4.3 5.2-4.3s4.6 1.5 5.2 4.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="nolink" viewBox="0 0 16 16"><path d="M6.8 9.2l2.4-2.4M7 4.6l.9-.9a2.6 2.6 0 0 1 3.7 3.7l-.9.9M9 11.4l-.9.9a2.6 2.6 0 0 1-3.7-3.7l.9-.9M2.5 2.5l11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="Content / All content / Hoth patrol routes.xlsx"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="content" data-role="admin"></div>
+    <div class="main">
+      <div class="hd" id="hd"><span class="fi">XLS</span><h1>Hoth patrol routes.xlsx</h1><span class="lab">Confidential</span>
+        <span class="av-note"><svg><use href="#eye"/></svg>Admin view · contents not opened · your visit is logged</span></div>
+      <div class="why" id="why"><span class="ic">!</span><span><b>Why you’re here:</b> <span class="m">shared by public link, and the owner is deactivated.</span></span></div>
+      <div class="acts" id="acts"><span class="l">Admin actions</span><span class="btn">Change owner</span><span class="btn" id="remB">Remove external access</span><span class="btn">Apply label</span><span class="btn">Restore version</span>
+        <div class="pop" id="pop"><b>Remove the public link?</b><span class="m">The link stops working for everyone outside Echo Base. People in Echo Base keep their access. The owner is told.</span>
+          <div class="r"><span class="btn ghost">Cancel</span><span class="btn pri" id="okB">Remove link</span></div></div></div>
+      <div class="cols">
+        <section class="sec" id="sDet"><h2>Details</h2>
+          <dl>
+            <dt>Owner</dt><dd>Biggs Darklighter<span class="off">deactivated</span></dd>
+            <dt>Location</dt><dd>Red Squadron / Patrols</dd>
+            <dt>Size</dt><dd>1 MB</dd>
+            <dt>Created</dt><dd>Sep 2, 2026</dd>
+            <dt>Modified</dt><dd>Oct 12, 2026</dd>
+            <dt>Label</dt><dd>Confidential</dd>
+            <dt>Versions</dt><dd>7 · latest Oct 12</dd>
+          </dl>
+        </section>
+        <div>
+          <section class="sec" id="sAcc"><h2>Access <span>21 people · 4 ways in</span></h2>
+            <div class="acc">
+              <div class="ar pub" id="arLink"><div class="sw">
+                <div id="lk0"><span class="ic"><svg><use href="#link"/></svg></span><div><div class="t">Anyone with the link can view</div><div class="s">Public · created by Biggs, Oct 12</div></div><span class="rt">Outside Echo Base</span></div>
+                <div id="lk1" style="opacity:0"><span class="ic"><svg><use href="#nolink"/></svg></span><div><div class="t">Public link removed</div><div class="s">By Lavanya Sienna, admin · just now</div></div><span class="rt">No outside access</span></div></div></div>
+              <div class="ar"><span class="ic"><svg><use href="#grp"/></svg></span><div><div class="t">Rogue One group</div><div class="s">8 people · can edit</div></div><span class="rt">Via group</span></div>
+              <div class="ar"><span class="ic"><svg><use href="#fold"/></svg></span><div><div class="t">Red Squadron folder</div><div class="s">12 people · can view</div></div><span class="rt">Inherited</span></div>
+              <div class="ar"><span class="ic"><svg><use href="#user"/></svg></span><div><div class="t">Wedge Antilles</div><div class="s">can edit</div></div><span class="rt">Shared directly</span></div>
+            </div>
+            <div class="more"><span>Grouped by how people got access</span><a>See everyone</a></div>
+          </section>
+          <section class="sec" id="sAct"><h2>Activity <span>recent</span><a>Open in audit log, filtered to this file</a></h2>
+            <div class="act">
+              <div class="ev new" id="evNew" style="height:0;padding:0;border-bottom-width:0"><span class="d k"></span><span class="w"><b>Public link removed</b> by Lavanya Sienna, admin</span><span class="tm">just now</span></div>
+              <div class="ev"><span class="d k"></span><span class="w"><b>Downloaded</b> by someone with the link, outside Echo Base</span><span class="tm">2 h ago</span></div>
+              <div class="ev"><span class="d"></span><span class="w">Viewed 14 times by link this week</span><span class="tm">this week</span></div>
+              <div class="ev"><span class="d"></span><span class="w">Public link created by Biggs Darklighter</span><span class="tm">Oct 12</span></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  remClick: 7.80, pop: [7.90, 8.2], okClick: 9.00, applied: 9.10,
+  endCard: [11.8, 12.25], end: 13.3
+};
+
+function build() {
+  // anchor the confirmation under its button
+  $("pop").style.left = ($("remB").offsetLeft - 40) + "px";
+  const MX = 40 + 200 + 500;
+  const hd = at("why"), dt = at("sDet"), ac = at("sAcc"), av = at("sAct"), rb = at("remB"), ok = at("okB"), pp = at("pop");
+  const RX = ac[0];
+  const cur = [
+    [0.00, 860, 650], [0.40, 860, 650], [2.6, 600, 560], [7.0, rb[0] + 80, rb[1] + 90], [7.70, rb[0], rb[1] + 3], [8.0, rb[0], rb[1] + 3],
+    [8.90, ok[0], ok[1] + 3], [9.30, ok[0], ok[1] + 3], [10.6, ok[0] + 80, ok[1] + 160], [11.8, ok[0] + 84, ok[1] + 164]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.35, MX, hd[1] + 10, 1.32], [2.30, MX, hd[1] + 10, 1.32],          // title, label, logged admin view, why you're here, actions
+    [2.90, dt[0], dt[1], 1.62], [3.70, dt[0], dt[1], 1.62],              // details
+    [4.30, RX, ac[1], 1.5], [5.70, RX, ac[1], 1.5],                      // access, by route
+    [6.20, RX, av[1], 1.55], [6.95, RX, av[1], 1.55],                    // activity
+    [7.50, (rb[0] + pp[0]) / 2, pp[1] - 20, 1.5], [9.05, (rb[0] + pp[0]) / 2, pp[1] - 20, 1.5],  // remove, confirm, consequence
+    [9.60, RX, (ac[1] + av[1]) / 2 - 20, 1.3], [10.9, RX, (ac[1] + av[1]) / 2 - 20, 1.3],      // access and activity updated
+    [11.5, 660, 360, 1.05], [11.8, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("remB").style.background = t >= T.remClick - .05 && t < T.applied ? "#f2f2f2" : "";
+  const po = span(t, T.pop[0], T.pop[1], easeOut) * (1 - span(t, T.applied, T.applied + .2));
+  $("pop").style.opacity = po;
+  $("pop").style.transform = `translateY(${(1 - po) * -6}px)`;
+  $("okB").style.background = t >= T.okClick - .05 && t < T.applied + .1 ? "#333" : "";
+
+  // access row: link removed, in words
+  $("lk0").style.opacity = 1 - span(t, T.applied + .1, T.applied + .22);
+  $("lk1").style.opacity = span(t, T.applied + .24, T.applied + .4);
+  $("arLink").classList.toggle("pub", t < T.applied + .2);
+  // activity: new line slides in at the top
+  const e = span(t, T.applied + .2, T.applied + .55, easeOut);
+  const ev = $("evNew");
+  ev.style.height = (e * 34) + "px"; ev.style.padding = (e * 7) + "px 0"; ev.style.opacity = e; ev.style.borderBottomWidth = e > .5 ? "1px" : "0";
+}
+
+function events() {
+  return [["click", T.remClick], ["pop", T.pop[0]], ["click", T.okClick], ["chime", T.applied]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.remClick, T.okClick], build, render, events, clamp: false,
+  // linger on: the header (why, logged view), details, access by route, activity, the consequence, the updated access and activity
+  slow: [[0.9, 2.3, 1.6], [2.8, 3.7, 1.5], [4.2, 5.7, 1.7], [6.1, 6.95, 1.5], [8.0, 8.9, 1.7], [9.1, 10.8, 1.7]]
+});
+</script>
+</body>
+</html>

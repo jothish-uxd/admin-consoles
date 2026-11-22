@@ -148,6 +148,19 @@ window.VIDEOS = {
         "She switches to Grid. Cards show a file-type icon, the name, owner and sharing, with previews off by default. The icons are decorative, since the name sits right beside them, and the view switch works by keyboard.",
         "She exports the results. It runs in the background, and a message says the file will be sent when it's ready."
       ]
+    },
+    "Asset detail": {
+      src: "media/asset-management/asset-detail.mp4",
+      poster: "media/asset-management/asset-detail.jpg",
+      label: "Asset detail, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens Hoth patrol routes.xlsx, one of the files from the Asset library clip; the page title names it. A banner says why she's here: it's shared by public link and the owner is deactivated. A note says this is an admin view, the contents aren't opened, and her visit is logged.",
+        "Details is a list of terms and values: owner (Biggs Darklighter, deactivated), location, size, created and modified dates, the Confidential label and versions.",
+        "Access lists all 21 people by how they got in, in words: anyone with the link can view, the Rogue One group, inherited from the Red Squadron folder, and shared directly with Wedge. See everyone opens the full list.",
+        "Activity shows the recent events: a download by someone outside Echo Base 2 hours ago, 14 views by link this week, and when the link was created. A link opens the audit log filtered to this file.",
+        "Admin actions sit together, apart from any owner controls: change owner, remove external access, apply label, restore version. She chooses Remove external access, and the confirmation explains what happens: the link stops working outside Echo Base, people inside keep access, and the owner is told.",
+        "She removes the link. Access now reads Public link removed, no outside access, and the removal appears at the top of Activity."
+      ]
     }
   }
 };
