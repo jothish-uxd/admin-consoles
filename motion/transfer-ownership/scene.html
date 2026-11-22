@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transfer ownership · motion scene</title>
+<!--
+  Source for media/asset-management/transfer-ownership.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+
+  Follows the Transfer ownership card (data/guidance-content.js):
+  - framed as offboarding: Biggs left, account deactivated, stays until done (think 1, avoid 3)
+  - everything, or choose items (do 1); manager suggested (do 2)
+  - deactivated and external recipients can't be picked, with reasons (avoid 1)
+  - sharing kept, and said (do 3, avoid 2); named folder (do 5); notify the new owner (think 2, do 4)
+  - summary and confirm (WCAG 3.3.4); progress as a background job, counted (scale 1, WCAG 4.1.3)
+  - failures reported with reasons; reassign afterward (scale 3, UD 5); mapping-file bulk (scale 2)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 22px 32px; }
+h1 { font-size: 22px; }
+.sub { margin: 6px 0 0; font-size: 13px; color: var(--soft); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.sub .p { display: inline-flex; gap: 6px; align-items: center; padding: 3px 10px; border-radius: 999px; background: var(--hover); color: var(--ink); font-size: 12px; }
+.sub .p b { font-weight: 600; }
+.cols { margin-top: 16px; display: grid; grid-template-columns: 1fr 330px; gap: 22px; }
+.fld { margin-bottom: 14px; }
+.fld > .l { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.rad { display: flex; gap: 10px; align-items: center; border: 1px solid var(--rule); border-radius: 9px; padding: 10px 12px; font-size: 13px; margin-bottom: 6px; }
+.rad .s { margin-left: auto; color: var(--soft); font-size: 12px; font-family: "Geist Mono", monospace; }
+.rad.sel { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
+.rad .r { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--rule-strong); position: relative; flex: none; }
+.rad.sel .r { border-color: var(--ink); }
+.rad.sel .r::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--ink); }
+.pick { position: relative; height: 48px; border: 1px solid var(--rule-strong); border-radius: 9px; display: flex; gap: 10px; align-items: center; padding: 0 12px; font-size: 13px; }
+.pick.open { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.pick .t { color: var(--ink); font-weight: 500; }
+.pick .s { font-size: 12px; color: var(--soft); }
+.pick .sug { margin-left: auto; font-family: "Geist Mono", monospace; font-size: 10.5px; border: 1px solid var(--ink); border-radius: 999px; padding: 0 7px; }
+.pick > svg { width: 14px; height: 14px; color: var(--faint); }
+.menu { position: absolute; left: 0; right: 0; top: 52px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 9px; box-shadow: 0 14px 40px rgba(0,0,0,.12); padding: 4px; z-index: 6; opacity: 0; }
+.mi { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 7px; font-size: 13px; }
+.mi .s { font-size: 12px; color: var(--soft); }
+.mi.hov { background: var(--hover); }
+.mi.dis { color: #b0b0b0; }
+.mi.dis .av { opacity: .45; }
+.mi.dis .why { margin-left: auto; font-size: 11.5px; color: var(--soft); }
+.opts { display: grid; gap: 8px; }
+.opt { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.4; padding: 10px 12px; border-radius: 9px; background: var(--subtle); }
+.opt .cb { width: 16px; height: 16px; border-radius: 4px; background: var(--ink); color: #fff; display: grid; place-items: center; flex: none; margin-top: 1px; }
+.opt .cb svg { width: 11px; height: 11px; }
+.opt .cb.lock { background: var(--hover); color: var(--ink); border: 1px solid var(--rule-strong); }
+.opt b { font-weight: 600; }
+.opt .s { color: var(--soft); font-size: 12px; }
+.bulk { margin-top: 12px; font-size: 12.5px; color: var(--soft); }
+.bulk a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+/* summary */
+.sum { border: 1px solid var(--rule-strong); border-radius: 12px; padding: 14px 16px; position: relative; min-height: 232px; align-self: start; }
+.sum h2 { margin: 0 0 10px; font-size: 14px; font-weight: 600; }
+.sum dl { margin: 0; display: grid; grid-template-columns: 70px 1fr; row-gap: 8px; font-size: 13px; }
+.sum dt { color: var(--faint); }
+.sum dd { margin: 0; color: var(--ink); }
+.sum .keep { margin-top: 12px; font-size: 12.5px; display: flex; gap: 6px; align-items: center; color: var(--ink); }
+.sum .btn { margin-top: 14px; width: 100%; height: 38px; }
+.job { position: absolute; left: 16px; right: 16px; top: 14px; opacity: 0; }
+.job h2 { margin: 0 0 4px; font-size: 14px; font-weight: 600; position: relative; height: 20px; }
+.job h2 span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.job .s { font-size: 12.5px; color: var(--soft); position: relative; height: 18px; }
+.job .s span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.bar { margin-top: 10px; height: 8px; border-radius: 4px; background: var(--hover); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ink); width: 0; }
+.cnt { margin-top: 6px; font-family: "Geist Mono", monospace; font-size: 12px; color: var(--ink); }
+.res { margin-top: 14px; display: grid; gap: 8px; opacity: 0; font-size: 12.5px; }
+.res .ok { display: flex; gap: 6px; align-items: center; color: var(--ink); }
+.res .ok i { width: 16px; height: 16px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; flex: none; }
+.res .warn { display: flex; gap: 8px; align-items: center; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--ink); }
+.res .warn a { margin-left: auto; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-weight: 500; white-space: nowrap; }
+.res .btn { height: 32px; font-size: 12.5px; margin-top: 2px; width: auto; justify-self: start; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="chev" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="lock" viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.2 7V5a2.8 2.8 0 0 1 5.6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="Content / Transfer ownership"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="content" data-role="admin"></div>
+    <div class="main">
+      <h1>Transfer Biggs Darklighter’s content</h1>
+      <p class="sub" id="sub"><span>Biggs left Red Squadron on Oct 14.</span><span class="p">Account <b>deactivated</b> · stays until the transfer finishes</span></p>
+      <div class="cols">
+        <div id="left">
+          <div class="fld" id="fWhat"><div class="l">What moves</div>
+            <div class="rad sel"><span class="r"></span>Everything Biggs owns<span class="s">1,284 items · 3.2 GB</span></div>
+            <div class="rad"><span class="r"></span>Choose specific items</div></div>
+          <div class="fld" id="fTo"><div class="l">New owner</div>
+            <div class="pick" id="pick"><span class="av dark">JD</span><div><div class="t">Gen. Jan Dodonna</div><div class="s">Biggs’s manager</div></div><span class="sug">suggested</span><svg><use href="#chev"/></svg>
+              <div class="menu" id="menu">
+                <div class="mi" id="miD"><span class="av dark">JD</span><div>Gen. Jan Dodonna<div class="s">Biggs’s manager</div></div></div>
+                <div class="mi"><span class="av">WA</span><div>Wedge Antilles<div class="s">Red Squadron</div></div></div>
+                <div class="mi dis"><span class="av">BD</span><div>Biggs Darklighter</div><span class="why">Deactivated, can’t receive</span></div>
+                <div class="mi dis"><span class="av">R2</span><div>R2-D2</div><span class="why">External, can’t own Echo Base content</span></div>
+              </div></div></div>
+          <div class="fld" id="fOpts"><div class="l">How it moves</div>
+            <div class="opts">
+              <div class="opt"><span class="cb lock"><svg><use href="#lock"/></svg></span><div><b>Sharing stays as it is</b><div class="s">46 shared links and 12 groups keep working.</div></div></div>
+              <div class="opt"><span class="cb"><svg><use href="#tick"/></svg></span><div>Put items in a folder named <b>From Biggs Darklighter</b></div></div>
+              <div class="opt"><span class="cb"><svg><use href="#tick"/></svg></span><div>Tell Gen. Dodonna what he received</div></div>
+            </div>
+            <div class="bulk">Moving many people? <a>Upload a mapping file</a></div></div>
+        </div>
+        <div class="sum" id="sum">
+          <div id="sumA">
+            <h2>Summary</h2>
+            <dl><dt>Moves</dt><dd>1,284 items · 3.2 GB</dd><dt>From</dt><dd>Biggs Darklighter</dd><dt>To</dt><dd>Gen. Jan Dodonna</dd><dt>Into</dt><dd>From Biggs Darklighter</dd></dl>
+            <div class="keep"><svg width="13" height="13"><use href="#tick"/></svg>Sharing unchanged</div>
+            <span class="btn pri" id="startB">Start transfer</span>
+          </div>
+          <div class="job" id="job">
+            <h2><span id="jh0">Transferring…</span><span id="jh1" style="opacity:0">Transfer finished</span></h2>
+            <div class="s"><span id="js0">Runs in the background · you can leave this page</span><span id="js1" style="opacity:0">Dodonna has been sent a summary</span></div>
+            <div class="bar"><i id="bar"></i></div>
+            <div class="cnt" id="cnt">0 of 1,284</div>
+            <div class="res" id="res">
+              <div class="ok"><i><svg width="9" height="9"><use href="#tick"/></svg></i>1,281 moved into From Biggs Darklighter</div>
+              <div class="warn">3 couldn’t move<a>See the 3 and why</a></div>
+              <span class="btn">Reassign to someone else</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  pickClick: 2.90, menu: [2.95, 3.95], dClick: 3.85, startClick: 7.60, job: [7.70, 9.00], done: 9.05,
+  endCard: [11.4, 11.85], end: 12.9
+};
+
+function build() {
+  const LX = 40 + 200 + 32 + 292, sb = at("sub"), fw = at("fWhat"), ft = at("fTo"), fo = at("fOpts"), sm = at("sum"), pk = at("pick", 60, 0), st = at("startB");
+  const md = at("miD", -40, 0);
+  const RX = sm[0];
+  const cur = [
+    [0.00, 860, 650], [0.40, 860, 650], [2.2, 620, 520], [2.80, pk[0], pk[1] + 3], [3.05, pk[0], pk[1] + 3],
+    [3.75, md[0], md[1] + 3], [4.05, md[0], md[1] + 3], [5.6, st[0] - 60, st[1] + 80], [7.50, st[0], st[1] + 3], [7.85, st[0], st[1] + 3],
+    [10.0, st[0] + 60, st[1] + 140], [11.4, st[0] + 64, st[1] + 144]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.35, LX, (sb[1] + fw[1]) / 2, 1.5], [2.30, LX, (sb[1] + fw[1]) / 2, 1.5],  // why, what moves
+    [2.85, LX, ft[1] + 50, 1.55], [4.10, LX, ft[1] + 50, 1.55],                 // new owner, the list with disabled reasons
+    [4.60, LX, fo[1], 1.55], [5.90, LX, fo[1], 1.55],                           // sharing kept, folder, notify, mapping file
+    [6.40, RX, sm[1], 1.55], [7.70, RX, sm[1], 1.55],                           // summary, start
+    [9.0, RX, sm[1], 1.55], [10.6, RX, sm[1], 1.55],                            // progress, result
+    [11.2, 660, 360, 1.05], [11.4, 656, 360, 1.04]
+  ];
+  return { cam, cur, clampY: true };
+}
+
+function render(t) {
+  // recipient list: manager suggested; deactivated and external can't be picked
+  const mo = span(t, T.menu[0], T.menu[0] + .15, easeOut) * (1 - span(t, T.menu[1] - .08, T.menu[1]));
+  $("menu").style.opacity = mo;
+  $("menu").style.transform = `translateY(${(1 - mo) * -4}px)`;
+  $("pick").classList.toggle("open", mo > .05);
+  $("miD").classList.toggle("hov", t > T.dClick - .25 && t < T.menu[1]);
+
+  // start: summary -> job -> result
+  $("startB").style.background = t >= T.startClick - .05 && t < T.job[0] + .1 ? "#333" : "";
+  $("sumA").style.opacity = 1 - span(t, T.job[0], T.job[0] + .15);
+  $("job").style.opacity = span(t, T.job[0] + .15, T.job[0] + .35);
+  const p = span(t, T.job[0] + .3, T.job[1], x => x);
+  const moved = Math.round(1281 * p);
+  $("bar").style.width = (p * 100) + "%";
+  $("cnt").textContent = `${moved.toLocaleString("en-US")} of 1,284`;
+  $("jh0").style.opacity = 1 - span(t, T.done, T.done + .12); $("jh1").style.opacity = span(t, T.done + .14, T.done + .3);
+  $("js0").style.opacity = 1 - span(t, T.done, T.done + .12); $("js1").style.opacity = span(t, T.done + .14, T.done + .3);
+  $("res").style.opacity = span(t, T.done + .2, T.done + .45);
+  $("res").style.transform = `translateY(${(1 - span(t, T.done + .2, T.done + .45)) * 6}px)`;
+}
+
+function events() {
+  return [["click", T.pickClick], ["click", T.dClick], ["click", T.startClick], ["whoosh", T.job[0]], ["chime", T.done]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.pickClick, T.dClick, T.startClick], build, render, events, clamp: false,
+  // linger on: why and what moves, the disabled recipients, how it moves, the summary, the result
+  slow: [[0.9, 2.3, 1.6], [3.1, 3.8, 1.8], [4.5, 5.9, 1.7], [6.3, 7.4, 1.6], [9.05, 10.5, 1.7]]
+});
+</script>
+</body>
+</html>
