@@ -535,18 +535,24 @@
 
   /* ---------- Pattern clips ----------
      A short clip above the pattern card (data/videos.js). It waits on its
-     poster until the visitor presses play; the controls are plain buttons,
-     and the steps accordion is the text alternative. Sound on/off is
-     remembered per browser. */
+     poster until the visitor presses play. A player bar runs along the bottom:
+     play / pause, elapsed and total time, a timeline to drag or step with the
+     arrow keys, sound on / off and full screen. While playing, the bar fades
+     after a moment without pointer movement, and returns on movement or focus.
+     The steps accordion is the text alternative. Sound on/off is remembered
+     per browser. */
   const SOUND_KEY = "ac-clip-sound";
   const CLIP_ICON = {
     play: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7.5-4.5z" fill="currentColor"/></svg>',
     pause: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 3h2.5v10H4.5zM9 3h2.5v10H9z" fill="currentColor"/></svg>',
     replay: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 8a4.8 4.8 0 1 0 1.5-3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M3 2.5v3h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     on: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6h2.5l3.5-3v10L5 10H2.5z" fill="currentColor"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.8a6 6 0 0 1 0 8.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-    chev: '<svg class="chev" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    off: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6h2.5l3.5-3v10L5 10H2.5z" fill="currentColor"/><path d="M11 6l3.5 4M14.5 6L11 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'
+    off: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6h2.5l3.5-3v10L5 10H2.5z" fill="currentColor"/><path d="M11 6l3.5 4M14.5 6L11 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+    full: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    exit: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.5V6H2.5M13.5 6H10V2.5M10 13.5V10h3.5M2.5 10H6v3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    chev: '<svg class="chev" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
+  const mmss = s => { s = Math.max(0, Math.floor(s || 0)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
   function clipHtml(slug, name) {
     const v = ((window.VIDEOS || {})[slug] || {})[name];
     if (!v) return "";
@@ -558,7 +564,10 @@
           <button type="button" class="clip-big" data-clip="big">${CLIP_ICON.play}<span class="visually-hidden">Play clip</span></button>
           <div class="clip-bar">
             <button type="button" class="clip-btn" data-clip="play"></button>
+            <span class="clip-time" aria-hidden="true"><span data-clip="now">0:00</span> / <span data-clip="dur">0:00</span></span>
+            <input type="range" class="clip-seek" data-clip="seek" min="0" max="1000" step="1" value="0" aria-label="Timeline">
             <button type="button" class="clip-btn" data-clip="sound" aria-pressed="false"></button>
+            <button type="button" class="clip-btn" data-clip="full"></button>
           </div>
         </div>
         ${v.steps ? `<details class="clip-steps"><summary><span>What happens in this clip</span><span class="clip-count">${v.steps.length} steps</span>${CLIP_ICON.chev}</summary>
@@ -568,27 +577,80 @@
   function initClip(scope) {
     const vid = $(".clip-video", scope);
     if (!vid) return;
-    const playBtn = $('[data-clip="play"]', scope), soundBtn = $('[data-clip="sound"]', scope);
-    const bigBtn = $('[data-clip="big"]', scope), frame = $(".clip-frame", scope);
-    bigBtn.addEventListener("click", () => { vid.play().catch(() => {}); playBtn.focus(); });
-    let sound = false;
+    const q = k => $(`[data-clip="${k}"]`, scope);
+    const playBtn = q("play"), soundBtn = q("sound"), fullBtn = q("full"), bigBtn = q("big"), seek = q("seek");
+    const nowEl = q("now"), durEl = q("dur"), frame = $(".clip-frame", scope), bar = $(".clip-bar", scope);
+    const label = (btn, icon, text) => { btn.innerHTML = `${CLIP_ICON[icon]}<span class="visually-hidden">${text}</span>`; btn.title = text; };
+    let sound = false, scrubbing = false, wasPlaying = false, raf = 0, idleTimer = 0;
     try { sound = localStorage.getItem(SOUND_KEY) === "on"; } catch (e) {}
+
+    const isFull = () => (document.fullscreenElement || document.webkitFullscreenElement) === frame;
+    const paintTime = () => {
+      const d = vid.duration || 0, t = vid.currentTime || 0;
+      nowEl.textContent = mmss(t); durEl.textContent = mmss(d);
+      if (!scrubbing) seek.value = d ? Math.round(t / d * 1000) : 0;
+      seek.style.setProperty("--p", (seek.value / 10) + "%");
+      seek.setAttribute("aria-valuetext", `${mmss(t)} of ${mmss(d)}`);
+    };
     const paint = () => {
       const state = vid.ended ? "replay" : vid.paused ? "play" : "pause";
-      playBtn.innerHTML = `${CLIP_ICON[state]}<span>${{ replay: "Replay", play: "Play", pause: "Pause" }[state]}</span>`;
-      soundBtn.innerHTML = `${CLIP_ICON[vid.muted ? "off" : "on"]}<span>${vid.muted ? "Sound off" : "Sound on"}</span>`;
+      label(playBtn, state, { replay: "Replay", play: "Play", pause: "Pause" }[state]);
+      label(soundBtn, vid.muted ? "off" : "on", vid.muted ? "Turn sound on" : "Turn sound off");
       soundBtn.setAttribute("aria-pressed", String(!vid.muted));
+      label(fullBtn, isFull() ? "exit" : "full", isFull() ? "Exit full screen" : "Full screen");
       frame.classList.toggle("is-playing", !vid.paused && !vid.ended);
       frame.classList.toggle("is-ended", vid.ended);
       bigBtn.innerHTML = `${CLIP_ICON[vid.ended ? "replay" : "play"]}<span class="visually-hidden">${vid.ended ? "Replay clip" : "Play clip"}</span>`;
+      paintTime();
     };
-    ["play", "pause", "ended", "volumechange"].forEach(e => vid.addEventListener(e, paint));
-    playBtn.addEventListener("click", () => { if (vid.paused || vid.ended) vid.play().catch(() => {}); else vid.pause(); });
+    // smooth timeline while playing
+    const tick = () => { paintTime(); raf = !vid.paused && !vid.ended ? requestAnimationFrame(tick) : 0; };
+    vid.addEventListener("play", () => { paint(); cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); wake(); });
+    ["pause", "ended", "volumechange", "loadedmetadata", "seeked"].forEach(e => vid.addEventListener(e, paint));
+
+    const toggle = () => { if (vid.paused || vid.ended) vid.play().catch(() => {}); else vid.pause(); };
+    playBtn.addEventListener("click", toggle);
+    vid.addEventListener("click", toggle);
+    bigBtn.addEventListener("click", () => { vid.play().catch(() => {}); playBtn.focus(); });
     soundBtn.addEventListener("click", () => {
       vid.muted = !vid.muted;
       try { localStorage.setItem(SOUND_KEY, vid.muted ? "off" : "on"); } catch (e) {}
     });
-    vid.addEventListener("click", () => playBtn.click());
+
+    // timeline: drag, click or arrow keys (range input handles the keys natively)
+    seek.addEventListener("input", () => {
+      if (!scrubbing) { scrubbing = true; wasPlaying = !vid.paused && !vid.ended; vid.pause(); }
+      if (vid.duration) vid.currentTime = seek.value / 1000 * vid.duration;
+      seek.style.setProperty("--p", (seek.value / 10) + "%");
+      nowEl.textContent = mmss(vid.currentTime);
+    });
+    seek.addEventListener("change", () => {
+      scrubbing = false;
+      if (wasPlaying && vid.currentTime < vid.duration) vid.play().catch(() => {});
+      paint();
+    });
+
+    // full screen (iOS Safari only allows it on the video itself)
+    fullBtn.addEventListener("click", () => {
+      if (isFull()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else if (frame.requestFullscreen) frame.requestFullscreen().catch(() => {});
+      else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+      else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
+    });
+    ["fullscreenchange", "webkitfullscreenchange"].forEach(e => document.addEventListener(e, paint));
+
+    // the bar fades while playing if the pointer rests; movement or keyboard focus brings it back
+    function wake() {
+      frame.classList.remove("is-idle");
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        if (!vid.paused && !vid.ended && !bar.contains(document.activeElement)) frame.classList.add("is-idle");
+      }, 2200);
+    }
+    ["pointermove", "pointerdown"].forEach(e => frame.addEventListener(e, wake));
+    frame.addEventListener("focusin", wake);
+    frame.addEventListener("pointerleave", () => { if (!vid.paused && !bar.contains(document.activeElement)) frame.classList.add("is-idle"); });
+
     vid.muted = !sound;
     paint();
   }

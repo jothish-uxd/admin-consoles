@@ -750,15 +750,35 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .pat-clip { margin: 0 0 16px; }
 .clip-frame { position: relative; border: 1px solid var(--nest-rule); border-radius: 12px; overflow: hidden; background: #f3f3f3; aspect-ratio: 16 / 9; }
 .clip-video { display: block; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
-.clip-bar { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 6px; }
-.clip-btn {
-  display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px 0 9px; border: 0; border-radius: 999px;
-  background: rgba(23, 23, 23, .82); color: #fff; font: inherit; font-size: 12px; font-weight: 500; cursor: pointer;
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+/* Player bar: a dark rounded strip inset from the edges, so it reads on any frame, including the light end card. */
+.clip-bar {
+  position: absolute; left: 10px; right: 10px; bottom: 10px; height: 40px; display: flex; align-items: center; gap: 4px; padding: 0 6px;
+  border-radius: 10px; background: rgba(23, 23, 23, .78); color: #fff;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: opacity .25s ease;
 }
-.clip-btn svg { width: 14px; height: 14px; flex: none; }
-.clip-btn:hover { background: #171717; }
-.clip-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.clip-frame.is-playing.is-idle .clip-bar { opacity: 0; }
+.clip-frame.is-playing.is-idle { cursor: none; }
+.clip-btn {
+  display: grid; place-items: center; width: 32px; height: 32px; flex: none; padding: 0; border: 0; border-radius: 7px;
+  background: transparent; color: #fff; cursor: pointer;
+}
+.clip-btn svg { width: 16px; height: 16px; }
+.clip-btn:hover { background: rgba(255, 255, 255, .14); }
+.clip-btn:focus-visible, .clip-seek:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.clip-time { flex: none; padding: 0 8px 0 4px; font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, .86); white-space: nowrap; }
+.clip-seek {
+  --p: 0%; flex: 1; min-width: 60px; height: 24px; margin: 0 8px 0 0; background: transparent; cursor: pointer;
+  -webkit-appearance: none; appearance: none; border-radius: 4px;
+}
+.clip-seek::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, #fff var(--p), rgba(255, 255, 255, .28) var(--p)); }
+.clip-seek::-moz-range-track { height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .28); }
+.clip-seek::-moz-range-progress { height: 4px; border-radius: 2px; background: #fff; }
+.clip-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; margin-top: -4px; border-radius: 50%; background: #fff; border: 0; }
+.clip-seek::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 0; }
+.clip-frame:fullscreen { border: 0; border-radius: 0; background: #000; }
+.clip-frame:fullscreen .clip-video { object-fit: contain; }
+.clip-frame:-webkit-full-screen { border: 0; border-radius: 0; background: #000; }
+.clip-frame:-webkit-full-screen .clip-video { object-fit: contain; }
 .clip-big {
   position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; display: grid; place-items: center;
   border: 0; border-radius: 50%; background: rgba(23, 23, 23, .86); color: #fff; cursor: pointer;
@@ -772,7 +792,7 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 /* End card: grey over the last frame; the credit sits centred in the lower half, clear of the replay button. */
 .clip-end { position: absolute; inset: 0; display: none; background: var(--nest-bg); }
 .clip-frame.is-ended .clip-end { display: block; }
-.clip-frame.is-ended .clip-btn, .clip-frame.is-ended .clip-big { background: var(--ink); color: var(--bg); }
+.clip-frame.is-ended .clip-big { background: var(--ink); color: var(--bg); }
 .clip-end p {
   position: absolute; left: 24px; right: 24px; top: 75%; transform: translateY(-50%); margin: 0;
   text-align: center; font-size: 14px; line-height: 1.5; color: var(--ink-soft); text-wrap: balance;
@@ -793,11 +813,12 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .clip-steps[open] summary { border-radius: 12px 12px 0 0; border-bottom: 1px solid var(--nest-rule); }
 .clip-steps ol { margin: 0; padding: 16px 20px 18px 42px; max-width: 80ch; display: grid; gap: 8px; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
 .clip-steps li::marker { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
-@media (prefers-reduced-motion: reduce) { .clip-big, .clip-steps .chev { transition: none; } }
-@media (max-width: 560px) { .clip-bar { left: 8px; bottom: 8px; } .clip-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } .clip-btn { padding: 0 8px; } }
+@media (prefers-reduced-motion: reduce) { .clip-big, .clip-steps .chev, .clip-bar { transition: none; } }
+@media (max-width: 560px) { .clip-bar { left: 6px; right: 6px; bottom: 6px; } .clip-time { display: none; } }
 @media (forced-colors: active) {
   .clip-frame { border: 1px solid CanvasText; }
-  .clip-btn, .clip-big { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+  .clip-bar { background: Canvas; color: CanvasText; border: 1px solid CanvasText; } .clip-time { color: CanvasText; }
+  .clip-btn { color: ButtonText; } .clip-big { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
   .clip-steps { border: 1px solid CanvasText; }
   .clip-end { background: Canvas; } .clip-end p { color: CanvasText; }
 }

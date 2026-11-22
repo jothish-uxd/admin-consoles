@@ -30,7 +30,7 @@ Screenshots come from the public help centres and docs of GitHub, Datadog, Miro,
 **Category pages** have three tabs, opening on Patterns:
 
 - **Patterns**: a row of chips, one per pattern (a dropdown when the space is narrow); the chosen pattern shows below with previous / next. Its card leads with *How to think about it*, then a 2×2 of *Recommended*, *Avoid*, *At enterprise scale* and *Accessibility* (WCAG 2.2 criteria, linked to W3C Understanding docs), and *Universal design* (the 7 Principles) along the bottom.
-  Some patterns open with a short clip above the card (see *Pattern clips* below).
+  Some patterns open with a short clip above the card, with a player bar (play, time, timeline, sound, full screen); see *Pattern clips* below.
 - **Screens**: the saved screenshots, filterable by pattern. Each opens in a side sheet with the details on the left and the image on the right, a Group › Category › Pattern title, previous / next, and a link to the source page.
 - **Scale**: how the category changes from a small team to hundreds of thousands of users, shown as a cool-grey tier ramp, plus principles that hold at every size.
 
