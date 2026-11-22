@@ -9,11 +9,12 @@ window.VIDEOS = {
       poster: "media/access-requests/request-access.jpg",
       label: "Request access, shown in a mock Echo Base console",
       steps: [
-        "The requester opens the resource catalog and chooses Request access on Death Star plans, a restricted archive she can't see yet.",
-        "A side panel opens on the same page. She picks Viewer, the least-privilege option, and 7 days, so access ends on its own.",
-        "She types why she needs it. The panel already says who will review it: Gen. Jan Dodonna, the resource owner, who usually replies within 2 hours.",
-        "After she submits, the panel shows the request's progress: submitted, owner review, access granted.",
-        "Dodonna approves. Back in the catalog, the row now reads Viewer · 7 days."
+        "The requester follows a link to the Death Star plans archive and lands on an access-denied page. It says who owns the archive and who reviews requests, Gen. Jan Dodonna, usually within 2 hours, with Request access right there.",
+        "Request access opens one short form in place. The archive and her name are already filled in.",
+        "It asks what she needs to do, not which role she wants. She picks Read and download, and 7 days, so access ends on its own.",
+        "She writes a one-line reason. An example of a good one sits under the field: Prepping the Yavin briefing on Friday.",
+        "After she sends it, the page confirms Request sent to Gen. Jan Dodonna (screen readers announce it too) and shows the request's progress, with Follow up and Cancel request.",
+        "Dodonna approves. The page now says You have access, until Fri Nov 28, with Open the archive."
       ]
     },
     "Approval queue": {

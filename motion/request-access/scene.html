@@ -7,52 +7,82 @@
   Source for media/access-requests/request-access.mp4.
   Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
   Open this file in a browser and add ?play to watch it live.
+
+  Follows the Request access card (data/guidance-people.js):
+  - starts on the access-denied page, with Request access right there (think 1, do 1, avoid 1, UD 3)
+  - resource and requester prefilled (do 1, WCAG 3.3.7)
+  - asks what she needs to do, not which role (think 2, avoid 2)
+  - short reason with an example of a good one, and how long (do 2, WCAG 3.3.2)
+  - says who reviews and how long it usually takes (do 3)
+  - confirms "Request sent to Gen. Jan Dodonna" (WCAG 4.1.3)
+  - shows status with Follow up and Cancel request (do 4, avoid 3)
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
+.main { padding: 0; }
+.page { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+.crumbbar { position: absolute; left: 32px; top: 22px; font-size: 13px; color: var(--faint); }
+.crumbbar b { color: var(--soft); font-weight: 500; }
+.card { position: absolute; left: 50%; width: 600px; margin-left: -300px; top: 64px; border: 1px solid var(--rule-strong); border-radius: 14px; background: var(--bg); overflow: hidden; }
+.view { position: absolute; left: 0; right: 0; top: 0; }
 
-/* Drawer */
-.drawer { position: absolute; top: 52px; right: 0; bottom: 0; width: 440px; background: var(--bg); border-left: 1px solid var(--rule-strong);
-  box-shadow: -16px 0 40px rgba(0,0,0,.08); }
-.dh { padding: 22px 24px 18px; border-bottom: 1px solid var(--rule); position: relative; }
-.dh .k { font-size: 12px; color: var(--faint); margin-bottom: 4px; }
-.dh h2 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -.015em; }
-.dh .meta { margin-top: 8px; display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--soft); }
-.dh .x { position: absolute; right: 18px; top: 18px; width: 28px; height: 28px; display: grid; place-items: center; color: var(--faint); }
-.db { position: absolute; left: 0; right: 0; top: 118px; bottom: 64px; padding: 18px 24px; }
-.field { margin-bottom: 16px; }
-.field > .l { font-size: 13px; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; }
-.field > .l span { font-weight: 400; color: var(--faint); }
-.opt { display: flex; gap: 12px; align-items: flex-start; border: 1px solid var(--rule); border-radius: 9px; padding: 9px 12px; margin-bottom: 6px; font-size: 13px; }
+/* denied */
+.denied { padding: 36px 40px; text-align: center; }
+.lock { width: 52px; height: 52px; border-radius: 50%; background: var(--hover); display: grid; place-items: center; margin: 0 auto 16px; }
+.lock svg { width: 22px; height: 22px; }
+.denied h1 { font-size: 22px; }
+.denied .res { margin: 8px 0 0; font-size: 14px; color: var(--soft); }
+.denied .res b { color: var(--ink); font-weight: 500; }
+.denied .who { margin: 16px auto 0; display: inline-flex; gap: 10px; align-items: center; font-size: 13px; color: var(--soft); padding: 8px 12px; background: var(--subtle); border-radius: 8px; }
+.denied .who b { color: var(--ink); font-weight: 500; }
+.denied .row { margin-top: 22px; display: flex; gap: 8px; justify-content: center; }
+.denied .btn { height: 38px; padding: 0 18px; font-size: 14px; }
+
+/* form */
+.fh { padding: 20px 24px 16px; border-bottom: 1px solid var(--rule); }
+.fh .k { font-size: 12px; color: var(--faint); margin-bottom: 6px; }
+.fh h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.pre { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.pre span { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--soft); background: var(--subtle); border: 1px solid var(--rule); border-radius: 999px; padding: 3px 10px 3px 8px; }
+.pre span b { color: var(--ink); font-weight: 500; }
+.pre svg { width: 12px; height: 12px; color: var(--faint); }
+.fb { padding: 16px 24px 4px; }
+.fld { margin-bottom: 15px; }
+.fld > .l { font-size: 13px; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; }
+.fld > .l span { font-weight: 400; color: var(--faint); }
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.opt { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--rule); border-radius: 9px; padding: 10px 12px; font-size: 13px; }
 .opt .t { font-weight: 500; color: var(--ink); }
-.opt .s { color: var(--soft); margin-top: 2px; }
-.opt .tag { margin-left: auto; font-family: "Geist Mono", monospace; font-size: 11px; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 7px; align-self: center; }
+.opt .s { color: var(--soft); margin-top: 2px; font-size: 12px; }
 .radio { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--rule-strong); margin-top: 1px; flex: none; position: relative; }
 .radio i { position: absolute; inset: 3px; border-radius: 50%; background: var(--ink); transform: scale(0); }
 .opt.sel { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
 .opt.sel .radio { border-color: var(--ink); }
 .seg { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; }
-.seg div { height: 34px; display: grid; place-items: center; font-size: 13px; color: var(--soft); border-right: 1px solid var(--rule); position: relative; }
-.seg div:last-child { border-right: 0; color: #b8b8b8; }
+.seg div { height: 34px; display: grid; place-items: center; font-size: 13px; color: var(--soft); border-right: 1px solid var(--rule); }
+.seg div:last-child { border-right: 0; }
 .seg div.sel { background: var(--ink); color: #fff; font-weight: 500; }
-.hint { font-size: 12px; color: var(--faint); margin-top: 6px; }
-.ta { border: 1px solid var(--rule-strong); border-radius: 8px; height: 64px; padding: 9px 12px; font-size: 13px; line-height: 1.45; color: var(--ink); position: relative; }
+.ta { border: 1px solid var(--rule-strong); border-radius: 8px; height: 44px; padding: 11px 12px; font-size: 13px; color: var(--ink); }
 .ta.focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
 .ta .ph { color: #b0b0b0; }
 .caret { display: inline-block; width: 1.5px; height: 15px; background: var(--ink); vertical-align: -3px; margin-left: 1px; }
+.hint { margin-top: 6px; font-size: 12px; color: var(--soft); }
+.hint q { color: var(--ink); }
 .route { display: flex; gap: 10px; align-items: center; font-size: 13px; padding: 10px 12px; background: var(--subtle); border-radius: 8px; color: var(--soft); }
 .route b { color: var(--ink); font-weight: 500; }
-.df { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; border-top: 1px solid var(--rule); display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding: 0 24px; }
+.ff { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 24px 18px; }
+.ff .btn { height: 36px; }
 .spin { width: 13px; height: 13px; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; }
 
-/* Status view */
-.status { position: absolute; left: 0; right: 0; top: 118px; bottom: 64px; padding: 26px 24px; opacity: 0; }
-.ok { display: flex; gap: 12px; align-items: center; margin-bottom: 26px; }
-.ok .ic { width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; }
-.ok .t { font-size: 16px; font-weight: 600; }
-.ok .s { font-size: 13px; color: var(--soft); margin-top: 2px; }
-.steps { list-style: none; margin: 0; padding: 0; position: relative; }
-.steps li { display: flex; gap: 14px; position: relative; padding-bottom: 22px; font-size: 13px; }
+/* status */
+.st { padding: 26px 28px 22px; }
+.ok { display: flex; gap: 14px; align-items: center; margin-bottom: 22px; }
+.ok .ic { width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; flex: none; }
+.ok .t { font-size: 18px; font-weight: 600; position: relative; height: 24px; width: 420px; }
+.ok .t span, .ok .s span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.ok .s { font-size: 13px; color: var(--soft); margin-top: 3px; position: relative; height: 18px; }
+.steps { list-style: none; margin: 0 0 4px; padding: 0; }
+.steps li { display: flex; gap: 14px; position: relative; padding-bottom: 18px; font-size: 13px; }
 .steps li:not(:last-child)::before { content: ""; position: absolute; left: 11px; top: 26px; bottom: 2px; width: 1.5px; background: var(--rule-strong); }
 .dot { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--rule-strong); background: var(--bg); display: grid; place-items: center; flex: none; position: relative; z-index: 1; color: #fff; }
 .dot.done { background: var(--ink); border-color: var(--ink); }
@@ -60,82 +90,80 @@
 .dot.wait i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); }
 .dot svg { width: 12px; height: 12px; }
 .steps .t { font-weight: 500; color: var(--ink); }
-.steps .s { color: var(--soft); margin-top: 2px; }
+.steps .s { color: var(--soft); margin-top: 2px; position: relative; height: 18px; width: 380px; }
+.steps .s span { position: absolute; left: 0; top: 0; white-space: nowrap; }
 .steps .muted .t { color: var(--faint); }
-.cross { position: relative; }
-.cross > span { position: absolute; left: 0; top: 0; white-space: nowrap; }
-
+.sa { display: flex; gap: 8px; border-top: 1px solid var(--rule); padding-top: 16px; position: relative; height: 54px; }
+.sa > div { position: absolute; left: 0; top: 16px; display: flex; gap: 8px; align-items: center; }
+.sa .btn { height: 36px; }
+.sa .note { font-size: 12px; color: var(--faint); margin-left: 4px; }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="lock" viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.2 7V5a2.8 2.8 0 0 1 5.6 0v2" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="user" viewBox="0 0 16 16"><circle cx="8" cy="5.5" r="2.7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.8 14c.6-2.8 2.7-4.3 5.2-4.3s4.6 1.5 5.2 4.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</defs></svg>
 <div id="stage">
-  <div class="win" id="win">
+  <div class="win">
     <div class="top">
       <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
-      <span class="crumb">/ <b>Resources</b></span>
+      <span class="crumb">/ Archives / <b>Death Star plans</b></span>
       <div class="me">Lavanya Sienna · Jedi in training <span class="av">LS</span></div>
     </div>
     <div class="nav">
-      <div class="on">Resources</div><div>My requests</div><div>Approvals</div>
+      <div class="on">Archives</div><div>My access</div><div>My requests</div>
       <div class="lbl">Admin</div><div>Access reviews</div><div>Audit log</div>
     </div>
     <div class="main">
-      <h1>Resource catalog</h1>
-      <p class="lede">Ask for access to restricted resources. Requests go to the resource owner.</p>
-      <table>
-        <thead><tr><th>Resource</th><th>Owner</th><th>Classification</th><th>Your access</th><th></th></tr></thead>
-        <tbody>
-          <tr><td>X-wing flight logs</td><td>Red Squadron</td><td><span class="cls">Internal</span></td><td>Editor</td><td class="act"></td></tr>
-          <tr><td>Shield generator telemetry</td><td>Base Engineering</td><td><span class="cls">Internal</span></td><td>Viewer</td><td class="act"></td></tr>
-          <tr id="row"><td>Death Star plans · archive</td><td>Rebel Intelligence</td><td><span class="cls r">Restricted</span></td>
-            <td><span class="cross" id="accCell" style="display:inline-block;width:130px;height:20px"><span id="accNone" class="none">No access</span><span id="accNew" style="opacity:0"><span class="acc-badge"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.8V8l2.2 1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Viewer · 7 days</span></span></span></td>
-            <td class="act"><span class="btn" id="reqBtn">Request access</span></td></tr>
-          <tr><td>Yavin IV supply manifests</td><td>Logistics</td><td><span class="cls">Internal</span></td><td class="none">No access</td><td class="act"><span class="btn">Request access</span></td></tr>
-          <tr><td>Holonet relay keys</td><td>Comms Corps</td><td><span class="cls r">Secret</span></td><td class="none">No access</td><td class="act"><span class="btn">Request access</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="scrim" id="scrim"></div>
-    <div class="drawer" id="drawer">
-      <div class="dh">
-        <div class="k">Request access</div>
-        <h2>Death Star plans · archive</h2>
-        <div class="meta"><span class="cls r">Restricted</span> Owned by Rebel Intelligence</div>
-        <div class="x"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-      </div>
-      <div class="db" id="form">
-        <div class="field">
-          <div class="l">Access level</div>
-          <div class="opt" id="optViewer"><span class="radio"><i id="rdot"></i></span><div><div class="t">Viewer</div><div class="s">Read and download</div></div><span class="tag">Least privilege</span></div>
-          <div class="opt"><span class="radio"></span><div><div class="t">Editor</div><div class="s">Upload, change and delete</div></div></div>
+      <div class="page">
+        <div class="card" id="card">
+          <!-- 1. access denied, with the way forward right there -->
+          <div class="view denied" id="vDenied">
+            <div class="lock"><svg><use href="#lock"/></svg></div>
+            <h1>You don’t have access to this archive yet</h1>
+            <p class="res"><b>Death Star plans · archive</b> · Restricted · Owned by Rebel Intelligence</p>
+            <div class="who"><span class="av dark">JD</span><span><b>Gen. Jan Dodonna</b> reviews requests, usually within 2 hours</span></div>
+            <div class="row"><span class="btn">Go back</span><span class="btn pri" id="reqBtn">Request access</span></div>
+          </div>
+          <!-- 2. one short form, opened in place -->
+          <div class="view" id="vForm" style="opacity:0">
+            <div class="fh"><div class="k">Request access</div><h2>Death Star plans · archive</h2>
+              <div class="pre"><span><svg><use href="#lock"/></svg><b>Death Star plans · archive</b> filled in</span><span><svg><use href="#user"/></svg>Requesting as <b>Lavanya Sienna</b></span></div></div>
+            <div class="fb">
+              <div class="fld"><div class="l">What do you need to do?</div>
+                <div class="opts">
+                  <div class="opt" id="optRead"><span class="radio"><i id="rdot"></i></span><div><div class="t">Read and download</div><div class="s">Open the plans and save copies</div></div></div>
+                  <div class="opt"><span class="radio"></span><div><div class="t">Add and change files</div><div class="s">Upload, edit or delete plans</div></div></div>
+                </div></div>
+              <div class="fld"><div class="l">For how long? <span id="expHint">Access ends on its own</span></div>
+                <div class="seg"><div>1 day</div><div id="seg7">7 days</div><div>30 days</div><div>Custom</div></div></div>
+              <div class="fld"><div class="l">Why do you need it? <span id="count">0 / 200</span></div>
+                <div class="ta" id="ta"><span id="typed"></span><span class="caret" id="caret" style="opacity:0"></span><span class="ph" id="ph">A sentence is enough</span></div>
+                <div class="hint" id="hint">For example: <q>Prepping the Yavin briefing on Friday.</q> Gen. Dodonna sees this.</div></div>
+              <div class="route"><span class="av dark">JD</span><div>Goes to <b>Gen. Jan Dodonna</b>, resource owner · usually replies within 2 hours</div></div>
+            </div>
+            <div class="ff"><span class="btn ghost">Cancel</span><span class="btn pri" id="sendBtn" style="width:128px"><span id="sendLbl">Send request</span><span class="spin" id="spin" style="display:none"></span></span></div>
+          </div>
+          <!-- 3. confirmation and status, with follow up and cancel -->
+          <div class="view st" id="vStatus" style="opacity:0">
+            <div class="ok"><span class="ic"><svg width="18" height="18"><use href="#tick"/></svg></span>
+              <div><div class="t"><span id="okT1">Request sent to Gen. Jan Dodonna</span><span id="okT2" style="opacity:0">You have access</span></div>
+                <div class="s"><span id="okS1">You’ll get a message here and by email when he decides.</span><span id="okS2" style="opacity:0">Read and download, until Fri Nov 28, 17:40.</span></div></div></div>
+            <ol class="steps">
+              <li><span class="dot done"><svg><use href="#tick"/></svg></span><div><div class="t">Sent</div><div class="s"><span>Read and download · 7 days · just now</span></div></div></li>
+              <li><span class="dot wait" id="d2"><i id="d2i"></i><svg id="d2c" style="opacity:0;position:absolute"><use href="#tick"/></svg></span>
+                <div><div class="t">Owner review</div><div class="s"><span id="s2a">Waiting on Gen. Dodonna · usually within 2 hours</span><span id="s2b" style="opacity:0">Approved by Gen. Dodonna</span></div></div></li>
+              <li id="li3" class="muted"><span class="dot" id="d3"><svg id="d3c" style="opacity:0"><use href="#tick"/></svg></span>
+                <div><div class="t">Access ready</div><div class="s"><span>Ends on its own after 7 days</span></div></div></li>
+            </ol>
+            <div class="sa">
+              <div id="saWait"><span class="btn" id="fuBtn">Follow up</span><span class="btn ghost">Cancel request</span><span class="note">Also in My requests</span></div>
+              <div id="saDone" style="opacity:0"><span class="btn pri">Open the archive</span></div>
+            </div>
+          </div>
         </div>
-        <div class="field">
-          <div class="l">How long</div>
-          <div class="seg"><div>1 day</div><div id="seg7">7 days</div><div>30 days</div><div>Permanent</div></div>
-          <div class="hint" id="expHint">Access ends on its own. You can ask to extend it.</div>
-        </div>
-        <div class="field">
-          <div class="l">Why do you need it? <span id="count">0 / 200</span></div>
-          <div class="ta" id="ta"><span id="typed"></span><span class="caret" id="caret" style="opacity:0"></span><span class="ph" id="ph">Required. Your approver sees this.</span></div>
-        </div>
-        <div class="route"><span class="av dark">JD</span><div>Goes to <b>Gen. Jan Dodonna</b>, resource owner · usually replies within 2 hours</div></div>
-      </div>
-      <div class="status" id="status">
-        <div class="ok"><span class="ic"><svg width="18" height="18" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <div><div class="t" id="okT">Request sent</div><div class="s" id="okS">We’ll let you know when Gen. Dodonna decides.</div></div></div>
-        <ol class="steps">
-          <li><span class="dot done"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <div><div class="t">Submitted</div><div class="s">Viewer · 7 days · just now</div></div></li>
-          <li><span class="dot wait" id="d2"><i id="d2i"></i><svg id="d2c" style="opacity:0;position:absolute" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <div><div class="t">Owner review</div><div class="s cross" style="height:18px;width:260px"><span id="s2a">Waiting on Gen. Dodonna</span><span id="s2b" style="opacity:0">Approved by Gen. Dodonna</span></div></div></li>
-          <li id="li3" class="muted"><span class="dot" id="d3"><svg id="d3c" style="opacity:0" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <div><div class="t" id="t3">Access granted</div><div class="s">Ends automatically in 7 days</div></div></li>
-        </ol>
-      </div>
-      <div class="df">
-        <span class="btn ghost" id="cancelBtn">Cancel</span>
-        <span class="btn pri" id="submitBtn" style="width:132px"><span id="subLbl">Submit request</span><span class="spin" id="spin" style="display:none"></span></span>
-        <span class="btn pri" id="doneBtn" style="display:none;width:80px">Done</span>
       </div>
     </div>
   </div>
@@ -144,116 +172,108 @@
 <script src="../shared/motion.js"></script>
 <script>
 const { $, at, span, easeOut, clamp01 } = Motion;
-const TEXT = "Exhaust port analysis for the Yavin briefing.";
+const TEXT = "Prepping the Yavin briefing on Friday.";
+const H = { denied: 330, form: 556, status: 352 };   // card heights per view
 
-/* ---------- timeline (seconds) ---------- */
+/* ---------- timeline (scene seconds) ---------- */
 const T = {
-  reqClick: 1.30, drawerIn: [1.36, 1.86],
-  viewerClick: 2.50, sevenClick: 3.30, taClick: 3.80,
-  type: [3.95, 5.45], submitClick: 6.00, swap: [6.32, 6.62],
-  approve: 7.55, doneClick: 8.35, drawerOut: [8.40, 8.80], rowFlip: 8.95, endCard: [10.0, 10.45], end: 11.5
+  reqClick: 2.10, toForm: [2.20, 2.65],
+  readClick: 3.80, sevenClick: 4.50, taClick: 5.25, type: [5.40, 6.80],
+  sendClick: 7.55, toStatus: [7.85, 8.25], hoverFu: [8.9, 9.6],
+  approve: 9.85, endCard: [12.1, 12.55], end: 13.6
 };
+
 function build() {
-  const req = at("reqBtn"), viewer = at("optViewer", -120, 0), seven = at("seg7"), ta = at("ta", 40, 4),
-        sub = at("submitBtn");
-  // Done is hidden at build time; it appears where Submit was.
-  const doneAt = [sub[0] + 26, sub[1]];
+  const card = $("card");
+  const show = id => ["vDenied", "vForm", "vStatus"].forEach(v => { $(v).style.display = v === id ? "" : "none"; });
+  show("vDenied"); const req = at("reqBtn"), cd = at("card", 0, 0);
+  show("vForm"); const read = at("optRead", -80, 0), seven = at("seg7"), ta = at("ta", 30, 2), send = at("sendBtn"), hint = at("hint"), pre = at("vForm");
+  show("vStatus"); const fu = at("fuBtn");
+  ["vDenied", "vForm", "vStatus"].forEach(v => { $(v).style.display = ""; });
+  const top = card.offsetTop + card.offsetParent.offsetTop;   // card top in .main
+  const cx = cd[0], cardTop = 20 + 52 + 64;                    // stage y of the card's top edge
   const cur = [
-    [0.00, 860, 640], [0.25, 860, 640], [1.18, req[0] + 8, req[1] + 4], [1.45, req[0] + 8, req[1] + 4],
-    [1.95, req[0] - 40, req[1] + 40], [2.42, viewer[0], viewer[1]], [2.62, viewer[0], viewer[1]],
-    [3.22, seven[0], seven[1]], [3.40, seven[0], seven[1]], [3.74, ta[0], ta[1]], [3.95, ta[0], ta[1]],
-    [5.40, ta[0] + 150, ta[1] + 46], [5.92, sub[0], sub[1]], [6.40, sub[0], sub[1]],
-    [7.75, sub[0] - 40, sub[1] - 90], [8.28, doneAt[0], doneAt[1]], [8.45, doneAt[0], doneAt[1]],
-    [9.30, 1000, 560], [10.0, 1010, 566]
+    [0.00, 820, 640], [0.50, 820, 640], [1.90, req[0] + 6, req[1] + 3], [2.30, req[0] + 6, req[1] + 3],
+    [3.65, read[0], read[1] + 3], [3.95, read[0], read[1] + 3], [4.40, seven[0], seven[1] + 3], [4.65, seven[0], seven[1] + 3],
+    [5.15, ta[0], ta[1]], [5.40, ta[0], ta[1]], [6.80, ta[0] + 140, ta[1] + 34], [7.45, send[0], send[1] + 3], [7.95, send[0], send[1] + 3],
+    [8.80, fu[0] + 6, fu[1] + 3], [9.60, fu[0] + 6, fu[1] + 3], [10.6, fu[0] + 220, fu[1] + 70], [12.1, fu[0] + 230, fu[1] + 74]
   ];
   // camera: focus x, focus y, scale
   const cam = [
-    [0.00, 640, 360, 1.00], [0.15, 640, 360, 1.00], [1.20, 760, 366, 1.28], [1.45, 760, 366, 1.28],
-    [2.20, 1010, 250, 1.62], [3.15, 1010, 262, 1.62], [3.70, 1010, 420, 1.70], [5.35, 1010, 430, 1.70],
-    [5.90, 1010, 520, 1.62], [6.40, 1010, 520, 1.62], [6.95, 1010, 300, 1.62], [7.70, 1010, 310, 1.62], [8.25, 1010, 520, 1.45],
-    [9.05, 700, 330, 1.16], [10.0, 694, 332, 1.14]
+    [0.00, 640, 360, 1.00], [0.45, 640, 360, 1.00], [1.35, cx, cardTop + 170, 1.48], [2.15, cx, cardTop + 175, 1.48],
+    [2.85, cx, cardTop + 120, 1.62], [3.55, cx, cardTop + 130, 1.62], [4.70, cx, cardTop + 250, 1.62],
+    [5.15, cx, cardTop + 330, 1.66], [6.90, cx, cardTop + 340, 1.66], [7.50, cx, cardTop + 430, 1.6], [7.95, cx, cardTop + 430, 1.6],
+    [8.55, cx, cardTop + 175, 1.55], [11.0, cx, cardTop + 185, 1.55], [11.7, 680, 330, 1.12], [12.1, 676, 330, 1.1]
   ];
   return { cam, cur };
 }
 
-/* ---------- render ---------- */
+function swap(ids, k) { ids.forEach((id, i) => { $(id).style.opacity = Math.max(0, 1 - Math.abs(k - i)); }); }
+
 function render(t) {
-  // request button pressed, row highlight
-  $("reqBtn").style.background = t >= T.reqClick - .05 && t < T.drawerIn[1] ? "#f2f2f2" : "";
-  $("row").classList.toggle("hl", (t > 0.9 && t < T.drawerOut[0]) || t > T.rowFlip - .1);
+  // card morphs between views, growing or shrinking to fit
+  const a = span(t, ...T.toForm), b = span(t, ...T.toStatus);
+  $("card").style.height = (H.denied + (H.form - H.denied) * a + (H.status - H.form) * b) + "px";
+  $("vDenied").style.opacity = 1 - span(t, T.toForm[0], T.toForm[0] + .2);
+  $("vForm").style.opacity = span(t, T.toForm[0] + .15, T.toForm[1]) * (1 - span(t, T.toStatus[0], T.toStatus[0] + .2));
+  $("vStatus").style.opacity = span(t, T.toStatus[0] + .15, T.toStatus[1]);
+  $("vDenied").style.visibility = t > T.toForm[0] + .2 ? "hidden" : "";
+  $("reqBtn").style.background = t >= T.reqClick - .05 && t < T.toForm[0] + .2 ? "#333" : "";
 
-  // drawer in / out
-  const dIn = span(t, ...T.drawerIn, easeOut), dOut = span(t, ...T.drawerOut);
-  const open = dIn * (1 - dOut);
-  $("drawer").style.transform = `translateX(${(1 - open) * 106}%)`;
-  $("scrim").style.opacity = .14 * open;
-
-  // form state
-  const vSel = t >= T.viewerClick;
-  $("optViewer").classList.toggle("sel", vSel);
-  $("rdot").style.transform = `scale(${vSel ? easeOut(clamp01((t - T.viewerClick) / .15)) : 0})`;
+  // what she needs to do, how long
+  const rSel = t >= T.readClick;
+  $("optRead").classList.toggle("sel", rSel);
+  $("rdot").style.transform = `scale(${rSel ? easeOut(clamp01((t - T.readClick) / .15)) : 0})`;
   $("seg7").classList.toggle("sel", t >= T.sevenClick);
-  $("expHint").textContent = t >= T.sevenClick ? "Ends Dec 5. You can ask to extend it." : "Access ends on its own. You can ask to extend it.";
-  const focused = t >= T.taClick;
-  $("ta").classList.toggle("focus", focused && t < T.submitClick);
+  $("expHint").textContent = t >= T.sevenClick ? "Ends Fri Nov 28 · you can ask to extend" : "Access ends on its own";
+
+  // reason, with the example under it
+  const focused = t >= T.taClick && t < T.sendClick;
+  $("ta").classList.toggle("focus", focused);
   const n = Math.round(TEXT.length * span(t, ...T.type, x => x));
   $("typed").textContent = TEXT.slice(0, n);
   $("ph").style.display = n ? "none" : "";
   $("count").textContent = `${n} / 200`;
-  $("caret").style.opacity = focused && t < T.submitClick && (t < T.type[0] || t > T.type[1] ? Math.floor(t * 2.4) % 2 === 0 : true) ? 1 : 0;
+  $("caret").style.opacity = focused && (t < T.type[0] || t > T.type[1] ? Math.floor(t * 2.4) % 2 === 0 : true) ? 1 : 0;
 
-  // submit -> spinner -> status
-  const busy = t >= T.submitClick && t < T.swap[1];
-  $("subLbl").style.display = busy ? "none" : "";
+  // send
+  const busy = t >= T.sendClick && t < T.toStatus[0];
+  $("sendLbl").style.display = busy ? "none" : "";
   $("spin").style.display = busy ? "" : "none";
   $("spin").style.transform = `rotate(${t * 900}deg)`;
-  const sw = span(t, ...T.swap);
-  $("form").style.opacity = 1 - sw;
-  $("form").style.transform = `translateY(${-8 * sw}px)`;
-  $("status").style.opacity = sw;
-  $("status").style.transform = `translateY(${8 * (1 - sw)}px)`;
-  const after = t >= T.swap[0] + .15;
-  $("submitBtn").style.display = after ? "none" : "";
-  $("cancelBtn").style.display = after ? "none" : "";
-  $("doneBtn").style.display = after ? "" : "none";
-  $("doneBtn").style.background = t >= T.doneClick - .05 ? "#333" : "";
 
+  // status: waiting, follow-up and cancel available
+  $("fuBtn").style.background = t >= T.hoverFu[0] && t < T.hoverFu[1] ? "#f2f2f2" : "";
+  $("d2i").style.opacity = t >= T.approve ? 0 : .45 + .55 * Math.abs(Math.sin(t * 4));
   // approval
   const ap = span(t, T.approve, T.approve + .3, easeOut);
   $("d2").classList.toggle("done", t >= T.approve);
-  $("d2i").style.opacity = t >= T.approve ? 0 : .45 + .55 * Math.abs(Math.sin(t * 4));
   $("d2c").style.opacity = ap;
-  $("s2a").style.opacity = 1 - ap; $("s2b").style.opacity = ap;
+  swap(["s2a", "s2b"], ap);
   const g = span(t, T.approve + .2, T.approve + .5, easeOut);
   $("d3").classList.toggle("done", t >= T.approve + .2);
   $("d3c").style.opacity = g;
   $("li3").classList.toggle("muted", g < .5);
-  $("okT").textContent = t >= T.approve ? "Access granted" : "Request sent";
-  $("okS").textContent = t >= T.approve ? "Viewer access until Dec 5." : "We’ll let you know when Gen. Dodonna decides.";
-
-  // row access flips
-  const f = span(t, T.rowFlip, T.rowFlip + .3, easeOut);
-  $("accNone").style.opacity = 1 - f;
-  $("accNew").style.opacity = f;
-  $("accNew").style.transform = `scale(${.9 + .1 * f})`;
-  $("reqBtn").style.opacity = 1 - f;
-
+  swap(["okT1", "okT2"], ap); swap(["okS1", "okS2"], ap);
+  $("saWait").style.opacity = 1 - span(t, T.approve + .25, T.approve + .4);
+  $("saDone").style.opacity = span(t, T.approve + .45, T.approve + .65);
 }
 
 function events() {
-  const ev = [["click", T.reqClick], ["whoosh", T.drawerIn[0]], ["click", T.viewerClick], ["click", T.sevenClick], ["click", T.taClick]];
+  const ev = [["click", T.reqClick], ["whoosh", T.toForm[0]], ["click", T.readClick], ["click", T.sevenClick], ["click", T.taClick]];
   for (let i = 1; i <= TEXT.length; i++) {
     const tt = T.type[0] + (T.type[1] - T.type[0]) * (i - .5) / TEXT.length;
     if (TEXT[i - 1] !== " ") ev.push(["key", +tt.toFixed(3)]);
   }
-  ev.push(["click", T.submitClick], ["whoosh", T.swap[0]], ["chime", T.approve], ["click", T.doneClick], ["pop", T.rowFlip]);
+  ev.push(["click", T.sendClick], ["pop", T.toStatus[0] + .1], ["chime", T.approve]);
   return ev;
 }
 
 Motion.scene({
-  T, duration: 15, clicks: [T.reqClick, T.viewerClick, T.sevenClick, T.taClick, T.submitClick, T.doneClick], build, render, events,
-  // linger on the approval landing, and on the row's new access at the end
-  slow: [[7.45, 8.05, 2.0], [8.9, 9.4, 1.8]]
+  T, duration: 15, clicks: [T.reqClick, T.readClick, T.sevenClick, T.taClick, T.sendClick], build, render, events,
+  // linger on: the denied page and who reviews, the prefilled resource, the reason example,
+  // the "sent to" confirmation with follow-up and cancel, and the approval
+  slow: [[0.8, 1.9, 1.5], [2.8, 3.5, 1.5], [5.0, 5.4, 1.6], [8.25, 9.6, 1.6], [9.85, 10.7, 1.7]]
 });
 </script>
 </body>
