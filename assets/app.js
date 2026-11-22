@@ -376,8 +376,8 @@
       <div class="tabbar">
         <div class="tablist" role="tablist" aria-label="${esc(c.name)} sections">
           <button type="button" class="tab" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="true">Patterns <span class="count">${c.patterns.length}</span></button>
-          <button type="button" class="tab" role="tab" id="tab-screens" aria-controls="panel-screens" aria-selected="false" tabindex="-1">Screens <span class="count">${c.screens.length}</span></button>
           ${nested ? `<button type="button" class="tab" role="tab" id="tab-scale" aria-controls="panel-scale" aria-selected="false" tabindex="-1">Scale</button>` : ""}
+          <button type="button" class="tab" role="tab" id="tab-screens" aria-controls="panel-screens" aria-selected="false" tabindex="-1">Real-world examples <span class="count">${c.screens.length}</span></button>
         </div>
       </div>
       <div class="tab-panel" role="tabpanel" id="panel-patterns" aria-labelledby="tab-patterns" tabindex="0">
@@ -390,14 +390,14 @@
           <div class="accordion${nested ? " is-nested" : ""}">${accordion}</div>
         </section>`}
       </div>
+      ${nested ? `<div class="tab-panel" role="tabpanel" id="panel-scale" aria-labelledby="tab-scale" tabindex="0" hidden>${scaleCard}</div>` : ""}
       <div class="tab-panel" role="tabpanel" id="panel-screens" aria-labelledby="tab-screens" tabindex="0" hidden>
         <section class="doc-section" aria-labelledby="screens-h">
-          <h2 id="screens-h">Screens</h2>
+          <h2 id="screens-h">Real-world examples</h2>
           <p>Saved references from real products, linked from each vendor’s public documentation.</p>
           ${screens}
         </section>
-      </div>
-      ${nested ? `<div class="tab-panel" role="tabpanel" id="panel-scale" aria-labelledby="tab-scale" tabindex="0" hidden>${scaleCard}</div>` : ""}`;
+      </div>`;
 
     /* tabs */
     const tabs = [...main.querySelectorAll('[role="tab"]')];
