@@ -69,5 +69,20 @@ window.VIDEOS = {
         "Removals are applied automatically, progress moves to 41 of 52, and the decisions are saved to the audit evidence, ready to export."
       ]
     }
+  },
+  "ai-governance": {
+    "Feature availability": {
+      src: "media/ai-governance/feature-availability.mp4",
+      poster: "media/ai-governance/feature-availability.jpg",
+      label: "Feature availability, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens AI features, its own item in the admin menu. Every AI feature is listed in one place, each with its own control, and a Turn off all AI switch sits in the header for incidents.",
+        "The default for new features is off until she turns them on, applied across all regions. A banner says Droid summaries arrives Dec 2 and stays off until she turns it on.",
+        "Each row says what the feature does in plain language, its status in words (such as On for 4 groups or Pilot · 1 group) and its adoption (62% active, 7 of 8 using).",
+        "She opens Briefing summaries, piloted by Rogue One, and adds Red Squadron under Selected groups. The status updates to On for 2 groups · 20 people.",
+        "The panel shows what people without the feature see: it isn't on for their team, the full briefing is still there, and they can ask their admin.",
+        "She saves. The row now reads On for 2 groups · 20 people, and a message confirms Briefing summaries is on for Red Squadron."
+      ]
+    }
   }
 };

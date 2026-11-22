@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Feature availability · motion scene</title>
+<!--
+  Source for media/ai-governance/feature-availability.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+
+  Follows the Feature availability card (data/guidance-governance.js):
+  - every AI feature on one page, its own nav item (think 1, avoid 3, UD 3)
+  - each row: plain-language description, status, who has it, adoption (do 1, WCAG 3.3.2, scale 2)
+  - default for new features is off until turned on; banner before a new one arrives (do 2, do 3, avoid 1)
+  - one control per feature, no bundling (avoid 2); org-wide "Turn off all AI" shown (scale 3)
+  - pilot widened by group; status reads "On for 2 groups · 20 people" (think 2, do 2, WCAG 4.1.2)
+  - preview of what people see when it's off (do 4)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 22px 32px; }
+.hd { display: flex; align-items: flex-start; gap: 16px; }
+.hd .t { flex: 1; }
+h1 { font-size: 22px; }
+.lede { margin: 6px 0 0; }
+.kill { display: inline-flex; gap: 8px; align-items: center; height: 34px; padding: 0 12px; border: 1px solid var(--ink); border-radius: 8px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+.kill i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); }
+.def { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; font-size: 12.5px; }
+.def span { display: inline-flex; gap: 6px; align-items: center; padding: 4px 10px; border-radius: 999px; background: var(--hover); color: var(--soft); }
+.def b { color: var(--ink); font-weight: 600; }
+.banner { margin-top: 14px; display: flex; gap: 12px; align-items: center; padding: 10px 14px; border: 1px solid var(--rule-strong); border-radius: 10px; font-size: 13px; }
+.banner .new { font-family: "Geist Mono", monospace; font-size: 10.5px; color: #fff; background: var(--ink); border-radius: 999px; padding: 1px 7px; }
+.banner .m { color: var(--soft); }
+.banner .sp { margin-left: auto; }
+table { margin-top: 14px; font-size: 13px; }
+th { padding: 0 12px 9px; }
+td { padding: 0 12px; height: 60px; }
+td.f { color: var(--ink); font-weight: 500; }
+td.f .tag { font-family: "Geist Mono", monospace; font-size: 10px; border: 1px solid var(--ink); border-radius: 999px; padding: 0 6px; margin-left: 6px; font-weight: 400; }
+td.d { white-space: normal; max-width: 240px; line-height: 1.35; color: var(--soft); font-size: 12.5px; }
+.stat { position: relative; height: 36px; width: 170px; }
+.stat > div { position: absolute; left: 0; top: 0; line-height: 1.35; white-space: nowrap; }
+.stat .a { color: var(--ink); font-weight: 500; display: flex; gap: 6px; align-items: center; }
+.stat .b { font-size: 12px; color: var(--faint); }
+.dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--ink); }
+.dot.on { background: var(--ink); }
+.dot.pilot { background: linear-gradient(90deg, var(--ink) 50%, transparent 50%); }
+.adopt { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--ink); }
+.adopt.none { color: var(--faint); }
+td.act { width: 90px; text-align: right; }
+.btn.sm { height: 30px; font-size: 12px; }
+tr.hl td { background: var(--subtle); }
+
+/* drawer */
+.scrim { position: absolute; inset: 52px 0 0 0; background: #000; opacity: 0; }
+.drawer { position: absolute; top: 52px; right: 0; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -16px 0 40px rgba(0,0,0,.08); }
+.dh { padding: 20px 22px 16px; border-bottom: 1px solid var(--rule); }
+.dh .k { font-size: 12px; color: var(--faint); margin-bottom: 4px; }
+.dh h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.dh p { margin: 6px 0 0; font-size: 13px; color: var(--soft); line-height: 1.45; }
+.db { padding: 16px 22px; }
+.fld { margin-bottom: 16px; }
+.fld > .l { font-size: 12px; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; }
+.fld > .l span { font-weight: 400; color: var(--faint); }
+.radios { display: grid; gap: 6px; }
+.rad { display: flex; gap: 10px; align-items: center; border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; font-size: 13px; }
+.rad.sel { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
+.rad .r { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--rule-strong); position: relative; flex: none; }
+.rad.sel .r { border-color: var(--ink); }
+.rad.sel .r::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--ink); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 8px; padding-left: 25px; position: relative; }
+.chip { display: inline-flex; gap: 6px; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--hover); font-size: 12px; color: var(--ink); }
+.chip .n { color: var(--faint); font-family: "Geist Mono", monospace; font-size: 11px; }
+.chip.add { background: transparent; border: 1px dashed var(--rule-strong); color: var(--soft); }
+.menu { position: absolute; left: 25px; top: 36px; width: 240px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.1); padding: 4px; z-index: 5; opacity: 0; }
+.menu div { padding: 7px 9px; border-radius: 6px; font-size: 13px; display: flex; justify-content: space-between; }
+.menu div span { color: var(--faint); font-family: "Geist Mono", monospace; font-size: 11px; }
+.menu div.hov { background: var(--hover); }
+.live { margin-top: 10px; font-size: 13px; font-weight: 600; position: relative; height: 18px; }
+.live span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.prev { border: 1px dashed var(--rule-strong); border-radius: 10px; padding: 12px; background: var(--subtle); }
+.prev .ui { background: var(--bg); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; color: var(--soft); line-height: 1.45; }
+.prev .ui b { color: var(--ink); font-weight: 600; display: block; margin-bottom: 2px; }
+.df { position: absolute; left: 0; right: 0; bottom: 0; height: 62px; border-top: 1px solid var(--rule); display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding: 0 22px; }
+.df .btn { height: 34px; }
+
+.toast { position: absolute; left: 700px; top: 66px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb">/ Admin / <b>AI features</b></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav">
+      <div>Resources</div><div>Approvals</div>
+      <div class="lbl">Admin</div><div>Access reviews</div><div class="on">AI features</div><div>Audit log</div>
+    </div>
+    <div class="main">
+      <div class="hd" id="hd">
+        <div class="t"><h1>AI features</h1>
+          <p class="lede">Every AI feature in one place. Choose who gets each one.</p></div>
+        <span class="kill"><i></i>Turn off all AI</span>
+      </div>
+      <div class="def"><span>New AI features: <b>off until you turn them on</b></span><span>Applies to all regions</span></div>
+      <div class="banner" id="banner"><span class="new">NEW</span><span><b>Droid summaries arrives Dec 2.</b> <span class="m">It stays off until you turn it on.</span></span><span class="sp"></span><span class="btn sm">Review</span></div>
+      <table>
+        <thead><tr><th>Feature</th><th>What it does</th><th>Status</th><th>Adoption</th><th></th></tr></thead>
+        <tbody>
+          <tr><td class="f">Holonet search assist</td><td class="d">Suggests answers from the Holonet archives as you search.</td>
+            <td><div class="stat"><div><div class="a"><span class="dot on"></span>On for 4 groups</div><div class="b">96 people</div></div></div></td>
+            <td class="adopt">62% active</td><td class="act"><span class="btn sm">Manage</span></td></tr>
+          <tr id="rowB"><td class="f">Briefing summaries</td><td class="d">Sums up long mission briefings in five points.</td>
+            <td><div class="stat"><div id="st0"><div class="a"><span class="dot pilot"></span>Pilot · 1 group</div><div class="b">Rogue One · 8 people</div></div>
+              <div id="st1" style="opacity:0"><div class="a"><span class="dot on"></span>On for 2 groups</div><div class="b">20 people</div></div></div></td>
+            <td class="adopt">7 of 8 using</td><td class="act"><span class="btn sm" id="manageB">Manage</span></td></tr>
+          <tr><td class="f">Protocol translation</td><td class="d">Translates messages between languages and droid dialects.</td>
+            <td><div class="stat"><div><div class="a"><span class="dot"></span>Off</div><div class="b">No one</div></div></div></td>
+            <td class="adopt none">—</td><td class="act"><span class="btn sm">Manage</span></td></tr>
+          <tr><td class="f">Droid summaries<span class="tag">new</span></td><td class="d">Writes a short summary of each droid’s mission log.</td>
+            <td><div class="stat"><div><div class="a"><span class="dot"></span>Off</div><div class="b">Arrives Dec 2</div></div></div></td>
+            <td class="adopt none">—</td><td class="act"><span class="btn sm">Manage</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scrim" id="scrim"></div>
+    <div class="drawer" id="drawer">
+      <div class="dh"><div class="k">AI feature</div><h2>Briefing summaries</h2>
+        <p>Sums up long mission briefings in five points. Uses only briefings the person can already open.</p></div>
+      <div class="db">
+        <div class="fld"><div class="l">Who has it <span>7 of 8 in the pilot use it weekly</span></div>
+          <div class="radios">
+            <div class="rad"><span class="r"></span>Everyone</div>
+            <div class="rad sel" id="radSel"><span class="r"></span>Selected groups</div>
+          </div>
+          <div class="chips" id="chips"><span class="chip">Rogue One <span class="n">8</span></span>
+            <span class="chip" id="chipRS" style="display:none">Red Squadron <span class="n">12</span></span>
+            <span class="chip add" id="addG">+ Add group</span>
+            <div class="menu" id="menu"><div>Blue Squadron<span>14</span></div><div id="optRS">Red Squadron<span>12</span></div><div>Base Engineering<span>31</span></div></div>
+          </div>
+          <div class="live"><span id="lv0">Pilot · 1 group · 8 people</span><span id="lv1" style="opacity:0">On for 2 groups · 20 people</span></div>
+        </div>
+        <div class="fld" id="fPrev"><div class="l">When it’s off, people see</div>
+          <div class="prev"><div class="ui"><b>Briefing summaries isn’t on for your team</b>The full briefing is still here. Ask your admin, Lavanya Sienna, if you need it.</div></div></div>
+      </div>
+      <div class="df"><span class="btn ghost">Cancel</span><span class="btn pri" id="saveB">Save</span></div>
+    </div>
+    <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#tick"/></svg></i>Briefing summaries is now on for Red Squadron</div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  manageClick: 3.20, drawerIn: [3.30, 3.75], addClick: 4.90, menu: [4.95, 5.6], rsClick: 5.50,
+  saveClick: 7.40, drawerOut: [7.55, 7.95], applied: 8.05, toastOut: [9.6, 9.9],
+  endCard: [11.2, 11.65], end: 12.7
+};
+
+function build() {
+  // the menu and the new chip are hidden at build time; their slots still measure
+  const mg = at("manageB"), ad = at("addG"), rs = at("optRS", -40, 0), sv = at("saveB"), dr = at("drawer"), pv = at("fPrev"), hd = at("hd"), row = at("rowB");
+  const DX = 1240 - 215;   // drawer centre x in stage coordinates
+  const MX = 40 + 200 + 500; // main content centre x (the toast is centred here too)
+  const cur = [
+    [0.00, 820, 650], [0.40, 820, 650], [2.2, 980, 560], [3.05, mg[0], mg[1] + 3], [3.45, mg[0], mg[1] + 3],
+    [4.75, ad[0], ad[1] + 3], [5.05, ad[0], ad[1] + 3], [5.40, rs[0], rs[1] + 3], [5.70, rs[0], rs[1] + 3],
+    [6.6, sv[0] - 120, sv[1] - 120], [7.30, sv[0], sv[1] + 3], [7.70, sv[0], sv[1] + 3],
+    [9.0, 1000, 600], [11.2, 1006, 606]
+  ];
+  // camera: focus x, focus y, scale. Each view centred and whole; toast moment centred on the window.
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.30, MX, hd[1] + 70, 1.34], [2.15, MX, hd[1] + 70, 1.34],             // header: off switch, default, new-feature banner
+    [2.90, MX, row[1] + 20, 1.32], [3.30, MX, row[1] + 20, 1.32],           // the feature rows
+    [4.00, DX, 250, 1.62], [5.90, DX, 260, 1.62],                             // who has it, adding the group
+    [6.45, DX, pv[1] + 10, 1.62], [7.10, DX, pv[1] + 10, 1.62],               // what people see when it's off
+    [7.70, DX, 520, 1.5],                                                     // Save
+    [8.35, MX, row[1] - 40, 1.32], [9.6, MX, row[1] - 40, 1.32],              // the updated row, toast centred
+    [10.4, 660, 360, 1.05], [11.2, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  const dIn = span(t, ...T.drawerIn, easeOut), dOut = span(t, ...T.drawerOut);
+  const open = dIn * (1 - dOut);
+  $("drawer").style.transform = `translateX(${(1 - open) * 106}%)`;
+  $("scrim").style.opacity = .14 * open;
+  $("rowB").classList.toggle("hl", (t > 2.9 && t < T.drawerOut[0]) || (t > T.applied && t < 9.8));
+  $("manageB").style.background = t >= T.manageClick - .05 && t < T.drawerIn[1] ? "#f2f2f2" : "";
+
+  // add a group
+  const mo = span(t, T.menu[0], T.menu[0] + .15, easeOut) * (1 - span(t, T.menu[1] - .08, T.menu[1]));
+  $("menu").style.opacity = mo;
+  $("menu").style.transform = `translateY(${(1 - mo) * -4}px)`;
+  $("optRS").classList.toggle("hov", t > T.rsClick - .25 && t < T.menu[1]);
+  $("chipRS").style.display = t >= T.rsClick ? "" : "none";
+  $("chipRS").style.opacity = span(t, T.rsClick, T.rsClick + .2);
+  // status in words updates as the group is added (and is what assistive tech reads)
+  $("lv0").style.opacity = 1 - span(t, T.rsClick, T.rsClick + .12);
+  $("lv1").style.opacity = span(t, T.rsClick + .15, T.rsClick + .3);
+
+  $("saveB").style.background = t >= T.saveClick - .05 && t < T.drawerOut[0] + .1 ? "#333" : "";
+
+  // the row and toast after saving
+  $("st0").style.opacity = 1 - span(t, T.applied, T.applied + .12);
+  $("st1").style.opacity = span(t, T.applied + .15, T.applied + .32);
+  const to = span(t, T.applied, T.applied + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to;
+  $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  return [["click", T.manageClick], ["whoosh", T.drawerIn[0]], ["click", T.addClick], ["click", T.rsClick],
+          ["click", T.saveClick], ["whoosh", T.drawerOut[0]], ["chime", T.applied]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.manageClick, T.addClick, T.rsClick, T.saveClick], build, render, events,
+  // linger on: the header (off switch, default, banner), the rows, the status in words, the "when off" preview, the updated row
+  slow: [[0.9, 2.2, 1.6], [2.4, 3.1, 1.5], [5.55, 6.0, 1.7], [6.4, 7.1, 1.7], [8.05, 9.4, 1.6]]
+});
+</script>
+</body>
+</html>
