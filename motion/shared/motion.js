@@ -5,7 +5,7 @@
      build()  measures the layout once and returns { cam, cur } keyframes:
               cam: [[t, focusX, focusY, scale], ...]  cur: [[t, x, y], ...]
      render(t) sets the scene's own state for time t
-     events() returns sound cues [[name, t], ...]; the end-card sonar is added here
+     events() returns sound cues [[name, t], ...] (the end card is silent)
      duration (optional) total length in seconds. The action before the end card
               is stretched to fit; the end card keeps its own length.
               House rule: clips whose steps list has 5 or more steps run 15 s.
@@ -116,7 +116,7 @@
       '<div id="ring"></div><svg id="cursor" viewBox="0 0 22 22"><path d="M3 2l14.5 8.2-6.3 1.4-2.9 5.9z" fill="#171717" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>');
     document.body.insertAdjacentHTML("beforeend", `<div id="endcard"><p><b>${CREDIT[0]}</b><span>${CREDIT[1]}</span></p></div>`);
     buildWarp(def);
-    window.EVENTS = [...def.events(), ["sonar", def.T.endCard[0] + 0.25]].map(([n, t]) => [n, +realTime(t).toFixed(3)]);
+    window.EVENTS = def.events().map(([n, t]) => [n, +realTime(t).toFixed(3)]);
     window.DURATION = def.duration || def.T.end;
     window.renderAt = renderAt;
     document.fonts.ready.then(() => {

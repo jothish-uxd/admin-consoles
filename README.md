@@ -80,12 +80,13 @@ When you change data or styles, bump the `?v=` query on the script and styleshee
 
 Short clips that show a pattern in motion, using made-up Star Wars data in a mock console. Each is listed in `data/videos.js` (category slug → pattern name → `src`, `poster`, `label`, `steps`) and shows above that pattern's card. `steps` is the text alternative.
 
-Clips are drawn as HTML and recorded frame by frame. `motion/shared/` holds what every clip shares: the mock console's look, the camera, cursor, click ring, end card and closing sonar ping (`console.css`, `motion.js`). Each `motion/<name>/scene.html` adds its own screen, timeline and sound cues; `motion/sfx.py` synthesizes the clicks, key ticks, whooshes, chime and ping.
+Clips are drawn as HTML and recorded frame by frame. `motion/shared/` holds what every clip shares: the mock console's look, the camera, cursor, click ring and silent end card (`console.css`, `motion.js`). Each `motion/<name>/scene.html` adds its own screen, timeline and sound cues; `motion/sfx.py` synthesizes the clicks, key ticks, whooshes and chime.
 
 ```
 pip install playwright numpy   # plus ffmpeg and Chrome
 python3 motion/render.py request-access media/access-requests/request-access.mp4
 python3 motion/render.py request-access --stills 1.3,4.8,7.9   # check single frames
+python3 motion/render.py request-access media/access-requests/request-access.mp4 --audio-only   # new sound, same picture
 ```
 
 Open a scene with `?play` to watch it live in a browser while editing.

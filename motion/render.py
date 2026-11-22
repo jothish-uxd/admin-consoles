@@ -2,6 +2,7 @@
 
     python3 motion/render.py request-access media/access-requests/request-access.mp4
     python3 motion/render.py request-access --stills 0,2.5,4.6,7.8,9.5   # check frames only
+    python3 motion/render.py request-access media/access-requests/request-access.mp4 --audio-only  # new sound, same picture
 
 The scene (motion/<name>/scene.html) exposes renderAt(t), DURATION and EVENTS.
 Needs: playwright (Python) with a Chrome/Chromium, ffmpeg, numpy.
@@ -23,6 +24,7 @@ def main():
     ap.add_argument("scene")
     ap.add_argument("out", nargs="?")
     ap.add_argument("--stills", help="comma-separated seconds; writes JPEGs next to out or in /tmp")
+    ap.add_argument("--audio-only", action="store_true", help="remix the sound onto the existing video, keeping its picture")
     a = ap.parse_args()
     root = pathlib.Path(__file__).parent
     url = (root / a.scene / "scene.html").resolve().as_uri()
@@ -33,6 +35,17 @@ def main():
         pg.goto(url)
         pg.wait_for_function("window.READY === true")
         dur, events = pg.evaluate("[window.DURATION, window.EVENTS]")
+
+        if a.audio_only:
+            b.close()
+            out = pathlib.Path(a.out)
+            wav = out.with_suffix(".wav"); tmp = out.with_name(out.stem + ".partial.mp4")
+            sfx.mix(events, dur, str(wav))
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(out), "-i", str(wav), "-map", "0:v", "-map", "1:a",
+                            "-c:v", "copy", "-c:a", "aac", "-b:a", "128k", "-shortest", "-movflags", "+faststart", str(tmp)], check=True)
+            tmp.replace(out); wav.unlink()
+            print(out, "audio only", json.dumps({"events": len(events)}))
+            return
 
         if a.stills:
             outdir = pathlib.Path(tempfile.gettempdir()) / f"{a.scene}-stills"
