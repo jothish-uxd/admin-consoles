@@ -121,6 +121,19 @@ window.VIDEOS = {
         "The panel says what happens at the limit: current tasks finish, then new requests pause, so nothing is cut off mid-task. It previews the message people see, including when requests resume.",
         "She saves. Rogue One now reads 79% of 2,500, and a message confirms the new budget."
       ]
+    },
+    "Content safety": {
+      src: "media/ai-governance/content-safety.mp4",
+      poster: "media/ai-governance/content-safety.jpg",
+      label: "Content safety, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens AI safety for the Outer Rim; the Core Worlds have their own settings. Built-in protections for harmful content and personal data are always on. They can't be turned off here, and changes need a request to support and are logged.",
+        "Filter strength is Standard, and its effect is spelled out: Strict also holds back borderline answers.",
+        "She adds Fleet movements to the blocked topics, next to Hyperdrive schematics and Base coordinates. AI won't answer about these, and says why.",
+        "What people see updates to match: a calm message saying the answer was held back because it mentions fleet movements, and where to ask instead. Screen readers announce it when it appears.",
+        "Reports from people are grouped by type with counts, newest first. She opens Blocked by mistake: Wedge Antilles asked for a supply drop's coordinates on Hoth, and the request matched Base coordinates.",
+        "She excludes supply drops from that rule. The report is marked resolved and saved to the safety record, which can be exported."
+      ]
     }
   }
 };
