@@ -54,8 +54,9 @@
         </div>`;
     }).join("");
 
+    // A–Z shows how many patterns each category has; screen readers hear "5 patterns".
     const navItem = c => `
-        <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}"><span>${esc(c.name)}</span>${c.screens.length ? `<small>${c.screens.length}</small>` : ""}</a></li>`;
+        <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}"><span>${esc(c.name)}</span><small aria-hidden="true">${c.patterns.length}</small><span class="visually-hidden">, ${plural(c.patterns.length, "pattern")}</span></a></li>`;
     const azHtml = [...CATS].sort((a, b) => a.name.localeCompare(b.name)).map(navItem).join("");
 
     side.innerHTML = `

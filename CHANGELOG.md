@@ -3,6 +3,7 @@
 ## v0.2.2 preview — 2026-11-21
 
 ### Changed
+- **Sidebar A–Z** shows each category's number of patterns instead of screens (screen readers hear "5 patterns"). *By group* still shows screens.
 - **Sidebar credit** is now two lines: **Patterns for Enterprise Admin Consoles**, then Jothish John · © 2026.
 
 ### Added
