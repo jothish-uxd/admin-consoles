@@ -213,7 +213,7 @@ function seq(a, b, t, t0) { $(a).style.opacity = 1 - span(t, t0, t0 + .15); $(b)
 
 function render(t) {
   // list → event A → event B
-  if (t < T.toB[0]) seq("vList", "vA", t, T.toA[0]); else { $("vList").style.opacity = 0; seq("vA", "vB", t, T.toB[0]); }
+  if (t < T.toB[0]) { seq("vList", "vA", t, T.toA[0]); $("vB").style.opacity = 0; } else { $("vList").style.opacity = 0; seq("vA", "vB", t, T.toB[0]); }
   $("row1").classList.toggle("hl", t >= T.rowClick - .05 && t < T.toA[0] + .1);
   $("relB").style.background = t >= T.relClick - .05 && t < T.toB[0] + .1 ? "var(--hover)" : "";
   $("crumb").innerHTML = t >= T.rowClick ? "/ Compliance / Audit log / <b>Event</b>" : "/ Compliance / <b>Audit log</b>";
