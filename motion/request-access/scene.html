@@ -353,7 +353,7 @@ window.EVENTS = (() => {
     const tt = T.type[0] + (T.type[1] - T.type[0]) * (i - .5) / TEXT.length;
     if (TEXT[i - 1] !== " ") ev.push(["key", +tt.toFixed(3)]);
   }
-  ev.push(["click", T.submitClick], ["whoosh", T.swap[0]], ["chime", T.approve], ["click", T.doneClick], ["pop", T.rowFlip]);
+  ev.push(["click", T.submitClick], ["whoosh", T.swap[0]], ["chime", T.approve], ["click", T.doneClick], ["pop", T.rowFlip], ["sonar", T.endCard[0] + 0.25]);
   return ev;
 })();
 window.DURATION = T.end;

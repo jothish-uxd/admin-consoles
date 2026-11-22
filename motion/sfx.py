@@ -1,4 +1,4 @@
-"""Small synthesized UI sounds (no samples, no music): click, key, whoosh, chime, pop."""
+"""Small synthesized UI sounds (no samples, no music): click, key, whoosh, chime, pop, sonar."""
 import wave
 
 import numpy as np
@@ -54,7 +54,28 @@ def pop():
     return np.sin(2 * np.pi * np.cumsum(f) / SR) * env(n, .001, .02) * .35
 
 
-SOUNDS = {"click": click, "key": key, "whoosh": whoosh, "chime": chime, "pop": pop}
+def sonar():
+    """End-card ping: one pure tone that dips slightly in pitch, with two fading,
+    softened echoes, like a sonar return. Lower and longer than the chime."""
+    n = int(1.15 * SR); t = np.arange(n) / SR
+
+    def ping(gain, decay, soften):
+        f = 1180 - 40 * (1 - np.exp(-t / .25))
+        x = np.sin(2 * np.pi * np.cumsum(f) / SR) + .12 * np.sin(2 * np.pi * np.cumsum(f * 2.76) / SR) * np.exp(-t / .08)
+        x *= env(n, .006, decay) * gain
+        if soften:  # moving average dulls the echoes
+            k = np.ones(soften) / soften
+            x = np.convolve(x, k, mode="same")
+        return x
+
+    out = ping(.5, .32, 0)
+    for delay, gain, soften in [(.30, .2, 6), (.60, .08, 12)]:
+        d = int(delay * SR)
+        out[d:] += ping(gain, .3, soften)[: n - d]
+    return out
+
+
+SOUNDS = {"click": click, "key": key, "whoosh": whoosh, "chime": chime, "pop": pop, "sonar": sonar}
 
 
 def mix(events, seconds, path):
