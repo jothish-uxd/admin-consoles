@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Filters &amp; saved views · motion scene</title>
+<!--
+  Source for media/audit-logs/filters-saved-views.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: back from an event (where the Event detail clip ends); the filters are kept.
+
+  Follows the Filters & saved views card (data/guidance-governance.js):
+  - back from the event, filters kept and shown as chips (avoid 2-3)
+  - quick filters above detailed filters Time/Actor/Action/Target/Result/IP; query line (do 1-2, UD 2, scale 3)
+  - time menu without "All time"; custom range labelled with its format; long ranges run in the background (avoid 1, WCAG 3.3.2, scale 1-2)
+  - count changes, announced (WCAG 4.1.3)
+  - Save view shared with Security admins; Copy link with filters (think 1, do 3-4)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 0; }
+.view { position: absolute; inset: 20px 32px; }
+h1 { font-size: 20px; }
+.back { font-size: 12.5px; color: var(--soft); display: inline-block; padding: 2px 4px; margin-left: -4px; border-radius: 5px; }
+.sub { margin-top: 4px; font-size: 12.5px; color: var(--soft); }
+.hd { display: flex; align-items: center; gap: 8px; }
+.hd h1 { margin-right: 6px; }
+.vw { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 7px; background: var(--hover); font-size: 12.5px; color: var(--ink); position: relative; }
+.vw b { font-weight: 500; }
+.vw .s { position: absolute; left: 10px; white-space: nowrap; opacity: 0; }
+.sp { flex: 1; }
+.btn.sm { height: 32px; font-size: 12.5px; }
+.qk { margin-top: 14px; display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--faint); }
+.qk span.q { border: 1px dashed var(--rule-strong); border-radius: 999px; padding: 4px 10px; color: var(--ink); font-size: 12px; }
+.flt { margin-top: 10px; display: flex; gap: 8px; align-items: center; position: relative; }
+.fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12.5px; color: var(--ink); background: var(--bg); white-space: nowrap; position: relative; }
+.fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
+.fb .x { color: var(--faint); }
+.fb .dd { color: var(--faint); font-size: 10px; }
+.ql { margin-top: 10px; display: flex; gap: 10px; align-items: center; font-size: 12px; color: var(--faint); }
+.ql code { font: 11.5px "Geist Mono", monospace; color: var(--ink); background: var(--subtle); border: 1px solid var(--rule); border-radius: 6px; padding: 3px 8px; position: relative; }
+.ql a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.meta { margin-top: 10px; font-size: 12.5px; color: var(--soft); position: relative; height: 18px; }
+.meta > span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.meta b { color: var(--ink); font-weight: 500; }
+table.log { margin-top: 8px; font-size: 12.5px; table-layout: fixed; }
+.log th, .log td { padding-left: 10px; padding-right: 10px; }
+.log td { height: 40px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.log td:first-child { font-family: "Geist Mono", monospace; font-size: 11.5px; font-weight: 400; color: var(--ink); }
+.log td.e { color: var(--ink); }
+.res { display: inline-flex; align-items: center; gap: 5px; color: var(--soft); white-space: nowrap; }
+.res svg { width: 12px; height: 12px; }
+.res.bad { color: var(--ink); font-weight: 600; }
+.res.bad svg { color: #b91c1c; }
+tr.nw td { height: 0; }
+.menu { position: absolute; left: 0; top: 38px; width: 300px; white-space: normal; font-weight: 400; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,.14); padding: 6px; z-index: 10; opacity: 0; font-size: 13px; }
+.menu .it { display: flex; justify-content: space-between; padding: 7px 10px; border-radius: 7px; color: var(--ink); }
+.menu .it.cur { font-weight: 500; }
+.menu .sep { border-top: 1px solid var(--rule); margin: 6px 4px; }
+.menu .cu { padding: 4px 10px 6px; font-size: 12px; color: var(--soft); }
+.menu .cu .r { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+.menu .cu label { font-size: 11px; color: var(--faint); display: block; margin-bottom: 3px; }
+.menu .cu .in { border: 1px solid var(--rule-strong); border-radius: 6px; height: 28px; display: flex; align-items: center; padding: 0 8px; font: 11px "Geist Mono", monospace; color: var(--faint); }
+.menu .nt { padding: 6px 10px 4px; font-size: 11.5px; color: var(--soft); line-height: 1.45; }
+.pop { position: absolute; right: 0; top: 40px; width: 330px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,.14); padding: 14px; z-index: 10; opacity: 0; font-size: 13px; line-height: 1.45; }
+.pop > b { display: block; font-size: 14px; margin-bottom: 8px; }
+.pop label { font-size: 12px; color: var(--faint); display: block; margin-bottom: 4px; }
+.pop .in { border: 1.5px solid var(--ink); border-radius: 8px; height: 34px; display: flex; align-items: center; padding: 0 10px; color: var(--ink); }
+.pop .ck { margin-top: 10px; display: flex; gap: 8px; align-items: center; color: var(--ink); }
+.cb { width: 16px; height: 16px; border-radius: 4px; display: grid; place-items: center; background: var(--ink); color: #fff; flex: none; }
+.cb svg { width: 11px; height: 11px; }
+.pop .m { margin-top: 8px; color: var(--soft); font-size: 12px; }
+.pop .r { margin-top: 12px; display: flex; gap: 8px; justify-content: flex-end; }
+.pop .btn { height: 32px; font-size: 12.5px; }
+.rel { position: relative; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="no" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.6 5.6l4.8 4.8M10.4 5.6l-4.8 4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Compliance / Audit log / Event"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>View saved and shared with Security admins · link includes filters</div>
+    </div>
+    <div class="nav" data-at="compliance" data-role="admin"></div>
+    <div class="main">
+      <!-- the event, where the Event detail clip ends -->
+      <div class="view" id="vEv">
+        <span class="back" id="backB">← Audit log · Actor: archive-sync</span>
+        <h1 style="margin-top:8px">archive-sync tried to download Death Star plans.pdf</h1>
+        <div class="sub">Failed · no access · Sun, Nov 22, 2026 · 09:40:55.312 PT</div>
+        <div style="margin-top:22px;display:grid;grid-template-columns:1fr 330px;gap:22px;font-size:12.5px;color:var(--soft)">
+          <div><div style="font-weight:600;color:var(--ink);margin-bottom:8px">Changes</div><div style="border:1px solid var(--rule);border-radius:10px;padding:10px 12px">No changes: this was a read attempt.</div>
+            <div style="font-weight:600;color:var(--ink);margin:18px 0 8px">Context</div><div>IP address 10.4.22.8 · Outer Rim relay</div></div>
+          <div><div style="font-weight:600;color:var(--ink);margin-bottom:8px">Related events</div><div style="border:1px solid var(--rule);border-radius:12px;padding:12px 14px;height:120px"></div></div>
+        </div>
+      </div>
+
+      <!-- the log, filters kept -->
+      <div class="view" id="vLog" style="opacity:0">
+        <div class="hd" id="hd"><h1>Audit log</h1>
+          <span class="vw" id="vw"><span id="vw0">Views: <b>All events</b> <span class="dd" style="color:var(--faint);font-size:10px">▾</span></span><span class="s" id="vw1">Views: <b>archive-sync investigation</b> · shared ▾</span></span>
+          <span class="sp"></span><span class="btn sm">Copy link</span>
+          <span class="rel"><span class="btn sm" id="saveB">Save view</span>
+            <div class="pop" id="pop"><b>Save view</b><label>Name</label><div class="in">archive-sync investigation</div>
+              <div class="ck"><span class="cb"><svg><use href="#ok"/></svg></span>Share with Security admins (6)</div>
+              <div class="m">Saves these filters and the time range. Opening the view re-runs the query.</div>
+              <div class="r"><span class="btn ghost">Cancel</span><span class="btn pri" id="okB">Save view</span></div></div></span>
+        </div>
+        <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
+        <div class="flt" id="flt">
+          <span class="fb on" id="timeB"><span id="tl0">Last 24 hours</span><span id="tl1" style="position:absolute;left:10px;opacity:0">Last 7 days</span><span id="tlsp" style="visibility:hidden;width:0"></span><span class="dd">▾</span>
+            <div class="menu" id="menu">
+              <div class="it">Last hour</div><div class="it cur">Last 24 hours <span>✓</span></div><div class="it" id="d7">Last 7 days</div><div class="it">Last 30 days</div>
+              <div class="sep"></div>
+              <div class="cu">Custom range<div class="r"><div><label>From (YYYY-MM-DD HH:MM, PT)</label><div class="in">2026-11-15 00:00</div></div><div><label>To (YYYY-MM-DD HH:MM, PT)</label><div class="in">2026-11-22 23:59</div></div></div></div>
+              <div class="nt">Ranges over 90 days run in the background; you'll be notified when results are ready.</div>
+            </div></span>
+          <span class="fb on">Actor: archive-sync <span class="x">✕</span></span>
+          <span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span><span class="fb">IP</span>
+        </div>
+        <div class="ql">Query <code><span id="q0">actor:"archive-sync" time:last_24h</span><span id="q1" style="position:absolute;left:8px;opacity:0;white-space:nowrap">actor:"archive-sync" time:last_7d</span></code><a>Edit as query</a></div>
+        <div class="meta"><span id="m0">Times in <b>Pacific Time (PT)</b> · <b>4 events</b> · 3 failed</span><span id="m1" style="opacity:0">Times in <b>Pacific Time (PT)</b> · <b>9 events</b> · 8 failed</span></div>
+        <table class="log"><colgroup><col style="width:142px"><col><col style="width:186px"><col style="width:132px"></colgroup>
+          <thead><tr><th>Time (PT)</th><th>Event</th><th>Target</th><th>Result</th></tr></thead><tbody>
+          <tr><td>Nov 22 · 09:40:55</td><td class="e">archive-sync tried to download Death Star plans.pdf</td><td>Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed</span></td></tr>
+          <tr><td>Nov 22 · 09:40:51</td><td class="e">archive-sync tried to download Death Star plans.pdf</td><td>Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed</span></td></tr>
+          <tr><td>Nov 22 · 09:40:48</td><td class="e">archive-sync tried to open Death Star plans · archive</td><td>Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed</span></td></tr>
+          <tr><td>Nov 22 · 08:58:30</td><td class="e">archive-sync signed in from a new IP address</td><td>10.4.22.8</td><td><span class="res"><svg><use href="#ok"/></svg>Success</span></td></tr>
+          <tr class="nr"><td>Nov 20 · 22:14:03</td><td class="e">archive-sync tried to open Death Star plans · archive</td><td>Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed</span></td></tr>
+          <tr class="nr"><td>Nov 20 · 22:13:58</td><td class="e">archive-sync tried to list Death Star plans · archive</td><td>Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed</span></td></tr>
+          <tr class="nr"><td>Nov 18 · 03:02:41</td><td class="e">archive-sync tried to download Kyber shipments.xlsx</td><td>Kyber logistics</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed</span></td></tr>
+          <tr class="nr"><td>Nov 18 · 03:02:37</td><td class="e">archive-sync tried to open Kyber logistics</td><td>Kyber logistics</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed</span></td></tr>
+          <tr class="nr"><td>Nov 17 · 11:20:09</td><td class="e">archive-sync tried to export the member list</td><td>People</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  backClick: 1.60, toLog: [1.70, 2.10], timeClick: 4.20, menu: [4.30, 4.60], d7Click: 5.90, ranged: 6.05,
+  saveClick: 8.00, pop: [8.10, 8.40], okClick: 9.60, saved: 9.75, toastOut: [11.3, 11.6],
+  endCard: [12.2, 12.65], end: 13.7
+};
+
+let NEW;
+function build() {
+  NEW = [...document.querySelectorAll("tr.nr")];
+  // measure with the menu and the extra rows laid out
+  const bb = at("backB", -60, 0), tb = at("timeB", -30, 0), d7 = at("d7", -60, 0), sb = at("saveB"), ok = at("okB"), hd = at("hd"), fl = at("flt");
+  const MX = 740;
+  const cur = [
+    [0.00, 860, 640], [0.40, 860, 640], [1.45, bb[0], bb[1] + 3], [1.75, bb[0], bb[1] + 3],
+    [4.05, tb[0], tb[1] + 3], [4.35, tb[0], tb[1] + 3], [5.75, d7[0], d7[1] + 3], [6.10, d7[0], d7[1] + 3],
+    [7.85, sb[0], sb[1] + 3], [8.15, sb[0], sb[1] + 3], [9.45, ok[0], ok[1] + 3], [9.85, ok[0], ok[1] + 3],
+    [11.4, ok[0] - 120, ok[1] + 200], [12.2, ok[0] - 118, ok[1] + 202]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.10, 560, 180, 1.4], [1.85, 560, 180, 1.4],                       // back to the log
+    [2.60, MX, fl[1] + 40, 1.3], [4.10, MX, fl[1] + 40, 1.3],           // filters kept; quick filters, query, count
+    [4.60, 560, fl[1] + 110, 1.45], [6.00, 560, fl[1] + 110, 1.45],     // the time menu: no All time, labelled custom range
+    [6.70, MX, fl[1] + 175, 1.15], [7.70, MX, fl[1] + 175, 1.15],       // 9 events across 7 days
+    [8.30, 1020, hd[1] + 110, 1.45], [9.70, 1020, hd[1] + 110, 1.45],   // save and share
+    [10.3, 690, 240, 1.22], [11.4, 690, 240, 1.22],                         // toast, the view's name
+    [12.0, 660, 360, 1.05], [12.2, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function seq(a, b, t, t0) { $(a).style.opacity = 1 - span(t, t0, t0 + .15); $(b).style.opacity = span(t, t0 + .18, t0 + .36); }
+
+function render(t) {
+  // way in: back from the event, filters kept
+  $("backB").style.background = t >= T.backClick - .05 && t < T.toLog[0] + .1 ? "var(--hover)" : "";
+  seq("vEv", "vLog", t, T.toLog[0]);
+  $("crumb").innerHTML = t >= T.backClick ? "/ Compliance / <b>Audit log</b>" : "/ Compliance / Audit log / <b>Event</b>";
+
+  // time range
+  const mo = span(t, T.menu[0], T.menu[1], easeOut) * (1 - span(t, T.ranged, T.ranged + .18));
+  $("menu").style.opacity = mo; $("menu").style.transform = `translateY(${(1 - mo) * -6}px)`;
+  $("d7").style.background = t >= T.d7Click - .15 && t < T.ranged + .1 ? "var(--hover)" : "";
+  seq("tl0", "tl1", t, T.ranged); seq("q0", "q1", t, T.ranged); seq("m0", "m1", t, T.ranged + .1);
+  const g = span(t, T.ranged + .3, T.ranged + .7, easeOut);
+  NEW.forEach((r, i) => r.querySelectorAll("td").forEach(td => {
+    td.style.height = (40 * g) + "px"; td.style.borderBottomWidth = g > .05 ? "" : "0";
+    td.style.opacity = span(t, T.ranged + .6 + i * .04, T.ranged + .8 + i * .04);
+  }));
+
+  // save and share
+  $("saveB").style.background = t >= T.saveClick - .05 && t < T.saved ? "var(--hover)" : "";
+  const po = span(t, T.pop[0], T.pop[1], easeOut) * (1 - span(t, T.saved, T.saved + .2));
+  $("pop").style.opacity = po; $("pop").style.transform = `translateY(${(1 - po) * -6}px)`;
+  $("okB").style.background = t >= T.okClick - .05 && t < T.saved + .1 ? "#333" : "";
+  seq("vw0", "vw1", t, T.saved + .1);
+  $("vw").style.width = t >= T.saved + .1 ? "296px" : "";
+  const to = span(t, T.saved, T.saved + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to; $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  return [["click", T.backClick], ["whoosh", T.toLog[0]], ["click", T.timeClick], ["pop", T.menu[0]], ["click", T.d7Click], ["whoosh", T.ranged + .3],
+          ["click", T.saveClick], ["pop", T.pop[0]], ["click", T.okClick], ["chime", T.saved]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.backClick, T.timeClick, T.d7Click, T.saveClick, T.okClick], build, render, events, clamp: false,
+  // linger on: kept filters, the time menu, the wider results, the save dialog
+  slow: [[2.5, 4.0, 1.5], [4.6, 5.8, 1.5], [6.6, 7.7, 1.4], [8.4, 9.5, 1.5]]
+});
+</script>
+</body>
+</html>

@@ -239,6 +239,19 @@ window.VIDEOS = {
         "The change shows a table of Field, Before and After, each marked with a text label: allowed IPs went from the Echo Base network to any IP address, the key no longer expires, and the secret was rotated without its value being shown.",
         "She switches from Summary to Raw JSON, which shows the event's schema version, audit.v3, with the secret redacted. Large bulk changes would appear as one event that links to the full list."
       ]
+    },
+    "Filters & saved views": {
+      src: "media/audit-logs/filters-saved-views.mp4",
+      poster: "media/audit-logs/filters-saved-views.jpg",
+      label: "Filters and saved views, shown in a mock Echo Base console",
+      steps: [
+        "From an event, the admin goes back to the audit log. Her filters, the last 24 hours and the actor archive-sync, are still set and shown as chips.",
+        "Quick filters for common checks, such as Failed sign-ins or API key changes, sit above detailed filters for time, actor, action, target, result and IP. The same filters appear as a query she can edit.",
+        "She opens the time range. There is no All time option; a custom range labels its fields with the expected format, and ranges over 90 days run in the background with a notification when ready.",
+        "She picks Last 7 days. The count changes to 9 events, 8 of them failed, and is announced to screen readers; older attempts on other folders appear.",
+        "She saves the filters as a view named archive-sync investigation, shared with the 6 Security admins. Opening it later re-runs the query.",
+        "A message confirms the view is saved and shared, and Copy link shares the investigation with its filters in the link."
+      ]
     }
   }
 };
