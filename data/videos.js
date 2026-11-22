@@ -135,5 +135,19 @@ window.VIDEOS = {
         "She excludes supply drops from that rule. The report is marked resolved and saved to the safety record, which can be exported."
       ]
     }
+  },
+  "asset-management": {
+    "Asset library": {
+      src: "media/asset-management/asset-library.mp4",
+      poster: "media/asset-management/asset-library.jpg",
+      label: "Asset library, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens All content: one inventory of about 2.4M items, with no folders to dig through, and a note that the search index was updated 2 minutes ago.",
+        "She can search by name, owner, type or tag and filter by owner, sharing, last modified and size. The list is a table, and every row shows owner, sharing and last activity.",
+        "She opens the saved view Owner deactivated (112 items), then filters Sharing to Public link. That leaves 3 files from people who have left, still shared publicly.",
+        "She switches to Grid. Cards show a file-type icon, the name, owner and sharing, with previews off by default. The icons are decorative, since the name sits right beside them, and the view switch works by keyboard.",
+        "She exports the results. It runs in the background, and a message says the file will be sent when it's ready."
+      ]
+    }
   }
 };
