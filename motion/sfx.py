@@ -55,21 +55,21 @@ def pop():
 
 
 def sonar():
-    """End-card ping: one pure tone that dips slightly in pitch, with two fading,
-    softened echoes, like a sonar return. Lower and longer than the chime."""
+    """End-card ping: a quiet, soft-edged tone that dips slightly in pitch, with
+    one faint echo, like a distant sonar return. Meant to draw the eye, not startle."""
     n = int(1.15 * SR); t = np.arange(n) / SR
 
     def ping(gain, decay, soften):
-        f = 1180 - 40 * (1 - np.exp(-t / .25))
-        x = np.sin(2 * np.pi * np.cumsum(f) / SR) + .12 * np.sin(2 * np.pi * np.cumsum(f * 2.76) / SR) * np.exp(-t / .08)
-        x *= env(n, .006, decay) * gain
+        f = 1040 - 30 * (1 - np.exp(-t / .25))
+        x = np.sin(2 * np.pi * np.cumsum(f) / SR)
+        x *= env(n, .03, decay) * gain
         if soften:  # moving average dulls the echoes
             k = np.ones(soften) / soften
             x = np.convolve(x, k, mode="same")
         return x
 
-    out = ping(.5, .32, 0)
-    for delay, gain, soften in [(.30, .2, 6), (.60, .08, 12)]:
+    out = ping(.13, .3, 0)
+    for delay, gain, soften in [(.32, .035, 10)]:
         d = int(delay * SR)
         out[d:] += ping(gain, .3, soften)[: n - d]
     return out
