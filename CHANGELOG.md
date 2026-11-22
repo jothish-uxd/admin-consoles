@@ -3,7 +3,7 @@
 ## v0.2.2 preview — 2026-11-21
 
 ### Added
-- **Pattern clips.** A short clip can sit above a pattern's card on the Patterns tab. The first one is *Access requests › Request access*: a 10-second walkthrough in a mock Echo Base console, with small interaction sounds and no music. It plays once, muted, on arrival (not at all if you prefer reduced motion), with Play / Replay and Sound on / off buttons. *What happens in this clip* lists the steps as text. Sound on / off is remembered in your browser.
+- **Pattern clips.** A short clip can sit above a pattern's card on the Patterns tab. The first one is *Access requests › Request access*: a 10-second walkthrough in a mock Echo Base console, with small interaction sounds and no music. It waits on its first frame with a play button and never starts on its own; Play / Pause / Replay and Sound on / off sit in the corner. *What happens in this clip*, a collapsed grey accordion under the clip, lists the steps as text. Sound on / off is remembered in your browser. In every clip the signed-in user is Lavanya Sienna, with a Star Wars title that fits the scene (here, Jedi in training).
 
 ## v0.2.1 preview — 2026-11-19
 

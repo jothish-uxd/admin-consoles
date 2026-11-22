@@ -756,14 +756,37 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .clip-btn svg { width: 14px; height: 14px; flex: none; }
 .clip-btn:hover { background: #171717; }
 .clip-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-.clip-steps { margin-top: 8px; font-size: 14px; color: var(--ink-soft); }
-.clip-steps summary { cursor: pointer; width: fit-content; font-size: 13px; color: var(--ink-soft); padding: 2px 0; }
-.clip-steps summary:hover { color: var(--ink); }
-.clip-steps ol { margin: 8px 0 4px; padding-left: 20px; max-width: 72ch; display: grid; gap: 6px; line-height: 1.55; }
+.clip-big {
+  position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; display: grid; place-items: center;
+  border: 0; border-radius: 50%; background: rgba(23, 23, 23, .86); color: #fff; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18); transition: transform .15s ease, background .15s ease;
+}
+.clip-big svg { width: 26px; height: 26px; margin-left: 3px; }
+.clip-big:hover { background: #171717; transform: scale(1.05); }
+.clip-big:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.clip-frame.is-playing .clip-big { display: none; }
+
+/* Steps: a collapsed accordion in the same grey as the pattern card. */
+.clip-steps { margin-top: 12px; background: var(--nest-bg); border: 1px solid var(--nest-rule); border-radius: 12px; }
+.clip-steps summary {
+  display: flex; align-items: center; gap: 10px; padding: 14px 20px; cursor: pointer; list-style: none;
+  font-size: 15px; font-weight: 600; color: var(--ink); border-radius: 12px;
+}
+.clip-steps summary::-webkit-details-marker { display: none; }
+.clip-steps summary:hover { background: color-mix(in srgb, var(--nest-rule) 35%, transparent); }
+.clip-steps summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.clip-count { font-family: var(--mono); font-size: 12px; font-weight: 400; color: var(--ink-faint); }
+.clip-steps .chev { margin-left: auto; color: var(--ink-soft); transition: transform .15s ease; }
+.clip-steps[open] .chev { transform: rotate(180deg); }
+.clip-steps[open] summary { border-radius: 12px 12px 0 0; border-bottom: 1px solid var(--nest-rule); }
+.clip-steps ol { margin: 0; padding: 16px 20px 18px 42px; max-width: 80ch; display: grid; gap: 8px; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+.clip-steps li::marker { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
+@media (prefers-reduced-motion: reduce) { .clip-big, .clip-steps .chev { transition: none; } }
 @media (max-width: 560px) { .clip-bar { left: 8px; bottom: 8px; } .clip-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } .clip-btn { padding: 0 8px; } }
 @media (forced-colors: active) {
   .clip-frame { border: 1px solid CanvasText; }
-  .clip-btn { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+  .clip-btn, .clip-big { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+  .clip-steps { border: 1px solid CanvasText; }
 }
 
 /* ---------- Header search ---------- */

@@ -9,10 +9,10 @@ window.VIDEOS = {
       poster: "media/access-requests/request-access.jpg",
       label: "Request access, shown in a mock Echo Base console",
       steps: [
-        "Poe Dameron opens the resource catalog and chooses Request access on Death Star plans, a restricted archive he can't see yet.",
-        "A side panel opens on the same page. He picks Viewer, the least-privilege option, and 7 days, so access ends on its own.",
-        "He types why he needs it. The panel already says who will review it: Gen. Jan Dodonna, the resource owner, who usually replies within 2 hours.",
-        "After he submits, the panel shows the request's progress: submitted, owner review, access granted.",
+        "Lavanya Sienna, a Jedi in training, opens the resource catalog and chooses Request access on Death Star plans, a restricted archive she can't see yet.",
+        "A side panel opens on the same page. She picks Viewer, the least-privilege option, and 7 days, so access ends on its own.",
+        "She types why she needs it. The panel already says who will review it: Gen. Jan Dodonna, the resource owner, who usually replies within 2 hours.",
+        "After she submits, the panel shows the request's progress: submitted, owner review, access granted.",
         "Dodonna approves. Back in the catalog, the row now reads Viewer · 7 days."
       ]
     }
