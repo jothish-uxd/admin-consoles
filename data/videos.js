@@ -187,6 +187,18 @@ window.VIDEOS = {
         "External links expire after 30 days and need a password, and new links default to People in Echo Base, the narrowest useful setting. Exceptions by label and group sit alongside: when settings disagree, the most restrictive one wins.",
         "She saves, and a message confirms the rollout over 14 days and that the owners of the 38 links have been told."
       ]
+    },
+    "Versions & restore": {
+      src: "media/asset-management/versions-restore.mp4",
+      poster: "media/asset-management/versions-restore.jpg",
+      label: "Versions and restore, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens Hoth evacuation plan.docx, which shrank from 2.1 MB to 48 KB this morning, and switches to its Versions tab. The page can also restore a whole folder to a point in time.",
+        "Each version is listed with its number, time, author and a short note, read together. The latest, by a sync bot, replaced 42 pages with an empty template. Versions are kept for 1 year, set by policy.",
+        "She selects v11 from yesterday and compares it side by side with the current version: 1 empty page against 43 pages of routes and the gate schedule. 42 pages come back if she restores it.",
+        "Restore v11 asks first, and explains that it becomes a new version, v13, while the current v12 stays in history, so the restore can be undone too.",
+        "She restores. v13, restored from v11, is now current at the top, v12 is still listed below it, and the restore is logged with her name."
+      ]
     }
   }
 };

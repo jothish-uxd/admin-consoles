@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Versions &amp; restore · motion scene</title>
+<!--
+  Source for media/asset-management/versions-restore.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: the Versions tab on the file's detail page.
+
+  Follows the Versions & restore card (data/guidance-content.js):
+  - versions with number, time, author and a short note; retention shown (do 1, avoid 2-3, WCAG 1.3.1, scale 2)
+  - select a version: side-by-side compare with current before restoring (think 2, do 2)
+  - confirm: restores as a new version, current kept (do 3, avoid 1, WCAG 3.3.4, UD 5)
+  - new v13 row, v12 still listed, logged (do 3, scale 3)
+  - "Restore a folder to a point in time" (do 4, scale 1)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 22px 32px; }
+.hd { display: flex; align-items: center; gap: 12px; }
+.fi { width: 34px; height: 40px; border: 1.5px solid var(--rule-strong); border-radius: 5px; display: grid; place-items: end center; padding-bottom: 4px; font-family: "Geist Mono", monospace; font-size: 9px; color: var(--soft); flex: none; }
+h1 { font-size: 21px; flex: 1; }
+.btn.sm { height: 32px; font-size: 12.5px; }
+.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
+.body { position: relative; margin-top: 14px; height: 480px; }
+.body > div { position: absolute; inset: 0; }
+dl { margin: 0; display: grid; grid-template-columns: 110px 1fr; row-gap: 9px; font-size: 13px; width: 520px; }
+dt { color: var(--faint); } dd { margin: 0; color: var(--ink); }
+.vcols { display: grid; grid-template-columns: 470px 1fr; gap: 18px; }
+.ret { display: flex; gap: 8px; align-items: center; font-size: 12.5px; color: var(--soft); margin-bottom: 10px; }
+.ret b { color: var(--ink); font-weight: 600; }
+.ret a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; margin-left: auto; }
+.vl { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+.v { display: flex; gap: 12px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--rule); font-size: 13px; background: var(--bg); position: relative; }
+.v:last-child { border-bottom: 0; }
+.v .n { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--ink); width: 34px; flex: none; }
+.v .w { flex: 1; min-width: 0; }
+.v .w .a { color: var(--ink); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.v .w .b { font-size: 12px; color: var(--soft); display: flex; gap: 6px; align-items: center; }
+.v .w .b .av { width: 18px; height: 18px; font-size: 8px; }
+.v .tg { font-family: "Geist Mono", monospace; font-size: 10px; border: 1px solid var(--ink); border-radius: 999px; padding: 0 6px; white-space: nowrap; }
+.v .tg.solid { background: var(--ink); color: #fff; }
+.v.bad .a { font-weight: 600; }
+.v.sel { background: var(--subtle); box-shadow: inset 3px 0 0 var(--ink); }
+.v.new { overflow: hidden; }
+.pv { border: 1px solid var(--rule-strong); border-radius: 12px; padding: 12px 14px; opacity: 0; position: relative; }
+.pv h3 { margin: 0 0 10px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pg { border: 1px solid var(--rule); border-radius: 8px; padding: 8px; background: var(--subtle); }
+.pg .k { font-size: 11.5px; color: var(--faint); margin-bottom: 6px; }
+.pg .k b { color: var(--ink); font-weight: 600; }
+.sheet { height: 132px; background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; padding: 10px; }
+.sheet .h { height: 7px; width: 70%; background: var(--ink); border-radius: 2px; margin-bottom: 8px; }
+.sheet .l { height: 4px; background: var(--rule-strong); border-radius: 2px; margin-bottom: 5px; }
+.sheet .e { font-size: 11px; color: var(--faint); text-align: center; margin-top: 34px; }
+.pg .m { font-size: 12px; color: var(--ink); margin-top: 6px; }
+.delta { margin-top: 10px; font-size: 12.5px; display: flex; gap: 8px; align-items: center; }
+.delta b { font-weight: 600; }
+.pv .acts { margin-top: 12px; display: flex; gap: 8px; position: relative; }
+.pv .acts .btn { height: 34px; }
+.pop { position: absolute; left: 0; top: 42px; width: 330px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,.14); padding: 14px; z-index: 10; opacity: 0; font-size: 13px; line-height: 1.45; }
+.pop b { display: block; font-size: 14px; margin-bottom: 4px; }
+.pop .m { color: var(--soft); }
+.pop .r { margin-top: 12px; display: flex; gap: 8px; justify-content: flex-end; }
+.pop .btn { height: 32px; font-size: 12.5px; }
+.done { margin-top: 10px; font-size: 12.5px; display: flex; gap: 6px; align-items: center; opacity: 0; }
+.done b { font-weight: 600; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.8V8l2.2 1.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="Content / All content / Hoth evacuation plan.docx"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="content" data-role="admin"></div>
+    <div class="main">
+      <div class="hd" id="hd"><span class="fi">DOC</span><h1>Hoth evacuation plan.docx</h1>
+        <span class="btn sm"><svg width="13" height="13"><use href="#clock"/></svg>Restore a folder to a point in time</span></div>
+      <div class="tabs" id="tabs"><div id="tDet" class="on">Details</div><div>Access</div><div>Activity</div><div id="tVer">Versions</div></div>
+      <div class="body">
+        <div id="vDet">
+          <dl><dt>Owner</dt><dd>Gen. Carlist Rieekan</dd><dt>Location</dt><dd>Echo Base / Operations</dd><dt>Size</dt><dd>48 KB <span style="color:var(--faint)">(was 2.1 MB yesterday)</span></dd>
+            <dt>Modified</dt><dd>Today 09:14 by Holonet sync bot</dd><dt>Label</dt><dd>Internal</dd></dl>
+        </div>
+        <div id="vVer" style="opacity:0">
+          <div class="vcols">
+            <div id="left">
+              <div class="ret">Versions are kept for <b>1 year</b> · 12 of 100 used<a>Set by policy</a></div>
+              <div class="vl" id="vl">
+                <div class="v new" id="v13" style="height:0;padding-top:0;padding-bottom:0;border-bottom-width:0"><span class="n">v13</span><div class="w"><div class="a">Restored from v11</div><div class="b"><span class="av">LS</span>Lavanya Sienna, admin · just now</div></div><span class="tg solid">current</span></div>
+                <div class="v bad" id="v12"><span class="n">v12</span><div class="w"><div class="a">Replaced 42 pages with an empty template</div><div class="b"><span class="av">SB</span>Holonet sync bot · Today 09:14</div></div><span class="tg" id="cur12">current</span></div>
+                <div class="v" id="v11"><span class="n">v11</span><div class="w"><div class="a">Added Hoth evacuation routes</div><div class="b"><span class="av">CR</span>Gen. Rieekan · Yesterday 18:02</div></div></div>
+                <div class="v"><span class="n">v10</span><div class="w"><div class="a">Updated shield gate schedule</div><div class="b"><span class="av">TF</span>Toryn Farr · Nov 19, 11:40</div></div></div>
+                <div class="v"><span class="n">v9</span><div class="w"><div class="a">Added transport loading order</div><div class="b"><span class="av">CR</span>Gen. Rieekan · Nov 18, 16:05</div></div></div>
+                <div class="v"><span class="n">v8</span><div class="w"><div class="a">First draft</div><div class="b"><span class="av">CR</span>Gen. Rieekan · Nov 17, 09:30</div></div></div>
+              </div>
+            </div>
+            <div class="pv" id="pv">
+              <h3 style="position:relative;height:20px"><span id="h0" style="position:absolute;left:0;top:0">Compare v11 with current</span><span id="h1" style="position:absolute;left:0;top:0;opacity:0">Restored · v13 is now current</span></h3>
+              <div class="cmp">
+                <div class="pg" style="position:relative"><div id="c0"><div class="k"><b>Current</b> · v12</div><div class="sheet"><div class="h" style="width:40%"></div><div class="e">Empty template</div></div><div class="m">1 page</div></div><div id="c1" style="position:absolute;inset:8px;opacity:0"><div class="k"><b>Current</b> · v13</div><div class="sheet"><div class="h"></div><div class="l"></div><div class="l" style="width:85%"></div><div class="l"></div><div class="l" style="width:70%"></div><div class="l"></div><div class="l" style="width:90%"></div><div class="l" style="width:60%"></div></div><div class="m">43 pages · restored from v11</div></div></div>
+                <div class="pg"><div class="k"><b>v11</b> · yesterday</div><div class="sheet"><div class="h"></div><div class="l"></div><div class="l" style="width:85%"></div><div class="l"></div><div class="l" style="width:70%"></div><div class="l"></div><div class="l" style="width:90%"></div><div class="l" style="width:60%"></div></div><div class="m">43 pages · routes, gate schedule</div></div>
+              </div>
+              <div class="delta" id="delta"><svg width="13" height="13"><use href="#tick"/></svg><b>42 pages come back</b> if you restore v11</div>
+              <div class="acts"><span class="btn pri" id="resB">Restore v11</span><span class="btn">Download v11</span>
+                <div class="pop" id="pop"><b>Restore v11 as a new version?</b><span class="m">It becomes v13. The current version, v12, stays in history, so you can undo this too.</span>
+                  <div class="r"><span class="btn ghost">Cancel</span><span class="btn pri" id="okB">Restore</span></div></div></div>
+              <div class="done" id="done"><svg width="13" height="13"><use href="#tick"/></svg><b>Logged:</b> restored from v11 by Lavanya Sienna</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  tabClick: 1.60, toVer: [1.70, 2.05], v11Click: 4.00, pv: [4.10, 4.40], resClick: 6.30, pop: [6.40, 6.70],
+  okClick: 7.70, restored: 7.85, endCard: [10.6, 11.05], end: 12.1
+};
+
+function build() {
+  const MX = 40 + 200 + 500;
+  // the versions view is transparent at build time but laid out, so it measures
+  const tb = at("tVer"), lf = at("left"), v11 = at("v11", -120, 0), pv = at("pv"), rb = at("resB"), ok = at("okB"), hd = at("hd");
+  const LX = lf[0], RX = pv[0];
+  const cur = [
+    [0.00, 860, 650], [0.40, 860, 650], [1.45, tb[0], tb[1] + 3], [1.75, tb[0], tb[1] + 3],
+    [3.85, v11[0], v11[1] + 3], [4.15, v11[0], v11[1] + 3], [6.15, rb[0], rb[1] + 3], [6.45, rb[0], rb[1] + 3],
+    [7.55, ok[0], ok[1] + 3], [7.95, ok[0], ok[1] + 3], [9.4, ok[0] - 200, ok[1] + 120], [10.6, ok[0] - 196, ok[1] + 124]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.20, MX, hd[1] + 60, 1.4], [2.05, MX, hd[1] + 60, 1.4],           // the file, the tabs, folder restore
+    [2.70, LX, lf[1], 1.48], [3.90, LX, lf[1], 1.48],                    // versions: time, author, note; retention
+    [4.60, RX, pv[1] - 20, 1.5], [6.30, RX, pv[1] - 20, 1.5],            // compare current with v11
+    [6.70, RX, pv[1] + 40, 1.5], [7.70, RX, pv[1] + 40, 1.5],            // confirm: new version, current kept
+    [8.30, MX, lf[1] + 10, 1.3], [9.90, MX, lf[1] + 10, 1.3],            // v13 on top, v12 kept, logged
+    [10.4, 660, 360, 1.05], [10.6, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  // way in: Versions tab
+  const ver = t >= T.tabClick;
+  $("tDet").classList.toggle("on", !ver); $("tVer").classList.toggle("on", ver);
+  $("vDet").style.opacity = 1 - span(t, T.toVer[0], T.toVer[0] + .14);
+  $("vVer").style.opacity = span(t, T.toVer[0] + .16, T.toVer[1]);
+
+  // select v11, compare
+  $("v11").classList.toggle("sel", t >= T.v11Click && t < T.restored);
+  $("pv").style.opacity = span(t, ...T.pv);
+  $("pv").style.transform = `translateY(${(1 - span(t, ...T.pv)) * 6}px)`;
+
+  // confirm and restore
+  $("resB").style.background = t >= T.resClick - .05 && t < T.restored ? "#333" : "";
+  const po = span(t, T.pop[0], T.pop[1], easeOut) * (1 - span(t, T.restored, T.restored + .2));
+  $("pop").style.opacity = po;
+  $("pop").style.transform = `translateY(${(1 - po) * -6}px)`;
+  $("okB").style.background = t >= T.okClick - .05 && t < T.restored + .1 ? "#333" : "";
+  const e = span(t, T.restored + .15, T.restored + .5, easeOut), v = $("v13");
+  v.style.height = (e * 54) + "px"; v.style.paddingTop = v.style.paddingBottom = (e * 10) + "px"; v.style.opacity = e; v.style.borderBottomWidth = e > .5 ? "1px" : "0";
+  $("cur12").style.display = t >= T.restored + .15 ? "none" : "";
+  $("done").style.opacity = span(t, T.restored + .4, T.restored + .6);
+  // the compare panel catches up: v13 is now current, with the pages back
+  const sw = (a, b, at) => { $(a).style.opacity = 1 - span(t, at, at + .12); $(b).style.opacity = span(t, at + .14, at + .3); };
+  sw("h0", "h1", T.restored + .2); sw("c0", "c1", T.restored + .2);
+  $("delta").style.opacity = 1 - span(t, T.restored + .2, T.restored + .32);
+}
+
+function events() {
+  return [["click", T.tabClick], ["click", T.v11Click], ["whoosh", T.pv[0]], ["click", T.resClick], ["pop", T.pop[0]], ["click", T.okClick], ["chime", T.restored]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.tabClick, T.v11Click, T.resClick, T.okClick], build, render, events, clamp: false,
+  // linger on: the version list, the compare, the confirmation, the new version on top
+  slow: [[2.5, 3.8, 1.6], [4.5, 6.2, 1.7], [6.6, 7.6, 1.7], [7.9, 9.8, 1.7]]
+});
+</script>
+</body>
+</html>
