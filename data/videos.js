@@ -96,6 +96,18 @@ window.VIDEOS = {
         "Processing location is set per region: Coruscant for the Core Worlds, Yavin for the Outer Rim.",
         "She saves. The Kept for answer updates to 7 days, a message confirms it, and the change is logged with who made it."
       ]
+    },
+    "Model & provider settings": {
+      src: "media/ai-governance/model-provider-settings.mp4",
+      poster: "media/ai-governance/model-provider-settings.jpg",
+      label: "Model and provider settings, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens AI models. Recommended models is the default: models are chosen and updated for her, with 30 days' notice of any change, so most teams never need to pick one.",
+        "A banner announces ahead of time that Archivist Large v4.2 is replaced by v5 on Jan 15, with the same data location.",
+        "She switches to Choose approved models for the Outer Rim. A comparison table lists each model with a plain description and its version, provider, the features it powers, speed, quality, cost and where data is processed.",
+        "Holocron Open processes data in the Mid Rim, outside her region. She unticks it, and the page says what changes: Holonet search assist moves to Astromech Fast, and data stays in Yavin.",
+        "She saves. The change is logged with who made it, and every AI answer records which model produced it."
+      ]
     }
   }
 };

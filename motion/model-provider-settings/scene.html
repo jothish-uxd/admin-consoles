@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Model &amp; provider settings · motion scene</title>
+<!--
+  Source for media/ai-governance/model-provider-settings.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+
+  Follows the Model & provider settings card (data/guidance-governance.js):
+  - Recommended models is the default; choosing approved models is optional (think 1-2, avoid 2, UD 2)
+  - banner announces a model change ahead, same data location (do 4, scale 3)
+  - comparison table: description + version, provider, powers, speed, quality, cost, data location (do 1, do 3, avoid 3, WCAG 1.3.1, 3.3.2)
+  - approved models set for a region (do 2, scale 1)
+  - unticking a model says what changes and where data goes (avoid 1)
+  - each AI answer records its model; save is logged (scale 2)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 22px 32px; }
+h1 { font-size: 22px; }
+.lede { margin: 6px 0 0; }
+.modes { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mode { display: flex; gap: 12px; align-items: flex-start; border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; font-size: 13px; }
+.mode .t { font-weight: 600; color: var(--ink); display: flex; gap: 8px; align-items: center; }
+.mode .t .d { font-family: "Geist Mono", monospace; font-size: 10.5px; font-weight: 400; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 0 6px; color: var(--soft); }
+.mode .s { color: var(--soft); margin-top: 3px; line-height: 1.4; }
+.mode.sel { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
+.mode .r { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--rule-strong); margin-top: 1px; flex: none; position: relative; }
+.mode.sel .r { border-color: var(--ink); }
+.mode.sel .r::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--ink); }
+.banner { margin-top: 12px; display: flex; gap: 10px; align-items: center; padding: 9px 14px; border: 1px solid var(--rule-strong); border-radius: 10px; font-size: 13px; }
+.banner .new { font-family: "Geist Mono", monospace; font-size: 10.5px; color: #fff; background: var(--ink); border-radius: 999px; padding: 1px 7px; white-space: nowrap; }
+.banner .m { color: var(--soft); }
+.banner .sp { margin-left: auto; }
+.banner .btn { height: 28px; font-size: 12px; }
+.tblh { margin-top: 16px; display: flex; gap: 10px; align-items: center; font-size: 14px; font-weight: 600; }
+.tblh .rg { font-size: 12px; font-weight: 500; padding: 2px 9px; border-radius: 999px; background: var(--hover); color: var(--ink); }
+.tblh .nt { margin-left: auto; font-size: 12px; font-weight: 400; color: var(--faint); }
+.tw { margin-top: 8px; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+table { font-size: 12.5px; }
+th { padding: 9px 10px; font-size: 11.5px; background: var(--subtle); border-bottom: 1px solid var(--rule); }
+td { padding: 0 10px; height: 58px; }
+td:first-child { width: 34px; }
+td.m { white-space: normal; line-height: 1.35; width: 230px; }
+td.m .a { color: var(--ink); font-weight: 500; }
+td.m .a code { font-family: "Geist Mono", monospace; font-size: 10.5px; color: var(--faint); font-weight: 400; margin-left: 4px; }
+td.m .b { color: var(--soft); font-size: 12px; font-weight: 400; }
+td.pw { white-space: normal; line-height: 1.35; color: var(--ink); width: 150px; }
+.meter { display: inline-flex; gap: 2px; vertical-align: -1px; margin-right: 6px; }
+.meter i { width: 5px; height: 10px; border-radius: 1px; background: var(--rule-strong); }
+.meter i.f { background: var(--ink); }
+td.dl { white-space: normal; line-height: 1.35; width: 150px; color: var(--ink); }
+td.dl .warn { display: block; font-size: 11.5px; font-weight: 600; color: var(--ink); }
+td.dl .warn::before { content: "!"; display: inline-grid; place-items: center; width: 13px; height: 13px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 9px; margin-right: 5px; vertical-align: 1px; }
+.cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--rule-strong); display: grid; place-items: center; background: var(--bg); }
+.cb svg { width: 11px; height: 11px; opacity: 0; color: #fff; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on svg { opacity: 1; }
+tr.flag td { background: var(--subtle); }
+.cons { margin-top: 10px; font-size: 13px; display: flex; gap: 8px; align-items: center; opacity: 0; }
+.cons b { font-weight: 600; }
+.cons .ar { color: var(--faint); }
+.ft { margin-top: 12px; display: flex; gap: 12px; align-items: center; }
+.ft .btn { height: 34px; }
+.ft .rec { margin-left: auto; font-size: 12px; color: var(--faint); }
+.log { font-size: 12.5px; color: var(--soft); display: inline-flex; gap: 6px; align-items: center; opacity: 0; }
+.log b { color: var(--ink); font-weight: 600; }
+#tblArea { transition: none; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb">/ Admin / AI features / <b>Models</b></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav">
+      <div>Resources</div><div>Approvals</div>
+      <div class="lbl">Admin</div><div>AI features</div><div>AI data use</div><div class="on">AI models</div><div>Audit log</div>
+    </div>
+    <div class="main">
+      <h1>AI models</h1>
+      <p class="lede">Which models power your AI features. Most teams can leave this on Recommended.</p>
+      <div class="modes" id="modes">
+        <div class="mode" id="mRec"><span class="r"></span><div><div class="t">Recommended models <span class="d">default</span></div><div class="s">We choose and update models, with 30 days’ notice of any change.</div></div></div>
+        <div class="mode" id="mApp"><span class="r"></span><div><div class="t">Choose approved models</div><div class="s">Limit AI features to models you approve, region by region.</div></div></div>
+      </div>
+      <div class="banner" id="banner"><span class="new">JAN 15</span><span><b>Archivist Large v4.2 is replaced by v5.</b> <span class="m">Same data location. Better at long briefings.</span></span><span class="sp"></span><span class="btn">Try v5 now</span></div>
+      <div id="tblArea">
+        <div class="tblh">Approved models <span class="rg">Outer Rim</span><span class="nt">Every AI answer records which model made it</span></div>
+        <div class="tw" id="tw">
+          <table>
+            <thead><tr><th></th><th>Model</th><th>Provider</th><th>Powers</th><th>Speed</th><th>Quality</th><th>Cost</th><th>Data processed in</th></tr></thead>
+            <tbody>
+              <tr><td><span class="cb on"><svg><use href="#tick"/></svg></span></td>
+                <td class="m"><div class="a">Astromech Fast<code>r2-2026.3</code></div><div class="b">Quick answers and short summaries</div></td>
+                <td>Kuat AI</td><td class="pw">Briefing titles</td>
+                <td><span class="meter"><i class="f"></i><i class="f"></i><i class="f"></i></span>Fast</td>
+                <td><span class="meter"><i class="f"></i><i class="f"></i><i></i></span>Good</td><td>$</td><td class="dl">Yavin</td></tr>
+              <tr><td><span class="cb on"><svg><use href="#tick"/></svg></span></td>
+                <td class="m"><div class="a">Archivist Large<code>v4.2</code></div><div class="b">Careful, longer answers for briefings</div></td>
+                <td>Kuat AI</td><td class="pw">Briefing summaries</td>
+                <td><span class="meter"><i class="f"></i><i></i><i></i></span>Slower</td>
+                <td><span class="meter"><i class="f"></i><i class="f"></i><i class="f"></i></span>Best</td><td>$$$</td><td class="dl">Yavin</td></tr>
+              <tr id="rowH"><td><span class="cb on" id="cbH"><svg><use href="#tick"/></svg></span></td>
+                <td class="m"><div class="a">Holocron Open<code>h-7b</code></div><div class="b">Fast, low-cost search answers</div></td>
+                <td>Outer Rim Labs</td><td class="pw">Holonet search assist</td>
+                <td><span class="meter"><i class="f"></i><i class="f"></i><i class="f"></i></span>Fast</td>
+                <td><span class="meter"><i class="f"></i><i class="f"></i><i></i></span>Good</td><td>$</td>
+                <td class="dl">Mid Rim<span class="warn">Outside your region</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cons" id="cons"><b>Holonet search assist</b><span class="ar">moves to</span><b>Astromech Fast</b><span class="ar">·</span>Data stays in Yavin</div>
+        <div class="ft" id="ft"><span class="btn pri" id="saveB">Save</span><span class="btn ghost">Cancel</span>
+          <span class="log" id="log"><svg width="13" height="13"><use href="#tick"/></svg><b>Logged:</b> Lavanya Sienna removed Holocron Open for the Outer Rim</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  modeClick: 3.30, enable: [3.35, 3.7], cbClick: 5.90, cons: 6.0, saveClick: 7.60, saved: 7.75,
+  endCard: [10.4, 10.85], end: 11.9
+};
+
+function build() {
+  const MX = 40 + 200 + 500;
+  const md = at("modes"), bn = at("banner"), ma = at("mApp", -150, -6), tw = at("tw"), cb = at("cbH"), rh = at("rowH"), sv = at("saveB"), ft = at("ft");
+  const cur = [
+    [0.00, 860, 650], [0.40, 860, 650], [2.4, 900, 420], [3.15, ma[0], ma[1] + 3], [3.45, ma[0], ma[1] + 3],
+    [5.0, cb[0] + 60, cb[1] + 40], [5.80, cb[0] + 3, cb[1] + 3], [6.15, cb[0] + 3, cb[1] + 3],
+    [7.0, sv[0] + 120, sv[1] + 30], [7.50, sv[0], sv[1] + 3], [7.85, sv[0], sv[1] + 3],
+    [9.2, sv[0] + 300, sv[1] + 40], [10.4, sv[0] + 306, sv[1] + 44]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.35, MX, md[1] - 20, 1.27], [2.05, MX, md[1] - 20, 1.27],         // title, the two modes
+    [2.55, MX, bn[1], 1.27], [3.40, MX, bn[1] - 30, 1.27],                // the change notice, then the switch
+    [4.10, MX, tw[1], 1.27], [5.30, MX, tw[1], 1.27],                       // the comparison table
+    [5.75, MX, rh[1] + 20, 1.27], [7.00, MX, rh[1] + 20, 1.27],             // Holocron Open, unticked, consequence
+    [7.55, MX, ft[1] - 40, 1.27], [8.90, MX, ft[1] - 40, 1.27],             // save and the log
+    [9.6, 660, 360, 1.05], [10.4, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  const app = t >= T.modeClick;
+  $("mRec").classList.toggle("sel", !app); $("mApp").classList.toggle("sel", app);
+  // the table is shown but dimmed under Recommended; it becomes editable when approved models are chosen
+  $("tblArea").style.opacity = .45 + .55 * span(t, ...T.enable);
+
+  const off = t >= T.cbClick;
+  $("cbH").classList.toggle("on", !off);
+  $("rowH").classList.toggle("flag", t > 5.3 && t < 9.0);
+  $("cons").style.opacity = span(t, T.cons, T.cons + .25);
+  $("cons").style.transform = `translateY(${(1 - span(t, T.cons, T.cons + .25)) * 4}px)`;
+
+  $("saveB").style.background = t >= T.saveClick - .05 && t < T.saved + .1 ? "#333" : "";
+  $("log").style.opacity = span(t, T.saved + .05, T.saved + .3);
+}
+
+function events() {
+  return [["click", T.modeClick], ["click", T.cbClick], ["click", T.saveClick], ["chime", T.saved]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.modeClick, T.cbClick, T.saveClick], build, render, events,
+  // linger on: the two modes, the change notice, the comparison table, the consequence, the log
+  slow: [[0.9, 2.05, 1.6], [2.3, 3.0, 1.6], [3.9, 5.3, 1.6], [6.0, 7.0, 1.8], [7.8, 8.9, 1.6]]
+});
+</script>
+</body>
+</html>
