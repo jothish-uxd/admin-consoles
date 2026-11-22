@@ -97,7 +97,7 @@ People: the person is Lavanya Sienna. As an admin her title fits the scene (Jedi
 |---|---|
 | Asset library | Content / All content |
 | Asset detail | Content / All content / an item |
-| Transfer ownership | Content / All content · Transfer |
+| Transfer ownership | People / Users / a person · Offboarding → Transfer content |
 | Sharing controls | Content / All content |
 | Versions & restore | Content / All content |
 | Tags & metadata | Content / Tags |

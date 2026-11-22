@@ -167,9 +167,9 @@ window.VIDEOS = {
       poster: "media/asset-management/transfer-ownership.jpg",
       label: "Transfer ownership, shown in a mock Echo Base console",
       steps: [
-        "The admin transfers Biggs Darklighter's content as part of his offboarding. He left Red Squadron on Oct 14, and his deactivated account stays until the transfer finishes.",
-        "Everything he owns moves in one go (1,284 items, 3.2 GB), or she could choose specific items. The new owner is filled in with his manager, Gen. Jan Dodonna, marked suggested.",
-        "She opens the list of people. Biggs himself can't be chosen because he's deactivated, and R2-D2 can't because external accounts can't own Echo Base content. Each says why.",
+        "The admin starts from Biggs Darklighter's page in People, where his offboarding checklist shows what's done (account deactivated, signed out of all devices) and what's left. Delete account stays locked until his content is transferred.",
+        "She chooses Transfer content. The page says why: Biggs left Red Squadron on Oct 14, and his deactivated account stays until the transfer finishes.",
+        "Everything he owns moves in one go (1,284 items, 3.2 GB), or she could choose specific items. The new owner is filled in with his manager, Gen. Jan Dodonna, marked suggested. When she opens the list of people, Biggs himself can't be chosen because he's deactivated, and R2-D2 can't because external accounts can't own Echo Base content. Each says why.",
         "How it moves: sharing stays as it is, so 46 shared links and 12 groups keep working. Items go into a folder named From Biggs Darklighter, and Dodonna is told what he received. A mapping file can move many people at once.",
         "A summary shows what moves, from whom, to whom and where, with sharing unchanged. She starts the transfer, which runs in the background with a progress count that screen readers announce without moving focus.",
         "It finishes: 1,281 items moved, and 3 couldn't, with a link to see which and why. Dodonna has been sent a summary, and the transfer can be reassigned to someone else."
