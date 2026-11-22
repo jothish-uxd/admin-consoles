@@ -25,10 +25,12 @@ body { font-family: "Geist", system-ui, sans-serif; color: var(--ink); -webkit-f
 .av { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600;
   background: var(--hover); border: 1px solid var(--rule-strong); color: var(--ink); flex: none; }
 .av.dark { background: var(--ink); color: #fff; border-color: var(--ink); }
-.nav { position: absolute; left: 0; top: 52px; bottom: 0; width: 200px; border-right: 1px solid var(--rule); padding: 18px 12px; }
-.nav div { padding: 8px 10px; border-radius: 6px; font-size: 14px; color: var(--soft); margin-bottom: 2px; }
+.nav { position: absolute; left: 0; top: 52px; bottom: 0; width: 200px; border-right: 1px solid var(--rule); padding: 8px 12px; }
+.nav div { display: flex; gap: 10px; align-items: center; padding: 7px 10px; border-radius: 6px; font-size: 14px; color: var(--soft); margin-bottom: 1px; }
+.nav div svg { width: 16px; height: 16px; flex: none; color: var(--faint); }
 .nav div.on { background: var(--hover); color: var(--ink); font-weight: 600; }
-.nav .lbl { font-size: 12px; color: var(--faint); padding: 14px 10px 6px; }
+.nav div.on svg { color: var(--ink); }
+.nav .lbl { font-size: 11.5px; color: var(--faint); padding: 14px 10px 5px; margin: 0; }
 .main { position: absolute; left: 200px; right: 0; top: 52px; bottom: 0; padding: 28px 32px; }
 h1 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
 .lede { margin: 6px 0 22px; color: var(--soft); font-size: 14px; }

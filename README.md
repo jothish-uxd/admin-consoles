@@ -91,6 +91,8 @@ python3 motion/render.py request-access media/access-requests/request-access.mp4
 
 Open a scene with `?play` to watch it live in a browser while editing.
 
+All clips are set in one mock product, the **Echo Base Console**, with one fixed rail (Workspace for everyone; Admin for admins only). [`motion/CONSOLE.md`](motion/CONSOLE.md) gives every pattern its section and page; a scene sets them with `data-at` on the rail and `data-path` on the breadcrumb, and `motion.js` draws both.
+
 Each clip is a guide, so it must agree with its pattern card: before building, map every point on the card (How to think about it, Recommended, Avoid, Accessibility) to a moment in the clip, show nothing the card says to avoid, and list the mapping in a comment at the top of the scene. Points a video can't show, such as screen reader labels, go in the steps text.
 
 Framing: whatever the viewer should look at sits in the middle of the frame and is never cut off. Prefer one steady framing per view (zoomed so the whole card or region fits) over panning across it, and keep camera moves few and slow.
