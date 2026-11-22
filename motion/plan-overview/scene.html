@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Plan overview · motion scene</title>
+<!--
+  Source for media/billing-licenses/plan-overview.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: Billing in the rail, from Home.
+
+  Follows the Plan overview card (data/guidance-platform.js):
+  - plan, price with currency and tax, period, renewal in words and date, payment method, cancellation (do 1, 4, avoid 1, 3, UD 4, WCAG 1.3.1)
+  - seats by product with numbers on the bars (do 2, WCAG 1.4.1)
+  - what's included and what Enterprise adds, a plain link (do 3, avoid 2)
+  - contract switcher, cost by department, finance view-only (scale 1-3)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 0; }
+.view { position: absolute; inset: 20px 32px; }
+h1 { font-size: 20px; }
+.hd { display: flex; align-items: center; gap: 10px; }
+.hd h1 { flex: 1; }
+.ct { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 7px; background: var(--hover); font-size: 12.5px; color: var(--ink); }
+.ct b { font-weight: 500; }
+.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
+.cols { margin-top: 16px; display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+.card { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; }
+.card + .card { margin-top: 14px; }
+.card h2 { margin: 0 0 10px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.card h2 a, a.u { font-size: 12.5px; font-weight: 500; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+dl { margin: 0; display: grid; grid-template-columns: 110px 1fr; row-gap: 8px; font-size: 13px; }
+dt { color: var(--faint); } dd { margin: 0; color: var(--ink); line-height: 1.4; }
+dd .n { color: var(--soft); }
+.seat { margin-top: 10px; }
+.seat:first-of-type { margin-top: 0; }
+.seat .l { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink); }
+.seat .l span { color: var(--soft); }
+.seat .l b { font-weight: 600; }
+.bar { margin-top: 6px; height: 8px; border-radius: 4px; background: var(--hover); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ink); }
+ul.inc { margin: 0; padding: 0; list-style: none; font-size: 12.5px; color: var(--ink); display: grid; gap: 5px; }
+ul.inc li { display: flex; gap: 7px; align-items: center; }
+ul.inc svg { width: 12px; height: 12px; flex: none; }
+.up { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--soft); line-height: 1.45; }
+.seg { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 8px; padding: 2px; font-size: 12px; }
+.seg span { padding: 4px 10px; border-radius: 6px; color: var(--soft); }
+.seg span.on { background: var(--ink); color: #fff; }
+.cc { position: relative; height: 128px; }
+.cc > div { position: absolute; inset: 0; }
+table.dep { font-size: 12.5px; }
+.dep td { height: 26px; padding: 0 4px; border-bottom: 1px solid var(--rule); color: var(--soft); }
+.dep td:first-child { color: var(--ink); font-weight: 400; }
+.dep td.r { text-align: right; color: var(--ink); }
+.dep tr.tot td { border-bottom: 0; font-weight: 600; color: var(--ink); }
+.fin { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--ink); }
+.fin .n { color: var(--soft); }
+/* home */
+.hgrid { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.hc { border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; font-size: 13px; color: var(--soft); }
+.hc h3 { margin: 0 0 6px; font-size: 14px; color: var(--ink); font-weight: 600; }
+.hc .big { font-size: 26px; color: var(--ink); font-weight: 600; letter-spacing: -.02em; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Home"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="home" data-role="admin"></div>
+    <div class="main">
+      <div class="view" id="vHome">
+        <h1>Good morning, Lavanya</h1>
+        <div class="hgrid">
+          <div class="hc"><h3>Access requests</h3><span class="big">4</span> waiting for you</div>
+          <div class="hc"><h3>Seats</h3><span class="big">246</span> of 250 in use</div>
+          <div class="hc"><h3>Renewal</h3>Business plan renews 1 March 2027</div>
+        </div>
+      </div>
+      <div class="view" id="vPlan" style="opacity:0">
+        <div class="hd"><h1>Billing</h1><span class="ct">Contract: <b>Echo Base</b> ▾ · 2 contracts</span></div>
+        <div class="tabs"><div class="on">Plan</div><div>Seats</div><div>Invoices</div></div>
+        <div class="cols">
+          <div>
+            <div class="card" id="plan"><h2>Rebel Alliance Business</h2>
+              <dl>
+                <dt>Price</dt><dd>$18 per seat per month, billed annually <span class="n">· USD, excluding tax</span></dd>
+                <dt>Billing period</dt><dd>1 March 2026 – 28 February 2027</dd>
+                <dt>Renewal</dt><dd><b style="font-weight:500">Renews automatically on 1 March 2027</b> <span class="n">for 250 seats, $54,000.00 a year</span></dd>
+                <dt>Payment</dt><dd>Visa ending 4417 · <a class="u">Change</a></dd>
+                <dt>Cancellation</dt><dd>Turn off auto-renew or cancel any time before 1 February 2027 · <a class="u">Terms</a></dd>
+              </dl></div>
+            <div class="card" id="seats"><h2>Seats <a>Manage seats</a></h2>
+              <div class="seat"><div class="l"><span><b style="color:var(--ink)">Console</b></span><span><b style="color:var(--ink)">246</b> of 250 assigned · 4 available</span></div><div class="bar"><i style="width:98.4%"></i></div></div>
+              <div class="seat"><div class="l"><span><b style="color:var(--ink)">AI add-on</b></span><span><b style="color:var(--ink)">64</b> of 80 assigned · 16 available</span></div><div class="bar"><i style="width:80%"></i></div></div>
+            </div>
+          </div>
+          <div id="right">
+            <div class="card" id="inc"><h2>What's included</h2>
+              <ul class="inc"><li><svg><use href="#ok"/></svg>Console for 250 people</li><li><svg><use href="#ok"/></svg>Audit log, 90 days</li><li><svg><use href="#ok"/></svg>Access reviews and requests</li><li><svg><use href="#ok"/></svg>Email and chat support</li></ul>
+              <div class="up">Enterprise adds SSO enforcement, 1-year log retention and a 99.95% SLA. <a class="u">Compare plans</a></div></div>
+            <div class="card" id="cost"><h2>Cost <span class="seg"><span id="sT" class="on">Total</span><span id="sD">By department</span></span></h2>
+              <div class="cc">
+                <div id="c0"><div style="font-size:26px;font-weight:600;color:var(--ink);letter-spacing:-.02em">$53,136.00</div><div style="font-size:12.5px;color:var(--soft);margin-top:2px">a year for 246 assigned seats · USD, excluding tax</div></div>
+                <div id="c1" style="opacity:0"><table class="dep"><tbody>
+                  <tr><td>Operations</td><td>99 seats</td><td class="r">$21,384.00</td></tr>
+                  <tr><td>Fleet</td><td>82 seats</td><td class="r">$17,712.00</td></tr>
+                  <tr><td>Intelligence</td><td>41 seats</td><td class="r">$8,856.00</td></tr>
+                  <tr><td>Engineering</td><td>24 seats</td><td class="r">$5,184.00</td></tr>
+                  <tr class="tot"><td>Total</td><td>246 seats</td><td class="r">$53,136.00</td></tr></tbody></table></div>
+              </div>
+              <div class="fin" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--rule)"><span class="av">MM</span><span>Mon Mothma <span class="n">· Finance · view only</span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  railClick: 1.60, toPlan: [1.70, 2.10], depClick: 8.20, toDep: [8.30, 8.60],
+  endCard: [11.6, 12.05], end: 13.1
+};
+
+let NAV;
+function build() {
+  NAV = [...document.querySelectorAll(".nav > div:not(.lbl)")];
+  NAV.find(n => n.textContent === "Billing").id = "navB";
+  const nb = at("navB", -30, 0), pl = at("plan"), se = at("seats"), ic = at("inc"), co = at("cost"), sd = at("sD");
+  const cur = [
+    [0.00, 700, 600], [0.40, 700, 600], [1.45, nb[0], nb[1] + 3], [1.75, nb[0], nb[1] + 3],
+    [8.05, sd[0], sd[1] + 3], [8.35, sd[0], sd[1] + 3], [10.4, sd[0] - 120, sd[1] + 200], [11.6, sd[0] - 118, sd[1] + 202]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.10, 420, 380, 1.25], [1.85, 420, 380, 1.25],              // the rail
+    [2.60, pl[0], pl[1] + 10, 1.4], [4.40, pl[0], pl[1] + 10, 1.4], // price, tax, renewal, cancellation
+    [5.00, se[0], se[1], 1.5], [6.00, se[0], se[1], 1.5],         // seats by product, with numbers
+    [6.60, ic[0], ic[1] + 20, 1.5], [7.60, ic[0], ic[1] + 20, 1.5], // what's included, Enterprise adds
+    [8.10, co[0], co[1] + 10, 1.55], [10.6, co[0], co[1] + 10, 1.55], // cost by department, finance view-only
+    [11.3, 660, 360, 1.05], [11.6, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function seq(a, b, t, t0) { $(a).style.opacity = 1 - span(t, t0, t0 + .15); $(b).style.opacity = span(t, t0 + .18, t0 + .36); }
+
+function render(t) {
+  const b = t >= T.railClick;
+  NAV.forEach(n => n.classList.toggle("on", n.textContent === (b ? "Billing" : "Home")));
+  $("crumb").innerHTML = b ? "/ Billing / <b>Plan</b>" : "/ <b>Home</b>";
+  seq("vHome", "vPlan", t, T.toPlan[0]);
+  const d = t >= T.depClick;
+  $("sT").classList.toggle("on", !d); $("sD").classList.toggle("on", d);
+  seq("c0", "c1", t, T.toDep[0]);
+}
+
+function events() { return [["click", T.railClick], ["whoosh", T.toPlan[0]], ["click", T.depClick], ["pop", T.toDep[0]]]; }
+
+Motion.scene({
+  T, duration: 15, clicks: [T.railClick, T.depClick], build, render, events, clamp: false,
+  slow: [[2.6, 4.4, 1.8], [5.0, 6.0, 1.5], [6.6, 7.6, 1.5], [8.6, 10.6, 1.6]]
+});
+</script>
+</body>
+</html>

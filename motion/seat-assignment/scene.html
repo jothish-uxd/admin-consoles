@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Seat assignment · motion scene</title>
+<!--
+  Source for media/billing-licenses/seat-assignment.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: Manage seats on the plan (where the Plan overview clip ends).
+
+  Follows the Seat assignment card (data/guidance-platform.js):
+  - table of person, license, assigned by (group or individual), last active (do 1-2, WCAG 1.3.1)
+  - group rules, automatic reclaim on leaving, usage by department (think 2, scale 1-3)
+  - filter inactive 60+ days, reclaim 14 with notice, data kept, 30-day undo (do 3, avoid 1, UD 5)
+  - count announced; seats match the plan; full-seats behaviour explained (WCAG 4.1.3, avoid 3, do 4)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 0; }
+.view { position: absolute; inset: 20px 32px; }
+h1 { font-size: 20px; }
+.hd { display: flex; align-items: center; gap: 10px; }
+.hd h1 { flex: 1; }
+.btn.sm { height: 32px; font-size: 12.5px; }
+.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
+.body { position: relative; margin-top: 14px; height: 540px; }
+.body > div { position: absolute; inset: 0; }
+.card { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; }
+.card + .card { margin-top: 14px; }
+.card h2 { margin: 0 0 10px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+a.u, .card h2 a { font-size: 12.5px; font-weight: 500; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.seat .l { display: flex; justify-content: space-between; font-size: 13px; color: var(--soft); }
+.seat .l b { color: var(--ink); font-weight: 600; }
+.bar { margin-top: 6px; height: 8px; border-radius: 4px; background: var(--hover); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ink); }
+.cols { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+.sum { display: flex; align-items: center; gap: 18px; margin-bottom: 12px; border: 1px solid var(--rule); border-radius: 12px; padding: 12px 16px; font-size: 13px; }
+.sum .l { flex: 1; }
+.sum .nums { position: relative; height: 18px; }
+.sum .nums > span { position: absolute; left: 0; top: 0; white-space: nowrap; color: var(--soft); }
+.sum b { color: var(--ink); font-weight: 600; }
+.sum .ok { font-size: 12px; color: var(--soft); display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.sum .ok svg { width: 12px; height: 12px; }
+.fl { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; position: relative; height: 34px; }
+.fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12.5px; color: var(--ink); background: var(--bg); white-space: nowrap; }
+.fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
+.bulk { position: absolute; right: 0; top: 0; height: 34px; display: flex; align-items: center; gap: 10px; opacity: 0; font-size: 12.5px; color: var(--soft); }
+.tb { position: relative; }
+table.st { font-size: 12.5px; table-layout: fixed; }
+.st th, .st td { padding-left: 10px; padding-right: 10px; }
+.st td { height: 42px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st td .s { color: var(--faint); }
+.pend { font-weight: 500; color: var(--ink); }
+.more { font-size: 12px; color: var(--soft); padding: 8px 10px; }
+.rule { font-size: 12.5px; color: var(--ink); padding: 6px 0; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; gap: 8px; }
+.rule span { color: var(--soft); }
+.rnote { margin-top: 10px; font-size: 12px; color: var(--soft); line-height: 1.45; }
+.scrim2 { position: absolute; inset: 52px 0 0 0; background: rgba(0,0,0,.18); opacity: 0; z-index: 30; }
+.dlg { position: absolute; left: 400px; top: 170px; width: 480px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 18px 20px; z-index: 31; opacity: 0; font-size: 13px; line-height: 1.5; color: var(--soft); }
+.dlg > b { display: block; font-size: 16px; color: var(--ink); margin-bottom: 8px; }
+.dlg ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; color: var(--ink); }
+.dlg .r { margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end; }
+.dlg .btn { height: 34px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+.toast u { text-underline-offset: 3px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Billing / Plan"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>14 licenses reclaimed · people notified · <u>Undo</u> for 30 days</div>
+    </div>
+    <div class="nav" data-at="billing" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>Billing</h1><span class="btn sm">Add seats</span></div>
+        <div class="tabs"><div id="tP" class="on">Plan</div><div id="tS">Seats</div><div>Invoices</div></div>
+        <div class="body">
+          <div id="vPlan">
+            <div class="card" style="width:600px"><h2>Rebel Alliance Business</h2><div style="font-size:13px;color:var(--soft)">$18 per seat per month, billed annually · USD, excluding tax · Renews automatically on 1 March 2027</div></div>
+            <div class="card" style="width:600px"><h2>Seats <a id="manB">Manage seats</a></h2>
+              <div class="seat"><div class="l"><span><b>Console</b></span><span><b>246</b> of 250 assigned · 4 available</span></div><div class="bar"><i style="width:98.4%"></i></div></div></div>
+          </div>
+          <div id="vSeats" style="opacity:0">
+            <div class="sum" id="sum"><div class="l"><div class="nums"><span id="n0"><b>Console</b> · <b>246</b> of 250 assigned · 4 available</span><span id="n1" style="opacity:0"><b>Console</b> · <b>232</b> of 250 assigned · 18 available</span></div>
+                <div class="bar" style="width:380px"><i id="sb" style="width:98.4%"></i></div></div>
+              <span class="ok"><svg><use href="#ok"/></svg>Matches your plan</span>
+              <span style="font-size:12px;color:var(--soft);max-width:250px;line-height:1.4">When seats are full, new people join as viewers until you add seats.</span></div>
+            <div class="cols">
+              <div id="left">
+                <div class="fl"><span class="fb" id="fAll">All · 246</span><span class="fb" id="fIn">Inactive 60+ days · 14</span><span class="fb">Console + AI · 64</span>
+                  <div class="bulk" id="bulk">14 people<span class="btn sm pri" id="recB">Reclaim 14 licenses</span></div></div>
+                <div class="tb">
+                  <table class="st" id="t0"><colgroup><col style="width:170px"><col style="width:112px"><col><col style="width:116px"></colgroup>
+                    <thead><tr><th>Person</th><th>License</th><th>Assigned by</th><th>Last active</th></tr></thead><tbody>
+                    <tr><td>Wedge Antilles</td><td>Console + AI</td><td>Rogue Squadron <span class="s">group</span></td><td>Today</td></tr>
+                    <tr><td>Toryn Farr</td><td>Console + AI</td><td>Individual</td><td>Today</td></tr>
+                    <tr><td>Hobbie Klivian</td><td>Console</td><td>Fleet <span class="s">group</span></td><td>Yesterday</td></tr>
+                    <tr><td>Dak Ralter</td><td>Console</td><td>Individual</td><td>92 days ago</td></tr>
+                    <tr><td>Zev Senesca</td><td>Console</td><td>Fleet <span class="s">group</span></td><td>61 days ago</td></tr>
+                    <tr><td>Cal Alder</td><td>Console</td><td>Fleet <span class="s">group</span></td><td>3 days ago</td></tr>
+                  </tbody></table>
+                  <table class="st" id="t1" style="position:absolute;left:0;top:0;opacity:0"><colgroup><col style="width:170px"><col style="width:112px"><col><col style="width:116px"></colgroup>
+                    <thead><tr><th>Person</th><th>License</th><th>Assigned by</th><th id="lh">Last active</th></tr></thead><tbody>
+                    <tr><td>Jek Porkins</td><td>Console</td><td>Individual</td><td class="la">120 days ago</td></tr>
+                    <tr><td>Dak Ralter</td><td>Console</td><td>Individual</td><td class="la">92 days ago</td></tr>
+                    <tr><td>Tycho Celchu</td><td>Console</td><td>Rogue Squadron <span class="s">group</span></td><td class="la">88 days ago</td></tr>
+                    <tr><td>Biggs Darklighter</td><td>Console</td><td>Rogue Squadron <span class="s">group</span></td><td class="la">74 days ago</td></tr>
+                    <tr><td>Zev Senesca</td><td>Console</td><td>Fleet <span class="s">group</span></td><td class="la">61 days ago</td></tr>
+                  </tbody></table>
+                  <div class="more" id="more" style="position:absolute;left:0;top:258px;opacity:0">and 9 more</div>
+                </div>
+              </div>
+              <div id="right">
+                <div class="card"><h2>Assigned by group</h2>
+                  <div class="rule">Rogue Squadron <span>Console + AI · 12</span></div>
+                  <div class="rule">Fleet <span>Console · 82</span></div>
+                  <div class="rule" style="border-bottom:0">Individual overrides <span>6 people</span></div>
+                  <div class="rnote">Licenses are reclaimed automatically when someone leaves. <a class="u">Usage by department</a></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scrim2" id="scrim"></div>
+    <div class="dlg" id="dlg"><b>Reclaim 14 Console licenses?</b>
+      <ul><li>Each person is emailed today and keeps access until 29 November.</li><li>Their files, settings and history are kept.</li><li>You can undo this for 30 days.</li></ul>
+      <div class="r"><span class="btn ghost">Cancel</span><span class="btn pri" id="okB">Reclaim 14</span></div></div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  manClick: 1.60, toSeats: [1.70, 2.10], inClick: 4.40, filt: 4.50, recClick: 6.20, dlg: [6.30, 6.60], okClick: 8.20, done: 8.35, toastOut: [10.6, 10.9],
+  endCard: [11.6, 12.05], end: 13.1
+};
+
+function build() {
+  const mb = at("manB"), fi = at("fIn"), rb = at("recB"), ok = at("okB"), su = at("sum"), lf = at("left"), dl = at("dlg");
+  const MX = 740;
+  const cur = [
+    [0.00, 860, 600], [0.40, 860, 600], [1.45, mb[0], mb[1] + 3], [1.75, mb[0], mb[1] + 3],
+    [4.25, fi[0], fi[1] + 3], [4.55, fi[0], fi[1] + 3], [6.05, rb[0], rb[1] + 3], [6.35, rb[0], rb[1] + 3],
+    [8.05, ok[0], ok[1] + 3], [8.45, ok[0], ok[1] + 3], [10.4, ok[0] - 200, ok[1] + 160], [11.6, ok[0] - 198, ok[1] + 162]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.10, 600, 250, 1.35], [1.85, 600, 250, 1.35],                  // Manage seats on the plan
+    [2.60, MX, su[1] + 120, 1.18], [4.20, MX, su[1] + 120, 1.18],    // counts match the plan; who has which license; groups
+    [4.80, lf[0], lf[1] + 90, 1.4], [6.20, lf[0], lf[1] + 90, 1.4],  // inactive 60+ days
+    [6.70, dl[0], dl[1], 1.5], [8.20, dl[0], dl[1], 1.5],            // notice, data kept, undo
+    [8.90, MX, 260, 1.2], [10.9, MX, 260, 1.2],                      // reclaimed: toast, 232 of 250, pending until 29 Nov
+    [11.4, 660, 360, 1.05], [11.6, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function seq(a, b, t, t0) { $(a).style.opacity = 1 - span(t, t0, t0 + .15); $(b).style.opacity = span(t, t0 + .18, t0 + .36); }
+
+function render(t) {
+  const s = t >= T.manClick;
+  $("tP").classList.toggle("on", !s); $("tS").classList.toggle("on", s);
+  $("crumb").innerHTML = "/ Billing / <b>" + (s ? "Seats" : "Plan") + "</b>";
+  seq("vPlan", "vSeats", t, T.toSeats[0]);
+
+  // filter: inactive 60+ days
+  const f = t >= T.inClick;
+  $("fAll").classList.toggle("on", !f); $("fIn").classList.toggle("on", f);
+  seq("t0", "t1", t, T.filt);
+  $("more").style.opacity = span(t, T.filt + .18, T.filt + .36);
+  $("bulk").style.opacity = span(t, T.filt + .3, T.filt + .5) * (1 - span(t, T.done, T.done + .2));
+  $("recB").style.background = t >= T.recClick - .05 && t < T.done ? "#333" : "";
+
+  // confirm
+  const d = span(t, T.dlg[0], T.dlg[1], easeOut) * (1 - span(t, T.done, T.done + .2));
+  $("dlg").style.opacity = d; $("dlg").style.transform = `translateY(${(1 - d) * 10}px)`; $("scrim").style.opacity = d;
+  $("okB").style.background = t >= T.okClick - .05 && t < T.done + .1 ? "#333" : "";
+
+  // reclaimed: counts and statuses update
+  const r = t >= T.done + .3;
+  seq("n0", "n1", t, T.done + .3);
+  $("sb").style.width = (98.4 - 5.6 * span(t, T.done + .3, T.done + .7, easeOut)) + "%";
+  $("lh").textContent = r ? "Status" : "Last active";
+  document.querySelectorAll("#t1 .la").forEach((c, i) => { c.textContent = r ? "Until 29 Nov" : ["120 days ago", "92 days ago", "88 days ago", "74 days ago", "61 days ago"][i]; c.classList.toggle("pend", r); });
+  const to = span(t, T.done, T.done + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to; $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  return [["click", T.manClick], ["whoosh", T.toSeats[0]], ["click", T.inClick], ["click", T.recClick], ["pop", T.dlg[0]], ["click", T.okClick], ["chime", T.done]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.manClick, T.inClick, T.recClick, T.okClick], build, render, events, clamp: false,
+  slow: [[2.6, 4.2, 1.7], [4.8, 6.1, 1.5], [6.7, 8.1, 1.7], [8.9, 10.9, 1.6]]
+});
+</script>
+</body>
+</html>

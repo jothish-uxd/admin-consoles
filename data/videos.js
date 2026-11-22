@@ -279,5 +279,57 @@ window.VIDEOS = {
         "Alert history shows its first alert as a sentence, archive-sync failed 3 times to reach the archive between 09:40 and 09:41, with a link to the 3 events, grouped into one incident. In-product alert banners stay until dismissed."
       ]
     }
+  },
+  "billing-licenses": {
+    "Plan overview": {
+      src: "media/billing-licenses/plan-overview.mp4",
+      poster: "media/billing-licenses/plan-overview.jpg",
+      label: "Plan overview, shown in a mock Echo Base console",
+      steps: [
+        "From Home, the admin opens Billing. The plan, Rebel Alliance Business, is shown as labelled details: $18 per seat per month, billed annually, in USD and excluding tax, with the billing period and the Visa card it is paid with.",
+        "Renewal is stated in words and a date: it renews automatically on 1 March 2027 for $54,000 a year, and auto-renew can be turned off or the plan cancelled any time before 1 February 2027.",
+        "Seats are shown by product with numbers on each bar: 246 of 250 Console seats assigned, and 64 of 80 for the AI add-on.",
+        "What's included is listed, with one plain line on what Enterprise adds and a link to compare plans. A contract switcher covers the org's 2 contracts.",
+        "She switches Cost to By department, which splits the yearly cost across Operations, Fleet, Intelligence and Engineering for chargeback. Mon Mothma from Finance has view-only access."
+      ]
+    },
+    "Seat assignment": {
+      src: "media/billing-licenses/seat-assignment.mp4",
+      poster: "media/billing-licenses/seat-assignment.jpg",
+      label: "Seat assignment, shown in a mock Echo Base console",
+      steps: [
+        "From the plan, the admin opens Manage seats. The seat count, 246 of 250, matches the plan, and the page explains that when seats are full, new people join as viewers until more are added.",
+        "A table lists each person, their license, whether a group or an individual assignment gave it to them, and when they were last active. Most licenses follow groups such as Rogue Squadron and Fleet, and licenses are reclaimed automatically when someone leaves.",
+        "She filters to people inactive for 60 days or more: 14 people.",
+        "She chooses Reclaim 14 licenses. The confirmation says each person is emailed today and keeps access until 29 November, their files, settings and history are kept, and the change can be undone for 30 days.",
+        "She reclaims them. A message, also announced to screen readers, confirms 14 licenses reclaimed with an Undo link.",
+        "The count drops to 232 of 250, and each person's status shows the date their access ends."
+      ]
+    },
+    "Add seats": {
+      src: "media/billing-licenses/add-seats.mp4",
+      poster: "media/billing-licenses/add-seats.jpg",
+      label: "Add seats, shown in a mock Echo Base console",
+      steps: [
+        "A Rogue One pilot needs 38 seats, and 18 are available. The admin chooses Add seats.",
+        "She types 20 in the labelled Seats to add field. Next to it, the price updates as she types, and is read out: $216 a year per seat, $1,171.73 today for the 99 days left in this term, then $58,320 a year from 1 March 2027.",
+        "Nothing extra is pre-selected: the AI add-on is shown as not added. Purchases over $5,000 need finance approval, new hires can go 5% over until the next true-up, and anyone who can't pay by card can request a quote or pay by purchase order.",
+        "She chooses Review. The review repeats the seats, the amount charged today to the Visa card, the yearly total after renewal, and says nothing is charged until she buys.",
+        "She buys 20 seats for $1,171.73.",
+        "A message confirms the receipt went to the billing contacts, and the seat count changes straight away to 232 of 270, with 38 available for the pilot."
+      ]
+    },
+    "Invoices & payment": {
+      src: "media/billing-licenses/invoices-payment.mp4",
+      poster: "media/billing-licenses/invoices-payment.jpg",
+      label: "Invoices and payment, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens the Invoices tab. A banner warns, well before renewal, that the Visa card ending 4417 expires on 31 December, and that if a payment fails, access continues for 14 days while billing retries and emails the billing contacts.",
+        "Invoices are a table of date, invoice, amount and status, with status written out as Paid or Refunded. Each download link names its invoice, such as Download invoice for 22 Nov 2026, the seats she just bought.",
+        "Billing details hold the billing entity, one of two, the address, the tax ID, a PO number added to every invoice and the billing contacts. Invoices are also emailed and synced to the finance system, with full history since 2024 in two currencies.",
+        "She chooses Update card and enters a new card. Only the last 4 digits are shown.",
+        "She saves it. The warning goes away, the payment method shows Visa ending 0921, and a message confirms the billing contacts were notified and the change was logged."
+      ]
+    }
   }
 };
