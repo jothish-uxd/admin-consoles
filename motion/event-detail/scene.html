@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Event detail · motion scene</title>
+<!--
+  Source for media/audit-logs/event-detail.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: the audit log filtered to archive-sync (where the Audit log table clip ends) → a failed event.
+
+  Follows the Event detail card (data/guidance-governance.js):
+  - failed event: summary, why it failed, context (IP, location, user agent, session, request ID) (think 2, do 2)
+  - related events by actor, session and target (do 3); request ID seen in another service (scale 3)
+  - the related settings change: Changes table Field / Before / After / Change, text labels,
+    secret rotated and not shown (think 1, do 1, avoid 1-2, WCAG 1.3.1, 1.4.1)
+  - Summary / Raw JSON switch, schema version, secret redacted (do 4, avoid 3, scale 2)
+  - headings: Summary, Changes, Context, Related events (WCAG 2.4.6)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 0; }
+.view { position: absolute; inset: 20px 32px; }
+h1 { font-size: 20px; }
+/* list */
+.flt { margin-top: 14px; display: flex; gap: 8px; }
+.fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12.5px; color: var(--ink); background: var(--bg); white-space: nowrap; }
+.fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
+.fb .x { color: var(--faint); }
+.meta { margin-top: 12px; font-size: 12.5px; color: var(--soft); }
+.meta b { color: var(--ink); font-weight: 500; }
+table.log { margin-top: 10px; font-size: 12.5px; table-layout: fixed; }
+.log th, .log td { padding-left: 10px; padding-right: 10px; }
+.log td { height: 50px; white-space: normal; line-height: 1.3; }
+.log td:first-child { font-family: "Geist Mono", monospace; font-size: 12px; font-weight: 400; color: var(--ink); }
+.ac { color: var(--ink); font-weight: 500; text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+.ty { display: block; font-size: 11px; color: var(--faint); }
+.ev { color: var(--ink); display: block; }
+.code { display: block; font-family: "Geist Mono", monospace; font-size: 10.5px; color: var(--faint); }
+.res { display: inline-flex; align-items: center; gap: 5px; color: var(--soft); white-space: nowrap; }
+.res svg { width: 12px; height: 12px; }
+.res.bad { color: var(--ink); font-weight: 600; }
+.res.bad svg { color: #b91c1c; }
+/* detail */
+.back { font-size: 12.5px; color: var(--soft); }
+.dh { margin-top: 8px; display: flex; align-items: flex-start; gap: 16px; }
+.dh .tx { flex: 1; }
+.sub { margin-top: 4px; font-size: 12.5px; color: var(--soft); display: flex; gap: 8px; align-items: center; }
+.seg { display: flex; border: 1px solid var(--rule-strong); border-radius: 8px; padding: 2px; font-size: 12.5px; flex: none; }
+.seg span { padding: 5px 10px; border-radius: 6px; color: var(--soft); }
+.seg span.on { background: var(--ink); color: #fff; }
+.dcols { margin-top: 16px; display: grid; grid-template-columns: 1fr 330px; gap: 22px; }
+.sec h2 { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--ink); }
+.sec + .sec { margin-top: 18px; }
+.why { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; font-size: 12.5px; color: var(--soft); line-height: 1.5; }
+.why b { color: var(--ink); font-weight: 500; }
+dl { margin: 0; display: grid; grid-template-columns: 96px 1fr; row-gap: 7px; font-size: 12.5px; }
+dt { color: var(--faint); } dd { margin: 0; color: var(--ink); }
+dd .m { font-family: "Geist Mono", monospace; font-size: 11.5px; }
+dd .n { color: var(--soft); }
+.rel { border: 1px solid var(--rule); border-radius: 12px; padding: 12px 14px; }
+.rg { font-size: 11px; color: var(--faint); text-transform: uppercase; letter-spacing: .05em; margin: 10px 0 4px; }
+.rg:first-of-type { margin-top: 0; }
+.ri { display: flex; gap: 8px; align-items: baseline; font-size: 12.5px; color: var(--ink); padding: 5px 6px; margin: 0 -6px; border-radius: 6px; line-height: 1.4; }
+.ri .t { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); flex: none; width: 66px; }
+.ri u { text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+table.chg { font-size: 12.5px; }
+.chg th, .chg td { padding-left: 10px; padding-right: 10px; }
+.chg td { height: 42px; color: var(--ink); white-space: nowrap; }
+.chg td:first-child { font-weight: 500; }
+.chg td.b { color: var(--soft); text-decoration: line-through; text-decoration-color: var(--faint); }
+.mk { font-family: "Geist Mono", monospace; font-size: 10.5px; border: 1px solid var(--ink); border-radius: 999px; padding: 1px 7px; }
+.json { background: #171717; color: #e5e5e5; border-radius: 10px; padding: 12px 14px; font: 11.5px/1.6 "Geist Mono", monospace; white-space: pre; }
+.json .k { color: #a3a3a3; }
+.lay { position: relative; }
+.lay > div { transition: none; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="no" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.6 5.6l4.8 4.8M10.4 5.6l-4.8 4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Compliance / Audit log"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="compliance" data-role="admin"></div>
+    <div class="main">
+      <!-- the filtered log -->
+      <div class="view" id="vList">
+        <h1>Audit log</h1>
+        <div class="flt"><span class="fb on">Last 24 hours</span><span class="fb on">Actor: archive-sync <span class="x">✕</span></span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span></div>
+        <div class="meta">Times in <b>Pacific Time (PT)</b> · <b>4 events</b> by archive-sync · 3 failed</div>
+        <table class="log"><colgroup><col style="width:92px"><col style="width:140px"><col><col style="width:176px"><col style="width:132px"></colgroup>
+          <thead><tr><th>Time (PT)</th><th>Actor</th><th>Event</th><th>Target</th><th>Result</th></tr></thead><tbody>
+          <tr id="row1"><td>09:40:55</td><td><span class="ac">archive-sync</span><span class="ty">API key</span></td><td><span class="ev" id="ev1">archive-sync tried to download Death Star plans.pdf</span><span class="code">file.download</span></td><td>Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed · no access</span></td></tr>
+          <tr><td>09:40:51</td><td><span class="ac">archive-sync</span><span class="ty">API key</span></td><td><span class="ev">archive-sync tried to download Death Star plans.pdf</span><span class="code">file.download</span></td><td>Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed · no access</span></td></tr>
+          <tr><td>09:40:48</td><td><span class="ac">archive-sync</span><span class="ty">API key</span></td><td><span class="ev">archive-sync tried to open Death Star plans · archive</span><span class="code">folder.open</span></td><td>Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed · no access</span></td></tr>
+          <tr><td>08:58:30</td><td><span class="ac">archive-sync</span><span class="ty">API key</span></td><td><span class="ev">archive-sync signed in from a new IP address</span><span class="code">auth.token.use</span></td><td>10.4.22.8</td><td><span class="res"><svg><use href="#ok"/></svg>Success</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <!-- event 1: the failed download -->
+      <div class="view" id="vA" style="opacity:0">
+        <div class="back">← Audit log · Actor: archive-sync</div>
+        <div class="dh"><div class="tx"><h1>archive-sync tried to download Death Star plans.pdf</h1>
+          <div class="sub"><span class="res bad"><svg><use href="#no"/></svg>Failed · no access</span>· Sun, Nov 22, 2026 · 09:40:55.312 PT · <span class="code" style="display:inline">file.download</span></div></div>
+          <div class="seg"><span class="on">Summary</span><span>Raw JSON</span></div></div>
+        <div class="dcols">
+          <div>
+            <div class="sec"><h2>Changes</h2><div class="why">No changes: this was a read attempt. <b>Blocked because the key's scopes don't include Death Star plans · archive.</b></div></div>
+            <div class="sec"><h2>Context</h2><dl>
+              <dt>IP address</dt><dd><span class="m">10.4.22.8</span></dd>
+              <dt>Location</dt><dd>Outer Rim relay <span class="n">· new for this key</span></dd>
+              <dt>User agent</dt><dd><span class="m">archive-sync/2.3 python-requests</span></dd>
+              <dt>Session</dt><dd><span class="m">ses_41c9e2</span> <span class="n">· started 08:58:30</span></dd>
+              <dt>Request ID</dt><dd><span class="m">req_7f3a90b1</span> <span class="n">· also in Storage service</span></dd></dl></div>
+          </div>
+          <div class="sec"><h2>Related events</h2><div class="rel">
+            <div class="rg">Same actor</div>
+            <div class="ri"><span class="t">09:40:48</span>3 failed attempts on this archive</div>
+            <div class="rg">Same session</div>
+            <div class="ri"><span class="t">08:58:30</span>Signed in from a new IP address</div>
+            <div class="rg">Same key, settings</div>
+            <div class="ri" id="relB"><span class="t">Nov 21</span><u>Toryn Farr changed archive-sync's API key settings</u></div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- event 2: the settings change -->
+      <div class="view" id="vB" style="opacity:0">
+        <div class="back">← Event from archive-sync · 09:40:55</div>
+        <div class="dh"><div class="tx"><h1>Toryn Farr changed archive-sync's API key settings</h1>
+          <div class="sub"><span class="res"><svg><use href="#ok"/></svg>Success</span>· Sat, Nov 21, 2026 · 17:20:04.880 PT · <span class="code" style="display:inline">apikey.update</span></div></div>
+          <div class="seg"><span id="sSum" class="on">Summary</span><span id="sJson">Raw JSON</span></div></div>
+        <div class="dcols">
+          <div class="lay" id="lay">
+            <div id="sumB">
+              <div class="sec"><h2>Changes</h2>
+                <table class="chg" id="chg"><thead><tr><th>Field</th><th>Before</th><th>After</th><th>Change</th></tr></thead><tbody>
+                  <tr><td>Allowed IPs</td><td class="b">Echo Base network</td><td>Any IP address</td><td><span class="mk">Changed</span></td></tr>
+                  <tr><td>Expires</td><td class="b">Dec 31, 2026</td><td>Never</td><td><span class="mk">Changed</span></td></tr>
+                  <tr><td>Secret</td><td colspan="2" style="color:var(--soft)">Rotated · value not shown</td><td><span class="mk">Rotated</span></td></tr>
+                </tbody></table></div>
+              <div class="sec"><h2>Context</h2><dl>
+                <dt>IP address</dt><dd><span class="m">10.0.1.14</span> <span class="n">· Echo Base</span></dd>
+                <dt>User agent</dt><dd>Console · Chrome 131</dd>
+                <dt>Request ID</dt><dd><span class="m">req_2b81c4de</span></dd></dl></div>
+            </div>
+            <div id="jsonB" style="position:absolute;inset:0;opacity:0"><div class="sec"><h2>Raw event</h2><div class="json">{
+  <span class="k">"schema"</span>: "audit.v3",
+  <span class="k">"action"</span>: "apikey.update",
+  <span class="k">"actor"</span>: { "type": "admin", "name": "Toryn Farr" },
+  <span class="k">"target"</span>: { "type": "api_key", "name": "archive-sync" },
+  <span class="k">"changes"</span>: {
+    "allowed_ips": ["echo-base/16", "*"],
+    "expires": ["2026-12-31", null],
+    "secret": "[redacted]"
+  },
+  <span class="k">"request_id"</span>: "req_2b81c4de"
+}</div></div></div>
+          </div>
+          <div class="sec"><h2>Related events</h2><div class="rel">
+            <div class="rg">Same key, after this</div>
+            <div class="ri"><span class="t">08:58:30</span>archive-sync signed in from a new IP address</div>
+            <div class="ri"><span class="t">09:40:48</span>3 failed attempts on Death Star plans · archive</div>
+            <div class="rg">Same actor</div>
+            <div class="ri"><span class="t">17:18:40</span>Toryn Farr opened archive-sync's settings</div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  rowClick: 1.60, toA: [1.70, 2.10], relClick: 6.00, toB: [6.10, 6.50], jsonClick: 9.40, toJson: [9.50, 9.85],
+  endCard: [12.1, 12.55], end: 13.6
+};
+
+function build() {
+  const r1 = at("ev1", -60, 0), rb = at("relB", -40, 0), sj = at("sJson"), MX = 740;
+  // views are laid out on top of each other, so measure each
+  const lay = at("lay"), chg = at("chg");
+  const cur = [
+    [0.00, 860, 640], [0.40, 860, 640], [1.45, r1[0], r1[1] + 3], [1.75, r1[0], r1[1] + 3],
+    [5.80, rb[0], rb[1] + 3], [6.15, rb[0], rb[1] + 3],
+    [9.25, sj[0], sj[1] + 3], [9.55, sj[0], sj[1] + 3], [11.3, sj[0] - 60, sj[1] + 180], [12.1, sj[0] - 58, sj[1] + 182]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.20, MX, 250, 1.25], [1.90, MX, 250, 1.25],                     // the filtered log, the failed row
+    [2.60, MX, 300, 1.12], [3.40, MX, 300, 1.12],                     // the whole event: summary, why, context, related
+    [4.10, 560, lay[1] + 40, 1.45], [5.00, 560, lay[1] + 40, 1.45],   // why it failed, context
+    [5.60, 1040, lay[1] + 30, 1.45], [6.20, 1040, lay[1] + 30, 1.45], // related events
+    [6.90, MX, chg[1] + 20, 1.22], [8.80, MX, chg[1] + 20, 1.22],     // the change: before, after, text labels
+    [9.30, MX, 260, 1.2], [11.0, MX, 260, 1.2],                       // Raw JSON, schema, redacted
+    [11.8, 660, 360, 1.05], [12.1, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function seq(a, b, t, t0) { $(a).style.opacity = 1 - span(t, t0, t0 + .15); $(b).style.opacity = span(t, t0 + .18, t0 + .36); }
+
+function render(t) {
+  // list → event A → event B
+  if (t < T.toB[0]) seq("vList", "vA", t, T.toA[0]); else { $("vList").style.opacity = 0; seq("vA", "vB", t, T.toB[0]); }
+  $("row1").classList.toggle("hl", t >= T.rowClick - .05 && t < T.toA[0] + .1);
+  $("relB").style.background = t >= T.relClick - .05 && t < T.toB[0] + .1 ? "var(--hover)" : "";
+  $("crumb").innerHTML = t >= T.rowClick ? "/ Compliance / Audit log / <b>Event</b>" : "/ Compliance / <b>Audit log</b>";
+
+  // Summary → Raw JSON
+  const js = t >= T.jsonClick;
+  $("sSum").classList.toggle("on", !js); $("sJson").classList.toggle("on", js);
+  seq("sumB", "jsonB", t, T.toJson[0]);
+}
+
+function events() {
+  return [["click", T.rowClick], ["whoosh", T.toA[0]], ["click", T.relClick], ["whoosh", T.toB[0]], ["click", T.jsonClick], ["pop", T.toJson[0]]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.rowClick, T.relClick, T.jsonClick], build, render, events, clamp: false,
+  // linger on: the event, why and context, the before/after changes, the raw JSON
+  slow: [[2.5, 3.4, 1.4], [4.0, 5.0, 1.6], [6.8, 8.8, 1.9], [9.9, 11.0, 1.6]]
+});
+</script>
+</body>
+</html>

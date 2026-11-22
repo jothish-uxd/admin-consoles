@@ -226,6 +226,19 @@ window.VIDEOS = {
         "She hovers a time to see the exact moment, to the millisecond, with UTC beside it.",
         "She clicks archive-sync to filter by that actor. A filter chip appears, and the log narrows to its 4 events: a sign-in from a new IP address and the 3 failed attempts."
       ]
+    },
+    "Event detail": {
+      src: "media/audit-logs/event-detail.mp4",
+      poster: "media/audit-logs/event-detail.jpg",
+      label: "Event detail, shown in a mock Echo Base console",
+      steps: [
+        "From the audit log filtered to archive-sync, the admin opens the failed download at 09:40:55.",
+        "The event opens on a summary, with headings for Changes, Context and Related events. There were no changes, as it was a read attempt, and it says why it was blocked: the key's scopes don't include the archive.",
+        "Context lists the IP address, a location new for this key, the user agent, the session and a request ID that also appears in the Storage service.",
+        "Related events are grouped by the same actor, the same session and the same key. One shows that Toryn Farr changed the key's settings yesterday, and she opens it.",
+        "The change shows a table of Field, Before and After, each marked with a text label: allowed IPs went from the Echo Base network to any IP address, the key no longer expires, and the secret was rotated without its value being shown.",
+        "She switches from Summary to Raw JSON, which shows the event's schema version, audit.v3, with the secret redacted. Large bulk changes would appear as one event that links to the full list."
+      ]
     }
   }
 };
