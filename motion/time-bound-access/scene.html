@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Time-bound access · motion scene</title>
+<!--
+  Source for media/access-requests/time-bound-access.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.lede { margin-bottom: 14px; }
+.banner { display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 14px; border: 1px solid var(--ink); border-radius: 10px; font-size: 13px; margin-bottom: 14px; background: var(--bg); height: 52px; overflow: hidden; }
+.banner .ic { width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; flex: none; }
+.banner .ic svg { width: 13px; height: 13px; }
+.banner b { font-weight: 600; }
+.banner .m { color: var(--soft); }
+.banner .sp { margin-left: auto; }
+.banner .btn { height: 30px; }
+.slot { height: 0; overflow: hidden; }
+td { height: 56px; }
+td.lv { color: var(--ink); }
+td.lv .jit { display: block; font-size: 11px; color: var(--faint); font-family: "Geist Mono", monospace; }
+.ends { line-height: 1.35; position: relative; height: 36px; width: 230px; }
+.ends > div { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.ends .a { color: var(--ink); font-weight: 500; }
+.ends .b { font-size: 12px; color: var(--soft); }
+.ends .b .t { font-family: "Geist Mono", monospace; font-size: 11.5px; }
+.perm { color: var(--soft); }
+.perm .b { color: var(--faint); }
+.tag { font-family: "Geist Mono", monospace; font-size: 10.5px; border: 1px solid var(--ink); color: var(--ink); border-radius: 999px; padding: 0 6px; margin-left: 6px; font-weight: 400; }
+.tag.solid { background: var(--ink); color: #fff; }
+tr.gone td { color: var(--faint); }
+tr.gone td:first-child { color: var(--faint); text-decoration: line-through; text-decoration-color: var(--rule-strong); }
+td.act { width: 120px; }
+.soon .a { color: var(--ink); }
+.clock { margin-left: 12px; font-family: "Geist Mono", monospace; font-size: 12px; color: var(--soft); border: 1px solid var(--rule); border-radius: 6px; padding: 2px 8px; }
+
+/* extend dialog */
+.scrim { inset: 0; border-radius: 14px; }
+.modal { position: absolute; left: calc(50% - 230px); top: 96px; width: 460px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.16); opacity: 0; }
+.mh { padding: 18px 20px 14px; border-bottom: 1px solid var(--rule); }
+.mh h2 { margin: 0; font-size: 17px; font-weight: 600; }
+.mh .s { margin-top: 3px; font-size: 13px; color: var(--soft); }
+.mb { padding: 16px 20px 4px; }
+.fld { margin-bottom: 14px; }
+.fld .l { font-size: 12px; font-weight: 600; margin-bottom: 7px; display: flex; justify-content: space-between; }
+.fld .l span { font-weight: 400; color: var(--faint); }
+.seg { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; }
+.seg div { height: 34px; display: grid; place-items: center; font-size: 12.5px; color: var(--soft); border-right: 1px solid var(--rule); }
+.seg div:last-child { border-right: 0; }
+.seg div.on { background: var(--ink); color: #fff; font-weight: 500; }
+.newend { position: relative; height: 46px; padding: 8px 12px; border-radius: 8px; background: var(--subtle); font-size: 13px; }
+.newend > div { position: absolute; left: 12px; top: 8px; line-height: 1.4; }
+.newend .a { font-weight: 600; color: var(--ink); }
+.newend .b { font-size: 12px; color: var(--soft); }
+.reason { border: 1px solid var(--rule); border-radius: 8px; padding: 9px 12px; font-size: 13px; color: var(--ink); background: var(--subtle); display: flex; justify-content: space-between; gap: 10px; }
+.reason span { color: var(--faint); font-size: 12px; text-decoration: underline; text-underline-offset: 2px; }
+.route { margin-top: 2px; font-size: 12px; color: var(--soft); display: flex; gap: 8px; align-items: center; }
+.route .av { width: 22px; height: 22px; font-size: 9px; }
+.mf { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 20px 18px; }
+.spin { width: 13px; height: 13px; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; }
+
+.toast { position: absolute; left: 50%; top: 66px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; flex: none; }
+.toast .msgs { position: relative; width: 390px; height: 18px; }
+.toast .msgs span { position: absolute; left: 0; top: 0; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.8V8l2.2 1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb">/ <b>My access</b></span>
+      <div class="me"><span class="clock" id="clock">17:30</span>Lavanya Sienna · Jedi in training <span class="av">LS</span></div>
+    </div>
+    <div class="nav">
+      <div>Resources</div><div class="on">My access</div><div>My requests</div>
+      <div class="lbl">Admin</div><div>Access reviews</div><div>Audit log</div>
+    </div>
+    <div class="main">
+      <h1>My access</h1>
+      <p class="lede">Everything you can open, and when it ends. Times are in your time zone, Yavin Standard.</p>
+      <div class="slot" id="slot">
+        <div class="banner" id="banner"><span class="ic"><svg><use href="#clock"/></svg></span>
+          <div><b>Your access to Death Star plans ends in 30 minutes,</b> <span class="m">today at 18:00.</span></div>
+          <span class="sp"></span><span class="btn ghost">Remind me later</span><span class="btn pri" id="extBanner">Extend</span></div>
+      </div>
+      <table>
+        <thead><tr><th>Resource</th><th>Access</th><th>Granted by</th><th>Ends</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>X-wing flight logs</td><td class="lv">Editor</td><td>Red Squadron</td>
+            <td><div class="ends perm"><div><div class="a">No end date</div><div class="b">Internal resource</div></div></div></td><td class="act"></td></tr>
+          <tr id="rowDS"><td>Death Star plans · archive</td><td class="lv">Viewer</td><td>Gen. Dodonna</td>
+            <td><div class="ends" id="endsDS"><div id="ds0" class="soon"><div class="a">Today, 18:00</div><div class="b">in 30 min</div></div>
+              <div id="ds1" style="opacity:0"><div class="a">Tomorrow, 18:00 <span class="tag">extended</span></div><div class="b">in 1 day</div></div></div></td>
+            <td class="act"><span class="btn" id="extRow">Extend</span></td></tr>
+          <tr id="rowH3"><td>Hangar 3 schedules</td><td class="lv">Editor<span class="jit">just-in-time</span></td><td>Auto-approved</td>
+            <td><div class="ends"><div id="h30"><div class="a">Today, 17:31</div><div class="b">in <span class="t" id="cd">1:00</span></div></div>
+              <div id="h31" style="opacity:0"><div class="a">Ended 17:31 <span class="tag solid">revoked</span></div><div class="b">Removed automatically · logged</div></div></div></td>
+            <td class="act"></td></tr>
+          <tr><td>Shield generator telemetry</td><td class="lv">Viewer</td><td>Base Engineering</td>
+            <td><div class="ends"><div><div class="a">Fri Nov 27, 09:00</div><div class="b">in 6 days</div></div></div></td><td class="act"><span class="btn">Extend</span></td></tr>
+          <tr><td>Yavin IV supply manifests</td><td class="lv">Viewer</td><td>Logistics</td>
+            <td><div class="ends"><div><div class="a">Mon Dec 1, 12:00</div><div class="b">in 10 days</div></div></div></td><td class="act"><span class="btn">Extend</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="scrim" id="scrim"></div>
+    <div class="modal" id="modal">
+      <div class="mh"><h2>Extend access</h2><div class="s">Death Star plans · archive · Viewer</div></div>
+      <div class="mb">
+        <div class="fld"><div class="l">Extend by</div>
+          <div class="seg"><div id="o1h">1 hour</div><div id="o1d">1 day</div><div>1 week</div><div>Custom date</div></div></div>
+        <div class="fld"><div class="l">New end <span>your time</span></div>
+          <div class="newend"><div id="ne0"><div class="a">Pick how long</div><div class="b">Currently ends today at 18:00</div></div>
+            <div id="ne1" style="opacity:0"><div class="a">Tomorrow, Sun Nov 22, 18:00</div><div class="b">in 1 day · 24 hours more</div></div></div></div>
+        <div class="fld" id="fReason"><div class="l">Reason <span>from your original request</span></div>
+          <div class="reason">Exhaust port analysis for the Yavin briefing. <span>Edit</span></div></div>
+        <div class="route"><span class="av">JD</span>Goes to Gen. Jan Dodonna, who approved the original request</div>
+      </div>
+      <div class="mf"><span class="btn ghost">Cancel</span><span class="btn pri" id="reqBtn" style="width:150px"><span id="reqLbl">Request extension</span><span class="spin" id="spin" style="display:none"></span></span></div>
+    </div>
+    <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#tick"/></svg></i>
+      <div class="msgs"><span id="m1">Extension approved by Gen. Dodonna</span><span id="m2" style="opacity:0">Hangar 3 schedules access ended · logged</span></div></div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  banner: [1.9, 2.3], extClick: 3.20, modalIn: [3.30, 3.65],
+  dayClick: 4.50, reqClick: 6.60, modalOut: [6.85, 7.15], approved: 7.35,
+  countdownEnd: 9.80, revoke: [9.85, 10.15], toast2: 10.0, toastOut: [11.3, 11.6],
+  endCard: [12.2, 12.65], end: 13.7
+};
+
+function build() {
+  // the banner slot is collapsed at build time; open it to measure, then close
+  $("slot").style.height = "66px";
+  const eb = at("extBanner"), od = at("o1d"), rq = at("reqBtn"), ds = at("endsDS"), h3 = at("h30"), ban = at("banner"), m = at("modal"), rs = at("fReason");
+  const cur = [
+    [0.00, 820, 650], [0.40, 820, 650], [2.2, 900, 560], [3.05, eb[0] + 4, eb[1] + 3], [3.40, eb[0] + 4, eb[1] + 3],
+    [4.40, od[0] + 4, od[1] + 3], [4.70, od[0] + 4, od[1] + 3], [5.6, rq[0] - 80, rq[1] - 40], [6.50, rq[0], rq[1] + 3], [6.95, rq[0], rq[1] + 3],
+    [8.2, 1000, 600], [11.0, 1010, 610], [12.2, 1012, 612]
+  ];
+  // camera: focus x, focus y, scale
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00], [1.40, ds[0] - 60, ds[1] + 40, 1.42], [1.95, ds[0] - 60, ds[1] + 40, 1.42],
+    [2.55, ban[0] + 120, ban[1] + 40, 1.55], [3.15, ban[0] + 160, ban[1] + 40, 1.55],
+    [3.85, m[0], m[1] - 70, 1.62], [5.20, m[0], m[1] - 60, 1.62], [5.75, m[0], rs[1] + 30, 1.66], [6.70, m[0], rs[1] + 40, 1.66],
+    [7.45, ds[0] - 40, ds[1] - 70, 1.5], [8.20, ds[0] - 40, ds[1] - 70, 1.5], [8.85, h3[0] - 40, h3[1] - 110, 1.46], [10.6, h3[0] - 40, h3[1] - 110, 1.46],
+    [11.5, 660, 370, 1.06], [12.2, 656, 370, 1.05]
+  ];
+  $("slot").style.height = "";
+  return { cam, cur };
+}
+
+function swap(ids, k) { ids.forEach((id, i) => { $(id).style.opacity = Math.max(0, 1 - Math.abs(k - i)); }); }
+
+function render(t) {
+  // warning banner opens in place, closes once the extension is approved
+  const bo = span(t, ...T.banner, easeOut) * (1 - span(t, T.approved - .05, T.approved + .3));
+  $("slot").style.height = 66 * bo + "px";
+  $("banner").style.opacity = Math.min(1, bo * 1.4);
+  $("extBanner").style.background = t >= T.extClick - .05 && t < T.modalIn[1] ? "#333" : "";
+
+  // dialog
+  const mo = span(t, ...T.modalIn, easeOut) * (1 - span(t, ...T.modalOut));
+  $("modal").style.opacity = mo;
+  $("modal").style.transform = `translateY(${(1 - mo) * 10}px) scale(${.97 + .03 * mo})`;
+  $("scrim").style.opacity = .16 * mo;
+  $("o1d").classList.toggle("on", t >= T.dayClick);
+  swap(["ne0", "ne1"], span(t, T.dayClick, T.dayClick + .2));
+  const busy = t >= T.reqClick && t < T.modalOut[0];
+  $("reqLbl").style.display = busy ? "none" : "";
+  $("spin").style.display = busy ? "" : "none";
+  $("spin").style.transform = `rotate(${t * 900}deg)`;
+
+  // extended row
+  swap(["ds0", "ds1"], span(t, T.approved, T.approved + .3));
+  $("rowDS").classList.toggle("hl", t > T.approved - .1 && t < T.approved + 1.4);
+  $("extRow").style.opacity = 1 - span(t, T.approved, T.approved + .3);
+
+  // just-in-time grant counts down from 1:00, then is revoked
+  const left = Math.max(0, Math.ceil(60 * (1 - t / T.countdownEnd)));
+  $("cd").textContent = `0:${String(left).padStart(2, "0")}`.replace("0:60", "1:00");
+  $("clock").textContent = t >= T.countdownEnd ? "17:31" : "17:30";
+  swap(["h30", "h31"], span(t, ...T.revoke));
+  $("rowH3").classList.toggle("gone", t >= T.revoke[0] + .1);
+  $("rowH3").classList.toggle("hl", t > 8.6 && t < T.revoke[0]);
+
+  // toasts
+  const to = span(t, T.approved, T.approved + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to;
+  $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+  $("m1").style.opacity = 1 - span(t, T.toast2 - .1, T.toast2 + .05);
+  $("m2").style.opacity = span(t, T.toast2 + .1, T.toast2 + .3);
+}
+
+function events() {
+  return [
+    ["pop", T.banner[0]], ["click", T.extClick], ["whoosh", T.modalIn[0]], ["click", T.dayClick],
+    ["click", T.reqClick], ["whoosh", T.modalOut[0]], ["chime", T.approved], ["pop", T.revoke[0]]
+  ];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.extClick, T.dayClick, T.reqClick], build, render, events,
+  // linger on the end times, the warning, the new end time, the kept reason, the extended row and the revocation
+  slow: [[0.9, 1.95, 1.5], [2.3, 3.0, 1.5], [4.6, 5.2, 1.6], [5.6, 6.3, 1.5], [7.35, 8.1, 1.6], [9.5, 10.6, 1.8]]
+});
+</script>
+</body>
+</html>

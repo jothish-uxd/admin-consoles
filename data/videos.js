@@ -41,6 +41,19 @@ window.VIDEOS = {
         "She narrows the request: coolant sensors only, for 4 hours instead of 1 day. The summary marks it as changed and says Bodhi will see what she changed.",
         "A comment is required for high-risk approvals, so Approve stays disabled until she writes one. She approves with changes, and the decision record is saved to the audit log."
       ]
+    },
+    "Time-bound access": {
+      src: "media/access-requests/time-bound-access.mp4",
+      poster: "media/access-requests/time-bound-access.jpg",
+      label: "Time-bound access, shown in a mock Echo Base console",
+      steps: [
+        "The requester opens My access. Every grant shows when it ends in her own time zone, as a time and as a relative time, such as Today, 18:00 · in 30 min. Only an internal resource has no end date.",
+        "A banner warns her that her access to Death Star plans ends in 30 minutes, with Extend right there.",
+        "Extend opens one short request. She picks 1 day from the presets (1 hour, 1 day, 1 week or a custom date), and the new end is spelled out: tomorrow, Sun Nov 22, 18:00, in 1 day.",
+        "Her original reason is already filled in, and the request goes to the person who approved it the first time.",
+        "Gen. Dodonna approves. The row now reads Tomorrow, 18:00 · in 1 day, marked extended, and the warning goes away.",
+        "Her one-hour just-in-time Editor grant on Hangar 3 schedules counts down to zero, is revoked automatically and is logged."
+      ]
     }
   }
 };
