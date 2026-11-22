@@ -93,7 +93,11 @@ Open a scene with `?play` to watch it live in a browser while editing.
 
 Each clip is a guide, so it must agree with its pattern card: before building, map every point on the card (How to think about it, Recommended, Avoid, Accessibility) to a moment in the clip, show nothing the card says to avoid, and list the mapping in a comment at the top of the scene. Points a video can't show, such as screen reader labels, go in the steps text.
 
-Clips whose steps list has 5 or more steps run 15 seconds: set `duration: 15` in the scene's `Motion.scene({ ... })` call, and the clip is stretched to fit, with the end card kept at its own length. Time isn't stretched evenly: every click is slowed automatically so viewers see the cursor arrive, the press and what changed, and `slow: [[from, to, weight], ...]` lingers on other key moments (a tooltip, rows leaving a list). Ordinary moves get whatever time is left.
+Framing: whatever the viewer should look at sits in the middle of the frame and is never cut off. Prefer one steady framing per view (zoomed so the whole card or region fits) over panning across it, and keep camera moves few and slow.
+
+Length: clips with fewer than 5 steps run 10 seconds (`duration: 10`); clips with 5 or more run 15 (`duration: 15`).
+
+Set the length with `duration` in the scene's `Motion.scene({ ... })` call, and the clip is stretched to fit, with the end card kept at its own length. Time isn't stretched evenly: every click is slowed automatically so viewers see the cursor arrive, the press and what changed, and `slow: [[from, to, weight], ...]` lingers on other key moments (a tooltip, rows leaving a list). Ordinary moves get whatever time is left.
 
 ## Known gaps
 

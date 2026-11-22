@@ -8,7 +8,9 @@
      events() returns sound cues [[name, t], ...] (the end card is silent)
      duration (optional) total length in seconds. The action before the end card
               is stretched to fit; the end card keeps its own length.
-              House rule: clips whose steps list has 5 or more steps run 15 s.
+              House rules: fewer than 5 steps run 10 s, 5 or more run 15 s.
+              Keep what the viewer should look at centred and whole in frame;
+              one steady framing per view beats panning across it.
      slow     (optional) extra moments to linger on, [[from, to, weight], ...] in
               scene seconds; weight 2 plays that stretch at half speed.
    Every click is slowed automatically (CLICK_SLOW), so the viewer sees the cursor
