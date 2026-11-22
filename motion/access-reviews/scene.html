@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Access reviews · motion scene</title>
+<!--
+  Source for media/access-requests/access-reviews.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+
+  Follows the Access reviews card (data/guidance-people.js):
+  - campaign with a deadline, progress and a reminder (think 1, do 4, avoid 3)
+  - assigned to the resource owner (do 1)
+  - risky and unused access grouped first; recently used collapsed (think 2, UD 6, scale 1)
+  - each row: last used, why it's flagged, a suggested decision (do 2, do 3)
+  - no "Approve all"; each flagged row decided (avoid 1)
+  - keyboard: focus ring, K / R / S shortcuts shown as keycaps, legend (WCAG 2.1.1); a real table with headers (WCAG 1.3.1)
+  - removals applied automatically on submit, evidence saved and exportable (do 5, avoid 2, scale 3)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 22px 32px; }
+.bc { font-size: 12px; color: var(--faint); margin-bottom: 6px; }
+h1 { font-size: 21px; }
+.meta { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; font-size: 12.5px; }
+.meta span { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--hover); color: var(--soft); }
+.meta span b { color: var(--ink); font-weight: 600; }
+.meta svg { width: 13px; height: 13px; }
+.meta .due { background: var(--ink); color: #fff; }
+.meta .due b { color: #fff; }
+.prog { margin-top: 14px; display: flex; align-items: center; gap: 12px; font-size: 13px; }
+.bar { flex: 1; max-width: 420px; height: 8px; border-radius: 4px; background: var(--hover); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ink); border-radius: 4px; }
+.prog .n { color: var(--ink); font-weight: 600; font-family: "Geist Mono", monospace; font-size: 12px; position: relative; width: 140px; height: 16px; }
+.prog .n span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.grp { margin-top: 18px; border: 1px solid var(--rule-strong); border-radius: 12px; overflow: hidden; }
+.gh { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--subtle); border-bottom: 1px solid var(--rule); font-size: 13px; }
+.gh b { font-weight: 600; }
+.gh .cnt { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); }
+.gh .sug { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--ink); }
+.keys { margin-left: auto; display: flex; gap: 10px; align-items: center; font-size: 11.5px; color: var(--soft); }
+.kc { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border: 1px solid var(--rule-strong); border-bottom-width: 2px; border-radius: 5px; font-family: "Geist Mono", monospace; font-size: 11px; color: var(--ink); background: var(--bg); margin-right: 3px; }
+table { font-size: 13px; }
+th { padding: 9px 14px; font-size: 11.5px; border-bottom: 1px solid var(--rule); }
+td { padding: 0 14px; height: 58px; }
+tr.focus td { background: var(--subtle); }
+tr.focus td:first-child { box-shadow: inset 3px 0 0 var(--ink); }
+.who { display: flex; gap: 10px; align-items: center; }
+.who .a { color: var(--ink); font-weight: 500; }
+.who .b { font-size: 12px; color: var(--faint); }
+.acc .a { color: var(--ink); }
+.acc .b { font-size: 12px; color: var(--faint); }
+.last { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--ink); }
+.why { font-size: 12.5px; color: var(--soft); white-space: normal; line-height: 1.35; max-width: 210px; }
+.why b { color: var(--ink); font-weight: 500; }
+.dec { position: relative; width: 168px; height: 32px; }
+.dec > div { position: absolute; inset: 0; }
+.seg2 { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; height: 32px; }
+.seg2 div { display: grid; place-items: center; font-size: 12px; color: var(--soft); }
+.seg2 div + div { border-left: 1px solid var(--rule); }
+.seg2 div.on { background: var(--ink); color: #fff; font-weight: 500; }
+.seg2 div.hint { box-shadow: inset 0 0 0 1px var(--ink); color: var(--ink); }
+.seg2 div.on, .seg2 div.on.hint { background: var(--ink); color: #fff; box-shadow: none; }
+.kc.press { background: var(--ink); color: #fff; border-color: var(--ink); transform: translateY(1px); }
+.done { display: flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 500; color: var(--ink); height: 32px; opacity: 0; white-space: nowrap; }
+.done i { width: 16px; height: 16px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; flex: none; }
+.done .m { color: var(--faint); font-weight: 400; }
+.g2 { margin-top: 10px; border: 1px solid var(--rule); border-radius: 12px; padding: 11px 14px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--soft); }
+.g2 b { color: var(--ink); font-weight: 600; }
+.g2 svg { width: 14px; height: 14px; color: var(--faint); }
+.foot { margin-top: 12px; display: flex; align-items: center; gap: 12px; position: relative; height: 40px; }
+.foot .l { font-size: 12.5px; color: var(--soft); position: relative; height: 18px; flex: 1; }
+.foot .l > span { position: absolute; left: 0; top: 0; white-space: nowrap; display: inline-flex; gap: 6px; align-items: center; }
+.foot .l b { color: var(--ink); font-weight: 600; }
+.foot .btn { height: 36px; }
+.foot .r { position: relative; width: 190px; height: 36px; }
+.foot .r > span { position: absolute; right: 0; top: 0; }
+.spin { width: 13px; height: 13px; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; }
+
+/* on-screen keycap, shows which key was pressed */
+.hud { position: absolute; z-index: 30; display: flex; gap: 7px; align-items: center; padding: 3px 9px 3px 3px; font-size: 12px !important; background: var(--ink); color: #fff; border-radius: 10px; font-size: 13px; font-weight: 500; opacity: 0; box-shadow: 0 10px 24px rgba(0,0,0,.18); white-space: nowrap; }
+.hud .cap { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: #fff; color: var(--ink); font-family: "Geist Mono", monospace; font-size: 13px; font-weight: 600; border-bottom: 2px solid #bdbdbd; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="cal" viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="chev" viewBox="0 0 16 16"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb">/ Access reviews / <b>Q4 · Rebel Intelligence archives</b></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav">
+      <div>Resources</div><div>My access</div><div>Approvals</div>
+      <div class="lbl">Admin</div><div class="on">Access reviews</div><div>Audit log</div>
+    </div>
+    <div class="main">
+      <h1 id="h1">Q4 access review · Rebel Intelligence archives</h1>
+      <div class="meta" id="meta">
+        <span class="due"><svg><use href="#cal"/></svg><b>Due Fri Dec 5</b> · 14 days left</span>
+        <span>Assigned to you as <b>resource owner</b></span>
+        <span>Reminder sent Nov 19</span>
+      </div>
+      <div class="prog" id="prog"><div class="bar"><i id="barFill" style="width:73%"></i></div>
+        <span class="n"><span id="p38">38 of 52 reviewed</span><span id="p41" style="opacity:0">41 of 52 reviewed</span></span></div>
+
+      <div class="grp" id="grp">
+        <div class="gh"><b>Start here</b><span class="cnt">3</span><span>Not used in 90+ days, or unusual for the team</span>
+          <span class="keys"><span><span class="kc">↑</span><span class="kc">↓</span>move</span><span><span class="kc" id="kcK">K</span>keep</span><span><span class="kc" id="kcR">R</span>remove</span><span><span class="kc">S</span>skip</span></span></div>
+        <table>
+          <thead><tr><th>Person</th><th>Access</th><th>Last used</th><th>Why it’s flagged</th><th>Decision</th></tr></thead>
+          <tbody>
+            <tr id="row1"><td><div class="who"><span class="av">BD</span><div><div class="a">Biggs Darklighter</div><div class="b">Moved to Blue Squadron</div></div></div></td>
+              <td class="acc"><div class="a">Death Star plans</div><div class="b">Read and download</div></td>
+              <td class="last">142 days ago</td>
+              <td class="why"><b>Suggested: remove.</b> Not used in 90 days</td>
+              <td><div class="dec"><div class="seg2" id="seg1"><div>Keep</div><div id="rm1" class="hint">Remove</div></div>
+                <div class="done" id="dn1"><i><svg width="9" height="9"><use href="#tick"/></svg></i>Removed <span class="m">· applied 17:42</span></div></div></td></tr>
+            <tr id="row2"><td><div class="who"><span class="av">JP</span><div><div class="a">Jek Porkins</div><div class="b">Red Squadron</div></div></div></td>
+              <td class="acc"><div class="a">Hangar 3 schedules</div><div class="b">Add and change files</div></td>
+              <td class="last">210 days ago</td>
+              <td class="why"><b>Suggested: remove.</b> Not used in 90 days</td>
+              <td><div class="dec"><div class="seg2" id="seg2"><div>Keep</div><div id="rm2" class="hint">Remove</div></div>
+                <div class="done" id="dn2"><i><svg width="9" height="9"><use href="#tick"/></svg></i>Removed <span class="m">· applied 17:42</span></div></div></td></tr>
+            <tr id="row3"><td><div class="who"><span class="av">K2</span><div><div class="a">K-2SO</div><div class="b">Rogue One</div></div></div></td>
+              <td class="acc"><div class="a">Holonet relay keys</div><div class="b">Add and change files</div></td>
+              <td class="last">3 days ago</td>
+              <td class="why"><b>Unusual:</b> 1 of 8 on Rogue One has this</td>
+              <td><div class="dec"><div class="seg2" id="seg3"><div id="kp3">Keep</div><div>Remove</div></div>
+                <div class="done" id="dn3"><i><svg width="9" height="9"><use href="#tick"/></svg></i>Kept <span class="m">· until next review</span></div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="g2"><svg><use href="#chev"/></svg><b>Used in the last 30 days</b> · 11 people · suggested: keep <span style="margin-left:auto;color:var(--faint)">Open to review</span></div>
+      <div class="foot">
+        <div class="l"><span id="f0"><b id="fN">0 of 3</b> decided in Start here</span>
+          <span id="f1" style="opacity:0"><svg width="14" height="14" style="color:var(--ink)"><use href="#tick"/></svg><b>Applied:</b> 2 removed, 1 kept · saved to audit evidence</span></div>
+        <div class="r"><span id="subW"><span class="btn pri" id="subBtn" style="width:150px"><span id="subLbl">Submit 3 decisions</span><span class="spin" id="spin" style="display:none"></span></span></span>
+          <span id="expW" style="opacity:0"><span class="btn">Export evidence</span></span></div>
+      </div>
+    </div>
+    <div class="hud" id="hud"><span class="cap" id="cap">R</span><span id="hudT">Remove</span></div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  focusIn: 3.15, k1: 3.80, k2: 4.60, k3: 5.55,
+  subClick: 6.90, apply: [7.0, 7.7], applied: 7.75, prog: 7.95, evidence: 8.25,
+  endCard: [11.2, 11.65], end: 12.7
+};
+const KEYS = [[T.k1, "R", "Remove", "row1"], [T.k2, "R", "Remove", "row2"], [T.k3, "K", "Keep", "row3"]];
+
+function build() {
+  const h1 = $("h1"), hx = 40 + 200 + 32 + 330, hy = at("meta")[1] + 4, g = at("grp"), sb = at("subBtn"), foot = at("subBtn", -330, -40);
+  const cur = [[0.00, 860, 650], [0.40, 860, 650], [3.0, 1060, 640], [6.1, 1080, 650], [6.8, sb[0], sb[1] + 3], [7.3, sb[0], sb[1] + 3],
+               [9.6, sb[0] + 40, sb[1] + 40], [11.2, sb[0] + 44, sb[1] + 42]];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.30, hx, hy, 1.62], [2.15, hx, hy, 1.62],                                // title, deadline, owner, reminder, progress
+    [2.95, g[0], g[1] + 10, 1.30], [6.30, g[0], g[1] + 10, 1.30],                // the whole "Start here" group, keys legend included
+    [6.90, g[0], g[1] + 90, 1.25], [9.40, g[0], g[1] + 90, 1.25],                // group plus footer: submit and what was applied
+    [10.3, 660, 360, 1.05], [11.2, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  // keyboard focus moves down the rows
+  const row = t < T.focusIn || t >= T.subClick ? null : t < T.k1 + .3 ? "row1" : t < T.k2 + .3 ? "row2" : "row3";
+  ["row1", "row2", "row3"].forEach(r => $(r).classList.toggle("focus", r === row));
+
+  // decisions
+  $("rm1").classList.toggle("on", t >= T.k1); $("rm2").classList.toggle("on", t >= T.k2); $("kp3").classList.toggle("on", t >= T.k3);
+  $("fN").textContent = `${(t >= T.k1) + (t >= T.k2) + (t >= T.k3)} of 3`;
+
+  // keycap HUD next to the focused row
+  const hud = $("hud"); let shown = 0;
+  for (const [k, cap, label, r] of KEYS) {
+    if (t >= k - .05 && t < k + .7) {
+      // under the shortcut legend, over the column headers, so it never covers a row
+      const main = $(r).closest(".main"), grp = $("grp");
+      hud.style.left = (main.offsetLeft + grp.offsetLeft + grp.offsetWidth - 205) + "px";
+      hud.style.top = (main.offsetTop + grp.offsetTop + 46) + "px";
+      $("cap").textContent = cap; $("hudT").textContent = label;
+      shown = span(t, k - .05, k + .08, easeOut) * (1 - span(t, k + .5, k + .7));
+      $("cap").style.transform = `translateY(${t < k + .12 ? 2 : 0}px)`;
+    }
+  }
+  hud.style.opacity = shown;
+  $("kcR").classList.toggle("press", [T.k1, T.k2].some(k => t >= k - .05 && t < k + .35));
+  $("kcK").classList.toggle("press", t >= T.k3 - .05 && t < T.k3 + .35);
+  hud.style.transform = `translateY(${(1 - shown) * 4}px)`;
+
+  // submit, apply automatically
+  const busy = t >= T.subClick && t < T.applied;
+  $("subLbl").style.display = busy ? "none" : "";
+  $("spin").style.display = busy ? "" : "none";
+  $("spin").style.transform = `rotate(${t * 900}deg)`;
+  [1, 2, 3].forEach(i => {
+    const d = span(t, T.applied + i * .08, T.applied + i * .08 + .25, easeOut);
+    $("seg" + i).style.opacity = 1 - d; $("dn" + i).style.opacity = d;
+  });
+  ["row1", "row2"].forEach(r => { $(r).querySelectorAll("td").forEach(td => { td.style.color = t >= T.applied + .2 ? "#8f8f8f" : ""; }); });
+  const p = span(t, T.prog, T.prog + .5);
+  $("barFill").style.width = (73 + (79 - 73) * p) + "%";
+  $("p38").style.opacity = 1 - span(t, T.prog, T.prog + .12); $("p41").style.opacity = span(t, T.prog + .15, T.prog + .3);
+  $("f0").style.opacity = 1 - span(t, T.evidence - .2, T.evidence - .05); $("f1").style.opacity = span(t, T.evidence, T.evidence + .2);
+  $("subW").style.opacity = 1 - span(t, T.evidence - .2, T.evidence - .05); $("expW").style.opacity = span(t, T.evidence, T.evidence + .2);
+}
+
+function events() {
+  return [["click", T.k1], ["click", T.k2], ["click", T.k3], ["click", T.subClick], ["chime", T.applied], ["pop", T.evidence]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.subClick], build, render, events,
+  // linger on: the deadline/owner/progress, the flagged rows' context, each key press, and what was applied
+  slow: [[0.9, 2.2, 1.5], [2.5, 3.6, 1.5], [3.7, 4.3, 1.8], [4.5, 5.1, 1.8], [5.45, 6.1, 1.8], [7.7, 9.0, 1.7]]
+});
+</script>
+</body>
+</html>
