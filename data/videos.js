@@ -108,6 +108,19 @@ window.VIDEOS = {
         "Holocron Open processes data in the Mid Rim, outside her region. She unticks it, and the page says what changes: Holonet search assist moves to Astromech Fast, and data stays in Yavin.",
         "She saves. The change is logged with who made it, and every AI answer records which model produced it."
       ]
+    },
+    "Usage & cost": {
+      src: "media/ai-governance/usage-cost.mp4",
+      poster: "media/ai-governance/usage-cost.jpg",
+      label: "Usage and cost, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens AI usage for November: 4,120 of 6,000 credits used, 18,400 requests, and about 310 hours saved. Usage can be viewed by group or by feature, and exported for finance.",
+        "A trend chart shows actual usage as a solid line and the forecast as a dashed line against the budget, each labelled. Under it, a summary in words: on track to use 5,900 of 6,000 credits by Nov 30.",
+        "Groups are listed by credits, most first, with cost centres, requests, credits and how much of their budget they've used. Rogue One is at 99% and flagged with a spike: 3 times usual on Nov 20.",
+        "She opens Rogue One's budget and raises it from 2,000 to 2,500 credits, keeping the alert at 80%.",
+        "The panel says what happens at the limit: current tasks finish, then new requests pause, so nothing is cut off mid-task. It previews the message people see, including when requests resume.",
+        "She saves. Rogue One now reads 79% of 2,500, and a message confirms the new budget."
+      ]
     }
   }
 };
