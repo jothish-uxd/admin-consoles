@@ -6,6 +6,8 @@
   const $ = (s, el = document) => el.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const plural = (n, w) => `${n} ${n === 1 ? w : w.replace(/y$/, "ie") + "s"}`;
+  // Link to the Screens view: says what the screenshots are, not where they live.
+  const realExamples = n => n === 1 ? "See 1 example from a real company" : `See ${n} examples from real companies`;
   // Links stay on the current page path (index.html or its alias category.html)
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
@@ -279,7 +281,7 @@
       const thumbs = shots.length ? `
         <div class="g-shots">
           <div class="g-shots-head"><h4>Examples</h4>
-            <button type="button" class="text-button" data-goto-screens="${esc(name)}">See ${plural(shots.length, "screen")} in Screens</button></div>
+            <button type="button" class="text-button" data-goto-screens="${esc(name)}">${realExamples(shots.length)}</button></div>
           <ul class="mini-shots">${shots.slice(0, 4).map(s => `<li><a href="${esc(s.src)}" target="_blank" rel="noopener noreferrer" class="mini-shot">
             <img src="${esc(s.src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('broken')">
             <span>${esc(s.product)}<span class="visually-hidden">: ${esc(s.title)}, opens in new tab</span></span></a></li>`).join("")}</ul>
@@ -476,7 +478,7 @@
           <p class="pat-pos">Pattern ${i + 1} of ${c.patterns.length}</p>
           <h3 class="pat-title" id="${pid(name)}" tabindex="-1">${esc(name)}</h3>
           <p class="pat-desc">${esc(desc)}</p>
-          ${n ? `<button type="button" class="text-button pat-shots" data-goto-screens="${esc(name)}">See ${plural(n, "screen")} in Screens</button>` : ""}
+          ${n ? `<button type="button" class="text-button pat-shots" data-goto-screens="${esc(name)}">${realExamples(n)}</button>` : ""}
         </header>
         ${clipHtml(c.slug, name)}
         <div class="pat-card g-compact">${g ? refinedBody(g) : `<p class="g-empty">Guidance for this pattern hasn’t been written yet.</p>`}</div>
