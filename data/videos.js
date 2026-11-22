@@ -213,5 +213,19 @@ window.VIDEOS = {
         "Beside the tags, managed fields hold the vocabularies policies rely on, such as Classification and a Mission hierarchy, and an auto-tag rule shows 2 exceptions for her to review. Import taxonomy sits in the header."
       ]
     }
+  },
+  "audit-logs": {
+    "Audit log table": {
+      src: "media/audit-logs/audit-log-table.mp4",
+      poster: "media/audit-logs/audit-log-table.jpg",
+      label: "Audit log table, shown in a mock Echo Base console",
+      steps: [
+        "On Home, an Unusual activity card says an API key, archive-sync, failed 3 times to reach the Death Star plans archive. The admin opens the audit log from it.",
+        "The log is a table with Time, Actor, Event, Target and Result columns. Each event is a short sentence, with its code in small text below; each actor shows its type, such as Admin, API key, Automation or System; and failures are written out as Failed, not shown by colour alone. A skip link lets keyboard users jump past the filters to the results.",
+        "Times are absolute, in Pacific Time, and the zone is labelled. A time range of the last 24 hours is always set, and the log says it is showing 50 of 18,204 events, how to narrow them, and pages with Next 50.",
+        "She hovers a time to see the exact moment, to the millisecond, with UTC beside it.",
+        "She clicks archive-sync to filter by that actor. A filter chip appears, and the log narrows to its 4 events: a sign-in from a new IP address and the 3 failed attempts."
+      ]
+    }
   }
 };

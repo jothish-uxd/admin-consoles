@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit log table · motion scene</title>
+<!--
+  Source for media/audit-logs/audit-log-table.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: an Unusual activity card on Home → Open audit log.
+
+  Follows the Audit log table card (data/guidance-governance.js):
+  - columns Time, Actor, Event, Target, Result; events as plain sentences, code secondary (do 1, avoid 1, WCAG 1.3.1, UD 4)
+  - absolute times in PT, labelled; exact time + UTC on hover (do 2, avoid 2)
+  - actor type under each actor (do 4); failures shown in text (avoid 3, WCAG 1.4.1)
+  - click the actor to filter (think 2, do 3)
+  - Last 24 hours always set; "50 of 18,204 · narrow by…"; cursor "Next 50" (scale 1-3)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 22px 32px; }
+.view { position: absolute; inset: 22px 32px; }
+h1 { font-size: 21px; }
+/* home */
+.hgrid { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.hc { border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; font-size: 13px; color: var(--soft); line-height: 1.5; }
+.hc h3 { margin: 0 0 6px; font-size: 14px; color: var(--ink); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.hc .big { font-size: 26px; color: var(--ink); font-weight: 600; letter-spacing: -.02em; }
+.hc.alert { border-color: var(--ink); grid-column: span 2; display: flex; align-items: center; gap: 16px; }
+.hc.alert .tx { flex: 1; }
+.hc.alert b { color: var(--ink); font-weight: 500; }
+.warn { width: 18px; height: 18px; }
+/* audit log */
+.hd { display: flex; align-items: center; gap: 10px; }
+.hd h1 { flex: 1; }
+.flt { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
+.fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12.5px; color: var(--ink); background: var(--bg); white-space: nowrap; }
+.fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
+.fb .x { color: var(--faint); margin-left: 2px; }
+.fb.srch { flex: 1; color: var(--faint); }
+.chip { opacity: 0; width: 0; overflow: hidden; padding: 0; border-width: 0; }
+.meta { margin-top: 12px; font-size: 12.5px; color: var(--soft); display: flex; gap: 6px; position: relative; height: 18px; }
+.meta b { color: var(--ink); font-weight: 500; }
+.meta .alt { position: absolute; left: 0; top: 0; opacity: 0; display: flex; gap: 6px; }
+table { margin-top: 10px; font-size: 12.5px; table-layout: fixed; }
+th { padding-bottom: 8px; }
+td { height: 50px; padding: 0 10px; vertical-align: middle; white-space: normal; line-height: 1.3; }
+th { padding-left: 10px; padding-right: 10px; }
+td:first-child { font-family: "Geist Mono", monospace; font-size: 12px; font-weight: 400; color: var(--ink); }
+.ac { color: var(--ink); font-weight: 500; }
+.ac.lnk { text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; }
+.ty { display: block; font-size: 11px; color: var(--faint); font-weight: 400; }
+.ev { color: var(--ink); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.code { display: block; font-family: "Geist Mono", monospace; font-size: 10.5px; color: var(--faint); }
+.tgt { color: var(--soft); }
+.res { display: inline-flex; align-items: center; gap: 5px; color: var(--soft); white-space: nowrap; }
+.res svg { width: 12px; height: 12px; }
+.res.bad { color: var(--ink); font-weight: 600; }
+.res.bad svg { color: #b91c1c; }
+tr.row td { transition: none; }
+.tip { position: absolute; background: var(--ink); color: #fff; border-radius: 8px; padding: 7px 10px; font-size: 12px; line-height: 1.4; white-space: nowrap; opacity: 0; z-index: 10; box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+.tip span { color: rgba(255,255,255,.7); }
+.pager { margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--soft); }
+.pager .btn { height: 30px; font-size: 12.5px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="no" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.6 5.6l4.8 4.8M10.4 5.6l-4.8 4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="warn" viewBox="0 0 16 16"><path d="M8 2l6.5 11.5h-13z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6.5v3.2M8 11.6v.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Home"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="home" data-role="admin"></div>
+    <div class="main">
+      <div class="view" id="vHome">
+        <h1>Good morning, Lavanya</h1>
+        <div class="hgrid">
+          <div class="hc alert" id="alert"><svg class="warn"><use href="#warn"/></svg>
+            <div class="tx"><h3>Unusual activity</h3><b>archive-sync</b>, an API key, failed 3 times to reach <b>Death Star plans · archive</b> in the last hour.</div>
+            <span class="btn pri" id="openB">Open audit log</span></div>
+          <div class="hc"><h3>Access requests</h3><span class="big">4</span> waiting for you</div>
+          <div class="hc"><h3>Seats</h3><span class="big">212</span> of 250 in use</div>
+        </div>
+      </div>
+      <div class="view" id="vLog" style="opacity:0">
+        <div class="hd"><h1>Audit log</h1><span class="btn">Export</span></div>
+        <div class="flt" id="flt">
+          <span class="fb on">Last 24 hours</span>
+          <span class="fb chip" id="chip">Actor: archive-sync <span class="x">✕</span></span>
+          <span class="fb">Actor</span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span>
+          <span class="fb srch">Search events</span>
+        </div>
+        <div class="meta" id="meta"><span id="m0" style="display:flex;gap:6px">Times in <b>Pacific Time (PT)</b> · Showing <b>50</b> of 18,204 events · narrow by actor, target or time</span>
+          <span class="alt" id="m1">Times in <b>Pacific Time (PT)</b> · <b>4 events</b> by archive-sync · 3 failed</span></div>
+        <table id="tbl">
+          <colgroup><col style="width:92px"><col style="width:150px"><col><col style="width:176px"><col style="width:132px"></colgroup>
+          <thead><tr><th>Time (PT)</th><th>Actor</th><th>Event</th><th>Target</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr class="row" data-k="o"><td>09:42:10</td><td><span class="ac">Toryn Farr</span><span class="ty">Admin</span></td><td><span class="ev">Toryn Farr removed Cal Alder from Shield Ops</span><span class="code">group.member.remove</span></td><td class="tgt">Shield Ops · group</td><td><span class="res"><svg><use href="#ok"/></svg>Success</span></td></tr>
+            <tr class="row" data-k="a" id="rT"><td id="tT">09:40:55</td><td><span class="ac lnk" id="aS">archive-sync</span><span class="ty">API key</span></td><td><span class="ev">archive-sync tried to download Death Star plans.pdf</span><span class="code">file.download</span></td><td class="tgt">Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed · no access</span></td></tr>
+            <tr class="row" data-k="a"><td>09:40:51</td><td><span class="ac lnk">archive-sync</span><span class="ty">API key</span></td><td><span class="ev">archive-sync tried to download Death Star plans.pdf</span><span class="code">file.download</span></td><td class="tgt">Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed · no access</span></td></tr>
+            <tr class="row" data-k="a"><td>09:40:48</td><td><span class="ac lnk">archive-sync</span><span class="ty">API key</span></td><td><span class="ev">archive-sync tried to open Death Star plans · archive</span><span class="code">folder.open</span></td><td class="tgt">Death Star plans · archive</td><td><span class="res bad"><svg><use href="#no"/></svg>Failed · no access</span></td></tr>
+            <tr class="row" data-k="o"><td>09:31:02</td><td><span class="ac">Retention rule</span><span class="ty">Automation</span></td><td><span class="ev">Retention rule deleted 212 expired files</span><span class="code">retention.purge</span></td><td class="tgt">Trash</td><td><span class="res"><svg><use href="#ok"/></svg>Success</span></td></tr>
+            <tr class="row" data-k="o"><td>09:14:00</td><td><span class="ac">Holonet sync bot</span><span class="ty">System</span></td><td><span class="ev">Holonet sync bot saved a new version of Hoth evacuation plan.docx</span><span class="code">file.version.create</span></td><td class="tgt">Hoth evacuation plan.docx</td><td><span class="res"><svg><use href="#ok"/></svg>Success</span></td></tr>
+            <tr class="row" data-k="a"><td>08:58:30</td><td><span class="ac lnk">archive-sync</span><span class="ty">API key</span></td><td><span class="ev">archive-sync signed in from a new IP address</span><span class="code">auth.token.use</span></td><td class="tgt">10.4.22.8</td><td><span class="res"><svg><use href="#ok"/></svg>Success</span></td></tr>
+          </tbody>
+        </table>
+        <div class="pager" id="pager"><span>Newest first</span><span class="btn">Next 50 →</span></div>
+        <div class="tip" id="tip">Sun, Nov 22, 2026 · 09:40:55.312 PT <span>· 17:40:55 UTC</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  openClick: 2.40, toLog: [2.50, 2.90], tip: [5.20, 5.40], tipOut: [6.70, 6.85], actorClick: 7.60, filt: [7.70, 8.40],
+  endCard: [11.4, 11.85], end: 12.9
+};
+
+let ROWS, NAV;
+function build() {
+  ROWS = [...document.querySelectorAll("tr.row")];
+  NAV = [...document.querySelectorAll(".nav > div:not(.lbl)")];
+  const ob = at("openB"), al = at("alert"), tt = at("tT"), as = at("aS"), tb = at("tbl"), fl = at("flt");
+  // tooltip sits above the time cell
+  const tip = $("tip"), lg = $("vLog").getBoundingClientRect(), tc = $("tT").getBoundingClientRect();
+  tip.style.left = (tc.left - lg.left - 4) + "px"; tip.style.top = (tc.top - lg.top - 40) + "px";
+  const MX = 740;
+  const cur = [
+    [0.00, 860, 650], [0.50, 860, 650], [2.25, ob[0], ob[1] + 3], [2.55, ob[0], ob[1] + 3],
+    [4.90, tt[0] - 10, tt[1] + 4], [6.60, tt[0] - 10, tt[1] + 4],
+    [7.45, as[0], as[1] + 3], [7.80, as[0], as[1] + 3], [9.6, as[0] + 160, as[1] + 120], [11.4, as[0] + 164, as[1] + 124]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.50, 640, 360, 1.00],
+    [1.40, MX, al[1] + 40, 1.2], [2.55, MX, al[1] + 40, 1.2],            // the alert on Home
+    [3.30, MX, tb[1] + 18, 1.08], [4.70, MX, tb[1] + 18, 1.08],            // the whole log: columns, PT, 50 of 18,204
+    [5.10, tt[0] + 200, tt[1] - 20, 1.6], [6.70, tt[0] + 200, tt[1] - 20, 1.6], // exact time on hover
+    [7.20, as[0] + 160, tt[1] - 40, 1.45], [7.70, as[0] + 160, tt[1] - 40, 1.45], // the actor
+    [8.30, MX, fl[1] + 110, 1.3], [10.9, MX, fl[1] + 110, 1.3],            // filtered: chip, 4 events, 3 failed
+    [11.25, 660, 360, 1.05], [11.4, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  // way in: Home → Audit log
+  const lg = t >= T.openClick;
+  NAV.forEach(n => n.classList.toggle("on", n.textContent === (lg ? "Compliance" : "Home")));
+  $("crumb").innerHTML = lg ? "/ Compliance / <b>Audit log</b>" : "/ <b>Home</b>";
+  $("openB").style.background = t >= T.openClick - .05 && t < T.toLog[0] + .1 ? "#333" : "";
+  $("vHome").style.opacity = 1 - span(t, T.toLog[0], T.toLog[0] + .15);
+  $("vLog").style.opacity = span(t, T.toLog[0] + .18, T.toLog[1]);
+
+  // exact time on demand
+  const tp = span(t, ...T.tip, easeOut) * (1 - span(t, ...T.tipOut));
+  $("tip").style.opacity = tp; $("tip").style.transform = `translateY(${(1 - tp) * 4}px)`;
+  $("tT").style.textDecoration = tp > .1 ? "underline dotted" : "";
+
+  // filter by actor: other rows fade fully, then fold away
+  const f0 = T.filt[0], fo = span(t, f0, f0 + .2), fc = span(t, f0 + .2, f0 + .45, easeOut);
+  ROWS.forEach(r => {
+    if (r.dataset.k === "a") return;
+    r.style.display = fc >= 1 ? "none" : "";
+    r.querySelectorAll("td").forEach(td => { td.style.opacity = 1 - fo; td.style.height = (50 * (1 - fc)) + "px"; td.style.borderBottomWidth = fc > .9 ? "0" : ""; td.style.overflow = "hidden"; });
+  });
+  const ch = span(t, f0, f0 + .3, easeOut), c = $("chip");
+  c.style.opacity = ch; c.style.width = ch > 0 ? "auto" : "0"; c.style.padding = ch > 0 ? "0 10px" : "0"; c.style.borderWidth = ch > 0 ? "1px" : "0";
+  c.style.maxWidth = (ch * 180) + "px";
+  $("aS").style.background = t >= T.actorClick - .05 && t < f0 + .3 ? "var(--hover)" : "";
+  $("m0").style.opacity = 1 - span(t, f0, f0 + .14);
+  $("m1").style.opacity = span(t, f0 + .2, f0 + .38);
+  $("pager").style.opacity = 1 - span(t, f0, f0 + .2);
+}
+
+function events() {
+  return [["click", T.openClick], ["whoosh", T.toLog[0]], ["pop", T.tip[0]], ["click", T.actorClick], ["whoosh", T.filt[0] + .1]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.openClick, T.actorClick], build, render, events, clamp: false,
+  // linger on: the alert, the whole log, the exact time, the filtered failures
+  slow: [[1.4, 2.2, 1.4], [3.3, 4.7, 1.8], [5.3, 6.6, 1.6], [8.4, 10.9, 1.8]]
+});
+</script>
+</body>
+</html>
