@@ -6,6 +6,9 @@
               cam: [[t, focusX, focusY, scale], ...]  cur: [[t, x, y], ...]
      render(t) sets the scene's own state for time t
      events() returns sound cues [[name, t], ...]; the end-card sonar is added here
+     duration (optional) total length in seconds. The action before the end card
+              is slowed evenly to fit; the end card keeps its own length.
+              House rule: clips whose steps list has 5 or more steps run 15 s.
    Everything is a pure function of time, so render.py can step through it
    frame by frame. Open a scene with ?play to watch it live. */
 (function () {
@@ -32,10 +35,13 @@
   }
 
   const CREDIT = ["Patterns for Enterprise Admin Consoles", "Jothish John · © 2026"];
-  let S, CAM, CUR;
+  let S, CAM, CUR, PACE = 1;
+  // Real seconds -> scene seconds: the action is slowed by PACE, the end card isn't.
+  const storyTime = t => { const e = S.T.endCard[0] * PACE; return t < e ? t / PACE : S.T.endCard[0] + (t - e); };
+  const realTime = t => t < S.T.endCard[0] ? t * PACE : S.T.endCard[0] * PACE + (t - S.T.endCard[0]);
 
-  function renderAt(t) {
-    const T = S.T;
+  function renderAt(real) {
+    const T = S.T, t = storyTime(real);
     // camera, clamped so the view never leaves the stage
     let [fx, fy, s] = track(CAM, t);
     const hw = 640 / s, hh = 360 / s;
@@ -70,15 +76,17 @@
     stage.insertAdjacentHTML("beforeend",
       '<div id="ring"></div><svg id="cursor" viewBox="0 0 22 22"><path d="M3 2l14.5 8.2-6.3 1.4-2.9 5.9z" fill="#171717" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>');
     document.body.insertAdjacentHTML("beforeend", `<div id="endcard"><p><b>${CREDIT[0]}</b><span>${CREDIT[1]}</span></p></div>`);
-    window.EVENTS = [...def.events(), ["sonar", def.T.endCard[0] + 0.25]];
-    window.DURATION = def.T.end;
+    const tail = def.T.end - def.T.endCard[0];
+    PACE = def.duration ? (def.duration - tail) / def.T.endCard[0] : 1;
+    window.EVENTS = [...def.events(), ["sonar", def.T.endCard[0] + 0.25]].map(([n, t]) => [n, +realTime(t).toFixed(3)]);
+    window.DURATION = def.duration || def.T.end;
     window.renderAt = renderAt;
     document.fonts.ready.then(() => {
       ({ cam: CAM, cur: CUR } = def.build());
       renderAt(0); window.READY = true;
       if (location.search.includes("play")) {
         const t0 = performance.now();
-        const loop = () => { renderAt(((performance.now() - t0) / 1000) % def.T.end); requestAnimationFrame(loop); };
+        const loop = () => { renderAt(((performance.now() - t0) / 1000) % window.DURATION); requestAnimationFrame(loop); };
         loop();
       }
     });

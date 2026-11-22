@@ -90,6 +90,8 @@ python3 motion/render.py request-access --stills 1.3,4.8,7.9   # check single fr
 
 Open a scene with `?play` to watch it live in a browser while editing.
 
+Clips whose steps list has 5 or more steps run 15 seconds: set `duration: 15` in the scene's `Motion.scene({ ... })` call, and the action is slowed evenly to fit, with the end card kept at its own length.
+
 ## Known gaps
 
 Some patterns are rarely shown in public docs and have no screens yet: table density and expandable rows, empty tables, global admin search, undo toasts, settings save patterns, banners and announcements, and bulk-job progress.
