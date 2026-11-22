@@ -252,6 +252,19 @@ window.VIDEOS = {
         "She saves the filters as a view named archive-sync investigation, shared with the 6 Security admins. Opening it later re-runs the query.",
         "A message confirms the view is saved and shared, and Copy link shares the investigation with its filters in the link."
       ]
+    },
+    "Export & SIEM streaming": {
+      src: "media/audit-logs/export-siem-streaming.mp4",
+      poster: "media/audit-logs/export-siem-streaming.jpg",
+      label: "Export and SIEM streaming, shown in a mock Echo Base console",
+      steps: [
+        "From the saved view, the admin chooses Export. The dialog uses the view's filters, 9 events over the last 7 days, and offers CSV or JSON. Events come ordered by time in a documented, versioned schema, and ranges over 100,000 events run as a job.",
+        "Full-log export is limited to Security admins, which she is. She exports JSON, and a message confirms the export and that it was logged.",
+        "She opens the Streaming tab. Streams can go to Splunk, Microsoft Sentinel, Datadog, Amazon S3 or a webhook. The Security SIEM stream to Splunk is Healthy, with its last event delivered 4 seconds ago.",
+        "The Amazon S3 archive stream is Delayed, in words and with an icon: events are delayed by 14 minutes because the bucket rejected writes at 09:26, and 38,210 events are buffered and retried, none dropped.",
+        "The stream sends only failed and admin events, to keep volume and cost down, and its settings say what each field expects, such as the bucket name without an s3:// prefix.",
+        "She chooses Replay now. The stream catches up from 09:26 in order, then shows Healthy again, and the replay is logged like every export and stream change."
+      ]
     }
   }
 };
