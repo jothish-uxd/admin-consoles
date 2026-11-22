@@ -45,18 +45,17 @@
   function renderSidebar() {
     const side = $("#sidebar");
     if (!side) return;
+    // Each category shows how many patterns it has (both views); screen readers hear "5 patterns".
+    const navItem = c => `
+        <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}"><span>${esc(c.name)}</span><small aria-hidden="true">${c.patterns.length}</small><span class="visually-hidden">, ${plural(c.patterns.length, "pattern")}</span></a></li>`;
     const groupsHtml = GROUPS.map(g => {
-      const items = CATS.filter(c => c.group === g.id).map(c => `
-        <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}"><span>${esc(c.name)}</span>${c.screens.length ? `<small>${c.screens.length}</small>` : ""}</a></li>`).join("");
+      const items = CATS.filter(c => c.group === g.id).map(navItem).join("");
       return `<div class="nav-group">
           <h2 class="nav-heading" id="nav-${g.id}"><button class="nav-toggle" type="button" aria-expanded="true" aria-controls="nav-${g.id}-list">${navIcon(g.id)}<span>${esc(g.name)}</span>${NAV_CHEVRON}</button></h2>
           <ul class="nav-list" id="nav-${g.id}-list" aria-labelledby="nav-${g.id}">${items}</ul>
         </div>`;
     }).join("");
 
-    // A–Z shows how many patterns each category has; screen readers hear "5 patterns".
-    const navItem = c => `
-        <li><a class="nav-link" href="${catUrl(c)}" data-slug="${esc(c.slug)}"><span>${esc(c.name)}</span><small aria-hidden="true">${c.patterns.length}</small><span class="visually-hidden">, ${plural(c.patterns.length, "pattern")}</span></a></li>`;
     const azHtml = [...CATS].sort((a, b) => a.name.localeCompare(b.name)).map(navItem).join("");
 
     side.innerHTML = `
