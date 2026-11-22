@@ -95,6 +95,8 @@ All clips are set in one mock product, the **Echo Base Console**, with one fixed
 
 Each clip is a guide, so it must agree with its pattern card: before building, map every point on the card (How to think about it, Recommended, Avoid, Accessibility) to a moment in the clip, show nothing the card says to avoid, and list the mapping in a comment at the top of the scene. Points a video can't show, such as screen reader labels, go in the steps text.
 
+The way in: when a page isn't reached straight from the rail, open with a short beat showing how the person gets there (for example, Transfer ownership starts from the person's offboarding checklist in People). Skip it for pages the rail leads to directly, where the highlighted section already shows the way.
+
 Framing: whatever the viewer should look at sits in the middle of the frame and is never cut off. Prefer one steady framing per view (zoomed so the whole card or region fits) over panning across it, and keep camera moves few and slow.
 
 If something to centre sits near the window's edge, pass `clamp: false` so the camera can move past the edge of the stage (the backdrop there is the same grey).

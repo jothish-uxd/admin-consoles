@@ -174,6 +174,19 @@ window.VIDEOS = {
         "A summary shows what moves, from whom, to whom and where, with sharing unchanged. She starts the transfer, which runs in the background with a progress count that screen readers announce without moving focus.",
         "It finishes: 1,281 items moved, and 3 couldn't, with a link to see which and why. Dodonna has been sent a summary, and the transfer can be reassigned to someone else."
       ]
+    },
+    "Sharing controls": {
+      src: "media/asset-management/sharing-controls.mp4",
+      poster: "media/asset-management/sharing-controls.jpg",
+      label: "Sharing controls, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens Sharing in Content. A report shows what's shared outside Echo Base right now: 38 public links and 412 shares with partner domains.",
+        "Who can receive shares is listed from most to least restrictive, each with a plain description and its level in words: Off, Allowed domains only (recommended), and Anyone with the link (not recommended). Anyone with the link is the current setting.",
+        "She chooses Allowed domains only. Before anything changes, the page shows the impact: 38 existing public links will stop working outside partner domains, 412 partner shares aren't affected, and owners of the 38 are asked to confirm or remove them.",
+        "She rolls it out over 14 days, so owners get notice, instead of applying it now. Partner domains can be imported as a list.",
+        "External links expire after 30 days and need a password, and new links default to People in Echo Base, the narrowest useful setting. Exceptions by label and group sit alongside: when settings disagree, the most restrictive one wins.",
+        "She saves, and a message confirms the rollout over 14 days and that the owners of the 38 links have been told."
+      ]
     }
   }
 };
