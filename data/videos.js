@@ -265,6 +265,19 @@ window.VIDEOS = {
         "The stream sends only failed and admin events, to keep volume and cost down, and its settings say what each field expects, such as the bucket name without an s3:// prefix.",
         "She chooses Replay now. The stream catches up from 09:26 in order, then shows Healthy again, and the replay is logged like every export and stream change."
       ]
+    },
+    "Alerts on events": {
+      src: "media/audit-logs/alerts-on-events.mp4",
+      poster: "media/audit-logs/alerts-on-events.jpg",
+      label: "Alerts on events, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens the Alerts tab of the audit log. Built-in alerts cover high-risk events, such as admin role grants and mass deletion, each with a threshold.",
+        "A noisy built-in alert, New sign-in location, is muted, and the record says who muted it, when, why and until when.",
+        "She creates a new alert from the saved view archive-sync investigation. It fires when 3 or more failed events happen within 10 minutes, with an example of what would and wouldn't trigger it.",
+        "It sends to email, chat and PagerDuty, routed to Echo Base admins, and each alert says what happened, who and when, with a link to the events. It is checked on the live stream within seconds, and repeats within an hour join one incident.",
+        "She creates it, and a message confirms it is live and logged. The new alert appears at the top of the list.",
+        "Alert history shows its first alert as a sentence, archive-sync failed 3 times to reach the archive between 09:40 and 09:41, with a link to the 3 events, grouped into one incident. In-product alert banners stay until dismissed."
+      ]
     }
   }
 };
