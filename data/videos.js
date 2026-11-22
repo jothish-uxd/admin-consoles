@@ -83,6 +83,19 @@ window.VIDEOS = {
         "The panel shows what people without the feature see: it isn't on for their team, the full briefing is still there, and they can ask their admin.",
         "She saves. The row now reads On for 2 groups · 20 people, and a message confirms Briefing summaries is on for Red Squadron."
       ]
+    },
+    "Data usage controls": {
+      src: "media/ai-governance/data-usage-controls.mp4",
+      poster: "media/ai-governance/data-usage-controls.jpg",
+      label: "Data usage controls, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens AI data use. It leads with three direct answers: not used to train models, kept for 30 days then deleted, and processed in your region (Yavin for the Outer Rim).",
+        "Below them: a link to the AI data processing terms that names the document (PDF, 6 pages), a note that the terms last changed Oct 2 with 30 days' notice, and that AI uses only content the person can open.",
+        "She sets AI prompts and answers to be kept for 7 days. The consequence appears in plain words: they're deleted after 7 days, and people won't see older AI history.",
+        "She adds Personnel files to the labels that are never sent to AI, next to Top secret and Medical. Every AI feature skips content with these labels.",
+        "Processing location is set per region: Coruscant for the Core Worlds, Yavin for the Outer Rim.",
+        "She saves. The Kept for answer updates to 7 days, a message confirms it, and the change is logged with who made it."
+      ]
     }
   }
 };

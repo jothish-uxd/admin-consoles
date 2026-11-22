@@ -95,6 +95,8 @@ Each clip is a guide, so it must agree with its pattern card: before building, m
 
 Framing: whatever the viewer should look at sits in the middle of the frame and is never cut off. Prefer one steady framing per view (zoomed so the whole card or region fits) over panning across it, and keep camera moves few and slow.
 
+If something to centre sits near the window's edge, pass `clamp: false` so the camera can move past the edge of the stage (the backdrop there is the same grey).
+
 Length: clips with fewer than 5 steps run 10 seconds (`duration: 10`); clips with 5 or more run 15 (`duration: 15`).
 
 Set the length with `duration` in the scene's `Motion.scene({ ... })` call, and the clip is stretched to fit, with the end card kept at its own length. Time isn't stretched evenly: every click is slowed automatically so viewers see the cursor arrive, the press and what changed, and `slow: [[from, to, weight], ...]` lingers on other key moments (a tooltip, rows leaving a list). Ordinary moves get whatever time is left.

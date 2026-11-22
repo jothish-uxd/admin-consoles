@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Data usage controls · motion scene</title>
+<!--
+  Source for media/ai-governance/data-usage-controls.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+
+  Follows the Data usage controls card (data/guidance-governance.js):
+  - three direct answers first: training, how long it's kept, where it's processed (think 1-2, do 1, UD 4, avoid 1)
+  - link to the terms that names the document (do 4, WCAG 2.4.4); notice of the last terms change (avoid 2)
+  - "AI only uses content the person can already open" (avoid 3)
+  - retention presets with the consequence in plain words (do 2, WCAG 3.3.2)
+  - sensitive labels excluded across every AI feature (do 3, scale 2)
+  - residency by region (do 2, scale 1)
+  - save is logged; the answer card updates (scale 3)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 22px 32px; }
+h1 { font-size: 22px; }
+.lede { margin: 6px 0 0; }
+.ans { margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.ans > div { border: 1px solid var(--rule-strong); border-radius: 12px; padding: 12px 16px; position: relative; }
+.ans .k { font-size: 12px; color: var(--faint); margin-bottom: 6px; }
+.ans .v { font-size: 16px; font-weight: 600; letter-spacing: -.01em; position: relative; height: 24px; }
+.ans .v span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.ans .s { font-size: 12.5px; color: var(--soft); margin-top: 4px; }
+.ans .hi { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
+.links { margin-top: 12px; display: flex; gap: 18px; align-items: center; font-size: 13px; color: var(--soft); flex-wrap: wrap; }
+.links a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
+.links .sep { width: 1px; height: 14px; background: var(--rule-strong); }
+.links svg { width: 13px; height: 13px; vertical-align: -2px; margin-right: 4px; }
+.set { margin-top: 16px; border-top: 1px solid var(--rule); padding-top: 14px; }
+.cols { display: grid; grid-template-columns: 500px 1fr; gap: 36px; }
+.set h2 { margin: 0 0 12px; font-size: 15px; font-weight: 600; }
+.fld { margin-bottom: 16px; }
+.fld > .l { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.seg { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; width: 460px; }
+.seg div { height: 34px; display: grid; place-items: center; font-size: 13px; color: var(--soft); border-right: 1px solid var(--rule); }
+.seg div:last-child { border-right: 0; }
+.seg div.on { background: var(--ink); color: #fff; font-weight: 500; }
+.cons { margin-top: 7px; font-size: 12.5px; color: var(--soft); position: relative; height: 18px; }
+.cons span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.chips { display: flex; gap: 6px; align-items: center; position: relative; }
+.chip { display: inline-flex; gap: 6px; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--hover); font-size: 12.5px; color: var(--ink); }
+.chip svg { width: 11px; height: 11px; color: var(--faint); }
+.chip.add { background: transparent; border: 1px dashed var(--rule-strong); color: var(--soft); }
+.menu { position: absolute; top: 34px; width: 220px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.1); padding: 4px; z-index: 5; opacity: 0; }
+.menu div { padding: 7px 9px; border-radius: 6px; font-size: 13px; }
+.menu div.hov { background: var(--hover); }
+.res { display: grid; grid-template-columns: 150px 1fr; font-size: 13px; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.res div { padding: 8px 12px; border-bottom: 1px solid var(--rule); }
+.res div:nth-last-child(-n+2) { border-bottom: 0; }
+.res .h { font-size: 11.5px; color: var(--faint); background: var(--subtle); }
+.res .r { color: var(--soft); }
+.res .p { color: var(--ink); }
+.ft { display: flex; gap: 12px; align-items: center; position: relative; height: 36px; margin-top: 2px; }
+.ft .btn { height: 34px; }
+.log { font-size: 12.5px; color: var(--soft); display: inline-flex; gap: 6px; align-items: center; opacity: 0; }
+.log b { color: var(--ink); font-weight: 600; }
+
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="doc" viewBox="0 0 16 16"><path d="M4 1.8h5.5L12.5 5v9.2H4z M9.5 1.8V5h3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+  <symbol id="tag" viewBox="0 0 16 16"><path d="M2 8.6V2.5h6.1L14 8.4 8.4 14z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="5.2" cy="5.6" r="1.1" fill="currentColor"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb">/ Admin / AI features / <b>Data use</b></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav">
+      <div>Resources</div><div>Approvals</div>
+      <div class="lbl">Admin</div><div>Access reviews</div><div>AI features</div><div class="on">AI data use</div><div>Audit log</div>
+    </div>
+    <div class="main">
+      <h1>What happens to data sent to AI</h1>
+      <p class="lede">The short answers, then the settings that change them.</p>
+      <div class="ans" id="ans">
+        <div><div class="k">Training</div><div class="v"><span>Not used to train models</span></div><div class="s">Ours or any provider’s</div></div>
+        <div id="ansKeep"><div class="k">Kept for</div><div class="v"><span id="kv0">30 days, then deleted</span><span id="kv1" style="opacity:0">7 days, then deleted</span></div><div class="s">Prompts and answers</div></div>
+        <div><div class="k">Processed in</div><div class="v"><span>Your region</span></div><div class="s">Yavin for the Outer Rim</div></div>
+      </div>
+      <div class="links" id="links">
+        <a><svg><use href="#doc"/></svg>Read the AI data processing terms (PDF, 6 pages)</a><span class="sep"></span>
+        <span>Last changed Oct 2, with 30 days’ notice</span><span class="sep"></span>
+        <span>Uses only content the person can open</span>
+      </div>
+      <div class="set">
+        <h2>Settings</h2>
+        <div class="cols"><div>
+        <div class="fld" id="fRet"><div class="l">Keep AI prompts and answers for</div>
+          <div class="seg"><div id="o7">7 days</div><div id="o30">30 days</div><div>90 days</div><div>Don’t keep</div></div>
+          <div class="cons"><span id="c0">Prompts and answers are deleted after 30 days.</span><span id="c1" style="opacity:0">Prompts and answers are deleted after 7 days. People won’t see older AI history.</span></div></div>
+        <div class="fld" id="fLab"><div class="l">Never send content with these labels</div>
+          <div class="chips" id="chips"><span class="chip"><svg><use href="#tag"/></svg>Top secret</span><span class="chip"><svg><use href="#tag"/></svg>Medical</span>
+            <span class="chip" id="chipP" style="display:none"><svg><use href="#tag"/></svg>Personnel files</span><span class="chip add" id="addL">+ Add label</span>
+            <div class="menu" id="menu"><div>Draft</div><div id="optP">Personnel files</div><div>Legal hold</div></div></div>
+          <div class="cons"><span>Every AI feature skips content with these labels.</span></div></div>
+        </div><div>
+        <div class="fld" id="fRes"><div class="l">Where AI processing happens</div>
+          <div class="res"><div class="h">Region</div><div class="h">Processed in</div>
+            <div class="r">Core Worlds</div><div class="p">Coruscant</div><div class="r">Outer Rim</div><div class="p">Yavin</div></div>
+          <div class="cons"><span>Set per region. Changes apply to new prompts.</span></div></div>
+        </div></div>
+        <div class="ft" id="ft"><span class="btn pri" id="saveB">Save</span><span class="btn ghost">Cancel</span>
+          <span class="log" id="log"><svg width="13" height="13"><use href="#tick"/></svg><b>Logged:</b> Lavanya Sienna changed retention 30 → 7 days, added a label</span></div>
+      </div>
+    </div>
+    <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#tick"/></svg></i>Saved. AI history is now kept for 7 days.</div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  sevenClick: 3.30, addClick: 5.00, menu: [5.05, 5.7], pClick: 5.60,
+  saveClick: 8.00, saved: 8.15, toastOut: [9.7, 10.0],
+  endCard: [11.4, 11.85], end: 12.9
+};
+
+function build() {
+  // menu and new chip are hidden at build time; place the menu under the add button now
+  const add = $("addL"); $("menu").style.left = add.offsetLeft + "px";
+  const a = at("ans"), o7 = at("o7"), ad = at("addL"), op = at("optP", -40, 0), rs = at("fRes"), sv = at("saveB"), rt = at("fRet"), lb = at("fLab");
+  const MX = 40 + 200 + 500;            // main content centre
+  const SX = 40 + 200 + 32 + 250;       // left settings column centre
+  const RX = rs[0];                     // residency column centre
+  const cur = [
+    [0.00, 860, 650], [0.40, 860, 650], [2.4, 760, 560], [3.15, o7[0], o7[1] + 3], [3.45, o7[0], o7[1] + 3],
+    [4.85, ad[0], ad[1] + 3], [5.15, ad[0], ad[1] + 3], [5.50, op[0], op[1] + 3], [5.80, op[0], op[1] + 3],
+    [7.0, sv[0] + 140, sv[1] - 40], [7.90, sv[0], sv[1] + 3], [8.30, sv[0], sv[1] + 3],
+    [10.0, sv[0] + 320, sv[1] + 30], [11.4, sv[0] + 326, sv[1] + 34]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.35, MX, a[1] + 30, 1.32], [2.30, MX, a[1] + 30, 1.32],          // the three answers, terms link, notice
+    [3.00, SX, rt[1], 1.62], [4.10, SX, rt[1], 1.62],                    // retention and its consequence
+    [4.70, SX, lb[1] + 6, 1.62], [6.20, SX, lb[1] + 6, 1.62],            // labels
+    [6.80, RX, rs[1], 1.7], [7.45, RX, rs[1], 1.7],                    // residency by region
+    [7.95, SX, sv[1] - 60, 1.5],                                         // save
+    [8.55, MX, a[1] - 10, 1.32], [9.9, MX, a[1] - 10, 1.32],             // updated answer + toast, centred
+    [10.6, 660, 360, 1.05], [11.4, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  // retention
+  $("o7").classList.toggle("on", t >= T.sevenClick); $("o30").classList.toggle("on", t < T.sevenClick);
+  $("c0").style.opacity = 1 - span(t, T.sevenClick, T.sevenClick + .12);
+  $("c1").style.opacity = span(t, T.sevenClick + .15, T.sevenClick + .3);
+
+  // add a label
+  const mo = span(t, T.menu[0], T.menu[0] + .15, easeOut) * (1 - span(t, T.menu[1] - .08, T.menu[1]));
+  $("menu").style.opacity = mo;
+  $("menu").style.transform = `translateY(${(1 - mo) * -4}px)`;
+  $("optP").classList.toggle("hov", t > T.pClick - .25 && t < T.menu[1]);
+  $("chipP").style.display = t >= T.pClick ? "" : "none";
+  $("chipP").style.opacity = span(t, T.pClick, T.pClick + .2);
+  if (t >= T.pClick) $("menu").style.left = $("addL").offsetLeft + "px";
+
+  // save: logged, answer updates, toast
+  $("saveB").style.background = t >= T.saveClick - .05 && t < T.saved + .1 ? "#333" : "";
+  $("log").style.opacity = span(t, T.saved + .1, T.saved + .35);
+  // old value fades out as the new one fades in, with no blank moment between
+  $("kv0").style.opacity = 1 - span(t, T.saved + .2, T.saved + .28);
+  $("kv1").style.opacity = span(t, T.saved + .27, T.saved + .36);
+  $("ansKeep").classList.toggle("hi", t > T.saved + .2 && t < 10.0);
+  const to = span(t, T.saved, T.saved + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to;
+  $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  return [["click", T.sevenClick], ["click", T.addClick], ["click", T.pClick], ["click", T.saveClick], ["chime", T.saved]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.sevenClick, T.addClick, T.pClick, T.saveClick], build, render, events,
+  clamp: false,   // the residency column sits near the window's right edge
+  // linger on: the direct answers, each consequence line, residency, and the updated answer + log
+  slow: [[0.9, 2.3, 1.7], [3.35, 4.1, 1.6], [5.65, 6.2, 1.6], [6.7, 7.45, 1.4], [8.2, 9.8, 1.6]]
+});
+</script>
+</body>
+</html>

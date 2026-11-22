@@ -11,6 +11,8 @@
               House rules: fewer than 5 steps run 10 s, 5 or more run 15 s.
               Keep what the viewer should look at centred and whole in frame;
               one steady framing per view beats panning across it.
+     clamp    (optional, default true) keep the camera inside the stage. Set false when
+              something to centre sits near the window's edge; the backdrop beyond is the same grey.
      slow     (optional) extra moments to linger on, [[from, to, weight], ...] in
               scene seconds; weight 2 plays that stretch at half speed.
    Every click is slowed automatically (CLICK_SLOW), so the viewer sees the cursor
@@ -86,7 +88,7 @@
     // camera, clamped so the view never leaves the stage
     let [fx, fy, s] = track(CAM, t);
     const hw = 640 / s, hh = 360 / s;
-    fx = Math.min(Math.max(fx, hw), 1280 - hw); fy = Math.min(Math.max(fy, hh), 720 - hh);
+    if (S.clamp !== false) { fx = Math.min(Math.max(fx, hw), 1280 - hw); fy = Math.min(Math.max(fy, hh), 720 - hh); }
     $("stage").style.transform = `translate(${640 - fx * s}px, ${360 - fy * s}px) scale(${s})`;
 
     // cursor, press and click ring
