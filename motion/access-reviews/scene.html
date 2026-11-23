@@ -205,7 +205,7 @@ function render(t) {
     const d = span(t, T.applied + i * .08, T.applied + i * .08 + .25, easeOut);
     $("seg" + i).style.opacity = 1 - d; $("dn" + i).style.opacity = d;
   });
-  ["row1", "row2"].forEach(r => { $(r).querySelectorAll("td").forEach(td => { td.style.color = t >= T.applied + .2 ? "#8f8f8f" : ""; }); });
+  ["row1", "row2"].forEach(r => { $(r).querySelectorAll("td").forEach(td => { td.style.color = t >= T.applied + .2 ? "#737373" : ""; }); });
   const p = span(t, T.prog, T.prog + .5);
   $("barFill").style.width = (73 + (79 - 73) * p) + "%";
   $("p38").style.opacity = 1 - span(t, T.prog, T.prog + .12); $("p41").style.opacity = span(t, T.prog + .15, T.prog + .3);

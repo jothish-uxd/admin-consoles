@@ -41,9 +41,6 @@
 .sec h2 { margin: 0 0 10px; font-size: 14px; font-weight: 600; display: flex; gap: 8px; align-items: baseline; }
 .sec h2 span { font-size: 12px; font-weight: 400; color: var(--faint); }
 .sec h2 a { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-dl { margin: 0; display: grid; grid-template-columns: 92px 1fr; row-gap: 8px; font-size: 13px; }
-dt { color: var(--faint); }
-dd { margin: 0; color: var(--ink); }
 dd .off { font-size: 11.5px; font-weight: 600; margin-left: 6px; border: 1px solid var(--ink); border-radius: 999px; padding: 0 6px; }
 .acc { display: grid; gap: 6px; }
 .ar { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 8px; background: var(--subtle); font-size: 13px; position: relative; min-height: 42px; }
@@ -95,15 +92,7 @@ dd .off { font-size: 11.5px; font-weight: 600; margin-left: 6px; border: 1px sol
           <div class="r"><span class="btn ghost">Cancel</span><span class="btn pri" id="okB">Remove link</span></div></div></div>
       <div class="cols">
         <section class="sec" id="sDet"><h2>Details</h2>
-          <dl>
-            <dt>Owner</dt><dd>Biggs Darklighter<span class="off">deactivated</span></dd>
-            <dt>Location</dt><dd>Red Squadron / Patrols</dd>
-            <dt>Size</dt><dd>1 MB</dd>
-            <dt>Created</dt><dd>Sep 2, 2026</dd>
-            <dt>Modified</dt><dd>Oct 12, 2026</dd>
-            <dt>Label</dt><dd>Confidential</dd>
-            <dt>Versions</dt><dd>7 · latest Oct 12</dd>
-          </dl>
+          <dl class="kv"><div><dt>Owner</dt><dd>Biggs Darklighter<span class="off">deactivated</span></dd></div><div><dt>Location</dt><dd>Red Squadron / Patrols</dd></div><div><dt>Size</dt><dd>1 MB</dd></div><div><dt>Created</dt><dd>Sep 2, 2026</dd></div><div><dt>Modified</dt><dd>Oct 12, 2026</dd></div><div><dt>Label</dt><dd>Confidential</dd></div><div><dt>Versions</dt><dd>7 · latest Oct 12</dd></div></dl>
         </section>
         <div>
           <section class="sec" id="sAcc"><h2>Access <span>21 people · 4 ways in</span></h2>

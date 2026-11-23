@@ -46,8 +46,8 @@
 .chip { display: inline-flex; gap: 6px; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--hover); font-size: 12.5px; color: var(--ink); }
 .chip svg { width: 11px; height: 11px; color: var(--faint); }
 .chip.add { background: transparent; border: 1px dashed var(--rule-strong); color: var(--soft); }
-.menu { position: absolute; top: 34px; width: 220px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.1); padding: 4px; z-index: 5; opacity: 0; }
-.menu div { padding: 7px 9px; border-radius: 6px; font-size: 13px; }
+.menu { position: absolute; top: 34px; width: 220px; z-index: 5; opacity: 0; }
+.menu div { font-size: 13px; }
 .menu div.hov { background: var(--hover); }
 .res { display: grid; grid-template-columns: 150px 1fr; font-size: 13px; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
 .res div { padding: 8px 12px; border-bottom: 1px solid var(--rule); }

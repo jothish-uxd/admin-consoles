@@ -41,8 +41,6 @@ table.inv { font-size: 12.5px; table-layout: fixed; }
 .card { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 12.5px; }
 .card h2 { margin: 0 0 10px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
 .card h2 a, a.u { font-size: 12px; font-weight: 500; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-dl { margin: 0; display: grid; grid-template-columns: 80px 1fr; row-gap: 7px; }
-dt { color: var(--faint); } dd { margin: 0; color: var(--ink); line-height: 1.4; }
 dd .n { color: var(--soft); }
 .pm { position: relative; display: block; height: 18px; }
 .pm > span { position: absolute; left: 0; top: 0; white-space: nowrap; }
@@ -76,7 +74,7 @@ dd .n { color: var(--soft); }
     <div class="nav" data-at="billing" data-role="admin"></div>
     <div class="main">
       <div class="view">
-        <div class="hd"><h1>Billing</h1><span class="ct">Contract: <b>Echo Base</b> ▾ · 2 contracts</span><span class="btn sm">Add seats</span></div>
+        <div class="hd"><h1>Billing</h1><span class="ct">Contract: <b>Echo Base</b> · 2 contracts<i class="cv"></i></span><span class="btn sm">Add seats</span></div>
         <div class="tabs page"><div>Plan</div><div id="tS" class="on">Seats</div><div id="tI">Invoices</div></div>
         <div class="body">
           <div id="vS">
@@ -105,12 +103,7 @@ dd .n { color: var(--soft); }
               </div>
               <div id="right">
                 <div class="card"><h2>Billing details <a>Edit</a></h2>
-                  <dl><dt>Entity</dt><dd>Rebel Alliance · Echo Base <span class="n">(1 of 2)</span></dd>
-                    <dt>Address</dt><dd>Echo Base, North Ridge, Hoth</dd>
-                    <dt>Tax ID</dt><dd>RA-VAT 4471 09</dd>
-                    <dt>PO number</dt><dd>PO-7781 <span class="n">· on every invoice</span></dd>
-                    <dt>Contacts</dt><dd>Mon Mothma, L. Sienna</dd>
-                    <dt>Payment</dt><dd><span class="pm"><span id="pm0">Visa ending 4417 · expires 12/26</span><span id="pm1" style="opacity:0">Visa ending 0921 · expires 08/29</span></span></dd></dl>
+                  <dl class="kv"><div><dt>Entity</dt><dd>Rebel Alliance · Echo Base <span class="n">(1 of 2)</span></dd></div><div class="w"><dt>Address</dt><dd>Echo Base, North Ridge, Hoth</dd></div><div><dt>Tax ID</dt><dd>RA-VAT 4471 09</dd></div><div><dt>PO number</dt><dd>PO-7781 <span class="n">· on every invoice</span></dd></div><div><dt>Contacts</dt><dd>Mon Mothma, L. Sienna</dd></div><div class="w"><dt>Payment</dt><dd><span class="pm"><span id="pm0">Visa ending 4417 · expires 12/26</span><span id="pm1" style="opacity:0">Visa ending 0921 · expires 08/29</span></span></dd></div></dl>
                   <div class="foot">Invoices are also emailed to billing contacts and synced to Holonet Ledger. Full history since 2024, in USD and Galactic credits.</div></div>
               </div>
             </div>
@@ -145,7 +138,7 @@ function build() {
     [1.10, 600, 190, 1.4], [1.85, 600, 190, 1.4],                       // the Invoices tab
     [2.60, MX, ban[1] + 4, 1.25], [3.70, MX, ban[1] + 4, 1.25],           // the early warning
     [4.30, inv[0], inv[1], 1.4], [5.80, inv[0], inv[1], 1.4],           // invoices: the new one on top, named PDFs, statuses in words
-    [6.40, rt[0], rt[1] - 10, 1.45], [7.20, rt[0], rt[1] - 10, 1.45],   // billing details: entity, tax ID, PO, contacts, synced
+    [6.40, rt[0], Math.min(rt[1] - 10, ub[1] + 190), 1.45], [7.20, rt[0], Math.min(rt[1] - 10, ub[1] + 190), 1.45],   // billing details: entity, tax ID, PO, contacts, synced
     [7.90, 1000, ban[1] + 130, 1.45], [9.30, 1000, ban[1] + 130, 1.45], // update card, last 4 only
     [10.0, MX, 300, 1.15], [11.3, MX, 300, 1.15],                       // saved: banner gone, toast, payment updated
     [11.7, 660, 360, 1.05], [11.9, 656, 360, 1.04]

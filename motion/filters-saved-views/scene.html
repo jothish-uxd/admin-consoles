@@ -20,9 +20,10 @@
 <style>
 .back { font-size: 12.5px; color: var(--soft); display: inline-block; padding: 2px 4px; margin-left: -4px; border-radius: 5px; }
 .sub { margin-top: 4px; font-size: 12.5px; color: var(--soft); }
-.vw { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 7px; background: var(--hover); font-size: 12.5px; color: var(--ink); position: relative; }
+.vw { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px 0 10px; border-radius: 7px; background: var(--hover); font-size: 12.5px; color: var(--ink); position: relative; }
 .vw b { font-weight: 500; }
-.vw .s { position: absolute; left: 10px; white-space: nowrap; opacity: 0; }
+.vw .s { position: absolute; left: 10px; white-space: nowrap; opacity: 0; display: inline-flex; align-items: center; gap: 6px; }
+.vw > span:first-child { display: inline-flex; align-items: center; gap: 6px; }
 .sp { flex: 1; }
 .btn.sm { height: 32px; font-size: 12.5px; }
 .qk { margin-top: 14px; display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--faint); }
@@ -48,8 +49,8 @@ table.log { margin-top: 8px; font-size: 12.5px; table-layout: fixed; }
 .res.bad { color: var(--ink); font-weight: 600; }
 .res.bad svg { color: #b91c1c; }
 tr.nw td { height: 0; }
-.menu { position: absolute; left: 0; top: 38px; width: 300px; white-space: normal; font-weight: 400; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,.14); padding: 6px; z-index: 10; opacity: 0; font-size: 13px; }
-.menu .it { display: flex; justify-content: space-between; padding: 7px 10px; border-radius: 7px; color: var(--ink); }
+.menu { position: absolute; left: 0; top: 38px; width: 300px; white-space: normal; z-index: 10; opacity: 0; }
+.menu .it { display: flex; justify-content: space-between; color: var(--ink); }
 .menu .it.cur { font-weight: 500; }
 .menu .sep { border-top: 1px solid var(--rule); margin: 6px 4px; }
 .menu .cu { padding: 4px 10px 6px; font-size: 12px; color: var(--soft); }
@@ -102,7 +103,7 @@ tr.nw td { height: 0; }
       <!-- the log, filters kept -->
       <div class="view alog" id="vLog" style="opacity:0">
         <div class="hd" id="hd"><h1>Audit log</h1>
-          <span class="vw" id="vw"><span id="vw0">Views: <b>All events</b> <span class="dd" style="color:var(--faint);font-size:10px">▾</span></span><span class="s" id="vw1">Views: <b>archive-sync investigation</b> · shared ▾</span></span>
+          <span class="vw" id="vw"><span id="vw0">Views: <b>All events</b><i class="cv"></i></span><span class="s" id="vw1">Views: <b>archive-sync investigation</b> · shared<i class="cv"></i></span></span>
           <span class="btn sm">Copy link</span><span class="btn sm">Export</span>
           <span class="rel"><span class="btn sm" id="saveB">Save view</span>
             <div class="pop" id="pop"><b>Save view</b><label>Name</label><div class="in">archive-sync investigation</div>
@@ -113,7 +114,7 @@ tr.nw td { height: 0; }
         <div class="tabs page"><div id="tEv" class="on">Events</div><div id="tSt">Streaming</div><div id="tAl">Alerts</div></div>
         <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
         <div class="flt" id="flt">
-          <span class="fb on" id="timeB"><span id="tl0">Last 24 hours</span><span id="tl1" style="position:absolute;left:10px;opacity:0">Last 7 days</span><span id="tlsp" style="visibility:hidden;width:0"></span><span class="dd">▾</span>
+          <span class="fb on" id="timeB"><span id="tl0">Last 24 hours</span><span id="tl1" style="position:absolute;left:10px;opacity:0">Last 7 days</span><span id="tlsp" style="visibility:hidden;width:0"></span><i class="cv"></i>
             <div class="menu" id="menu">
               <div class="it">Last hour</div><div class="it cur">Last 24 hours <span>✓</span></div><div class="it" id="d7">Last 7 days</div><div class="it">Last 30 days</div>
               <div class="sep"></div>

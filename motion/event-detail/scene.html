@@ -51,8 +51,6 @@ table.log { margin-top: 10px; font-size: 12.5px; table-layout: fixed; }
 .sec + .sec { margin-top: 18px; }
 .why { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; font-size: 12.5px; color: var(--soft); line-height: 1.5; }
 .why b { color: var(--ink); font-weight: 500; }
-dl { margin: 0; display: grid; grid-template-columns: 96px 1fr; row-gap: 7px; font-size: 12.5px; }
-dt { color: var(--faint); } dd { margin: 0; color: var(--ink); }
 dd .m { font-family: "Geist Mono", monospace; font-size: 11.5px; }
 dd .n { color: var(--soft); }
 .rel { border: 1px solid var(--rule); border-radius: 12px; padding: 12px 14px; }
@@ -89,7 +87,7 @@ table.chg { font-size: 12.5px; }
     <div class="main">
       <!-- the filtered log -->
       <div class="view alog" id="vList">
-        <div class="hd"><h1>Audit log</h1><span class="vw">Views: <b>All events</b> ▾</span><span class="btn sm">Copy link</span><span class="btn sm">Export</span><span class="btn sm">Save view</span></div>
+        <div class="hd"><h1>Audit log</h1><span class="vw">Views: <b>All events</b><i class="cv"></i></span><span class="btn sm">Copy link</span><span class="btn sm">Export</span><span class="btn sm">Save view</span></div>
         <div class="tabs page"><div id="tEv" class="on">Events</div><div id="tSt">Streaming</div><div id="tAl">Alerts</div></div>
         <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
         <div class="flt"><span class="fb on">Last 24 hours</span><span class="fb on">Actor: archive-sync <span class="x">✕</span></span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span></div>
@@ -113,12 +111,7 @@ table.chg { font-size: 12.5px; }
         <div class="dcols">
           <div>
             <div class="sec"><h2>Changes</h2><div class="why">No changes: this was a read attempt. <b>Blocked because the key's scopes don't include Death Star plans · archive.</b></div></div>
-            <div class="sec"><h2>Context</h2><dl>
-              <dt>IP address</dt><dd><span class="m">10.4.22.8</span></dd>
-              <dt>Location</dt><dd>Outer Rim relay <span class="n">· new for this key</span></dd>
-              <dt>User agent</dt><dd><span class="m">archive-sync/2.3 python-requests</span></dd>
-              <dt>Session</dt><dd><span class="m">ses_41c9e2</span> <span class="n">· started 08:58:30</span></dd>
-              <dt>Request ID</dt><dd><span class="m">req_7f3a90b1</span> <span class="n">· also in Storage service</span></dd></dl></div>
+            <div class="sec"><h2>Context</h2><dl class="kv"><div><dt>IP address</dt><dd><span class="m">10.4.22.8</span></dd></div><div><dt>Location</dt><dd>Outer Rim relay <span class="n">· new for this key</span></dd></div><div class="w"><dt>User agent</dt><dd><span class="m">archive-sync/2.3 python-requests</span></dd></div><div><dt>Session</dt><dd><span class="m">ses_41c9e2</span> <span class="n">· started 08:58:30</span></dd></div><div><dt>Request ID</dt><dd><span class="m">req_7f3a90b1</span> <span class="n">· also in Storage service</span></dd></div></dl></div>
           </div>
           <div class="sec"><h2>Related events</h2><div class="rel">
             <div class="rg">Same actor</div>
@@ -146,10 +139,7 @@ table.chg { font-size: 12.5px; }
                   <tr><td>Expires</td><td class="b">Dec 31, 2026</td><td>Never</td><td><span class="mk">Changed</span></td></tr>
                   <tr><td>Secret</td><td colspan="2" style="color:var(--soft)">Rotated · value not shown</td><td><span class="mk">Rotated</span></td></tr>
                 </tbody></table></div>
-              <div class="sec"><h2>Context</h2><dl>
-                <dt>IP address</dt><dd><span class="m">10.0.1.14</span> <span class="n">· Echo Base</span></dd>
-                <dt>User agent</dt><dd>Console · Chrome 131</dd>
-                <dt>Request ID</dt><dd><span class="m">req_2b81c4de</span></dd></dl></div>
+              <div class="sec"><h2>Context</h2><dl class="kv"><div><dt>IP address</dt><dd><span class="m">10.0.1.14</span> <span class="n">· Echo Base</span></dd></div><div class="w"><dt>User agent</dt><dd>Console · Chrome 131</dd></div><div><dt>Request ID</dt><dd><span class="m">req_2b81c4de</span></dd></div></dl></div>
             </div>
             <div id="jsonB" style="position:absolute;inset:0;opacity:0"><div class="sec"><h2>Raw event</h2><div class="json">{
   <span class="k">"schema"</span>: "audit.v3",

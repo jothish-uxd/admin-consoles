@@ -25,6 +25,7 @@
 .body > div { position: absolute; inset: 0; }
 .flt { display: flex; gap: 8px; }
 .fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12.5px; color: var(--ink); background: var(--bg); white-space: nowrap; }
+.fb.dd { padding-right: 12px; }
 .fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
 .meta { margin-top: 10px; font-size: 12.5px; color: var(--soft); }
 .meta b { color: var(--ink); font-weight: 500; }
@@ -97,7 +98,7 @@ a.u { color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
     <div class="main">
       <div class="view alog">
         <div class="hd" id="hd"><h1>Audit log</h1>
-          <span class="vw">Views: <b>archive-sync investigation</b> · shared ▾</span>
+          <span class="vw">Views: <b>archive-sync investigation</b> · shared<i class="cv"></i></span>
           <span class="btn sm">Copy link</span>
           <span class="rel"><span class="btn sm" id="expB">Export</span>
             <div class="pop" id="pop"><b>Export this view</b>
@@ -112,7 +113,7 @@ a.u { color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
         <div class="body">
           <div id="vEv">
             <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
-            <div class="flt"><span class="fb on">Last 7 days ▾</span><span class="fb on">Actor: archive-sync ✕</span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span><span class="fb">IP</span></div>
+            <div class="flt"><span class="fb on dd">Last 7 days<i class="cv"></i></span><span class="fb on">Actor: archive-sync ✕</span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span><span class="fb">IP</span></div>
             <div class="ql">Query <code>actor:"archive-sync" time:last_7d</code><a>Edit as query</a></div>
             <div class="meta">Times in <b>Pacific Time (PT)</b> · <b>9 events</b> · 8 failed</div>
             <table class="log"><colgroup><col style="width:142px"><col><col style="width:186px"><col style="width:120px"></colgroup>

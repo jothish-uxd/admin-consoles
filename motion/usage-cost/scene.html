@@ -160,7 +160,7 @@ const { $, at, span, easeOut } = Motion;
   const fc = [[22, 4120], [26, 4980], [30, 5900]];
   const path = pts => pts.map((p, i) => (i ? "L" : "M") + x(p[0]).toFixed(1) + " " + y(p[1]).toFixed(1)).join(" ");
   $("ch").innerHTML = `
-    <line x1="10" x2="450" y1="${y(6000)}" y2="${y(6000)}" stroke="#8f8f8f" stroke-width="1" stroke-dasharray="1 3"/>
+    <line x1="10" x2="450" y1="${y(6000)}" y2="${y(6000)}" stroke="#737373" stroke-width="1" stroke-dasharray="1 3"/>
     <text x="12" y="${y(6000) - 5}" font-size="11" fill="#666" font-family="Geist">Budget 6,000</text>
     <path d="${path(actual)}" fill="none" stroke="#171717" stroke-width="2.2" stroke-linejoin="round"/>
     <path d="${path(fc)}" fill="none" stroke="#171717" stroke-width="2" stroke-dasharray="5 4"/>
@@ -169,8 +169,8 @@ const { $, at, span, easeOut } = Motion;
     <text x="458" y="${y(5900) + 10}" font-size="11" fill="#171717" font-family="Geist">Forecast 5,900</text>
     <circle cx="${x(20)}" cy="${y(3420)}" r="3" fill="#fff" stroke="#171717" stroke-width="1.5"/>
     <text x="${x(20) + 2}" y="${y(3420) + 17}" font-size="10.5" fill="#666" font-family="Geist" text-anchor="middle">Nov 20 spike</text>
-    <text x="10" y="${H}" font-size="10.5" fill="#8f8f8f" font-family="Geist">Nov 1</text>
-    <text x="${x(30)}" y="${H}" font-size="10.5" fill="#8f8f8f" font-family="Geist" text-anchor="end">Nov 30</text>`;
+    <text x="10" y="${H}" font-size="10.5" fill="#737373" font-family="Geist">Nov 1</text>
+    <text x="${x(30)}" y="${H}" font-size="10.5" fill="#737373" font-family="Geist" text-anchor="end">Nov 30</text>`;
 })();
 
 /* ---------- timeline (scene seconds) ---------- */

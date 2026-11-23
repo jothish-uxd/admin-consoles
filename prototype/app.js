@@ -80,12 +80,14 @@
     let m = null, r = ROUTES.find(r => (m = path.match(r.re)));
     if (!r) { location.hash = "#/home"; return; }
     const params = Object.assign({}, m.groups, q);
+    if (!opts.keepFocus && path !== lastPath) dlgStack.slice().reverse().forEach(x => x.close());  // leaving the page closes its dialogs
     const focusId = document.activeElement && document.activeElement.id;
     const v = r.view(params);
     current = { v, params, path };
     drawRail(v.nav); drawTop(v.crumbs || [["Home", "/home"]]);
     document.title = (v.title || "Echo Base Console") + " · Echo Base Console prototype";
     $("#main").innerHTML = v.html;
+    window.DD && window.DD.scan($("#main"));  // dropdowns are enhanced now, so focus can return to them by id
     v.mount && v.mount($("#main"), params);
     const moved = path !== lastPath; lastPath = path;
     if (moved && !opts.keepFocus) { const h1 = $("#main h1"); if (h1) { h1.setAttribute("tabindex", "-1"); h1.focus({ preventScroll: true }); } window.scrollTo(0, 0); }

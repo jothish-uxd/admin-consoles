@@ -29,15 +29,16 @@
 .seg svg { width: 13px; height: 13px; }
 .btn.sm { height: 30px; font-size: 12px; }
 .sr { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
-.search { flex: 1; height: 36px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; gap: 8px; align-items: center; padding: 0 12px; font-size: 13px; color: #a8a8a8; }
+.search { flex: 1; height: 36px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; gap: 8px; align-items: center; padding: 0 12px; font-size: 13px; color: var(--faint); }
 .search svg { width: 14px; height: 14px; color: var(--faint); }
 .flt { height: 36px; display: inline-flex; gap: 6px; align-items: center; padding: 0 12px; border: 1px solid var(--rule-strong); border-radius: 8px; font-size: 12.5px; color: var(--soft); position: relative; white-space: nowrap; }
 .flt b { color: var(--ink); font-weight: 600; }
 .flt.on { border-color: var(--ink); background: var(--ink); color: #fff; }
 .flt.on b { color: #fff; }
 .flt svg { width: 11px; height: 11px; }
-.menu { position: absolute; left: 0; top: 40px; width: 200px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.1); padding: 4px; z-index: 5; opacity: 0; color: var(--ink); }
-.menu div { padding: 7px 9px; border-radius: 6px; font-size: 13px; display: flex; justify-content: space-between; }
+.flt.on .cv { background: #fff; }
+.menu { position: absolute; left: 0; top: 40px; width: 200px; z-index: 5; opacity: 0; }
+.menu div { font-size: 13px; display: flex; justify-content: space-between; }
 .menu div span { color: var(--faint); font-family: "Geist Mono", monospace; font-size: 11px; }
 .menu div.hov { background: var(--hover); }
 .views { margin-top: 10px; display: flex; gap: 6px; align-items: center; font-size: 12.5px; }
@@ -100,11 +101,11 @@ td.num { font-family: "Geist Mono", monospace; font-size: 11.5px; color: var(--s
       <div class="meta" style="margin-top:14px"><span id="m0"><b>About 2.4M items</b> · index updated 2 min ago</span><span id="m1" style="opacity:0"><b>112 items</b> owned by deactivated people · index updated 2 min ago</span><span id="m2" style="opacity:0"><b>3 items</b> owned by deactivated people, shared by public link</span></div>
       <div class="sr" id="sr">
         <div class="search"><svg><use href="#srch"/></svg>Search name, owner, type or tag</div>
-        <span class="flt">Owner<svg><use href="#chev"/></svg></span>
-        <span class="flt" id="fShare"><span id="fsL">Sharing</span><svg><use href="#chev"/></svg>
+        <span class="flt">Owner<i class="cv"></i></span>
+        <span class="flt" id="fShare"><span id="fsL">Sharing</span><i class="cv"></i>
           <div class="menu" id="menu"><div>Internal only<span>1.9M</span></div><div>Specific people<span>410K</span></div><div id="optPub">Public link<span>38</span></div></div></span>
-        <span class="flt">Last modified<svg><use href="#chev"/></svg></span>
-        <span class="flt">Size<svg><use href="#chev"/></svg></span>
+        <span class="flt">Last modified<i class="cv"></i></span>
+        <span class="flt">Size<i class="cv"></i></span>
       </div>
       <div class="views"><span class="l">Saved views</span>
         <span class="view">Shared publicly <span class="n">38</span></span>

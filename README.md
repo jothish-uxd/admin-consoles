@@ -105,11 +105,11 @@ Player bar: on the site, the player's control bar covers the bottom of the frame
 
 Same page, same pixels: a page that appears in more than one clip looks identical in each, so moving between patterns never shifts anything. The page frame (`.main` padding, `.main > .view`, `h1`, `.hd`, page tabs) lives only in `shared/console.css`, and scenes don't restyle it. Pages shown in several clips share their header actions and tabs too: Home, Billing (Contract and Add seats; Plan · Seats · Invoices), People (one primary action per tab; Users · Groups · Roles), Content (All content · Sharing · Tags · Storage · Trash, with the same toolbar on All content and on Tags), the item page (Details · Access · Activity · Versions) and the Audit log (Views, Copy link, Export, Save view; Events · Streaming · Alerts; quick filters, filters, query and count in the same rows, styled by `.alog`). Only the content of the moment changes, such as a new row, a filter chip or an open dialog.
 
-Checklist for every new clip (clips made before 23 Nov 2026 predate it and keep the older grey and side-by-side labels until a future re-render pass):
+Checklist for every clip (all 31 existing clips were brought up to it on 23 Nov 2026):
 - Contrast meets WCAG AA, 4.5:1 for small text. The lightest grey is `--faint` (#737373, as on the site); grey text on `--hover` uses `--soft` or darker.
 - Key/value details put each label above its value with `.kv` in `shared/console.css`, never a label column beside a value column.
 - Same page, same pixels (above), clicks above the player bar, and `render()` sets every element on every branch. `python3 motion/audit.py` checks the last two.
-- Dropdowns use the drawn chevron (stroke 1.6, `--soft`, 14px) set 12px in from the right edge, with 36px of right padding so text never runs under it; never a ▾ character tight against the border. The prototype's `select` rule in `prototype/proto.css` is the reference.
+- Dropdowns use the drawn chevron (stroke 1.6, `--soft`, 14px) set 12px in from the right edge, with 36px of right padding so text never runs under it; never a ▾ character tight against the border. Use `<i class="cv"></i>` from `shared/console.css`. Open dropdown menus use the shared `.menu` panel (10px corners, one shadow, 7px 10px rows); a scene sets only its position, width and timing.
 - Inline edits show visible Save and Cancel buttons, with Enter and Esc as shortcuts; the steps text covers the field name, announcements and where focus goes. To lift a low button while keeping the clamp, pass `clamp: <px>` (extra room past the bottom of the stage) instead of `false`.
 
 Length: clips with fewer than 5 steps run 10 seconds (`duration: 10`); clips with 5 or more run 15 (`duration: 15`).

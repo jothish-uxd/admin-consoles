@@ -22,8 +22,6 @@
 .btn.sm { height: 32px; font-size: 12.5px; }
 .body { position: relative; margin-top: 14px; height: 480px; }
 .body > div { position: absolute; inset: 0; }
-dl { margin: 0; display: grid; grid-template-columns: 110px 1fr; row-gap: 9px; font-size: 13px; width: 520px; }
-dt { color: var(--faint); } dd { margin: 0; color: var(--ink); }
 .vcols { display: grid; grid-template-columns: 470px 1fr; gap: 18px; }
 .ret { display: flex; gap: 8px; align-items: center; font-size: 12.5px; color: var(--soft); margin-bottom: 10px; }
 .ret b { color: var(--ink); font-weight: 600; }
@@ -84,8 +82,7 @@ dt { color: var(--faint); } dd { margin: 0; color: var(--ink); }
       <div class="tabs page" id="tabs"><div id="tDet" class="on">Details</div><div>Access</div><div>Activity</div><div id="tVer">Versions</div></div>
       <div class="body">
         <div id="vDet">
-          <dl><dt>Owner</dt><dd>Gen. Carlist Rieekan</dd><dt>Location</dt><dd>Echo Base / Operations</dd><dt>Size</dt><dd>48 KB <span style="color:var(--faint)">(was 2.1 MB yesterday)</span></dd>
-            <dt>Modified</dt><dd>Today 09:14 by Holonet sync bot</dd><dt>Label</dt><dd>Internal</dd></dl>
+          <dl class="kv"><div><dt>Owner</dt><dd>Gen. Carlist Rieekan</dd></div><div><dt>Location</dt><dd>Echo Base / Operations</dd></div><div><dt>Size</dt><dd>48 KB <span style="color:var(--faint)">(was 2.1 MB yesterday)</span></dd></div><div><dt>Modified</dt><dd>Today 09:14 by Holonet sync bot</dd></div><div><dt>Label</dt><dd>Internal</dd></div></dl>
         </div>
         <div id="vVer" style="opacity:0">
           <div class="vcols">

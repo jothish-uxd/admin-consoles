@@ -57,7 +57,7 @@ table.al { font-size: 12.5px; table-layout: fixed; }
 .cb svg { width: 11px; height: 11px; }
 .dlg .ck span.k { color: var(--faint); }
 .dlg .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.dlg .sel { border: 1px solid var(--rule-strong); border-radius: 7px; height: 32px; display: flex; align-items: center; padding: 0 10px; color: var(--ink); }
+.dlg .sel { border: 1px solid var(--rule-strong); border-radius: 7px; height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px 0 10px; color: var(--ink); }
 .dlg .m { margin-top: 12px; font-size: 12px; color: var(--soft); }
 .dlg .r { margin-top: 14px; display: flex; gap: 8px; justify-content: flex-end; }
 .dlg .btn { height: 34px; }
@@ -81,7 +81,7 @@ table.al { font-size: 12.5px; table-layout: fixed; }
     <div class="nav" data-at="compliance" data-role="admin"></div>
     <div class="main">
       <div class="view alog">
-        <div class="hd"><h1>Audit log</h1><span class="vw">Views: <b>archive-sync investigation</b> · shared ▾</span><span class="btn sm">Copy link</span><span class="btn sm">Export</span><span class="btn sm">Save view</span></div>
+        <div class="hd"><h1>Audit log</h1><span class="vw">Views: <b>archive-sync investigation</b> · shared<i class="cv"></i></span><span class="btn sm">Copy link</span><span class="btn sm">Export</span><span class="btn sm">Save view</span></div>
         <div class="tabs page"><div id="tEv">Events</div><div id="tSt" class="on">Streaming</div><div id="tAl">Alerts</div></div>
         <div class="body">
           <div id="vSt">
@@ -123,7 +123,7 @@ table.al { font-size: 12.5px; table-layout: fixed; }
           <div class="ck"><span class="cb"><svg><use href="#ok"/></svg></span>Email <span class="k">· Security admins (6)</span></div>
           <div class="ck"><span class="cb"><svg><use href="#ok"/></svg></span>Chat <span class="k">· #sec-alerts</span></div>
           <div class="ck"><span class="cb"><svg><use href="#ok"/></svg></span>PagerDuty <span class="k">· Security on-call</span></div></div>
-        <div><div class="lbl">Route to</div><div class="sel">Echo Base admins ▾</div>
+        <div><div class="lbl">Route to</div><div class="sel">Echo Base admins<i class="cv"></i></div>
           <div class="lbl" style="margin-top:10px">Each alert includes</div><div style="color:var(--ink)">What happened, who and when, with a link to the matching events</div></div></div>
       <div class="m">Checked on the live stream within seconds. Repeats within an hour join the same incident.</div>
       <div class="r"><span class="btn ghost">Cancel</span><span class="btn pri" id="okB">Create alert</span></div>

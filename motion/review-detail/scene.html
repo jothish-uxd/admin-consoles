@@ -22,9 +22,6 @@
 .sec h3 { margin: 0 0 10px; font-size: 13px; font-weight: 600; display: flex; gap: 8px; align-items: center; }
 .sec h3 .k { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); font-weight: 400; }
 .sec.focus { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
-dl { margin: 0; display: grid; grid-template-columns: 112px 1fr; row-gap: 6px; font-size: 13px; }
-dt { color: var(--faint); }
-dd { margin: 0; color: var(--ink); }
 dd .m { color: var(--soft); }
 .who { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
 .who .n { font-weight: 600; font-size: 14px; }
@@ -51,12 +48,12 @@ dd .m { color: var(--soft); }
 .fld .l span { font-weight: 400; color: var(--faint); }
 .ro { height: 34px; border: 1px solid var(--rule); border-radius: 8px; display: flex; align-items: center; padding: 0 10px; font-size: 13px; background: var(--subtle); justify-content: space-between; }
 .ro span { color: var(--faint); font-size: 12px; }
-.sel { height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; font-size: 13px; position: relative; }
+.sel { height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px 0 10px; font-size: 13px; position: relative; }
 .sel.open { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
 .sel .v { position: relative; height: 18px; flex: 1; }
 .sel .v span { position: absolute; left: 0; top: 0; white-space: nowrap; }
-.menu { position: absolute; left: 0; right: 0; top: 38px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.1); padding: 4px; z-index: 5; opacity: 0; }
-.menu div { padding: 7px 9px; border-radius: 6px; font-size: 13px; }
+.menu { position: absolute; left: 0; right: 0; top: 38px; z-index: 5; opacity: 0; }
+.menu div { font-size: 13px; }
 .menu div .s { display: block; font-size: 11px; color: var(--faint); }
 .menu div.hov { background: var(--hover); }
 .seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; }
@@ -69,7 +66,7 @@ dd .m { color: var(--soft); }
 .chg { font-family: "Geist Mono", monospace; font-size: 10px; border: 1px solid var(--ink); border-radius: 999px; padding: 0 6px; color: var(--ink); margin-left: 4px; }
 .ta { border: 1px solid var(--rule-strong); border-radius: 8px; height: 54px; padding: 8px 10px; font-size: 12.5px; line-height: 1.45; }
 .ta.focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
-.ta .ph { color: #b0b0b0; }
+.ta .ph { color: var(--faint); }
 .caret { display: inline-block; width: 1.5px; height: 14px; background: var(--ink); vertical-align: -3px; margin-left: 1px; }
 .acts { display: flex; gap: 8px; margin-top: 14px; }
 .acts .btn { flex: 1; height: 36px; }
@@ -84,7 +81,7 @@ dd .m { color: var(--soft); }
 .ok .s { font-size: 12px; color: var(--soft); margin-top: 2px; }
 .rec { font-size: 12px; }
 .rec .h { font-size: 11px; color: var(--faint); margin-bottom: 6px; font-family: "Geist Mono", monospace; }
-.rec dl { grid-template-columns: 82px 1fr; font-size: 12px; row-gap: 5px; }
+.rec .kv { gap: 10px 20px; margin-top: 8px; }
 .logged { margin-top: 14px; display: inline-flex; gap: 6px; align-items: center; font-size: 12px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: var(--hover); color: var(--ink); opacity: 0; }
 .logged svg { width: 12px; height: 12px; }
 </style>
@@ -111,11 +108,7 @@ dd .m { color: var(--soft); }
           <section class="sec" id="secWho">
             <h3><span class="k">01</span>Who’s asking</h3>
             <div class="who"><span class="av lg">BR</span><div><div class="n">Bodhi Rook</div><div class="r">Cargo pilot · contractor until Mar 2027</div></div></div>
-            <dl>
-              <dt>Team</dt><dd>Rogue One</dd>
-              <dt>Manager</dt><dd>Cassian Andor</dd>
-              <dt>Has today</dt><dd>Cargo manifests <span class="m">Viewer</span> · Hangar 3 schedules <span class="m">Viewer</span></dd>
-            </dl>
+            <dl class="kv"><div><dt>Team</dt><dd>Rogue One</dd></div><div><dt>Manager</dt><dd>Cassian Andor</dd></div><div class="w"><dt>Has today</dt><dd>Cargo manifests <span class="m">Viewer</span> · Hangar 3 schedules <span class="m">Viewer</span></dd></div></dl>
           </section>
           <section class="sec" id="secWhat">
             <h3><span class="k">02</span>What they’d get</h3>
@@ -133,7 +126,7 @@ dd .m { color: var(--soft); }
           <h2>Your decision</h2>
           <div class="fld"><div class="l">Access level</div><div class="ro">Editor <span>as requested</span></div></div>
           <div class="fld"><div class="l">Scope <span>You can narrow this</span></div>
-            <div class="sel" id="scope"><div class="v"><span id="sc0">All shield sensors</span><span id="sc1" style="opacity:0">Coolant sensors only</span></div><svg width="14" height="14" style="color:#8f8f8f"><use href="#chev"/></svg>
+            <div class="sel" id="scope"><div class="v"><span id="sc0">All shield sensors</span><span id="sc1" style="opacity:0">Coolant sensors only</span></div><i class="cv"></i>
               <div class="menu" id="menu"><div>All shield sensors<span class="s">As requested · 214 sensors</span></div><div id="optCool">Coolant sensors only<span class="s">12 sensors</span></div><div>Read-only sensors<span class="s">Viewer access</span></div></div>
             </div></div>
           <div class="fld"><div class="l">How long</div><div class="seg"><div id="d4">4 hours</div><div id="d1">1 day</div><div>7 days</div></div></div>
@@ -145,8 +138,7 @@ dd .m { color: var(--soft); }
           <div class="result" id="result">
             <div class="ok"><span class="ic"><svg width="16" height="16"><use href="#tick"/></svg></span><div><div class="t">Approved with changes</div><div class="s">Bodhi has been told what changed.</div></div></div>
             <div class="rec"><div class="h">DECISION RECORD</div>
-              <dl><dt>Granted</dt><dd>Editor · coolant sensors</dd><dt>Ends</dt><dd>Tonight, 23:40</dd><dt>Asked for</dt><dd>All sensors · 1 day</dd>
-                <dt>Approver</dt><dd>Lavanya Sienna</dd><dt>Comment</dt><dd id="recC">Scoped to the coolant fix. Ends tonight.</dd></dl></div>
+              <dl class="kv"><div><dt>Granted</dt><dd>Editor · coolant sensors</dd></div><div><dt>Ends</dt><dd>Tonight, 23:40</dd></div><div><dt>Asked for</dt><dd>All sensors · 1 day</dd></div><div><dt>Approver</dt><dd>Lavanya Sienna</dd></div><div class="w"><dt>Comment</dt><dd id="recC">Scoped to the coolant fix. Ends tonight.</dd></div></dl></div>
             <div class="logged" id="logged"><svg><use href="#tick"/></svg>Saved to audit log</div>
           </div>
         </div>
