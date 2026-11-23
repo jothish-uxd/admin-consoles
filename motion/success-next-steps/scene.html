@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Success &amp; next steps · motion scene</title>
+<!--
+  Source for media/creation-flows/success-next-steps.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: People / Users → invite the 38 Rogue One pilot members → Send 38 invites.
+
+  Follows the Success & next steps card (data/guidance-actions.js):
+  - sending as a job, pending then ready (scale 1)
+  - a panel, not a toast: what was created and where, link to it, Done to dismiss (think 2, do 1, 4, avoid 1, 3, WCAG 2.2.1)
+  - required follow-up: verify an outside domain (do 3)
+  - 3 likely next actions (do 2, avoid 2); setup progress (scale 3)
+  - View API call (scale 2)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 0; }
+.view { position: absolute; inset: 20px 32px; }
+h1 { font-size: 20px; }
+.hd { display: flex; align-items: center; gap: 10px; }
+.hd h1 { flex: 1; }
+.btn.sm { height: 32px; font-size: 12.5px; }
+.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
+.box { position: relative; margin-top: 18px; width: 820px; }
+.box > div { position: absolute; left: 0; top: 0; width: 100%; }
+.pnl { border: 1px solid var(--rule-strong); border-radius: 14px; padding: 20px 22px; font-size: 13px; color: var(--soft); line-height: 1.45; }
+.pnl h2 { margin: 0; font-size: 17px; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+.pnl h2 .ck { width: 24px; height: 24px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; }
+.pnl h2 .ck svg { width: 13px; height: 13px; }
+dl { margin: 12px 0 0; display: grid; grid-template-columns: 110px 1fr; row-gap: 7px; }
+dt { color: var(--faint); } dd { margin: 0; color: var(--ink); }
+.pnl .r { margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end; }
+.pnl .btn { height: 36px; }
+.prog { margin-top: 14px; height: 8px; border-radius: 4px; background: var(--hover); overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--ink); width: 0; }
+.req { margin-top: 14px; display: flex; gap: 12px; align-items: center; border: 1px solid var(--ink); border-radius: 10px; padding: 10px 12px; }
+.req .tx { flex: 1; }
+.req b { color: var(--ink); font-weight: 600; }
+.req .btn { height: 32px; font-size: 12.5px; }
+.nx { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.nc { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; font-size: 12.5px; }
+.nc b { display: block; color: var(--ink); font-size: 13px; margin-bottom: 2px; }
+.ft { margin-top: 14px; display: flex; align-items: center; gap: 14px; font-size: 12.5px; }
+.ft a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.ft .sp { flex: 1; }
+.ft .btn { height: 34px; }
+.su { display: inline-flex; gap: 8px; align-items: center; }
+.su .bar { width: 80px; height: 6px; border-radius: 3px; background: var(--hover); overflow: hidden; }
+.su .bar i { display: block; height: 100%; width: 50%; background: var(--ink); }
+.api { margin-top: 12px; background: #171717; color: #e5e5e5; border-radius: 10px; padding: 12px 14px; font: 11.5px/1.6 "Geist Mono", monospace; white-space: pre; overflow: hidden; }
+.api .k { color: #a3a3a3; }
+.apiW { height: 0; overflow: hidden; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="People / Users / Invite"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>People</h1></div>
+        <div class="tabs"><div class="on">Users</div><div>Groups</div><div>Roles</div></div>
+        <div class="box" id="box">
+          <!-- review before sending -->
+          <div id="pA"><div class="pnl"><h2>Invite to Rogue One pilot</h2>
+            <dl><dt>People</dt><dd>38 from rogue-one-pilot.csv</dd><dt>Group</dt><dd>Rogue One pilot</dd><dt>License</dt><dd>Console · 38 of 38 available seats</dd><dt>Message</dt><dd>Welcome to the Rogue One pilot, starting 1 December.</dd></dl>
+            <div class="r"><span class="btn ghost">Back</span><span class="btn pri" id="sendB">Send 38 invites</span></div></div></div>
+          <!-- sending: a job -->
+          <div id="pB" style="opacity:0"><div class="pnl"><h2>Sending invitations…</h2><div style="margin-top:4px" id="cnt">0 of 38 sent</div>
+            <div class="prog"><i id="pg"></i></div><div style="margin-top:10px;font-size:12px">You can leave this page. We'll notify you when it's done.</div></div></div>
+          <!-- success -->
+          <div id="pC" style="opacity:0"><div class="pnl" id="pnlC"><h2><span class="ck"><svg><use href="#ok"/></svg></span>38 invitations sent</h2>
+            <div style="margin-top:4px">Added to <b style="color:var(--ink);font-weight:500">Rogue One pilot</b> · 38 Console seats assigned · Sun 22 Nov, 18:40 PT</div>
+            <div class="req" id="req"><div class="tx"><b>Needed before they can sign in:</b> 2 people use an outside domain, rogueone.alliance. Verify it first.</div><span class="btn sm pri">Verify domain</span></div>
+            <div class="nx" id="nx">
+              <div class="nc"><b>Assign a role</b>Content admin · Rogue One, made for this pilot</div>
+              <div class="nc"><b>Share the onboarding guide</b>Send the pilot handbook to the group</div>
+              <div class="nc"><b>Track who has accepted</b>0 of 38 so far</div>
+            </div>
+            <div class="apiW" id="apiW"><div class="api"><span class="k">POST</span> /v2/invitations
+{ <span class="k">"group"</span>: "rogue-one-pilot", <span class="k">"license"</span>: "console",
+  <span class="k">"emails"</span>: [ "jyn.erso@rogueone.alliance", "… 37 more" ] }</div></div>
+            <div class="ft" id="ft"><span class="su">Setup 2 of 4 done <span class="bar"><i></i></span></span><a>Open Rogue One pilot</a><a id="apiB">View API call</a><span class="sp"></span><span class="btn">Done</span></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  sendClick: 1.80, toB: 1.95, job: [2.40, 4.20], toC: 4.30, apiClick: 9.20, api: [9.30, 9.70],
+  endCard: [11.8, 12.25], end: 13.3
+};
+
+function build() {
+  const sb = at("sendB");
+  ["pA", "pB", "pC"].forEach(id => $(id).style.opacity = id === "pC" ? 1 : 0);
+  const pc = at("pnlC"), rq = at("req"), nx = at("nx"), ab = at("apiB"), ft = at("ft");
+  ["pA", "pB", "pC"].forEach(id => $(id).style.opacity = id === "pA" ? 1 : 0);
+  const BX = at("box")[0];
+  const cur = [
+    [0.00, 860, 620], [0.40, 860, 620], [1.65, sb[0], sb[1] + 3], [1.95, sb[0], sb[1] + 3], [2.80, sb[0] - 200, sb[1] + 60],
+    [9.05, ab[0], ab[1] + 3], [9.35, ab[0], ab[1] + 3], [11.0, ab[0] + 100, ab[1] + 140], [11.8, ab[0] + 102, ab[1] + 142]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.20, BX, 260, 1.35], [4.40, BX, 260, 1.35],                 // review, send, sending as a job
+    [5.00, BX, rq[1] + 60, 1.32], [6.30, BX, rq[1] + 60, 1.32],   // what was created; the required follow-up
+    [6.90, BX, nx[1] + 30, 1.32], [9.30, BX, nx[1] + 30, 1.32],   // next actions; setup progress; open it
+    [9.80, BX, nx[1] + 70, 1.25], [11.0, BX, nx[1] + 70, 1.25],   // the API call
+    [11.6, 660, 360, 1.05], [11.8, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function seq(a, b, t, t0) { $(a).style.opacity = 1 - span(t, t0, t0 + .15); $(b).style.opacity = span(t, t0 + .18, t0 + .36); }
+
+function render(t) {
+  $("sendB").style.background = t >= T.sendClick - .05 && t < T.toB + .1 ? "#333" : "";
+  if (t < T.toC) { seq("pA", "pB", t, T.toB); $("pC").style.opacity = 0; }
+  else { $("pA").style.opacity = 0; seq("pB", "pC", t, T.toC); }
+  const p = span(t, ...T.job);
+  $("pg").style.width = (p * 100) + "%";
+  $("cnt").textContent = Math.round(38 * p) + " of 38 sent";
+  const a = span(t, ...T.api, easeOut);
+  $("apiW").style.height = (a * 92) + "px";
+  $("apiB").textContent = t >= T.apiClick ? "Hide API call" : "View API call";
+}
+
+function events() { return [["click", T.sendClick], ["whoosh", T.toB], ["chime", T.toC], ["click", T.apiClick], ["pop", T.api[0]]]; }
+
+Motion.scene({
+  T, duration: 15, clicks: [T.sendClick, T.apiClick], build, render, events, clamp: false,
+  slow: [[2.4, 4.2, 1.3], [5.0, 6.3, 1.7], [6.9, 9.0, 1.8], [9.8, 11.0, 1.5]]
+});
+</script>
+</body>
+</html>

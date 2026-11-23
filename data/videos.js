@@ -370,6 +370,45 @@ window.VIDEOS = {
         "She chooses Use Restricted data handling, a button that names the template.",
         "The new policy records that it came from Restricted data handling v3 and that her review change differs from it. Later template changes won't update it silently: she'll be told about new versions and can review the differences."
       ]
+    },
+    "Inline create": {
+      src: "media/creation-flows/inline-create.mp4",
+      poster: "media/creation-flows/inline-create.jpg",
+      label: "Inline create, shown in a mock Echo Base console",
+      steps: [
+        "On the Tags page, the admin chooses Add tag. A new row appears at the top of the table, focused and ready to type, with Enter to save and Esc to cancel shown beside it. Everything works by keyboard.",
+        "She types rogue-one. Typing doesn't save anything or move focus.",
+        "She presses Enter. The row shows Saving…, then Saved, and the result is announced to screen readers without moving focus.",
+        "The new tag stays pinned at the top, marked New, instead of jumping to its place in the sorted list.",
+        "She adds another and types Hoth. The server finds that Hoth already exists, and the row shows the error and offers to use the existing tag, keeping what she typed. She presses Esc to cancel it.",
+        "Anything bigger than a tag has a full form instead: a link offers New managed field for controlled lists."
+      ]
+    },
+    "Duplicate / clone": {
+      src: "media/creation-flows/duplicate-clone.mp4",
+      poster: "media/creation-flows/duplicate-clone.jpg",
+      label: "Duplicate and clone, shown in a mock Echo Base console",
+      steps: [
+        "In People / Roles, the admin opens the menu on Content admin and chooses Duplicate. The product uses the same word, Duplicate, in the menu, the title and the button.",
+        "The dialog focuses the name field with Copy of Content admin selected, and she renames it Content admin · Rogue One.",
+        "Each thing to copy has a label and a short explanation. Permissions and scope are copied; members are off by default, because copying members would give them this role too.",
+        "A note says API keys, tokens and audit history are never copied. A link offers duplicating to several teams at once.",
+        "She chooses Duplicate role. The copy opens ready to edit, marked Duplicated from Content admin so it can't be mistaken for the original.",
+        "It has no members yet, and the page says so, with a button to add the Rogue One pilot group."
+      ]
+    },
+    "Success & next steps": {
+      src: "media/creation-flows/success-next-steps.mp4",
+      poster: "media/creation-flows/success-next-steps.jpg",
+      label: "Success and next steps, shown in a mock Echo Base console",
+      steps: [
+        "In People / Users, the admin reviews an invite for the Rogue One pilot: 38 people from a file, the group, the license and a message. She chooses Send 38 invites.",
+        "Sending runs as a job with a progress count, and says she can leave the page and will be notified.",
+        "A success panel, not a disappearing toast, confirms 38 invitations sent, that they were added to Rogue One pilot and given Console seats. It is announced, and stays until she chooses Done.",
+        "It flags the one follow-up that's required: 2 people use an outside domain, which must be verified before they can sign in.",
+        "Three likely next steps follow: assign the new role, share the onboarding guide and track who has accepted. Setup progress shows 2 of 4 done, with a link to open the group.",
+        "She opens View API call, which shows the same invite as a request she could automate."
+      ]
     }
   }
 };

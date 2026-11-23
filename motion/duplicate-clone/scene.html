@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Duplicate / clone · motion scene</title>
+<!--
+  Source for media/creation-flows/duplicate-clone.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: People / Roles → ⋯ on Content admin → Duplicate.
+
+  Follows the Duplicate / clone card (data/guidance-actions.js):
+  - "Duplicate" in the menu, title and button (WCAG 3.2.4)
+  - name "Copy of …" focused, renamed (do 2)
+  - choose what to copy, each labelled and explained; members off by default (do 1, avoid 2, WCAG 3.3.2, UD 5)
+  - never copied: keys, tokens, audit history (do 3, avoid 1)
+  - opens ready to edit, marked as a copy with its source (do 4, avoid 3, scale 2); several teams (scale 3)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 0; }
+.view { position: absolute; inset: 20px 32px; }
+h1 { font-size: 20px; }
+.hd { display: flex; align-items: center; gap: 10px; }
+.hd h1 { flex: 1; }
+.btn.sm { height: 32px; font-size: 12.5px; }
+.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
+table.r { margin-top: 14px; font-size: 13px; }
+.r td { height: 48px; }
+.r td:first-child { color: var(--ink); font-weight: 500; }
+.r .s { display: block; font-size: 11.5px; color: var(--faint); font-weight: 400; }
+.mo { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; color: var(--ink); font-weight: 700; letter-spacing: 1px; position: relative; }
+.menu { position: absolute; right: 0; top: 34px; width: 160px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 10px; box-shadow: 0 14px 40px rgba(0,0,0,.14); padding: 5px; z-index: 10; opacity: 0; font-size: 13px; font-weight: 400; letter-spacing: 0; text-align: left; }
+.menu div { padding: 7px 10px; border-radius: 6px; color: var(--ink); }
+.menu .dg { color: #b91c1c; }
+.scrim2 { position: absolute; inset: 52px 0 0 0; background: rgba(0,0,0,.18); opacity: 0; z-index: 30; }
+.dlg { position: absolute; left: 420px; top: 92px; width: 560px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); line-height: 1.45; }
+.dlg h3 { margin: 0; font-size: 17px; color: var(--ink); }
+.dlg label.l { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin: 14px 0 5px; }
+.in { height: 38px; border: 1.5px solid var(--ink); border-radius: 8px; display: flex; align-items: center; padding: 0 12px; color: var(--ink); font-size: 13.5px; }
+.in .sel { background: #cfe0ff; }
+.in .c { width: 1.5px; height: 18px; background: var(--ink); margin-left: 1px; }
+.cp { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--rule); }
+.cp:last-of-type { border-bottom: 0; }
+.cp b { display: block; color: var(--ink); font-weight: 500; }
+.cb { width: 16px; height: 16px; border-radius: 4px; display: grid; place-items: center; background: var(--ink); color: #fff; flex: none; margin-top: 2px; }
+.cb svg { width: 11px; height: 11px; }
+.cb.off { background: var(--bg); border: 1.5px solid var(--rule-strong); }
+.never { margin-top: 10px; font-size: 12px; border: 1px solid var(--rule); background: var(--subtle); border-radius: 8px; padding: 8px 10px; }
+.never b { color: var(--ink); font-weight: 500; }
+.dlg .r2 { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .r2 .sp { flex: 1; font-size: 12px; }
+.dlg .r2 a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.dlg .btn { height: 36px; }
+.chip { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 3px 10px; color: var(--ink); }
+.empty { margin-top: 18px; width: 640px; border: 1px dashed var(--rule-strong); border-radius: 12px; padding: 22px; text-align: center; font-size: 13px; color: var(--soft); }
+.empty b { display: block; color: var(--ink); font-size: 14px; margin-bottom: 4px; }
+.empty .btn { margin-top: 12px; height: 34px; }
+.perm { margin-top: 14px; width: 640px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; font-size: 12.5px; color: var(--ink); }
+.perm span { display: flex; gap: 6px; align-items: center; }
+.perm svg { width: 12px; height: 12px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="People / Roles"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Role duplicated · no members yet · logged</div>
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view" id="vList">
+        <div class="hd"><h1>People</h1><span class="btn sm">New role</span></div>
+        <div class="tabs"><div>Users</div><div>Groups</div><div class="on">Roles</div></div>
+        <table class="r"><thead><tr><th>Role</th><th>Members</th><th>Permissions</th><th>Scope</th><th style="width:40px"></th></tr></thead><tbody>
+          <tr id="rC"><td>Content admin<span class="s">Manage content, tags and sharing</span></td><td>8</td><td>24</td><td>Echo Base / Operations</td>
+            <td><span class="mo" id="moB">···<div class="menu" id="menu"><div>Edit</div><div id="dupI">Duplicate</div><div class="dg">Delete</div></div></span></td></tr>
+          <tr><td>Security admin<span class="s">Audit, alerts and access reviews</span></td><td>6</td><td>31</td><td>Whole org</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Billing viewer<span class="s">See plan and invoices</span></td><td>2</td><td>4</td><td>Billing</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Viewer<span class="s">Read-only access</span></td><td>140</td><td>6</td><td>Whole org</td><td><span class="mo">···</span></td></tr>
+        </tbody></table>
+      </div>
+      <div class="view" id="vRole" style="opacity:0">
+        <div class="hd"><h1>Content admin · Rogue One</h1><span class="btn sm">Edit permissions</span></div>
+        <div style="margin-top:8px;display:flex;gap:8px"><span class="chip">Duplicated from Content admin</span><span class="chip">Scope: Echo Base / Operations</span></div>
+        <div class="tabs"><div>Permissions · 24</div><div class="on">Members · 0</div><div>Activity</div></div>
+        <div class="empty" id="empty"><b>No members yet</b>Members weren't copied, so nobody has this role until you add them.<br><span class="btn pri">Add Rogue One pilot group</span></div>
+      </div>
+    </div>
+    <div class="scrim2" id="scrim"></div>
+    <div class="dlg" id="dlg"><h3>Duplicate Content admin</h3>
+      <label class="l">Name of the copy</label><div class="in" id="nm"><span id="nv"></span><span class="c" id="cr"></span></div>
+      <label class="l">What to copy</label>
+      <div class="cp"><span class="cb"><svg><use href="#ok"/></svg></span><div><b>Permissions · 24</b>What people with this role can do.</div></div>
+      <div class="cp"><span class="cb"><svg><use href="#ok"/></svg></span><div><b>Scope · Echo Base / Operations</b>Where the permissions apply.</div></div>
+      <div class="cp"><span class="cb off"></span><div><b>Members · 8</b>Off by default, because copying members gives them this role too.</div></div>
+      <div class="never"><b>Never copied:</b> API keys, tokens and audit history.</div>
+      <div class="r2"><span class="sp"><a>Duplicate to several teams</a></span><span class="btn ghost">Cancel</span><span class="btn pri" id="dupB">Duplicate role</span></div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const NEW = "Content admin · Rogue One";
+const T = {
+  moClick: 1.60, menu: [1.70, 1.90], dupClick: 2.70, dlg: [2.80, 3.10], type: [4.10, 5.40], okClick: 8.40, done: 8.55, toastOut: [10.6, 10.9],
+  endCard: [11.8, 12.25], end: 13.3
+};
+
+function build() {
+  const mo = at("moB"); $("menu").style.opacity = 1; const di = at("dupI"); $("menu").style.opacity = 0;
+  const dl = at("dlg"), db = at("dupB"), rc = at("rC"), em = at("empty");
+  const cur = [
+    [0.00, 820, 620], [0.40, 820, 620], [1.45, mo[0], mo[1] + 3], [1.75, mo[0], mo[1] + 3],
+    [2.55, di[0], di[1] + 3], [2.85, di[0], di[1] + 3], [3.60, di[0] - 260, di[1] + 120],
+    [8.25, db[0], db[1] + 3], [8.65, db[0], db[1] + 3], [10.6, db[0] - 260, db[1] + 130], [11.8, db[0] - 258, db[1] + 132]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.10, 960, rc[1] + 30, 1.45], [2.70, 960, rc[1] + 30, 1.45],      // ⋯ → Duplicate
+    // the whole dialog, Duplicate role included, stays above the player bar
+    [3.40, dl[0], dl[1] + 50, 1.28], [8.40, dl[0], dl[1] + 50, 1.28],  // name, what to copy, never copied
+    [9.10, 720, em[1] - 90, 1.22], [11.0, 720, em[1] - 90, 1.22],         // ready to edit, marked as a copy, no members
+    [11.6, 660, 360, 1.05], [11.8, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function seq(a, b, t, t0) { $(a).style.opacity = 1 - span(t, t0, t0 + .15); $(b).style.opacity = span(t, t0 + .18, t0 + .36); }
+
+function render(t) {
+  $("moB").style.background = t >= T.moClick - .05 && t < T.dlg[0] ? "var(--hover)" : "";
+  const m = span(t, ...T.menu, easeOut) * (1 - span(t, T.dupClick + .05, T.dupClick + .2));
+  $("menu").style.opacity = m;
+  $("dupI").style.background = t >= T.dupClick - .2 && t < T.dupClick + .2 ? "var(--hover)" : "";
+
+  const d = span(t, ...T.dlg, easeOut) * (1 - span(t, T.done, T.done + .2));
+  $("dlg").style.opacity = d; $("dlg").style.transform = `translateY(${(1 - d) * 10}px)`; $("scrim").style.opacity = d;
+  // the suggested name arrives selected, so typing replaces it
+  if (t < T.type[0]) $("nv").innerHTML = '<span class="sel">Copy of Content admin</span>';
+  else $("nv").textContent = NEW.slice(0, Math.round(NEW.length * span(t, ...T.type)));
+  $("cr").style.opacity = t < T.okClick && Math.floor(t * 2.5) % 2 === 0 ? 1 : 0;
+  $("dupB").style.background = t >= T.okClick - .05 && t < T.done + .1 ? "#333" : "";
+
+  seq("vList", "vRole", t, T.done);
+  $("crumb").innerHTML = t >= T.done + .18 ? "/ People / Roles / <b>Content admin · Rogue One</b>" : "/ People / <b>Roles</b>";
+  const to = span(t, T.done, T.done + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to; $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  const ev = [["click", T.moClick], ["click", T.dupClick], ["pop", T.dlg[0]], ["click", T.okClick], ["chime", T.done]];
+  for (let i = 0; i < 7; i++) ev.push(["key", T.type[0] + i * .18]);
+  return ev;
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.moClick, T.dupClick, T.okClick], build, render, events, clamp: false,
+  slow: [[3.4, 4.0, 1.4], [5.5, 8.3, 1.8], [9.1, 11.0, 1.6]]
+});
+</script>
+</body>
+</html>
