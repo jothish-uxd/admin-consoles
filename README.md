@@ -109,6 +109,7 @@ Checklist for every new clip (clips made before 23 Nov 2026 predate it and keep 
 - Contrast meets WCAG AA, 4.5:1 for small text. The lightest grey is `--faint` (#737373, as on the site); grey text on `--hover` uses `--soft` or darker.
 - Key/value details put each label above its value with `.kv` in `shared/console.css`, never a label column beside a value column.
 - Same page, same pixels (above), clicks above the player bar, and `render()` sets every element on every branch. `python3 motion/audit.py` checks the last two.
+- Dropdowns use the drawn chevron (stroke 1.6, `--soft`, 14px) set 12px in from the right edge, with 36px of right padding so text never runs under it; never a ▾ character tight against the border. The prototype's `select` rule in `prototype/proto.css` is the reference.
 - Inline edits show visible Save and Cancel buttons, with Enter and Esc as shortcuts; the steps text covers the field name, announcements and where focus goes. To lift a low button while keeping the clamp, pass `clamp: <px>` (extra room past the bottom of the stage) instead of `false`.
 
 Length: clips with fewer than 5 steps run 10 seconds (`duration: 10`); clips with 5 or more run 15 (`duration: 15`).
