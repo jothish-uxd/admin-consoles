@@ -183,9 +183,16 @@ window.SEED = {
   connectors: [
     { id: "holonet", name: "Holonet Docs", publisher: "Echo Base", type: "Built-in", can: "Reads", status: "Published · everyone", published: true },
     { id: "mission", name: "Mission Board", publisher: "Corellian Systems", type: "Partner", can: "Reads and writes", status: "Published · 3 groups", published: true },
-    { id: "comms", name: "Comms Relay", publisher: "Bothan Networks", type: "Partner", can: "Reads", status: "Draft · tested Nov 20", published: false },
-    { id: "fleet", name: "Fleet Tracker", publisher: "Kessel Logistics", type: "Custom", url: "https://mcp.fleettracker.kessel/mcp", runs: "Kessel Logistics servers · Outer Rim",
-      request: { by: "Wedge Antilles", team: "Logistics", reason: "Track supply ships for the Hoth evacuation." },
+    { id: "supply", name: "Supply Depot", publisher: "Echo Base", type: "Built-in", can: "Reads and writes", status: "Published · Logistics", published: true },
+    { id: "comms", name: "Comms Relay", publisher: "Bothan Networks", type: "Partner", can: "Reads", status: "Draft · tested Nov 20", published: false }
+  ],
+  connectorCatalog: [
+    { id: "mission", name: "Mission Board", publisher: "Corellian Systems", label: "Verified partner", can: "Reads and writes" },
+    { id: "comms", name: "Comms Relay", publisher: "Bothan Networks", label: "Verified partner", can: "Reads" },
+    { id: "ledger-mcp", name: "Holonet Ledger", publisher: "Muunilinst Banking", label: "Verified partner", can: "Reads and writes" },
+    { id: "droid", name: "Droid Workshop", publisher: "Industrial Automaton", label: "Community · not reviewed", can: "Reads" },
+    { id: "fleetcmd", name: "Fleet Command", publisher: "Rebel Fleet Systems", label: "Verified partner", can: "Reads" },
+    { id: "fleet", name: "Fleet Tracker", publisher: "Kessel Logistics", label: "Community · not reviewed", can: "Reads, writes and deletes", url: "https://mcp.fleettracker.kessel/mcp", runs: "Kessel Logistics servers · Outer Rim",
       published: false, connected: false, tested: false,
       tools: [
         { id: "search_ships", name: "Find ships", what: "Finds ships by name or route", kind: "read", on: "Chat · Agents", set: "allowed" },

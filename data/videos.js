@@ -417,12 +417,12 @@ window.VIDEOS = {
       poster: "media/mcp-connectors/approving-connectors.jpg",
       label: "Approving connectors, shown in a mock Echo Base console",
       steps: [
-        "The admin opens AI › Connectors. The policy reads approved connectors only, with requests on. A banner says Wedge Antilles asked for Fleet Tracker, a custom server, with his reason: track supply ships for the Hoth evacuation. She chooses Review.",
-        "Fleet Tracker opens as a draft. Its details show the publisher, Kessel Logistics, a Custom · unreviewed tag, the server URL, where it runs, who asked and why. What it can do is unknown until it's connected.",
-        "A note warns that Echo Base hasn't reviewed this server: it sees what the AI sends it, its tools can change after it's published, and its tool descriptions may try to steer the AI.",
-        "She connects with a test account. The page confirms Connected · 6 tools found, and lists them by what they do: 3 read, 2 write and 1 delete tool, each in plain words.",
-        "She runs a test call, Find ships with the query Hoth, and sees the result: 3 ships, in 240 milliseconds.",
-        "Only now can she publish. The Publish dialog shows who gets it (Logistics, 24 people), that each person signs in with their own account, and which tools are on: read tools allowed, write tools need approval, the delete tool blocked. She publishes for Logistics, and a message confirms Wedge's request is approved and the change is logged."
+        "The admin opens AI › Connectors, where the policy reads approved connectors only, and chooses Add connector. The catalog opens with a search box, and Add by URL for servers that aren't listed. Nothing is available to people until she publishes it.",
+        "She searches for fleet. Each result shows its publisher, what it can do in plain words and a label: Fleet Command is a Verified partner; Fleet Tracker, from Kessel Logistics, is Community · not reviewed, and can read, write and delete. She adds Fleet Tracker.",
+        "Fleet Tracker opens as a draft. Its details show the publisher, where it runs, the server URL, and that she added it from the catalog today. A note warns that Echo Base hasn't reviewed this server: it sees what the AI sends it, its tools can change after it's published, and its tool descriptions may try to steer the AI.",
+        "She connects with a test account. The page confirms Connected · 6 tools found, and lists them by what they do: 3 read, 2 write and 1 delete tool.",
+        "She runs a test call, Find ships with the query Hoth, and gets 3 ships back in 240 milliseconds.",
+        "Only now can she publish. The Publish dialog asks who gets it: everyone in Echo Base (250 people) or selected groups. She adds Logistics (24 people), checks that each person signs in with their own account and which tools are on, and publishes for Logistics. A message confirms it and says the change is logged."
       ]
     },
     "Choosing tools": {
@@ -433,7 +433,7 @@ window.VIDEOS = {
         "On the published Fleet Tracker page, the admin opens the Tools tab. A line explains that publishing a connector doesn't turn on every tool, and that people can't override these settings.",
         "Every tool is listed in plain words, with its function name in small type underneath, grouped as read, write and delete, along with where it's on: Chat, Agents or both.",
         "Each tool has one setting: Allowed, Needs approval or Blocked. Read tools are allowed, the write tools need approval and Cancel shipment is blocked.",
-        "A banner says the server added a new tool yesterday, Hold shipment, and that it's off until she reviews it. She chooses Review, and the new row is highlighted with Off until reviewed.",
+        "A banner says the server added a new tool since she published it, Hold shipment, and that it's off until she reviews it. She chooses Review, and the new row is highlighted with Off until reviewed.",
         "She sets Hold shipment to Needs approval. The row explains what that means: the AI asks the person to confirm before it holds a shipment.",
         "She saves. A message confirms the tool settings are saved, apply within a few minutes and are logged, and the Write group now has 3 tools."
       ]

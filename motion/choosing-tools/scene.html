@@ -94,12 +94,12 @@
             <div class="card"><h2>About this connector</h2>
               <dl class="kv">
                 <div><dt>Publisher</dt><dd>Kessel Logistics</dd></div>
-                <div><dt>Type</dt><dd><span class="tag out">Custom · unreviewed</span></dd></div>
+                <div><dt>Type</dt><dd><span class="tag out">Community · not reviewed</span></dd></div>
                 <div class="w"><dt>Server URL</dt><dd class="mono">https://mcp.fleettracker.kessel/mcp</dd></div>
                 <div><dt>Runs on</dt><dd>Kessel Logistics servers · Outer Rim</dd></div>
                 <div><dt>Can</dt><dd>Read, write and delete</dd></div>
-                <div><dt>Requested by</dt><dd>Wedge Antilles · Logistics</dd></div>
-                <div><dt>Reason</dt><dd>Track supply ships for the Hoth evacuation.</dd></div>
+                <div><dt>Added by</dt><dd>Lavanya Sienna · Nov 23</dd></div>
+                <div><dt>Found in</dt><dd>Connector catalog</dd></div>
               </dl></div>
             <div class="note"><span class="ic">!</span><span><b>Echo Base hasn’t reviewed this server.</b> It sees what the AI sends it, its tools can change after you publish, and its tool descriptions may try to steer the AI. Test it with a test account before anyone uses it.</span></div>
           </div>
@@ -123,8 +123,8 @@
         <div id="tls" style="display:none">
           <div class="info" id="info"><span>Publishing a connector doesn’t turn on every tool. <b>People can’t override these settings.</b></span>
             <span class="sp" id="bar" style="opacity:0"><span class="chg">1 change</span><span class="btn sm ghost">Cancel</span><span class="btn sm pri" id="saveB">Save</span></span></div>
-          <div class="newb" id="newb"><span class="tag dk">NEW TOOL</span><span><b>Hold shipment</b> was added by Kessel Logistics yesterday. <span class="m">It’s off until you review it.</span></span><span class="sp"><span class="btn sm" id="revB">Review</span></span></div>
-          <table id="tt"><colgroup><col style="width:200px"><col><col style="width:110px"><col style="width:340px"></colgroup>
+          <div class="newb" id="newb"><span class="tag dk">NEW TOOL</span><span><b>Hold shipment</b> was added by Kessel Logistics since you published it. <span class="m">It’s off until you review it.</span></span><span class="sp"><span class="btn sm" id="revB">Review</span></span></div>
+          <table id="tt"><colgroup><col style="width:190px"><col><col style="width:100px"><col style="width:372px"></colgroup>
             <thead><tr><th>Tool</th><th>What it does</th><th>On in</th><th>Setting</th></tr></thead>
             <tbody>
               <tr class="g"><td colspan="4">Read<span>3 tools</span></td></tr>
@@ -174,7 +174,7 @@ function build() {
     [1.5, 640, 220, 1.4], [2.1, 640, 220, 1.4],                                   // the Tools tab
     [2.9, 700, 372, 1.04], [4.2, 700, 372, 1.04],                     // every tool, grouped read · write · delete
     [5.0, MX, nb[1] + 60, 1.35], [6.4, MX, nb[1] + 60, 1.35],                     // the new tool, held off
-    [7.2, 740, rh[1] - 70, 1.3], [9.3, 740, rh[1] - 70, 1.3],                             // set it to Needs approval; what that means
+    [7.2, 740, rh[1] - 115, 1.3], [9.3, 740, rh[1] - 115, 1.3],                             // set it to Needs approval; what that means
     [9.9, 900, inf[1] + 40, 1.4], [10.4, 900, inf[1] + 40, 1.4],                // Save
     [11.0, 700, 360, 1.04], [12.4, 700, 360, 1.04], [13.4, 660, 360, 1.02]
   ];

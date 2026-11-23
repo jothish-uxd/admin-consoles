@@ -8,12 +8,12 @@
   Built on motion/shared (console.css, connectors.css, motion.js).
 
   Follows the Approving connectors card (data/guidance-governance.js):
-  - way in: a request from a person, with a reason; approve, decline (do 6)
-  - publisher, built-in / partner / custom, where it runs, what it reads and writes (do 1, avoid 2, avoid 3)
+  - way in: the admin adds a connector herself, from the catalog, with Add by URL for unlisted servers (think 2)
+  - search results with publisher, plain "can" and Verified partner / Community · not reviewed labels (do 1, avoid 2, avoid 3)
   - custom server marked unreviewed, with a short warning about changing tools and prompt injection (do 5, think 1)
   - connect with a test account; tools shown before anything is published; result announced (do 2, WCAG 4.1.3)
   - a test call with the request and the result (do 3)
-  - draft until a separate, named Publish step that says who gets it and which tools are on (do 4, avoid 1, WCAG 2.4.4)
+  - draft until a separate, named Publish step: everyone or selected groups, and which tools are on (do 4, avoid 1, WCAG 2.4.4)
   Labels above values throughout (.kv).
 -->
 <link rel="stylesheet" href="../shared/console.css">
@@ -52,7 +52,7 @@
 .call .rs { padding: 7px 10px; color: var(--ink); }
 .call .rs .m { color: var(--faint); }
 /* publish dialog */
-.dlg { position: absolute; left: 450px; top: 140px; width: 500px; background: var(--bg); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.22); opacity: 0; z-index: 10; }
+.dlg { position: absolute; left: 450px; top: 110px; width: 500px; background: var(--bg); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.22); opacity: 0; z-index: 10; }
 .dlg .h { padding: 20px 22px 0; }
 .dlg .h h2 { margin: 0; font-size: 17px; font-weight: 600; }
 .dlg .h p { margin: 4px 0 0; font-size: 13px; color: var(--soft); }
@@ -62,6 +62,41 @@
 .dlg .f .btn { height: 34px; }
 .dlg .tl { display: grid; gap: 3px; }
 .dlg .tl span { display: block; }
+/* catalog */
+.dlg.cat { top: 96px; width: 620px; left: 390px; }
+.ctabs { display: flex; gap: 20px; padding: 12px 22px 0; border-bottom: 1px solid var(--rule); font-size: 13px; }
+.ctabs span { padding-bottom: 8px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.ctabs span.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
+.srch { margin: 14px 22px 4px; height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13.5px; color: var(--ink); }
+.srch.on { border-color: var(--ink); }
+.srch svg { color: var(--soft); }
+.srch .ph { color: var(--faint); }
+.srch .caret { width: 1.5px; height: 16px; background: var(--ink); margin-left: -6px; }
+.res { padding: 6px 22px 10px; height: 236px; }
+.ri { display: flex; gap: 12px; align-items: center; padding: 9px 8px; border-bottom: 1px solid var(--rule); border-radius: 6px; }
+.ri.hl { background: var(--subtle); }
+.ri .lg { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--rule-strong); display: grid; place-items: center; font-family: "Geist Mono", monospace; font-size: 11px; color: var(--ink); flex: none; }
+.ri .t { flex: 1; min-width: 0; }
+.ri .t b { display: block; font-size: 13.5px; font-weight: 600; }
+.ri .t span { font-size: 12.5px; color: var(--soft); }
+.res .cnt { font-size: 12px; color: var(--faint); padding: 10px 8px 0; }
+.dlg .f .m { margin-right: auto; font-size: 12.5px; color: var(--soft); }
+/* publish: who gets it */
+.wl { font-size: 12px; color: var(--faint); margin: 14px 0 6px; }
+.rads { display: grid; gap: 6px; }
+.rad { display: flex; gap: 10px; align-items: center; border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; font-size: 13px; }
+.rad b { font-weight: 600; margin-right: 8px; }
+.rad b + span { color: var(--soft); font-size: 12.5px; }
+.rad.sel { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
+.rad .r { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--rule-strong); position: relative; flex: none; }
+.rad.sel .r { border-color: var(--ink); }
+.rad.sel .r::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--ink); }
+.gp { display: flex; gap: 6px; flex-wrap: wrap; padding: 2px 0 0 25px; }
+.gp .chip, .gp .sug { display: inline-flex; gap: 6px; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; font-size: 12px; }
+.gp .chip { background: var(--ink); color: #fff; }
+.gp .chip .n { color: #d4d4d4; }
+.gp .sug { border: 1px dashed var(--rule-strong); color: var(--soft); }
+.gp .n { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); }
 </style>
 </head>
 <body>
@@ -81,19 +116,16 @@
 
       <!-- AI › Connectors -->
       <div class="view" id="vA">
-        <div class="hd" id="hdA"><h1>Connectors</h1><span class="btn">Add connector</span></div>
+        <div class="hd" id="hdA"><h1>Connectors</h1><span class="btn" id="addB">Add connector</span></div>
         <p class="lede">Connectors let the AI reach other systems. Nothing connects until it’s published here.</p>
-        <div class="pol"><span>Policy: <b>approved connectors only</b></span><span>Requests: <b>on</b></span></div>
-        <div class="req" id="req"><span class="tag dk">REQUEST</span>
-          <span><b>Wedge Antilles</b> asked for <b>Fleet Tracker</b>, a custom server <span class="q">· “Track supply ships for the Hoth evacuation.”</span></span>
-          <span class="sp"><span class="btn sm ghost">Decline</span><span class="btn sm" id="revB">Review</span></span></div>
+        <div class="pol" id="pol"><span>Policy: <b>approved connectors only</b></span><span>Requests: <b>on</b></span></div>
         <table>
           <thead><tr><th>Connector</th><th>Type</th><th>Can</th><th>Status</th><th></th></tr></thead>
           <tbody>
             <tr><td>Holonet Docs<span class="s">Echo Base</span></td><td>Built-in</td><td>Reads</td><td>Published · everyone</td><td class="act"><span class="btn sm">Open</span></td></tr>
             <tr><td>Mission Board<span class="s">Corellian Systems</span></td><td>Partner</td><td>Reads and writes</td><td>Published · 3 groups</td><td class="act"><span class="btn sm">Open</span></td></tr>
+            <tr><td>Supply Depot<span class="s">Echo Base</span></td><td>Built-in</td><td>Reads and writes</td><td>Published · Logistics</td><td class="act"><span class="btn sm">Open</span></td></tr>
             <tr><td>Comms Relay<span class="s">Bothan Networks</span></td><td>Partner</td><td>Reads</td><td>Draft · tested Nov 20</td><td class="act"><span class="btn sm">Open</span></td></tr>
-            <tr id="rowF"><td>Fleet Tracker<span class="s">Kessel Logistics</span></td><td>Custom</td><td>Not connected yet</td><td>Requested by Wedge</td><td class="act"><span class="btn sm">Review</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -104,7 +136,7 @@
         <div class="hd" id="hdB"><h1>Fleet Tracker</h1>
           <span class="stx" style="width:178px"><span class="tag out" id="stD">Draft · not published</span><span class="tag dk" id="stP" style="opacity:0">Published · Logistics</span></span>
           <span class="swap" style="display:inline-flex;gap:8px">
-            <span id="hbD" style="display:inline-flex;gap:8px"><span class="btn ghost">Decline request</span><span class="btn pri dis" id="pubB">Publish…</span></span>
+            <span id="hbD" style="display:inline-flex;gap:8px"><span class="btn ghost">Delete draft</span><span class="btn pri dis" id="pubB">Publish…</span></span>
             <span id="hbP" style="display:none;gap:8px"><span class="btn ghost">Turn off for everyone</span></span></span></div>
         <div class="tabs page"><div class="on">Overview</div><div>Tools <span class="mono" style="color:var(--faint)">6</span></div><div>Sign-in</div><div>Access</div><div>Data</div></div>
         <div class="cols">
@@ -112,12 +144,12 @@
             <div class="card" id="about"><h2>About this connector</h2>
               <dl class="kv">
                 <div><dt>Publisher</dt><dd>Kessel Logistics</dd></div>
-                <div><dt>Type</dt><dd><span class="tag out">Custom · unreviewed</span></dd></div>
+                <div><dt>Type</dt><dd><span class="tag out">Community · not reviewed</span></dd></div>
                 <div class="w"><dt>Server URL</dt><dd class="mono">https://mcp.fleettracker.kessel/mcp</dd></div>
                 <div><dt>Runs on</dt><dd>Kessel Logistics servers · Outer Rim</dd></div>
                 <div><dt>Can</dt><dd><span id="canA">Unknown until connected</span><span id="canB" style="display:none">Read, write and delete</span></dd></div>
-                <div><dt>Requested by</dt><dd>Wedge Antilles · Logistics</dd></div>
-                <div><dt>Reason</dt><dd>Track supply ships for the Hoth evacuation.</dd></div>
+                <div><dt>Added by</dt><dd>Lavanya Sienna · Nov 23</dd></div>
+                <div><dt>Found in</dt><dd>Connector catalog</dd></div>
               </dl></div>
             <div class="note" id="warn"><span class="ic">!</span><span><b>Echo Base hasn’t reviewed this server.</b> It sees what the AI sends it, its tools can change after you publish, and its tool descriptions may try to steer the AI. Test it with a test account before anyone uses it.</span></div>
           </div>
@@ -144,17 +176,42 @@
 
     </div>
     <div class="scrim" id="scrim"></div>
-    <div class="dlg" id="dlg">
-      <div class="h"><h2>Publish Fleet Tracker?</h2><p>People in the group can connect it with their own account.</p></div>
-      <div class="b"><dl class="kv">
-        <div><dt>Who gets it</dt><dd>Logistics · 24 people</dd></div>
-        <div><dt>Sign-in</dt><dd>Each person signs in</dd></div>
-        <div class="w"><dt>Tools</dt><dd class="tl"><span>3 read tools allowed</span><span>2 write tools need approval</span><span>1 delete tool blocked</span></dd></div>
-      </dl>
-      <p style="margin:14px 0 0;font-size:12.5px;color:var(--soft)">Wedge is told when it’s published. You can change any of this later.</p></div>
-      <div class="f"><span class="btn ghost">Cancel</span><span class="btn pri" id="goB">Publish for Logistics</span></div>
+    <!-- Add connector: the catalog -->
+    <div class="dlg cat" id="cat">
+      <div class="h"><h2>Add connector</h2><p>From the catalog, or add a server by URL. Nothing is available to people until you publish it.</p></div>
+      <div class="ctabs"><span class="on">Catalog</span><span>Add by URL</span></div>
+      <div class="srch" id="srch"><svg width="14" height="14" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span id="q" class="ph">Search connectors</span><span class="caret" id="caret"></span></div>
+      <div class="res" id="res0">
+        <div class="ri"><span class="lg">MB</span><div class="t"><b>Mission Board</b><span>Corellian Systems · Reads and writes</span></div><span class="tag dk">Verified partner</span><span class="btn sm dis">Added</span></div>
+        <div class="ri"><span class="lg">CR</span><div class="t"><b>Comms Relay</b><span>Bothan Networks · Reads</span></div><span class="tag dk">Verified partner</span><span class="btn sm dis">Added</span></div>
+        <div class="ri"><span class="lg">HL</span><div class="t"><b>Holonet Ledger</b><span>Muunilinst Banking · Reads and writes</span></div><span class="tag dk">Verified partner</span><span class="btn sm">Add</span></div>
+        <div class="ri"><span class="lg">DW</span><div class="t"><b>Droid Workshop</b><span>Industrial Automaton · Reads</span></div><span class="tag out">Community · not reviewed</span><span class="btn sm">Add</span></div>
+      </div>
+      <div class="res" id="res1" style="display:none">
+        <div class="ri"><span class="lg">FC</span><div class="t"><b>Fleet Command</b><span>Rebel Fleet Systems · Reads</span></div><span class="tag dk">Verified partner</span><span class="btn sm">Add</span></div>
+        <div class="ri" id="riF"><span class="lg">FT</span><div class="t"><b>Fleet Tracker</b><span>Kessel Logistics · Reads, writes and deletes</span></div><span class="tag out">Community · not reviewed</span><span class="btn sm" id="addF">Add</span></div>
+        <div class="cnt" id="cnt">2 results for “fleet”</div>
+      </div>
+      <div class="f"><span class="m">Not listed? <u>Add by URL</u></span><span class="btn ghost">Cancel</span></div>
     </div>
-    <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#tick"/></svg></i>Fleet Tracker published for Logistics · Wedge’s request approved · logged</div>
+    <!-- Publish -->
+    <div class="dlg" id="dlg">
+      <div class="h"><h2>Publish Fleet Tracker?</h2><p>People you choose can connect it with their own account.</p></div>
+      <div class="b">
+        <div class="wl">Who gets it</div>
+        <div class="rads">
+          <div class="rad" id="rEv"><span class="r"></span><span><b>Everyone in Echo Base</b><span>250 people</span></span></div>
+          <div class="rad" id="rSel"><span class="r"></span><span><b>Selected groups</b><span id="selN">Choose one or more groups</span></span></div>
+          <div class="gp" id="gp"><span class="chip" id="chL" style="display:none">Logistics <span class="n">24</span></span><span class="sug" id="sugL">+ Logistics <span class="n">24</span></span><span class="sug">+ Rogue One <span class="n">8</span></span><span class="sug">+ Base Engineering <span class="n">31</span></span></div>
+        </div>
+        <dl class="kv">
+          <div><dt>Sign-in</dt><dd>Each person signs in</dd></div>
+          <div><dt>Tools</dt><dd class="tl"><span>3 read tools allowed</span><span>2 write tools need approval</span><span>1 delete tool blocked</span></dd></div>
+        </dl>
+      </div>
+      <div class="f"><span class="btn ghost">Cancel</span><span class="btn pri" id="goB"><span id="go0">Publish for everyone</span><span id="go1" style="display:none">Publish for Logistics</span></span></div>
+    </div>
+    <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#tick"/></svg></i>Fleet Tracker published for Logistics · 24 people can connect it · logged</div>
   </div>
 </div>
 
@@ -162,50 +219,66 @@
 <script>
 const { $, at, span, easeOut } = Motion;
 
+const Q = "fleet";
 const T = {
-  revClick: 2.60, toB: [2.70, 3.05],
-  conClick: 5.40, connected: 6.20,
-  runClick: 8.00, called: 8.60,
-  pubClick: 9.90, dlgIn: [10.00, 10.30], goClick: 11.60, dlgOut: [11.70, 11.95], published: 12.00, toastOut: [13.6, 13.9],
-  endCard: [14.6, 15.05], end: 16.1
+  addClick: 1.50, catIn: [1.60, 1.90], type: [2.50, 3.10], filtered: 3.15, addF: 4.60, catOut: [4.70, 4.80], toB: [4.82, 5.10],
+  conClick: 7.10, connected: 7.70,
+  runClick: 9.00, called: 9.50,
+  pubClick: 10.60, dlgIn: [10.70, 11.00], logClick: 12.10, goClick: 13.30, dlgOut: [13.40, 13.65], published: 13.70, toastOut: [15.3, 15.6],
+  endCard: [16.3, 16.75], end: 17.8
 };
 
 function build() {
-  // measure with everything that appears later shown, so the camera knows where it will be
   const show = (id, d) => $(id).style.display = d;
   show("a1d", ""); show("tl", ""); show("call", ""); show("d2", "none");
   $("vB").style.opacity = 1;
-  const cn = at("conB"), rn = at("runB"), pb = at("pubB"), ab = at("about"), st = at("steps"), wn = at("warn"), tl = at("tl"), cl = at("call");
+  const cn = at("conB"), rn = at("runB"), pb = at("pubB"), ab = at("about"), st = at("steps"), tl = at("tl"), cl = at("call");
   show("a1d", "none"); show("tl", "none"); show("call", "none"); show("d2", "");
-  const rv = at("revB"), rq = at("req"), go = at("goB"), dl = at("dlg");
   $("vB").style.opacity = 0;
+  show("res0", "none"); show("res1", "");
+  const af = at("addF"), ct = at("cat");
+  show("res0", ""); show("res1", "none");
+  const ad = at("addB"), sr = at("srch"), lg = at("sugL"), go = at("goB"), dl = at("dlg");
   const cur = [
-    [0, 900, 620], [0.6, 900, 620], [1.9, rv[0] - 60, rv[1] + 40], [2.45, rv[0], rv[1] + 3], [2.75, rv[0], rv[1] + 3],
-    [4.4, cn[0] + 80, cn[1] + 60], [5.25, cn[0], cn[1] + 3], [5.55, cn[0], cn[1] + 3],
-    [7.85, rn[0], rn[1] + 3], [8.15, rn[0], rn[1] + 3],
-    [9.75, pb[0], pb[1] + 3], [10.05, pb[0], pb[1] + 3],
-    [11.45, go[0], go[1] + 3], [11.75, go[0], go[1] + 3], [13.2, 1000, 560], [14.6, 1004, 566]
+    [0, 900, 620], [0.5, 900, 620], [1.35, ad[0], ad[1] + 3], [1.65, ad[0], ad[1] + 3],
+    [2.35, sr[0] - 150, sr[1] + 3], [3.3, sr[0] - 150, sr[1] + 30], [4.45, af[0], af[1] + 3], [4.75, af[0], af[1] + 3],
+    [6.0, cn[0] + 80, cn[1] + 60], [6.95, cn[0], cn[1] + 3], [7.25, cn[0], cn[1] + 3],
+    [8.85, rn[0], rn[1] + 3], [9.15, rn[0], rn[1] + 3],
+    [10.45, pb[0], pb[1] + 3], [10.75, pb[0], pb[1] + 3],
+    [11.95, lg[0], lg[1] + 3], [12.25, lg[0], lg[1] + 3],
+    [13.15, go[0], go[1] + 3], [13.45, go[0], go[1] + 3], [14.9, 1000, 560], [16.3, 1004, 566]
   ];
   const cam = [
-    [0, 640, 360, 1], [0.5, 640, 360, 1],
-    [1.3, 740, rq[1] + 60, 1.3], [2.6, 740, rq[1] + 60, 1.3],                 // the request with its reason, the connector list
-    [3.4, ab[0], ab[1] + 40, 1.45], [4.6, ab[0], ab[1] + 40, 1.45],            // about: publisher, custom · unreviewed, where it runs
-    [5.1, st[0], cn[1] + 60, 1.55], [5.5, st[0], cn[1] + 60, 1.55],            // connect test account
-    [6.4, st[0], tl[1] - 10, 1.55], [7.7, st[0], tl[1] + 10, 1.55],            // connected · tools grouped by read, write, delete
-    [8.1, st[0], cl[1] - 20, 1.55], [9.3, st[0], cl[1] - 20, 1.55],            // the test call and its result
-    [9.85, 900, 230, 1.35], [10.1, 900, 230, 1.35],                              // Publish… in the header
-    [10.5, dl[0], dl[1] + 10, 1.5], [11.7, dl[0], dl[1] + 10, 1.5],            // the publish dialog
-    [12.3, 700, 372, 1.04], [13.6, 700, 372, 1.04], [14.6, 650, 360, 1.02]
+    [0, 640, 360, 1], [0.4, 640, 360, 1],
+    [1.1, 900, 150, 1.4], [1.6, 900, 150, 1.4],                                // Add connector
+    [2.2, ct[0], ct[1], 1.38], [4.6, ct[0], ct[1], 1.38],                      // the catalog: search, labels, Add
+    [5.5, ab[0], ab[1] + 40, 1.45], [6.5, ab[0], ab[1] + 40, 1.45],            // the draft: community · not reviewed, the warning
+    [6.9, st[0], cn[1] + 60, 1.55], [7.2, st[0], cn[1] + 60, 1.55],            // connect a test account
+    [7.9, st[0], tl[1] - 10, 1.55], [8.7, st[0], tl[1] + 10, 1.55],            // 6 tools: read, write, delete
+    [9.0, st[0], cl[1] - 20, 1.55], [10.0, st[0], cl[1] - 20, 1.55],           // the test call
+    [10.45, 900, 230, 1.35], [10.8, 900, 230, 1.35],                             // Publish…
+    [11.3, dl[0], dl[1] + 6, 1.42], [13.5, dl[0], dl[1] + 6, 1.42],            // everyone, or selected groups
+    [14.0, 700, 372, 1.04], [15.4, 700, 372, 1.04], [16.3, 650, 360, 1.02]
   ];
   return { cam, cur };
 }
 
 function render(t) {
+  // the catalog over the list, then the connector page
+  const c = span(t, ...T.catIn, easeOut) * (1 - span(t, ...T.catOut));
+  $("cat").style.opacity = c; $("cat").style.transform = `translateY(${(1 - c) * 8}px)`;
   const b = span(t, ...T.toB);
-  $("vA").style.opacity = 1 - b; $("vB").style.opacity = b;
+  $("vA").style.opacity = t < T.toB[0] ? 1 : 0; $("vB").style.opacity = b;
   $("crA").style.display = t < T.toB[0] + .15 ? "" : "none"; $("crB").style.display = t < T.toB[0] + .15 ? "none" : "";
-  $("revB").style.background = t >= T.revClick - .05 && t < T.toB[1] ? "#f2f2f2" : "";
-  $("rowF").classList.toggle("hl", t > 1.6 && t < T.toB[1]);
+  $("addB").style.background = t >= T.addClick - .05 && t < T.catIn[1] ? "#f2f2f2" : "";
+  const n = Math.round(Q.length * span(t, ...T.type, x => x));
+  $("q").textContent = n ? Q.slice(0, n) : "Search connectors"; $("q").classList.toggle("ph", !n);
+  $("caret").style.opacity = t > T.catIn[1] && t < T.addF && (Math.floor(t * 2.2) % 2 === 0 || (t > T.type[0] && t < T.type[1])) ? 1 : 0;
+  $("srch").classList.toggle("on", t > T.catIn[1] && t < T.addF);
+  const f = t >= T.filtered;
+  $("res0").style.display = f ? "none" : ""; $("res1").style.display = f ? "" : "none";
+  $("riF").classList.toggle("hl", t > 3.9 && t < T.catOut[1]);
+  $("addF").style.background = t >= T.addF - .05 && t < T.catOut[1] ? "#f2f2f2" : "";
 
   // 1 · connect with a test account
   const con = t >= T.connected;
@@ -229,10 +302,16 @@ function render(t) {
   $("pubB").classList.toggle("dis", !tested);
   $("pubB").style.background = t >= T.pubClick - .05 && t < T.dlgIn[1] ? "#333" : "";
 
-  // publish
+  // publish: everyone, or selected groups
   const d = span(t, ...T.dlgIn, easeOut) * (1 - span(t, ...T.dlgOut));
   $("dlg").style.opacity = d; $("dlg").style.transform = `translateY(${(1 - d) * 8}px)`;
-  $("scrim").style.opacity = .22 * d;
+  $("scrim").style.opacity = .22 * Math.max(d, c);
+  const g = t >= T.logClick;
+  $("rEv").classList.toggle("sel", !g); $("rSel").classList.toggle("sel", g);
+  $("chL").style.display = g ? "" : "none"; $("sugL").style.display = g ? "none" : "";
+  $("sugL").style.background = t >= T.logClick - .2 && !g ? "var(--hover)" : "";
+  $("selN").textContent = g ? "Logistics · 24 people" : "Choose one or more groups";
+  $("go0").style.display = g ? "none" : ""; $("go1").style.display = g ? "" : "none";
   $("goB").style.background = t >= T.goClick - .05 && t < T.dlgOut[0] + .1 ? "#333" : "";
   const pub = t >= T.published;
   $("stD").style.opacity = pub ? 0 : 1; $("stP").style.opacity = pub ? 1 : 0;
@@ -243,13 +322,13 @@ function render(t) {
 }
 
 function events() {
-  return [["click", T.revClick], ["whoosh", T.toB[0]], ["click", T.conClick], ["chime", T.connected], ["click", T.runClick],
-          ["click", T.pubClick], ["whoosh", T.dlgIn[0]], ["click", T.goClick], ["chime", T.published]];
+  return [["click", T.addClick], ["whoosh", T.catIn[0]], ["click", T.addF], ["whoosh", T.toB[0]], ["click", T.conClick], ["chime", T.connected],
+          ["click", T.runClick], ["click", T.pubClick], ["whoosh", T.dlgIn[0]], ["click", T.logClick], ["click", T.goClick], ["chime", T.published]];
 }
 
 Motion.scene({
-  T, duration: 15, clicks: [T.revClick, T.conClick, T.runClick, T.pubClick, T.goClick], clamp: 140, build, render, events,
-  slow: [[1.3, 2.4, 1.6], [3.4, 4.6, 1.8], [6.3, 7.6, 1.8], [8.6, 9.3, 1.6], [10.4, 11.4, 1.7], [12.0, 13.2, 1.4]]
+  T, duration: 15, clicks: [T.addClick, T.addF, T.conClick, T.runClick, T.pubClick, T.logClick, T.goClick], clamp: 140, build, render, events,
+  slow: [[3.2, 4.3, 1.6], [5.4, 6.5, 1.5], [7.8, 8.6, 1.4], [11.2, 11.9, 1.4], [13.8, 14.8, 1.2]]
 });
 </script>
 </body>
