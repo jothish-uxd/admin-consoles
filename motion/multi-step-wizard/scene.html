@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Multi-step wizard · motion scene</title>
+<!--
+  Source for media/creation-flows/multi-step-wizard.mp4.
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+  Way in: Settings / Integrations → Holonet Ledger, a draft Toryn Farr saved → Continue setup.
+
+  Follows the Multi-step wizard card (data/guidance-actions.js):
+  - draft saved and shared (avoid 1, scale 1)
+  - stepper: done / current / optional / not yet reachable; "Step 2 of 4" in text (do 1, avoid 2-3, WCAG 2.4.6)
+  - one question per step; earlier answer shown, not re-asked (think 2, UD 3, WCAG 3.3.7)
+  - optional step skipped (avoid 2)
+  - review with Edit links, live checks, what happens on finish, export (do 3-4, scale 2-3)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.main { padding: 0; }
+.view { position: absolute; inset: 20px 32px; }
+h1 { font-size: 20px; }
+.hd { display: flex; align-items: center; gap: 10px; }
+.hd h1 { flex: 1; }
+.btn.sm { height: 32px; font-size: 12.5px; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+/* wizard */
+.wz .sub { font-size: 12.5px; color: var(--soft); margin-top: 3px; }
+.stp { margin-top: 18px; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.st { display: flex; align-items: center; gap: 8px; color: var(--faint); white-space: nowrap; }
+.st .n { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--rule-strong); display: grid; place-items: center; font-size: 11.5px; font-weight: 600; }
+.st.done { color: var(--ink); }
+.st.done .n { background: var(--ink); border-color: var(--ink); color: #fff; }
+.st.cur { color: var(--ink); font-weight: 600; }
+.st.cur .n { border-color: var(--ink); color: var(--ink); }
+.st .o { font-weight: 400; color: var(--faint); font-size: 12px; }
+.ln { flex: 1; height: 1.5px; background: var(--rule); min-width: 24px; }
+.step { margin-top: 10px; font-size: 12px; color: var(--soft); font-family: "Geist Mono", monospace; }
+.pane { position: relative; margin-top: 16px; height: 420px; }
+.pane > div { position: absolute; inset: 0; }
+.pane h2 { margin: 0; font-size: 17px; color: var(--ink); }
+.pane .q { margin-top: 4px; font-size: 13px; color: var(--soft); }
+.carry { margin-top: 12px; font-size: 12.5px; color: var(--soft); border: 1px solid var(--rule); background: var(--subtle); border-radius: 8px; padding: 8px 12px; width: fit-content; }
+.carry b { color: var(--ink); font-weight: 500; }
+.opt { margin-top: 10px; width: 620px; border: 1.5px solid var(--rule-strong); border-radius: 10px; padding: 12px 14px; display: flex; gap: 12px; font-size: 13px; color: var(--soft); }
+.opt b { display: block; color: var(--ink); font-weight: 500; }
+.opt.on { border-color: var(--ink); background: var(--subtle); }
+.rd { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--rule-strong); flex: none; margin-top: 1px; display: grid; place-items: center; }
+.opt.on .rd { border-color: var(--ink); }
+.opt.on .rd::after { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--ink); }
+.acts { margin-top: 18px; display: flex; gap: 8px; width: 620px; }
+.acts .sp { flex: 1; }
+.acts .btn { height: 36px; }
+.rv { margin-top: 12px; width: 680px; border: 1px solid var(--rule); border-radius: 12px; }
+.rr { display: grid; grid-template-columns: 130px 1fr auto; gap: 10px; padding: 11px 14px; border-bottom: 1px solid var(--rule); font-size: 13px; align-items: center; }
+.rr:last-child { border-bottom: 0; }
+.rr .k { color: var(--faint); } .rr .v { color: var(--ink); } .rr .v span { color: var(--soft); }
+.rr a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-size: 12.5px; }
+.chk { margin-top: 12px; display: flex; gap: 16px; font-size: 13px; color: var(--ink); }
+.chk span { display: inline-flex; gap: 6px; align-items: center; }
+.chk svg { width: 13px; height: 13px; }
+.what { margin-top: 10px; font-size: 13px; color: var(--soft); }
+.what b { color: var(--ink); font-weight: 500; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Settings / Integrations"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Holonet Ledger connected · first sync running · logged</div>
+    </div>
+    <div class="nav" data-at="settings" data-role="admin"></div>
+    <div class="main">
+      <!-- integrations -->
+      <div class="view" id="vInt">
+        <div class="hd"><h1>Integrations</h1><span class="btn sm">Browse integrations</span></div>
+        <div class="cards">
+          <div class="ic"><div class="t"><span class="lg">SP</span><b>Splunk</b><span class="pill">Connected</span></div><div class="d">Streams audit events to the Security SIEM.</div></div>
+          <div class="ic dr" id="cL"><div class="t"><span class="lg">HL</span><b>Holonet Ledger</b><span class="pill" id="lp0">Setup in progress</span><span class="pill dk" id="lp1" style="display:none">Connected · syncing</span></div>
+            <div class="d" id="ld0"><b>Draft by Toryn Farr</b>, shared with you · 1 of 4 steps done · saved yesterday</div>
+            <div class="d" id="ld1" style="display:none">Invoices and seat counts sync every hour · last sync just now</div>
+            <div class="f" id="lf"><span class="btn sm pri" id="contB">Continue setup</span><span class="btn sm ghost">Discard draft</span></div></div>
+          <div class="ic"><div class="t"><span class="lg">HC</span><b>HoloComms</b><span class="pill">Connected</span></div><div class="d">Sends alerts to #sec-alerts.</div></div>
+          <div class="ic"><div class="t"><span class="lg">PD</span><b>PagerDuty</b><span class="pill">Connected</span></div><div class="d">Pages Security on-call.</div></div>
+        </div>
+      </div>
+
+      <!-- wizard -->
+      <div class="view wz" id="vWz" style="opacity:0">
+        <div class="hd"><div style="flex:1"><h1>Connect Holonet Ledger</h1><div class="sub">Draft saved automatically · shared with Toryn Farr</div></div><span class="btn sm ghost">Save and exit</span></div>
+        <div class="stp" id="stp">
+          <div class="st done" id="s1"><span class="n">✓</span>Connect</div><span class="ln"></span>
+          <div class="st" id="s2"><span class="n">2</span>Permissions</div><span class="ln"></span>
+          <div class="st" id="s3"><span class="n">3</span>Sync <span class="o">· optional</span></div><span class="ln"></span>
+          <div class="st" id="s4"><span class="n">4</span>Review</div>
+        </div>
+        <div class="step" id="stepT" style="position:relative;height:16px"><span id="st2">Step 2 of 4</span><span id="st3" style="position:absolute;left:0;opacity:0">Step 3 of 4</span><span id="st4" style="position:absolute;left:0;opacity:0">Step 4 of 4</span></div>
+        <div class="pane">
+          <div id="p2">
+            <h2>Permissions</h2><div class="q">What can Holonet Ledger see?</div>
+            <div class="carry">Ledger account <b>rebel-finance@holonet</b>, from step 1</div>
+            <div class="opt"><span class="rd"></span><div><b>Invoices only</b>Amounts, dates and status</div></div>
+            <div class="opt" id="oB"><span class="rd"></span><div><b>Invoices and seat counts</b>Adds seats per product and department, for chargeback</div></div>
+            <div class="opt"><span class="rd"></span><div><b>Invoices, seats and people's names</b>Includes personal data; needs a data processing agreement</div></div>
+            <div class="acts"><span class="btn ghost">Back</span><span class="sp"></span><span class="btn pri" id="nx2">Next</span></div>
+          </div>
+          <div id="p3" style="opacity:0">
+            <h2>Sync <span style="font-weight:400;color:var(--faint);font-size:14px">· optional</span></h2><div class="q">How often should it sync? Skip to keep the default, every hour.</div>
+            <div class="opt on" style="margin-top:14px"><span class="rd"></span><div><b>Every hour</b>Default</div></div>
+            <div class="opt"><span class="rd"></span><div><b>Every 15 minutes</b>Uses more of the Ledger's API quota</div></div>
+            <div class="acts"><span class="btn ghost">Back</span><span class="sp"></span><span class="btn ghost" id="skB">Skip</span><span class="btn pri">Next</span></div>
+          </div>
+          <div id="p4" style="opacity:0">
+            <h2>Review and connect</h2><div class="q">Check each choice. Nothing connects until you finish.</div>
+            <div class="rv">
+              <div class="rr"><span class="k">Connect</span><span class="v">rebel-finance@holonet <span>· by Toryn Farr</span></span><a>Edit</a></div>
+              <div class="rr"><span class="k">Permissions</span><span class="v">Invoices and seat counts</span><a>Edit</a></div>
+              <div class="rr"><span class="k">Sync</span><span class="v">Every hour <span>· default, skipped</span></span><a>Edit</a></div>
+            </div>
+            <div class="chk"><span><svg><use href="#ok"/></svg>Connection works</span><span><svg><use href="#ok"/></svg>Permissions granted by Holonet</span></div>
+            <div class="what">When you connect, <b>invoices and seat counts sync every hour, starting now.</b></div>
+            <div class="acts" style="width:680px"><span class="btn ghost">Export configuration</span><span class="sp"></span><span class="btn ghost">Back</span><span class="btn pri" id="cnB">Connect Holonet Ledger</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  contClick: 1.80, toWz: [1.90, 2.30], optClick: 4.60, nextClick: 5.60, to3: 5.70, skipClick: 7.00, to4: 7.10,
+  cnClick: 9.80, toInt: 9.95, toastOut: [11.5, 11.8], endCard: [12.2, 12.65], end: 13.7
+};
+
+function build() {
+  const cb = at("contB"), cl = at("cL"), stp = at("stp"), ob = at("oB", -200, 0), nx = at("nx2"), sk = at("skB");
+  ["p2", "p3", "p4"].forEach(id => $(id).style.opacity = 1);
+  const cn = at("cnB"), p2 = at("p2"), p4 = at("p4");
+  ["p3", "p4"].forEach(id => $(id).style.opacity = 0);
+  const MX = 740;
+  const cur = [
+    [0.00, 860, 640], [0.40, 860, 640], [1.65, cb[0], cb[1] + 3], [1.95, cb[0], cb[1] + 3],
+    [4.45, ob[0], ob[1] + 3], [4.75, ob[0], ob[1] + 3], [5.45, nx[0], nx[1] + 3], [5.75, nx[0], nx[1] + 3],
+    [6.85, sk[0], sk[1] + 3], [7.15, sk[0], sk[1] + 3], [9.65, cn[0], cn[1] + 3], [10.0, cn[0], cn[1] + 3],
+    [11.4, cn[0] - 300, cn[1] + 60], [12.2, cn[0] - 298, cn[1] + 62]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.20, cl[0], cl[1], 1.5], [2.00, cl[0], cl[1], 1.5],           // the shared draft
+    [2.70, MX, stp[1] + 10, 1.18], [3.50, MX, stp[1] + 10, 1.18],      // stepper: done, current, optional, not yet
+    [4.10, 600, p2[1] + 40, 1.32], [5.70, 600, p2[1] + 40, 1.32],    // one question; step 1 carried over
+    [6.20, 600, p2[1] - 10, 1.32], [7.10, 600, p2[1] - 10, 1.32],    // optional: skip
+    [7.70, 640, p4[1] + 30, 1.3], [9.80, 640, p4[1] + 30, 1.3],      // review, Edit links, checks, what happens
+    [10.5, MX, cl[1] - 40, 1.25], [11.8, MX, cl[1] - 40, 1.25],  // connected
+    [12.0, 660, 360, 1.05], [12.2, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function seq(a, b, t, t0) { $(a).style.opacity = 1 - span(t, t0, t0 + .15); $(b).style.opacity = span(t, t0 + .18, t0 + .36); }
+
+function render(t) {
+  // in and out of the wizard
+  if (t < T.toInt) seq("vInt", "vWz", t, T.toWz[0]); else seq("vWz", "vInt", t, T.toInt);
+  $("crumb").innerHTML = t >= T.contClick && t < T.toInt + .18 ? "/ Settings / Integrations / <b>Holonet Ledger</b>" : "/ Settings / <b>Integrations</b>";
+  $("contB").style.background = t >= T.contClick - .05 && t < T.toWz[0] + .1 ? "#333" : "";
+  const dn = t >= T.toInt + .18;
+  $("lp0").style.display = dn ? "none" : ""; $("lp1").style.display = dn ? "" : "none";
+  $("ld0").style.display = dn ? "none" : ""; $("ld1").style.display = dn ? "" : "none"; $("lf").style.display = dn ? "none" : "";
+  $("cL").classList.toggle("dr", !dn);
+
+  // steps
+  const k = t < T.to3 ? 2 : t < T.to4 ? 3 : 4;
+  [1, 2, 3, 4].forEach(i => { $("s" + i).classList.toggle("done", i < k); $("s" + i).classList.toggle("cur", i === k);
+    $("s" + i).querySelector(".n").textContent = i < k ? "✓" : String(i); });
+  $("s3").querySelector(".o").textContent = k > 3 ? " · skipped" : " · optional";
+  if (t < T.to3) { seq("p2", "p3", t, T.to3); $("p4").style.opacity = 0; seq("st2", "st3", t, T.to3); $("st4").style.opacity = 0; }
+  else { $("p2").style.opacity = 0; seq("p3", "p4", t, T.to4); $("st2").style.opacity = 0; seq("st3", "st4", t, T.to4); }
+  $("oB").classList.toggle("on", t >= T.optClick);
+  $("nx2").style.background = t >= T.nextClick - .05 && t < T.to3 + .1 ? "#333" : "";
+  $("skB").style.background = t >= T.skipClick - .05 && t < T.to4 + .1 ? "var(--hover)" : "";
+  $("cnB").style.background = t >= T.cnClick - .05 && t < T.toInt + .1 ? "#333" : "";
+
+  const to = span(t, T.toInt, T.toInt + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to; $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  return [["click", T.contClick], ["whoosh", T.toWz[0]], ["click", T.optClick], ["click", T.nextClick], ["whoosh", T.to3], ["click", T.skipClick], ["whoosh", T.to4],
+          ["click", T.cnClick], ["chime", T.toInt]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.contClick, T.optClick, T.nextClick, T.skipClick, T.cnClick], build, render, events, clamp: false,
+  slow: [[2.7, 3.5, 1.5], [4.1, 4.5, 1.4], [6.2, 6.9, 1.3], [7.7, 9.6, 1.8], [10.5, 11.8, 1.3]]
+});
+</script>
+</body>
+</html>

@@ -331,5 +331,45 @@ window.VIDEOS = {
         "She saves it. The warning goes away, the payment method shows Visa ending 0921, and a message confirms the billing contacts were notified and the change was logged."
       ]
     }
+  },
+  "creation-flows": {
+    "Create modal": {
+      src: "media/creation-flows/create-modal.mp4",
+      poster: "media/creation-flows/create-modal.jpg",
+      label: "Create modal, shown in a mock Echo Base console",
+      steps: [
+        "In People / Groups, the admin chooses New group for the Rogue One pilot. A small modal titled New group opens over the list, with three fields: Name, an optional Description and Owner. Focus moves into the modal, Esc closes it, and at high zoom it fills the screen.",
+        "She types Rogue Squadron. The name is checked against existing groups as she types, and an error under the field says a group with that name already exists.",
+        "She edits the name to Rogue One pilot. Nothing else she entered is lost, and the field confirms the name is available.",
+        "Create group is the last button, after Cancel, with Create another beside it for adding several. Clicking outside or pressing Esc on a partly filled modal would ask before discarding it.",
+        "She creates it. The button shows Creating… and is disabled while saving, so it can't be submitted twice. The modal closes, focus returns, and the new group is highlighted at the top of the list with a confirmation."
+      ]
+    },
+    "Multi-step wizard": {
+      src: "media/creation-flows/multi-step-wizard.mp4",
+      poster: "media/creation-flows/multi-step-wizard.jpg",
+      label: "Multi-step wizard, shown in a mock Echo Base console",
+      steps: [
+        "In Settings / Integrations, Holonet Ledger shows Setup in progress: a draft Toryn Farr saved and shared, with 1 of 4 steps done. The admin chooses Continue setup.",
+        "The stepper shows Connect as done, Permissions as current, Sync as optional and Review not yet reachable, and says Step 2 of 4 in text. Each step has a heading, and focus moves to it when the step changes.",
+        "The step asks one question, what Holonet Ledger can see. The Ledger account from step 1 is shown rather than asked again. She picks Invoices and seat counts and continues.",
+        "Sync is marked optional, so she skips it and keeps the default, every hour.",
+        "Review summarises each step with an Edit link, checks the live connection and permissions, and says what will happen: invoices and seat counts sync every hour, starting now. The configuration can be exported.",
+        "She connects it. Holonet Ledger shows Connected and syncing, and a message, also announced, confirms the first sync is running."
+      ]
+    },
+    "Create from template": {
+      src: "media/creation-flows/create-from-template.mp4",
+      poster: "media/creation-flows/create-from-template.jpg",
+      label: "Create from template, shown in a mock Echo Base console",
+      steps: [
+        "In Compliance / Policies, the admin chooses New policy. Templates are split into Echo Base's own and built-in ones, with search, and Start blank is an equal choice.",
+        "Each org template shows its owner and version, and Restricted data handling is marked as required for Restricted folders.",
+        "She picks it. A text preview lists exactly what it sets: Restricted classification, internal-only sharing, external links off and 7-year retention.",
+        "Before creating, she names the policy Death Star plans · restricted and changes the access review from every 90 days to every 30.",
+        "She chooses Use Restricted data handling, a button that names the template.",
+        "The new policy records that it came from Restricted data handling v3 and that her review change differs from it. Later template changes won't update it silently: she'll be told about new versions and can review the differences."
+      ]
+    }
   }
 };
