@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Echo Base Console prototype</title>
+<meta name="description" content="A clickable prototype of the Echo Base Console from Patterns for Enterprise Admin Consoles, with Star Wars sample data.">
+<link rel="stylesheet" href="proto.css?v=1">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="#/home"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</a>
+  <nav class="crumb" id="crumb" aria-label="Breadcrumb"></nav>
+  <div class="me" id="me"></div>
+</header>
+<nav class="rail" id="rail" aria-label="Main"></nav>
+<div id="app"><main id="main" tabindex="-1"></main></div>
+<div class="toasts" id="toasts"></div>
+<div class="vh" id="live" role="status" aria-live="polite"></div>
+<script src="data.js?v=1"></script>
+<script src="app.js?v=1"></script>
+<script src="views-core.js?v=1"></script>
+<script src="views-content.js?v=1"></script>
+<script src="views-compliance.js?v=1"></script>
+<script src="views-access.js?v=1"></script>
+<script src="views-ai.js?v=1"></script>
+</body>
+</html>
