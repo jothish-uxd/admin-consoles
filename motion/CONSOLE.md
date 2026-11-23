@@ -196,6 +196,19 @@ People: the person is Lavanya Sienna. As an admin her title fits the scene (Jedi
 | Usage & cost | AI / Usage |
 | Content safety | AI / Safety |
 
+### MCP connectors
+
+| Pattern | Section / page |
+|---|---|
+| Approving connectors | AI / Connectors |
+| Choosing tools | AI / Connectors / a connector › Tools |
+| Sign-in & credentials | AI / Connectors / a connector › Sign-in |
+| Who gets each connector | AI / Connectors / a connector › Access |
+| Allowed connectors | AI / Connectors › Policy |
+| Data leaving the org | AI / Connectors / a connector › Data |
+| AI activity record | Compliance / Audit log (filtered to AI tool calls) |
+| Health & revoking | AI / Connectors (status column, Turn off for everyone) |
+
 ## Platform & configuration
 
 ### Billing & licenses

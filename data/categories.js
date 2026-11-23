@@ -2563,6 +2563,124 @@ window.CATEGORIES = [
 
   /* ---------- Platform & configuration ---------- */
   {
+    slug: "mcp-connectors",
+    name: "MCP connectors",
+    group: "governance",
+    thumb: "connectors",
+    summary: "Which MCP connectors the AI can use, which tools, as whom, and what it did.",
+    patterns: [
+      ["Approving connectors", "Connect, test, review tools, publish"],
+      ["Choosing tools", "Allow, ask first or block each tool"],
+      ["Sign-in & credentials", "Each person, or one org account"],
+      ["Who gets each connector", "By group, role or person"],
+      ["Allowed connectors", "Approved only, or any server"],
+      ["Data leaving the org", "What goes out, and to where"],
+      ["AI activity record", "Every tool call, logged"],
+      ["Health & revoking", "Failing sign-ins, off for everyone"]
+    ],
+    screens: [
+      {
+        "src": "https://docs.glean.com/img/administration/tools/mcp/add-tools-dialog.png",
+        "product": "Glean",
+        "title": "Add tools from an MCP server",
+        "pattern": "Approving connectors",
+        "notes": "Admins add tools from a built-in template or import them from any MCP server by URL, in the same dialog, so catalog and custom servers go through one review path.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/administration/tools/connect-remote-mcp-servers-to-glean",
+        "sourceTitle": "Glean Docs: Connect remote MCP servers to Glean",
+        "alt": "Glean Add tools dialog with the Vendor provided tools (via MCP) tab open"
+      },
+      {
+        "src": "https://docs.glean.com/img/administration/tools/mcp/add-mcp-server-template.png",
+        "product": "Glean",
+        "title": "Connect to server",
+        "pattern": "Approving connectors",
+        "notes": "The admin connects and authenticates first; Glean then discovers the server’s tools, so they can be reviewed before anything is enabled for people.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/administration/tools/connect-remote-mcp-servers-to-glean",
+        "sourceTitle": "Glean Docs: Connect remote MCP servers to Glean",
+        "alt": "Glean MCP server configuration form for a built-in template"
+      },
+      {
+        "src": "https://docs.x.ai/_next/image?url=%2Fassets%2Fdocs%2Fgrok-business%2Fconnector-management.png&w=1920&q=75&dpl=92327d436adae311cc8f175cb8c794b3d353f3fa",
+        "product": "Grok",
+        "title": "Team connectors",
+        "pattern": "Approving connectors",
+        "notes": "On Grok Business and Enterprise a team admin adds each connector, from the catalog or as a custom MCP server, before members can connect their own accounts.",
+        "credit": "xAI",
+        "source": "https://docs.x.ai/grok/connector-management",
+        "sourceTitle": "xAI Docs: Connector management",
+        "alt": "Grok Business connectors page listing the team's available connectors"
+      },
+      {
+        "src": "https://docs.glean.com/img/administration/tools/mcp/enable-mcp-tool-settings.png",
+        "product": "Glean",
+        "title": "Choose which tools to enable",
+        "pattern": "Choosing tools",
+        "notes": "After connecting, admins pick which of the server’s tools to turn on, separately for chat and for agents. Glean’s advice is to start small and widen after testing.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/administration/tools/connect-remote-mcp-servers-to-glean",
+        "sourceTitle": "Glean Docs: Connect remote MCP servers to Glean",
+        "alt": "Glean Edit settings panel for enabling individual MCP tools"
+      },
+      {
+        "src": "https://docs.glean.com/img/administration/tools/mcp/api-key-header-format.png",
+        "product": "Glean",
+        "title": "Authentication for a server",
+        "pattern": "Sign-in & credentials",
+        "notes": "Each server sets how it signs in: none, an API key in a chosen header, or OAuth where each person authorizes on first use. The admin’s own connection doesn’t grant anyone else access.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/administration/tools/connect-remote-mcp-servers-to-glean",
+        "sourceTitle": "Glean Docs: Connect remote MCP servers to Glean",
+        "alt": "Glean header format dropdown with Authorization Bearer, Token, ApiKey and X-API-Key options"
+      },
+      {
+        "src": "https://docs.glean.com/img/administration/mcp/glean-plugin/tool-access-rbac.png",
+        "product": "Glean",
+        "title": "Tool access by person or department",
+        "pattern": "Who gets each connector",
+        "notes": "Access is set per tool, by users or departments, with Copy to all tools to apply one setting across an app. People only see the tools they’re allowed.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/administration/platform/mcp/manage-glean-plugin",
+        "sourceTitle": "Glean Docs: Manage Glean plug-in access and security",
+        "alt": "Glean tool access settings with access set for individual calendar tools"
+      },
+      {
+        "src": "https://docs.glean.com/img/administration/mcp/mcp-gateway-architecture.png",
+        "product": "Glean",
+        "title": "One approved endpoint",
+        "pattern": "Allowed connectors",
+        "notes": "Every AI client points at one Glean MCP endpoint, and Glean decides which downstream servers and tools are allowed, instead of each person installing servers on their own.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/administration/platform/mcp/mcp-gateway",
+        "sourceTitle": "Glean Docs: MCP Gateway",
+        "alt": "Diagram of AI clients such as Cursor, Claude Code, ChatGPT and VS Code connecting through one Glean MCP endpoint to native, connector, custom and other MCP tools"
+      },
+      {
+        "src": "https://dam-cdn.atl.orangelogic.com/AssetLink/ik28v505ob3e2fg1a168vsc7d3i2q87k.png",
+        "product": "Atlassian",
+        "title": "Which AI tools may connect",
+        "pattern": "Data leaving the org",
+        "notes": "The other direction: admins choose which outside AI tools can reach Jira and Confluence through Atlassian’s MCP server, here turning off the partner default and allowing one domain.",
+        "credit": "Atlassian",
+        "source": "https://community.atlassian.com/learning/lesson/govern-external-ai-access-with-the-rovo-mcp-server",
+        "sourceTitle": "Atlassian Community: Govern external AI access with the Rovo MCP server",
+        "alt": "Rovo MCP server settings with Allow Atlassian supported domains turned off and the Cursor domain added"
+      },
+      {
+        "src": "https://docs.glean.com/assets/images/mcp-insights-31582c19732fb0b0ca2002676a0fe07f.png",
+        "product": "Glean",
+        "title": "MCP insights",
+        "pattern": "AI activity record",
+        "notes": "Usage by person, AI client, tool and server, with filters by department and date and a CSV export. Call-level detail lives in the event logs.",
+        "credit": "Glean",
+        "source": "https://docs.glean.com/administration/insights/mcp-insights",
+        "sourceTitle": "Glean Docs: MCP insights",
+        "alt": "Glean MCP insights dashboard with active users, top host applications and a usage table"
+      }
+    ]
+  },
+  {
     slug: "billing-licenses",
     name: "Billing & licenses",
     group: "platform",

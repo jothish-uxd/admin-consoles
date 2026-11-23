@@ -8,7 +8,7 @@ Static site, no build step. Open `index.html` or serve the folder.
 
 ## What's in it
 
-23 categories in 6 groups, 116 patterns and about 300 screenshots from public vendor documentation.
+24 categories in 6 groups, 124 patterns and about 300 screenshots from public vendor documentation.
 
 | Group | Categories |
 |---|---|
@@ -25,7 +25,7 @@ Screenshots come from the public help centres and docs of GitHub, Datadog, Miro,
 
 **Overview** (home): the categories as a gallery with wireframe thumbnails, totals and group filter chips.
 
-**Header search** (every page, ⌘K): searches the 23 category names and the 116 pattern names, shown as two groups, Categories then Patterns. Each typed word has to match the start of a word in a name, so "bulk add" finds "Bulk add users". Choosing a category opens its page; choosing a pattern opens that category's Patterns tab with the pattern selected. On narrow screens and at high zoom it collapses to a search button.
+**Header search** (every page, ⌘K): searches the 24 category names and the 124 pattern names, shown as two groups, Categories then Patterns. Each typed word has to match the start of a word in a name, so "bulk add" finds "Bulk add users". Choosing a category opens its page; choosing a pattern opens that category's Patterns tab with the pattern selected. On narrow screens and at high zoom it collapses to a search button.
 
 **Category pages** have three tabs, opening on Patterns:
 

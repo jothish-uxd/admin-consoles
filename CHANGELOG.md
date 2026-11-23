@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.2.3 preview — 2026-11-23
+
+### Added
+- **MCP connectors**, a new category in Governance & compliance with 8 patterns: *Approving connectors* (connect, test, review the tools, then publish; catalog and custom servers alike), *Choosing tools* (allow, ask first or block each tool, with write and delete tools opt-in), *Sign-in & credentials* (each person signs in, or one org connection, and why it matters), *Who gets each connector* (by group, role or person, with pilots), *Allowed connectors* (approved only, or any server, and the risk of rogue servers), *Data leaving the org* (what goes out, where it runs, and outside AI tools reaching in), *AI activity record* (every tool call with the person and the AI client) and *Health & revoking* (failing sign-ins, and one switch to turn a connector off everywhere). Real-world examples from Glean, Grok and Atlassian. 24 categories, 124 patterns.
+
 ## v0.2.2 preview — 2026-11-21
 
 ### Changed

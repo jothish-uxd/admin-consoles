@@ -517,5 +517,262 @@ Object.assign(window.GUIDANCE, {
         ]
       }
     }
+  },
+  /* ------------------------------------------------------------------ */
+  "mcp-connectors": {
+    scale: {
+      intro: "MCP connectors let an AI assistant reach into other systems and act there: read a ticket, send an email, change a record. That makes them different from an ordinary integration. The AI decides when to call a tool, a connector can come from anyone with a server URL, and one connector can carry dozens of tools that read, write and delete. The admin’s job is to decide which connectors exist, which of their tools the AI may use, whose account they act as, who gets them, what leaves the org through them, and how to see and stop what they do.",
+      tiers: [
+        ["Tens", "A few connectors from the built-in catalog. Each person signs in with their own account, and the admin can see what’s connected."],
+        ["Thousands", "Approved connectors only, with custom servers tested before they’re published. Write tools need approval, connectors are given out by group, and tool calls are logged."],
+        ["Hundreds of thousands", "An approved list enforced on every app, desktop and coding tool, org-managed sign-in through the identity provider, per-tool access by group, egress controls, every tool call in the audit stream, and one switch to cut a connector off everywhere."]
+      ],
+      principles: [
+        "Nothing connects until an admin has approved it. Approving is a review, not a toggle.",
+        "Start with read tools. Write and delete tools are opt-in, and need a person’s confirmation by default.",
+        "The AI never has more access than the person it acts for, and the screen says whose account it uses.",
+        "Say in plain words what each connector can see and do, and where its data goes.",
+        "Every tool call is recorded with the person, the AI client, the connector, the tool and the result.",
+        "Turning a connector off takes effect everywhere, at once, and says so."
+      ]
+    },
+    patterns: {
+      "Approving connectors": {
+        think: [
+          "A connector is code someone else wrote, running against the org’s data, called by a model that can be talked into things. Approving one is a security review.",
+          "Admins add connectors from a catalog (built-in or partner) or by server URL (custom). Both need the same steps: connect, test, look at the tools, then publish."
+        ],
+        do: [
+          "Show each connector’s publisher, whether it’s built-in, partner or custom, what it can read and write, and where it runs.",
+          "Connect with a test account first, and show the tools the server offers before anything is published.",
+          "Let admins run a test call, such as a search, and see the request and the result.",
+          "Keep a draft state: tested but not published. Publishing is a separate, named step.",
+          "Mark custom connectors as unreviewed, with a short warning about prompt injection and changing tools.",
+          "Let people request a connector, and let admins approve, decline, or decline and block it."
+        ],
+        dont: [
+          "Don’t publish a connector the moment its URL is entered.",
+          "Don’t show only scope codes. Say ‘Can read and send email’, not ‘mail.readwrite’.",
+          "Don’t hide which connectors came from the catalog and which were added by URL."
+        ],
+        access: [
+          ["WCAG 2.4.4", "‘Connect’, ‘Test’ and ‘Publish’ buttons name the connector."],
+          ["WCAG 4.1.3", "Announce the result of a connection test, such as ‘Connected, 12 tools found’."],
+          ["WCAG 1.1.1", "Connector logos have the connector’s name in text next to them."],
+          ["UD 3", "Write what each connector does in everyday words before the technical details."]
+        ],
+        scale: [
+          "Route requests to the right reviewer, with the requester’s reason attached.",
+          "Re-review a connector when its server adds or changes tools.",
+          "Keep a list of approved connectors with an owner and a review date for each."
+        ]
+      },
+
+      "Choosing tools": {
+        think: [
+          "One connector can expose many tools. Approving the connector shouldn’t approve all of them.",
+          "The risk is in the verbs. Reading a calendar and deleting a calendar come from the same server."
+        ],
+        do: [
+          "List every tool with a plain description, and group them as read, write and delete.",
+          "Let admins set each tool, or each group, to Allowed, Needs approval or Blocked.",
+          "Default new and write tools to Needs approval or Off, and say so.",
+          "When a server adds a tool later, hold it as off until an admin reviews it.",
+          "Show where each tool is on, such as in chat, in agents, or both."
+        ],
+        dont: [
+          "Don’t enable every tool because the connector was approved.",
+          "Don’t let people override an admin’s Blocked setting.",
+          "Don’t show tool names only as function names, such as ‘send_message’."
+        ],
+        access: [
+          ["WCAG 1.3.1", "Use a table or grouped list with the tool name, what it does and its setting."],
+          ["WCAG 4.1.2", "Each setting control exposes its value, such as ‘Needs approval’."],
+          ["WCAG 1.4.1", "Mark write and delete tools in words, not only with colour."],
+          ["UD 4", "Say what ‘Needs approval’ means for the person using the AI."]
+        ],
+        scale: [
+          "Set tool rules by type across all connectors, such as ‘No delete tools without approval’.",
+          "Copy one connector’s tool settings to another, or to every tool at once.",
+          "Report which tools are actually used, so unused ones can be turned off."
+        ]
+      },
+
+      "Sign-in & credentials": {
+        think: [
+          "Whose account the connector uses decides what the AI can reach. It’s the most important line on the setup screen.",
+          "There are two models. Each person signs in with their own account, so the AI sees what they can see. Or the org connects once with a shared account, so everyone gets the same access."
+        ],
+        do: [
+          "Ask admins to choose between ‘Each person signs in’ and ‘One org connection’, and explain the effect of each.",
+          "Recommend per-person sign-in. A shared account is for service-style tools, and needs a least-privilege account.",
+          "Offer org-managed sign-in through the identity provider, so people get access on first login without a separate prompt.",
+          "Show each person what they’re granting when they connect, and which account they used.",
+          "Keep secrets write-only: shown once, then masked."
+        ],
+        dont: [
+          "Don’t let a shared admin account give everyone the admin’s access.",
+          "Don’t ask people to paste API keys into chat.",
+          "Don’t hide that a connector uses a shared account. Its actions won’t show the person behind them."
+        ],
+        access: [
+          ["WCAG 3.3.8", "Signing in to a connector uses the provider’s sign-in, with no codes to copy by hand."],
+          ["WCAG 3.3.2", "Explain each sign-in option in a sentence before it’s chosen."],
+          ["WCAG 3.3.1", "If a sign-in fails, say why and how to fix it."],
+          ["UD 1", "Per-person sign-in gives everyone the same access they already have, no more."]
+        ],
+        scale: [
+          "Use the identity provider’s groups and roles, so access follows people when they move teams.",
+          "Expire and refresh tokens automatically, and sign people out of all AI sessions when they leave.",
+          "Flag connectors that use shared accounts in reviews."
+        ]
+      },
+
+      "Who gets each connector": {
+        think: [
+          "Not everyone needs every connector. Finance doesn’t need the code repo; engineering doesn’t need payroll.",
+          "Most orgs pilot a connector with one team before giving it to everyone."
+        ],
+        do: [
+          "Give connectors to groups or roles, with individual exceptions when needed.",
+          "Let admins narrow access per tool for a group, such as read-only for most and write for one team.",
+          "Show, on each connector, who has it and how, such as ‘Engineering · via role’.",
+          "Tell people when a connector is turned off for them, and who to ask."
+        ],
+        dont: [
+          "Don’t give a new connector to the whole org by default.",
+          "Don’t hide connectors people can’t use without saying why.",
+          "Don’t make group access and per-person access disagree without showing which wins."
+        ],
+        access: [
+          ["WCAG 1.3.1", "Use a table of groups with their access level and tool settings."],
+          ["WCAG 4.1.3", "Announce changes such as ‘Salesforce now available to Sales’."],
+          ["UD 3", "Use the same group names as the rest of the console."]
+        ],
+        scale: [
+          "Pilot with one group, then widen with a single edit.",
+          "Sync access from the identity provider instead of managing lists by hand.",
+          "Report who has each connector, and who has used it in the last 90 days."
+        ]
+      },
+
+      "Allowed connectors": {
+        think: [
+          "The big policy choice: only connectors the org approved, or any server someone adds by URL.",
+          "Allowing any server means anyone can connect the AI to a server nobody vetted. A rogue server can read what it’s sent, hide instructions in its tool descriptions, or change its tools after it’s added.",
+          "An approved list only works if it’s enforced everywhere the AI runs: web, desktop, mobile and coding tools."
+        ],
+        do: [
+          "Offer clear choices, such as Off · Approved only · Any server, with Approved only recommended.",
+          "Keep the approved list in one place: catalog connectors and custom servers by URL, each with an owner.",
+          "When ‘Any server’ is on, show the risks in plain words, require people to accept them, and log every custom server added.",
+          "Tell people when a server is blocked, and how to request it.",
+          "Say which apps enforce the list, and which can’t yet."
+        ],
+        dont: [
+          "Don’t default to ‘Any server’ for business plans.",
+          "Don’t enforce the list in the web app but not in desktop or coding tools without saying so.",
+          "Don’t block servers silently. People will try workarounds."
+        ],
+        access: [
+          ["WCAG 1.3.1", "Policy options are radio buttons in a group, ordered from most to least restrictive."],
+          ["WCAG 3.3.4", "Confirm a change to a less restrictive policy, with what it allows."],
+          ["WCAG 3.3.1", "A blocked server shows a message that says why and what to do."],
+          ["UD 4", "Mark the recommended option in words."]
+        ],
+        scale: [
+          "Use one approved list or registry for every app, team and device, with denylist entries winning.",
+          "Push the policy to managed devices, so local configuration can’t override it.",
+          "Find connectors already in use before turning the list on, and offer to approve them."
+        ]
+      },
+
+      "Data leaving the org": {
+        think: [
+          "Every tool call sends something out: the prompt, a document, a search result. Admins need to know what, where to, and under whose rules.",
+          "It runs both ways. Connectors pull data into the AI, and outside AI tools can reach into the org’s own systems through their MCP servers."
+        ],
+        do: [
+          "Say where each connector runs and where its data goes, such as ‘Runs on the provider’s servers in the US’.",
+          "Honour sensitivity labels: content marked Confidential isn’t sent to connectors that aren’t allowed it.",
+          "Let admins choose which outside AI tools may connect to the org’s data, and from which networks.",
+          "Explain that once data reaches another service, that service’s retention and privacy rules apply.",
+          "Show where data-residency settings stop: an AI region setting doesn’t move a third-party service."
+        ],
+        dont: [
+          "Don’t imply that an AI data policy covers what third-party connectors do with data.",
+          "Don’t let token-based connections skip the controls that apply to everyone else without saying so.",
+          "Don’t send more than the tool needs."
+        ],
+        access: [
+          ["WCAG 3.3.2", "State where data goes in a sentence, next to the setting."],
+          ["WCAG 1.3.1", "List allowed outside tools in a table with name, domain and access."],
+          ["UD 3", "Describe data flow in everyday words, such as ‘Your files are sent to Box’."]
+        ],
+        scale: [
+          "Apply data-loss rules to connector traffic, as to other egress.",
+          "Restrict connector traffic to approved networks and IP ranges.",
+          "Review outside AI tools connecting to the org’s data on a schedule."
+        ]
+      },
+
+      "AI activity record": {
+        think: [
+          "When the AI acts through a connector, there are two actors: the person who asked and the AI client that did it. The record needs both.",
+          "Without a tool-call log, nobody can answer ‘What did the AI change in Salesforce last week, and for whom?’"
+        ],
+        do: [
+          "Log every tool call with time, person, AI client, connector, tool, whether it read or wrote, and the result.",
+          "Say when a call ran under a shared account rather than a person.",
+          "Log admin changes too: connectors added or removed, tools turned on or off, policy changes.",
+          "Filter by person, connector, tool, client and date, and export to the security team’s tools.",
+          "Summarise usage: active people, top connectors and tools, failures."
+        ],
+        dont: [
+          "Don’t record only that ‘a connector was used’ with no tool or result.",
+          "Don’t keep tool calls in a separate place from the rest of the audit log.",
+          "Don’t log secrets or full document contents by default."
+        ],
+        access: [
+          ["WCAG 1.3.1", "Use a table with headers for time, person, client, connector, tool and result."],
+          ["WCAG 1.4.1", "Show failed calls in words, not only with a red icon."],
+          ["UD 4", "Write each entry as a sentence people can read, with codes secondary."]
+        ],
+        scale: [
+          "Stream tool-call events to the SIEM in the same schema as other audit events.",
+          "Alert on unusual patterns, such as many write calls in a short time.",
+          "Keep records for the org’s retention period, and include them in legal holds."
+        ]
+      },
+
+      "Health & revoking": {
+        think: [
+          "Connectors break quietly: tokens expire, servers move, tools change. People just see an AI that stops helping.",
+          "When something goes wrong, such as a compromised server or a bad tool update, admins need to stop it everywhere at once."
+        ],
+        do: [
+          "Show each connector’s status in words: Connected, Needs sign-in, Failing, with the last successful call.",
+          "Tell people when their own sign-in has expired, with a one-step reconnect.",
+          "Offer one action to turn a connector off for everyone, and one to sign everyone out of it.",
+          "Say how long a change takes to apply everywhere, such as ‘Applies within 10 minutes’.",
+          "Show what changed in a server’s tools since it was approved."
+        ],
+        dont: [
+          "Don’t let a turned-off connector keep working in open sessions without saying so.",
+          "Don’t make removal partial, such as removing it from the web app but not from agents.",
+          "Don’t hide failures in logs only admins read."
+        ],
+        access: [
+          ["WCAG 4.1.3", "Announce status changes, such as ‘Jira needs sign-in’, without moving focus."],
+          ["WCAG 1.4.1", "Statuses use words and icons, not colour alone."],
+          ["WCAG 3.3.4", "Confirm turning a connector off for everyone, with how many people it affects."]
+        ],
+        scale: [
+          "Monitor failure rates per connector and alert the owner.",
+          "Revoke automatically when a connector’s owner leaves or its review lapses.",
+          "Keep a kill switch that works across every app and device in one step."
+        ]
+      }
+    }
   }
 });

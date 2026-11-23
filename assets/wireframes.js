@@ -222,6 +222,25 @@
       return frame(g);
     },
 
+    connectors: () => {
+      // a connector list on the left; the selected connector's tools with allow / ask / block on the right
+      let g = pageHead(70);
+      for (let i = 0; i < 4; i++) {
+        const y = Y + 22 + i * 26, on = i === 1;
+        g += r(X, y, 84, 22, on ? "k" : "card", 4);
+        g += r(X + 5, y + 5, 12, 12, on ? "inv" : "m", 3);
+        g += txt(X + 22, y + 6, 40, on ? "inv" : "k") + txt(X + 22, y + 13, 26, on ? "inv" : "f");
+      }
+      const set = ["k", "k", "box", "m", "box"];
+      for (let i = 0; i < 5; i++) {
+        const y = Y + 24 + i * 20;
+        g += txt(X + 96, y + 3, 64, "k") + txt(X + 96, y + 10, 44);
+        [0, 1, 2].forEach(j => g += r(X + 178 + j * 17, y + 1, 15, 10, j === (i < 2 ? 0 : i === 3 ? 1 : 2) ? set[i] === "box" ? "k" : set[i] : "box", 3));
+        g += line(X + 96, y + 16, X + W, y + 16);
+      }
+      return frame(g);
+    },
+
     seats: () => {
       let g = pageHead(60);
       [0, 1, 2].forEach(i => {

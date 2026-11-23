@@ -835,7 +835,7 @@
 
   addEventListener("popstate", route);
 
-  /* ---------- Header search: the 23 category names and the 116 pattern names; every typed word must start a word in the name ---------- */
+  /* ---------- Header search: the 24 category names and the 124 pattern names; every typed word must start a word in the name ---------- */
   const patId = name => "p-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   const words = s => s.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
   const groupName = id => (GROUPS.find(g => g.id === id) || {}).name || "";
