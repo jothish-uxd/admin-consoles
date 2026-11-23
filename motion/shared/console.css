@@ -3,7 +3,7 @@
 @font-face { font-family: "Geist"; src: url("../fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; }
 @font-face { font-family: "Geist Mono"; src: url("../fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; }
 :root {
-  --bg: #ffffff; --subtle: #fafafa; --hover: #f2f2f2; --ink: #171717; --soft: #666; --faint: #8f8f8f;
+  --bg: #ffffff; --subtle: #fafafa; --hover: #f2f2f2; --ink: #171717; --soft: #666; --faint: #737373;  /* #737373: 4.7:1 on white, 4.5:1 on --subtle (WCAG AA); use --soft or darker on --hover */
   --rule: #ebebeb; --rule-strong: #d4d4d4; --backdrop: #f3f3f3;
 }
 * { box-sizing: border-box; }
