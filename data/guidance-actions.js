@@ -122,7 +122,7 @@ Object.assign(window.GUIDANCE, {
         ],
         do: [
           "Add a new row or field in place, focused and ready for input.",
-          "Save on Enter or a visible check button, cancel on Esc.",
+          "Show visible Save and Cancel buttons on the row, and also save on Enter and cancel on Esc.",
           "Show saving, saved and error states on the row itself.",
           "Fall back to a full form for anything that needs more than a few fields."
         ],

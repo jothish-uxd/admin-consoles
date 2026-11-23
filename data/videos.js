@@ -376,11 +376,11 @@ window.VIDEOS = {
       poster: "media/creation-flows/inline-create.jpg",
       label: "Inline create, shown in a mock Echo Base console",
       steps: [
-        "On the Tags page, the admin chooses Add tag. A new row appears at the top of the table, focused and ready to type, with Enter to save and Esc to cancel shown beside it. Everything works by keyboard.",
+        "On the Tags page, the admin chooses Add tag. A new row appears at the top of the table, focused and ready to type, with visible Save and Cancel buttons and a hint that Enter and Esc work too. The field is named, the hint is linked to it, and everything works by keyboard.",
         "She types rogue-one. Typing doesn't save anything or move focus.",
-        "She presses Enter. The row shows Saving…, then Saved, and the result is announced to screen readers without moving focus.",
+        "She chooses Save. The row shows Saving…, then Saved, and the result is announced to screen readers without moving focus.",
         "The new tag stays pinned at the top, marked New, instead of jumping to its place in the sorted list.",
-        "She adds another and types Hoth. The server finds that Hoth already exists, and the row shows the error and offers to use the existing tag, keeping what she typed. She presses Esc to cancel it.",
+        "She adds another, types Hoth and presses Enter. The server finds that Hoth already exists, and the row shows the error, linked to the field, with an offer to use the existing tag, keeping what she typed. She chooses Cancel, which works even when a screen reader holds on to Esc, and focus returns to Add tag.",
         "Anything bigger than a tag has a full form instead: a link offers New managed field for controlled lists."
       ]
     },

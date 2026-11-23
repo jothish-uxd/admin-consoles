@@ -10,7 +10,7 @@
   Way in: Content / Tags → Add tag (the same Tags page as the Tags & metadata clip).
 
   Follows the Inline create card (data/guidance-actions.js):
-  - a focused row in place; Enter / Esc shown (do 1-2)
+  - a focused row in place with visible Save and Cancel buttons; Enter / Esc work too (do 1-2)
   - Saving…, Saved and error on the row; pinned at top as New (do 3, avoid 3, scale 1)
   - duplicate caught by the server; the row and text kept (avoid 2, scale 2)
   - Esc cancels the unsaved row
@@ -54,6 +54,9 @@ tr.ed td { background: var(--subtle); }
 .st { display: inline-flex; gap: 5px; align-items: center; font-size: 12.5px; white-space: nowrap; }
 .st svg { width: 12px; height: 12px; }
 .st.e { color: #b91c1c; font-weight: 500; }
+.ib { height: 28px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 6px; border: 1px solid var(--rule-strong); background: var(--bg); color: var(--ink); font-size: 12.5px; font-weight: 500; margin-right: 6px; }
+.ib.pri { background: var(--ink); border-color: var(--ink); color: #fff; }
+.kh { font-size: 11.5px; color: var(--faint); margin-left: 4px; }
 .new { font: 10px "Geist Mono", monospace; border: 1px solid var(--ink); border-radius: 999px; padding: 0 6px; margin-left: 8px; color: var(--ink); font-weight: 400; }
 </style>
 </head>
@@ -111,7 +114,7 @@ const { $, at, span } = Motion;
 
 /* ---------- timeline (scene seconds) ---------- */
 const T = {
-  add1: 1.80, type1: [2.30, 3.20], enter1: 3.70, saved1: 4.40,
+  add1: 1.80, type1: [2.30, 3.20], enter1: 3.90, saved1: 4.60,
   add2: 6.20, type2: [6.70, 7.20], enter2: 7.70, err2: 8.20, esc2: 10.20,
   endCard: [11.8, 12.25], end: 13.3
 };
@@ -119,10 +122,13 @@ const T = {
 function build() {
   // lay out a row while measuring, so the camera knows where rows sit
   const ab = at("addB"), tb = at("tbl"), br = at("bar");
+  render(3.0); const sv = at("sv1"); render(9.0); const cn = at("cn2"); render(0);
   const MX = 720;
   const cur = [
     [0.00, 860, 620], [0.40, 860, 620], [1.65, ab[0], ab[1] + 3], [1.95, ab[0], ab[1] + 3], [2.40, ab[0] + 60, ab[1] + 40],
-    [6.05, ab[0], ab[1] + 3], [6.35, ab[0], ab[1] + 3], [6.80, ab[0] + 60, ab[1] + 40], [11.0, ab[0] + 300, ab[1] + 220], [11.8, ab[0] + 302, ab[1] + 222]
+    [3.70, sv[0], sv[1] + 3], [4.00, sv[0], sv[1] + 3],
+    [6.05, ab[0], ab[1] + 3], [6.35, ab[0], ab[1] + 3], [6.80, ab[0] + 60, ab[1] + 40],
+    [10.0, cn[0], cn[1] + 3], [10.3, cn[0], cn[1] + 3], [11.0, cn[0] + 200, cn[1] + 160], [11.8, cn[0] + 202, cn[1] + 162]
   ];
   const cam = [
     [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
@@ -139,17 +145,20 @@ const typed = (s, t, a, b) => s.slice(0, Math.round(s.length * span(t, a, b)));
 function render(t) {
   $("addB").style.background = (t >= T.add1 - .05 && t < T.add1 + .15) || (t >= T.add2 - .05 && t < T.add2 + .15) ? "#333" : "";
 
-  // row 1: rogue-one
-  const r1 = $("r1");
+  // row 1: rogue-one, saved with the visible Save button
+  const r1 = $("r1"), editing1 = t >= T.add1 && t < T.saved1;
   r1.style.display = t >= T.add1 ? "" : "none";
+  $("u1").style.display = $("l1").style.display = editing1 ? "none" : "";
+  $("s1").colSpan = editing1 ? 3 : 1;
   if (t < T.enter1) {
     r1.className = "ed";
     $("c1").innerHTML = `<span class="ein">${typed("rogue-one", t, ...T.type1)}${caret(t)}</span>`;
-    $("u1").innerHTML = ""; $("l1").innerHTML = ""; $("s1").innerHTML = `<span class="st" style="color:var(--faint)">Enter saves · Esc cancels</span>`;
+    $("s1").innerHTML = `<span class="ib pri" id="sv1">Save</span><span class="ib">Cancel</span><span class="kh">or Enter · Esc</span>`;
+    $("sv1").style.background = t >= T.enter1 - .05 ? "#333" : "";
   } else if (t < T.saved1) {
     r1.className = "ed";
     $("c1").innerHTML = `<span class="ein" style="border-color:var(--rule-strong)">rogue-one</span>`;
-    $("u1").innerHTML = ""; $("l1").innerHTML = ""; $("s1").innerHTML = `<span class="st" style="color:var(--soft)">Saving…</span>`;
+    $("s1").innerHTML = `<span class="st" style="color:var(--soft)">Saving…</span>`;
   } else {
     r1.className = t < T.saved1 + 1.2 ? "hl" : "";
     $("c1").innerHTML = `<span class="tg"><i style="background:#a3a3a3"></i>rogue-one</span><span class="new">New</span>`;
@@ -162,19 +171,21 @@ function render(t) {
   r2.style.display = t >= T.add2 && t < T.esc2 ? "" : "none";
   const err = t >= T.err2;
   $("c2").innerHTML = `<span class="ein${err ? " err" : ""}">${t < T.enter2 ? typed("Hoth", t, ...T.type2) : "Hoth"}${caret(t)}</span>`;
-  $("s2").innerHTML = err ? `<span class="st e"><svg><use href="#no"/></svg>Hoth already exists. Use the existing tag?</span>` :
-    t >= T.enter2 ? `<span class="st" style="color:var(--soft)">Checking…</span>` : `<span class="st" style="color:var(--faint)">Enter saves · Esc cancels</span>`;
+  const btns = `<span class="ib pri">Save</span><span class="ib" id="cn2">Cancel</span>`;
+  $("s2").innerHTML = err ? `${btns}<span class="st e"><svg><use href="#no"/></svg>Hoth already exists · <u>Use it</u></span>` :
+    t >= T.enter2 ? `<span class="st" style="color:var(--soft)">Checking…</span>` : `${btns}<span class="kh">or Enter · Esc</span>`;
+  if ($("cn2")) $("cn2").style.background = t >= T.esc2 - .05 ? "var(--hover)" : "";
 }
 
 function events() {
-  const ev = [["click", T.add1], ["key", T.enter1], ["chime", T.saved1], ["click", T.add2], ["key", T.enter2], ["pop", T.err2], ["key", T.esc2]];
+  const ev = [["click", T.add1], ["click", T.enter1], ["chime", T.saved1], ["click", T.add2], ["key", T.enter2], ["pop", T.err2], ["click", T.esc2]];
   for (let i = 0; i < 5; i++) ev.push(["key", T.type1[0] + i * .18]);
   for (let i = 0; i < 3; i++) ev.push(["key", T.type2[0] + i * .17]);
   return ev;
 }
 
 Motion.scene({
-  T, duration: 15, clicks: [T.add1, T.add2], build, render, events, clamp: false,
+  T, duration: 15, clicks: [T.add1, T.enter1, T.add2, T.esc2], build, render, events, clamp: false,
   slow: [[3.7, 5.6, 1.6], [8.2, 10.1, 1.8], [10.2, 10.9, 1.3]]
 });
 </script>
