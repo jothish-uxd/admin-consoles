@@ -402,7 +402,7 @@ window.VIDEOS = {
       poster: "media/creation-flows/success-next-steps.jpg",
       label: "Success and next steps, shown in a mock Echo Base console",
       steps: [
-        "In People / Users, the admin reviews an invite for the Rogue One pilot: 38 people from a file, the group, the license and a message. She chooses Send 38 invites.",
+        "In People / Users, the admin reviews an invite for the Rogue One pilot, with each label above its value: 38 people from a file, the group, the license, the start date and a message. She chooses Send 38 invites.",
         "Sending runs as a job with a progress count, and says she can leave the page and will be notified.",
         "A success panel, not a disappearing toast, confirms 38 invitations sent, that they were added to Rogue One pilot and given Console seats. It is announced, and stays until she chooses Done.",
         "It flags the one follow-up that's required: 2 people use an outside domain, which must be verified before they can sign in.",
