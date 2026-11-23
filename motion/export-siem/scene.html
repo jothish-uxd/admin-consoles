@@ -17,18 +17,10 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 0; }
-.view { position: absolute; inset: 20px 32px; }
-h1 { font-size: 20px; }
-.hd { display: flex; align-items: center; gap: 8px; }
-.hd h1 { margin-right: 6px; }
 .vw { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 7px; background: var(--hover); font-size: 12.5px; color: var(--ink); }
 .vw b { font-weight: 500; }
 .sp { flex: 1; }
 .btn.sm { height: 32px; font-size: 12.5px; }
-.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
-.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
 .body { position: relative; margin-top: 14px; height: 520px; }
 .body > div { position: absolute; inset: 0; }
 .flt { display: flex; gap: 8px; }
@@ -103,10 +95,10 @@ a.u { color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
     </div>
     <div class="nav" data-at="compliance" data-role="admin"></div>
     <div class="main">
-      <div class="view">
+      <div class="view alog">
         <div class="hd" id="hd"><h1>Audit log</h1>
           <span class="vw">Views: <b>archive-sync investigation</b> · shared ▾</span>
-          <span class="sp"></span><span class="btn sm">Copy link</span>
+          <span class="btn sm">Copy link</span>
           <span class="rel"><span class="btn sm" id="expB">Export</span>
             <div class="pop" id="pop"><b>Export this view</b>
               <div class="lbl">Format</div><div class="seg"><span>CSV</span><span class="on">JSON</span></div>
@@ -114,11 +106,14 @@ a.u { color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
               <div class="m">Ordered by time, in schema audit.v3 (<a class="u">docs</a>). Ranges over 100,000 events run as a job, and you'll be notified.</div>
               <div class="lim">Full-log export is limited to Security admins. You're a Security admin.</div>
               <div class="r"><span class="btn ghost">Cancel</span><span class="btn pri" id="okB">Export</span></div></div></span>
+          <span class="btn sm">Save view</span>
         </div>
-        <div class="tabs"><div id="tEv" class="on">Events</div><div id="tSt">Streaming</div><div>Alerts</div></div>
+        <div class="tabs page"><div id="tEv" class="on">Events</div><div id="tSt">Streaming</div><div id="tAl">Alerts</div></div>
         <div class="body">
           <div id="vEv">
+            <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
             <div class="flt"><span class="fb on">Last 7 days ▾</span><span class="fb on">Actor: archive-sync ✕</span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span><span class="fb">IP</span></div>
+            <div class="ql">Query <code>actor:"archive-sync" time:last_7d</code><a>Edit as query</a></div>
             <div class="meta">Times in <b>Pacific Time (PT)</b> · <b>9 events</b> · 8 failed</div>
             <table class="log"><colgroup><col style="width:142px"><col><col style="width:186px"><col style="width:120px"></colgroup>
               <thead><tr><th>Time (PT)</th><th>Event</th><th>Target</th><th>Result</th></tr></thead><tbody>

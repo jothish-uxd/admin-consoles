@@ -31,8 +31,17 @@ body { font-family: "Geist", system-ui, sans-serif; color: var(--ink); -webkit-f
 .nav div.on { background: var(--hover); color: var(--ink); font-weight: 600; }
 .nav div.on svg { color: var(--ink); }
 .nav .lbl { font-size: 11.5px; color: var(--faint); padding: 14px 10px 5px; margin: 0; }
-.main { position: absolute; left: 200px; right: 0; top: 52px; bottom: 0; padding: 28px 32px; }
-h1 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -.02em; }
+.main { position: absolute; left: 200px; right: 0; top: 52px; bottom: 0; padding: 20px 32px; }
+/* Page frame: the same on every page and in every clip, so a page that appears in two clips
+   never moves by a pixel. Scenes don't restyle these. A page that switches views puts each
+   view in .main > .view, laid out exactly like .main's own padding. */
+.main > .view { position: absolute; inset: 20px 32px; }
+h1 { margin: 0; font-size: 20px; line-height: 32px; font-weight: 600; letter-spacing: -.02em; }
+.hd { display: flex; align-items: center; gap: 10px; min-height: 32px; }
+.hd > h1 { flex: 1; }
+.hd + .tabs, .tabs.page { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.hd + .tabs > div, .tabs.page > div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.hd + .tabs > div.on, .tabs.page > div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
 .lede { margin: 6px 0 22px; color: var(--soft); font-size: 14px; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th { text-align: left; font-weight: 500; font-size: 12px; color: var(--faint); padding: 0 12px 10px; border-bottom: 1px solid var(--rule); }
@@ -58,3 +67,28 @@ td.act { text-align: right; width: 150px; }
 #endcard b { display: block; font-weight: 600; color: #171717; }
 #endcard span { display: block; }
 #ring { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 2px solid var(--ink); opacity: 0; z-index: 49; }
+
+/* Billing header: the same on Plan, Seats and Invoices */
+.ct { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 7px; background: var(--hover); font-size: 12.5px; color: var(--ink); }
+.ct b { font-weight: 500; }
+/* Home: the same three cards in every clip that starts there */
+.hgrid { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.hgrid .wide { grid-column: span 3; }
+.hc { border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; font-size: 13px; color: var(--soft); line-height: 1.5; }
+.hc h3 { margin: 0 0 6px; font-size: 14px; color: var(--ink); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.hc .big { font-size: 26px; color: var(--ink); font-weight: 600; letter-spacing: -.02em; }
+
+/* Audit log page: the same header, tabs and Events toolbar in every clip that shows it.
+   The page's view carries .alog; these win over a scene's own rules. */
+.alog .vw { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 7px; background: var(--hover); font-size: 12.5px; color: var(--ink); position: relative; white-space: nowrap; }
+.alog .vw b { font-weight: 500; }
+.alog .qk { margin-top: 14px; height: 26px; display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--faint); }
+.alog .qk .q { border: 1px dashed var(--rule-strong); border-radius: 999px; padding: 4px 10px; color: var(--ink); font-size: 12px; }
+.alog .body .qk { margin-top: 0; }
+.alog .flt { margin-top: 10px; height: 32px; display: flex; gap: 8px; align-items: center; position: relative; }
+.alog .ql { margin-top: 10px; height: 24px; display: flex; gap: 10px; align-items: center; font-size: 12px; color: var(--faint); }
+.alog .ql code { font: 11.5px "Geist Mono", monospace; color: var(--ink); background: var(--subtle); border: 1px solid var(--rule); border-radius: 6px; padding: 3px 8px; position: relative; }
+.alog .ql a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.alog .meta { margin-top: 10px; height: 18px; position: relative; font-size: 12.5px; color: var(--soft); }
+.alog .meta b { color: var(--ink); font-weight: 500; }
+.alog table.log { margin-top: 8px; }

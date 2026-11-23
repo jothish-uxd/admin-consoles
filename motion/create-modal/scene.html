@@ -18,15 +18,7 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 0; }
-.view { position: absolute; inset: 20px 32px; }
-h1 { font-size: 20px; }
-.hd { display: flex; align-items: center; gap: 10px; }
-.hd h1 { flex: 1; }
 .btn.sm { height: 32px; font-size: 12.5px; }
-.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
-.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
 table.g { margin-top: 14px; font-size: 13px; }
 .g td { height: 48px; }
 .g td:first-child { color: var(--ink); font-weight: 500; }
@@ -75,7 +67,7 @@ table.g { margin-top: 14px; font-size: 13px; }
     <div class="main">
       <div class="view">
         <div class="hd"><h1>People</h1><span class="btn sm pri" id="newB">New group</span></div>
-        <div class="tabs"><div>Users</div><div class="on">Groups</div><div>Roles</div></div>
+        <div class="tabs page"><div>Users</div><div class="on">Groups</div><div>Roles</div></div>
         <table class="g"><thead><tr><th>Group</th><th>Members</th><th>Owner</th><th>Licenses</th></tr></thead><tbody id="tb">
           <tr id="rN" style="display:none"><td>Rogue One pilot<span class="s">Pilot members, Dec 2026</span></td><td>0</td><td>Lavanya Sienna</td><td>Console</td></tr>
           <tr><td>Rogue Squadron<span class="s">X-wing pilots</span></td><td>12</td><td>Wedge Antilles</td><td>Console + AI</td></tr>

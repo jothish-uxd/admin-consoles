@@ -18,14 +18,8 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 22px 32px; }
-.hd { display: flex; align-items: center; gap: 12px; }
 .fi { width: 34px; height: 40px; border: 1.5px solid var(--rule-strong); border-radius: 5px; display: grid; place-items: end center; padding-bottom: 4px; font-family: "Geist Mono", monospace; font-size: 9px; color: var(--soft); flex: none; }
-h1 { font-size: 21px; flex: 1; }
 .btn.sm { height: 32px; font-size: 12.5px; }
-.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
-.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
 .body { position: relative; margin-top: 14px; height: 480px; }
 .body > div { position: absolute; inset: 0; }
 dl { margin: 0; display: grid; grid-template-columns: 110px 1fr; row-gap: 9px; font-size: 13px; width: 520px; }
@@ -87,7 +81,7 @@ dt { color: var(--faint); } dd { margin: 0; color: var(--ink); }
     <div class="main">
       <div class="hd" id="hd"><span class="fi">DOC</span><h1>Hoth evacuation plan.docx</h1>
         <span class="btn sm"><svg width="13" height="13"><use href="#clock"/></svg>Restore a folder to a point in time</span></div>
-      <div class="tabs" id="tabs"><div id="tDet" class="on">Details</div><div>Access</div><div>Activity</div><div id="tVer">Versions</div></div>
+      <div class="tabs page" id="tabs"><div id="tDet" class="on">Details</div><div>Access</div><div>Activity</div><div id="tVer">Versions</div></div>
       <div class="body">
         <div id="vDet">
           <dl><dt>Owner</dt><dd>Gen. Carlist Rieekan</dd><dt>Location</dt><dd>Echo Base / Operations</dd><dt>Size</dt><dd>48 KB <span style="color:var(--faint)">(was 2.1 MB yesterday)</span></dd>

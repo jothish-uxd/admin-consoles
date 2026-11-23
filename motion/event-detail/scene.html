@@ -19,9 +19,6 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 0; }
-.view { position: absolute; inset: 20px 32px; }
-h1 { font-size: 20px; }
 /* list */
 .flt { margin-top: 14px; display: flex; gap: 8px; }
 .fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12.5px; color: var(--ink); background: var(--bg); white-space: nowrap; }
@@ -42,7 +39,7 @@ table.log { margin-top: 10px; font-size: 12.5px; table-layout: fixed; }
 .res.bad { color: var(--ink); font-weight: 600; }
 .res.bad svg { color: #b91c1c; }
 /* detail */
-.back { font-size: 12.5px; color: var(--soft); }
+.back { font-size: 12.5px; color: var(--soft); display: inline-block; padding: 2px 4px; margin-left: -4px; border-radius: 5px; }
 .dh { margin-top: 8px; display: flex; align-items: flex-start; gap: 16px; }
 .dh .tx { flex: 1; }
 .sub { margin-top: 4px; font-size: 12.5px; color: var(--soft); display: flex; gap: 8px; align-items: center; }
@@ -91,9 +88,12 @@ table.chg { font-size: 12.5px; }
     <div class="nav" data-at="compliance" data-role="admin"></div>
     <div class="main">
       <!-- the filtered log -->
-      <div class="view" id="vList">
-        <h1>Audit log</h1>
+      <div class="view alog" id="vList">
+        <div class="hd"><h1>Audit log</h1><span class="vw">Views: <b>All events</b> ▾</span><span class="btn sm">Copy link</span><span class="btn sm">Export</span><span class="btn sm">Save view</span></div>
+        <div class="tabs page"><div id="tEv" class="on">Events</div><div id="tSt">Streaming</div><div id="tAl">Alerts</div></div>
+        <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
         <div class="flt"><span class="fb on">Last 24 hours</span><span class="fb on">Actor: archive-sync <span class="x">✕</span></span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span></div>
+        <div class="ql">Query <code>actor:"archive-sync" time:last_24h</code><a>Edit as query</a></div>
         <div class="meta">Times in <b>Pacific Time (PT)</b> · <b>4 events</b> by archive-sync · 3 failed</div>
         <table class="log"><colgroup><col style="width:92px"><col style="width:140px"><col><col style="width:176px"><col style="width:132px"></colgroup>
           <thead><tr><th>Time (PT)</th><th>Actor</th><th>Event</th><th>Target</th><th>Result</th></tr></thead><tbody>

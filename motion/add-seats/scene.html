@@ -18,15 +18,7 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 0; }
-.view { position: absolute; inset: 20px 32px; }
-h1 { font-size: 20px; }
-.hd { display: flex; align-items: center; gap: 10px; }
-.hd h1 { flex: 1; }
 .btn.sm { height: 32px; font-size: 12.5px; }
-.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
-.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
 .sum { margin-top: 14px; display: flex; align-items: center; gap: 18px; border: 1px solid var(--rule); border-radius: 12px; padding: 12px 16px; font-size: 13px; }
 .sum .l { flex: 1; }
 .sum .nums { position: relative; height: 18px; }
@@ -85,8 +77,8 @@ dd b { font-weight: 600; }
     <div class="nav" data-at="billing" data-role="admin"></div>
     <div class="main">
       <div class="view">
-        <div class="hd"><h1>Billing</h1><span class="btn sm" id="addB">Add seats</span></div>
-        <div class="tabs"><div>Plan</div><div class="on">Seats</div><div>Invoices</div></div>
+        <div class="hd"><h1>Billing</h1><span class="ct">Contract: <b>Echo Base</b> ▾ · 2 contracts</span><span class="btn sm" id="addB">Add seats</span></div>
+        <div class="tabs page"><div>Plan</div><div class="on">Seats</div><div>Invoices</div></div>
         <div class="sum" id="sum"><div class="l"><div class="nums"><span id="n0"><b>Console</b> · <b>232</b> of 250 assigned · 18 available</span><span id="n1" style="opacity:0"><b>Console</b> · <b>232</b> of 270 assigned · 38 available</span></div>
             <div class="bar"><i id="sb" style="width:92.8%"></i></div></div>
           <span class="ok"><svg><use href="#ok"/></svg>Matches your plan</span></div>

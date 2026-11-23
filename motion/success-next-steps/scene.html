@@ -18,16 +18,8 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 0; }
-.view { position: absolute; inset: 20px 32px; }
-h1 { font-size: 20px; }
-.hd { display: flex; align-items: center; gap: 10px; }
-.hd h1 { flex: 1; }
 .btn.sm { height: 32px; font-size: 12.5px; }
-.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
-.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
-.box { position: relative; margin-top: 18px; width: 820px; }
+.box { position: relative; margin-top: 14px; width: 820px; }
 .box > div { position: absolute; left: 0; top: 0; width: 100%; }
 .pnl { border: 1px solid var(--rule-strong); border-radius: 14px; padding: 20px 22px; font-size: 13px; color: var(--soft); line-height: 1.45; }
 .pnl h2 { margin: 0; font-size: 17px; color: var(--ink); display: flex; align-items: center; gap: 10px; }
@@ -72,8 +64,8 @@ dt { color: var(--faint); } dd { margin: 0; color: var(--ink); }
     <div class="nav" data-at="people" data-role="admin"></div>
     <div class="main">
       <div class="view">
-        <div class="hd"><h1>People</h1></div>
-        <div class="tabs"><div class="on">Users</div><div>Groups</div><div>Roles</div></div>
+        <div class="hd"><h1>People</h1><span class="btn sm pri">Invite people</span></div>
+        <div class="tabs page"><div class="on">Users</div><div>Groups</div><div>Roles</div></div>
         <div class="box" id="box">
           <!-- review before sending -->
           <div id="pA"><div class="pnl"><h2>Invite to Rogue One pilot</h2>

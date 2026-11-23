@@ -18,15 +18,7 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 0; }
-.view { position: absolute; inset: 20px 32px; }
-h1 { font-size: 20px; }
-.hd { display: flex; align-items: center; gap: 10px; }
-.hd h1 { flex: 1; }
 .btn.sm { height: 32px; font-size: 12.5px; }
-.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
-.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
 table.r { margin-top: 14px; font-size: 13px; }
 .r td { height: 48px; }
 .r td:first-child { color: var(--ink); font-weight: 500; }
@@ -80,8 +72,8 @@ table.r { margin-top: 14px; font-size: 13px; }
     <div class="nav" data-at="people" data-role="admin"></div>
     <div class="main">
       <div class="view" id="vList">
-        <div class="hd"><h1>People</h1><span class="btn sm">New role</span></div>
-        <div class="tabs"><div>Users</div><div>Groups</div><div class="on">Roles</div></div>
+        <div class="hd"><h1>People</h1><span class="btn sm pri">New role</span></div>
+        <div class="tabs page"><div>Users</div><div>Groups</div><div class="on">Roles</div></div>
         <table class="r"><thead><tr><th>Role</th><th>Members</th><th>Permissions</th><th>Scope</th><th style="width:40px"></th></tr></thead><tbody>
           <tr id="rC"><td>Content admin<span class="s">Manage content, tags and sharing</span></td><td>8</td><td>24</td><td>Echo Base / Operations</td>
             <td><span class="mo" id="moB">···<div class="menu" id="menu"><div>Edit</div><div id="dupI">Duplicate</div><div class="dg">Delete</div></div></span></td></tr>
@@ -93,7 +85,7 @@ table.r { margin-top: 14px; font-size: 13px; }
       <div class="view" id="vRole" style="opacity:0">
         <div class="hd"><h1>Content admin · Rogue One</h1><span class="btn sm">Edit permissions</span></div>
         <div style="margin-top:8px;display:flex;gap:8px"><span class="chip">Duplicated from Content admin</span><span class="chip">Scope: Echo Base / Operations</span></div>
-        <div class="tabs"><div>Permissions · 24</div><div class="on">Members · 0</div><div>Activity</div></div>
+        <div class="tabs page"><div>Permissions · 24</div><div class="on">Members · 0</div><div>Activity</div></div>
         <div class="empty" id="empty"><b>No members yet</b>Members weren't copied, so nobody has this role until you add them.<br><span class="btn pri">Add Rogue One pilot group</span></div>
       </div>
     </div>

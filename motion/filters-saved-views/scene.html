@@ -18,13 +18,8 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 0; }
-.view { position: absolute; inset: 20px 32px; }
-h1 { font-size: 20px; }
 .back { font-size: 12.5px; color: var(--soft); display: inline-block; padding: 2px 4px; margin-left: -4px; border-radius: 5px; }
 .sub { margin-top: 4px; font-size: 12.5px; color: var(--soft); }
-.hd { display: flex; align-items: center; gap: 8px; }
-.hd h1 { margin-right: 6px; }
 .vw { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 7px; background: var(--hover); font-size: 12.5px; color: var(--ink); position: relative; }
 .vw b { font-weight: 500; }
 .vw .s { position: absolute; left: 10px; white-space: nowrap; opacity: 0; }
@@ -105,16 +100,17 @@ tr.nw td { height: 0; }
       </div>
 
       <!-- the log, filters kept -->
-      <div class="view" id="vLog" style="opacity:0">
+      <div class="view alog" id="vLog" style="opacity:0">
         <div class="hd" id="hd"><h1>Audit log</h1>
           <span class="vw" id="vw"><span id="vw0">Views: <b>All events</b> <span class="dd" style="color:var(--faint);font-size:10px">▾</span></span><span class="s" id="vw1">Views: <b>archive-sync investigation</b> · shared ▾</span></span>
-          <span class="sp"></span><span class="btn sm">Copy link</span>
+          <span class="btn sm">Copy link</span><span class="btn sm">Export</span>
           <span class="rel"><span class="btn sm" id="saveB">Save view</span>
             <div class="pop" id="pop"><b>Save view</b><label>Name</label><div class="in">archive-sync investigation</div>
               <div class="ck"><span class="cb"><svg><use href="#ok"/></svg></span>Share with Security admins (6)</div>
               <div class="m">Saves these filters and the time range. Opening the view re-runs the query.</div>
               <div class="r"><span class="btn ghost">Cancel</span><span class="btn pri" id="okB">Save view</span></div></div></span>
         </div>
+        <div class="tabs page"><div id="tEv" class="on">Events</div><div id="tSt">Streaming</div><div id="tAl">Alerts</div></div>
         <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
         <div class="flt" id="flt">
           <span class="fb on" id="timeB"><span id="tl0">Last 24 hours</span><span id="tl1" style="position:absolute;left:10px;opacity:0">Last 7 days</span><span id="tlsp" style="visibility:hidden;width:0"></span><span class="dd">▾</span>

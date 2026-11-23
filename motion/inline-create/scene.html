@@ -18,37 +18,48 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 0; }
-.view { position: absolute; inset: 20px 32px; }
-h1 { font-size: 20px; }
-.hd { display: flex; align-items: center; gap: 10px; }
-.hd h1 { flex: 1; }
-.btn.sm { height: 32px; font-size: 12.5px; }
-.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
-.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
-.bar { margin-top: 14px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--soft); width: 740px; }
-.bar .sp { flex: 1; }
+.cols { display: grid; grid-template-columns: 590px 1fr; gap: 20px; }
+.bar { position: relative; height: 46px; margin-bottom: 10px; }
+.bar > div { position: absolute; inset: 0; display: flex; align-items: center; gap: 10px; padding: 0 8px 0 14px; border-radius: 10px; font-size: 13px; }
+td { height: 46px; font-size: 13px; }
+td.c { width: 30px; padding-right: 0; }
+.cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--rule-strong); display: grid; place-items: center; background: var(--bg); color: #fff; }
+.cb svg { width: 11px; height: 11px; opacity: 0; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on svg { opacity: 1; }
+.tg { display: inline-flex; align-items: center; gap: 7px; color: var(--ink); font-weight: 500; }
+.tg i { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.syn { display: block; font-size: 11.5px; color: var(--soft); font-weight: 400; margin-top: 2px; }
+.card { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; font-size: 13px; }
+.card h3 { margin: 0 0 10px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; }
+.card h3 span { font-size: 12px; font-weight: 400; color: var(--soft); }
+.fld { padding: 8px 0; border-top: 1px solid var(--rule); }
+.fld:first-of-type { border-top: 0; padding-top: 0; }
+.fld .n { color: var(--ink); font-weight: 500; display: flex; justify-content: space-between; }
+.fld .n em { font-style: normal; font-weight: 400; font-size: 12px; color: var(--faint); }
+.vals { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+.rule { display: flex; flex-direction: column; gap: 6px; color: var(--soft); line-height: 1.45; }
+.rule b { color: var(--ink); font-weight: 500; }
+.rule .x { display: flex; align-items: center; gap: 8px; }
+.rule .x .btn { height: 28px; font-size: 12px; margin-left: auto; }
+.bar { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--soft); }
+.bar .gap { flex: 1; }
 .bar a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-table.tg { margin-top: 10px; font-size: 13px; width: 740px; }
-.tg td { height: 46px; white-space: nowrap; overflow: visible; }
-.tg td:first-child { color: var(--ink); font-weight: 500; }
-.tgn { display: inline-flex; align-items: center; gap: 7px; }
-.tgn i { width: 9px; height: 9px; border-radius: 50%; }
+#tbl { table-layout: fixed; }
+#tbl td { white-space: nowrap; overflow: visible; }
 tr.ed td { background: var(--subtle); }
-.ein { height: 32px; width: 230px; border: 1.5px solid var(--ink); border-radius: 7px; display: inline-flex; align-items: center; padding: 0 10px; font-weight: 400; }
+.ein { height: 32px; width: 190px; border: 1.5px solid var(--ink); border-radius: 7px; display: inline-flex; align-items: center; padding: 0 10px; font-weight: 400; color: var(--ink); }
 .ein.err { border-color: #b91c1c; }
 .ein .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: 1px; }
-.hint { display: none; }
 .st { display: inline-flex; gap: 5px; align-items: center; font-size: 12.5px; white-space: nowrap; }
 .st svg { width: 12px; height: 12px; }
 .st.e { color: #b91c1c; font-weight: 500; }
 .new { font: 10px "Geist Mono", monospace; border: 1px solid var(--ink); border-radius: 999px; padding: 0 6px; margin-left: 8px; color: var(--ink); font-weight: 400; }
-.erow td { height: 0; padding: 0; }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="no" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6v4.2M8 11v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
 </defs></svg>
@@ -61,21 +72,34 @@ tr.ed td { background: var(--subtle); }
     </div>
     <div class="nav" data-at="content" data-role="admin"></div>
     <div class="main">
-      <div class="view">
-        <div class="hd"><h1>Tags &amp; metadata</h1><span class="btn sm">Import taxonomy</span></div>
-        <div class="tabs"><div>All content</div><div class="on">Tags</div><div>Storage</div><div>Trash</div></div>
-        <div class="bar" id="bar"><span class="btn sm pri" id="addB">+ Add tag</span><span class="sp"></span>Need a controlled list? <a>New managed field</a></div>
-        <table class="tg" id="tbl" style="table-layout:fixed"><colgroup><col style="width:300px"><col style="width:100px"><col></colgroup><thead><tr><th>Tag</th><th>Used on</th><th></th></tr></thead><tbody>
-          <!-- new row 1 (rogue-one) -->
-          <tr id="r1" style="display:none"><td><span id="c1"></span></td><td id="u1"></td><td id="s1"></td></tr>
-          <!-- new row 2 (Hoth, rejected) -->
-          <tr id="r2" class="ed" style="display:none"><td><span id="c2"></span></td><td></td><td id="s2"></td></tr>
-          <tr><td><span class="tgn"><i style="background:#3b82f6"></i>Hoth</span></td><td>1,338 items</td><td></td></tr>
-          <tr><td><span class="tgn"><i style="background:#16a34a"></i>Endor</span></td><td>430 items</td><td></td></tr>
-          <tr><td><span class="tgn"><i style="background:#f59e0b"></i>Yavin IV</span></td><td>310 items</td><td></td></tr>
-          <tr><td><span class="tgn"><i style="background:#a3a3a3"></i>Patrol</span></td><td>96 items</td><td></td></tr>
-          <tr><td><span class="tgn"><i style="background:#a3a3a3"></i>Operations</span></td><td>88 items</td><td></td></tr>
-        </tbody></table>
+      <!-- the same Content page and Tags tab as the Tags & metadata clip, after its merge -->
+      <div class="hd"><h1>Content</h1><span class="btn">Import taxonomy</span><span class="btn">New managed field</span></div>
+      <div class="tabs page"><div>All content</div><div>Sharing</div><div class="on">Tags</div><div>Storage</div><div>Trash</div></div>
+      <div style="margin-top:14px">
+        <div class="cols">
+          <div id="left">
+            <div class="bar" id="bar" style="height:46px;margin-bottom:10px"><span class="btn pri" id="addB">+ Add tag</span><span class="gap"></span>Need a controlled list? <a>New managed field</a></div>
+            <table id="tbl"><colgroup><col style="width:30px"><col style="width:220px"><col style="width:110px"><col style="width:96px"><col></colgroup>
+              <thead><tr><th class="c"></th><th>Tag</th><th>Used on</th><th>Last used</th><th></th></tr></thead><tbody>
+              <tr id="r1" style="display:none"><td class="c"><span class="cb"><svg><use href="#tick"/></svg></span></td><td id="c1"></td><td id="u1"></td><td id="l1"></td><td id="s1"></td></tr>
+              <tr id="r2" class="ed" style="display:none"><td class="c"><span class="cb"><svg><use href="#tick"/></svg></span></td><td id="c2"></td><td colspan="3" id="s2"></td></tr>
+              <tr><td class="c"><span class="cb"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#3b82f6"></i><span>Hoth<span class="syn">Synonyms: hoth, "Hoth "</span></span></span></td><td>1,338 items</td><td>Today</td><td></td></tr>
+              <tr><td class="c"><span class="cb"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#16a34a"></i>Endor</span></td><td>430 items</td><td>Nov 18</td><td></td></tr>
+              <tr><td class="c"><span class="cb"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#f59e0b"></i>Yavin IV</span></td><td>310 items</td><td>Nov 12</td><td></td></tr>
+              <tr><td class="c"><span class="cb"><svg><use href="#tick"/></svg></span></td><td><span class="tg"><i style="background:#a3a3a3"></i>old-ops</span></td><td class="none">0 items</td><td>Mar 2</td><td class="act"><span class="btn ghost" style="height:28px">Retire</span></td></tr>
+            </tbody></table>
+          </div>
+          <div id="right">
+            <div class="card"><h3>Managed fields <span>for policies</span></h3>
+              <div class="fld"><div class="n">Classification <em>required · 3 values</em></div><div class="vals"><span class="cls">Public</span><span class="cls">Internal</span><span class="cls r">Restricted</span></div></div>
+              <div class="fld"><div class="n">Mission <em>14 terms · hierarchy</em></div><div class="vals"><span class="cls">Hoth › Echo Base</span><span class="cls">Endor</span><span class="cls">Yavin IV</span><span class="cls">+11</span></div></div>
+            </div>
+            <div class="card"><h3>Auto-tag rules <span>2 rules</span></h3>
+              <div class="rule"><div>Files in <b>Echo Base / Operations</b> get <b>Mission: Hoth</b></div>
+                <div class="x"><span>Applied to 1,180 items · 2 exceptions</span><span class="btn">Review</span></div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -95,15 +119,15 @@ const T = {
 function build() {
   // lay out a row while measuring, so the camera knows where rows sit
   const ab = at("addB"), tb = at("tbl"), br = at("bar");
-  const MX = 640;
+  const MX = 720;
   const cur = [
     [0.00, 860, 620], [0.40, 860, 620], [1.65, ab[0], ab[1] + 3], [1.95, ab[0], ab[1] + 3], [2.40, ab[0] + 60, ab[1] + 40],
     [6.05, ab[0], ab[1] + 3], [6.35, ab[0], ab[1] + 3], [6.80, ab[0] + 60, ab[1] + 40], [11.0, ab[0] + 300, ab[1] + 220], [11.8, ab[0] + 302, ab[1] + 222]
   ];
   const cam = [
     [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
-    [1.20, MX, br[1] + 60, 1.5], [5.60, MX, br[1] + 60, 1.5],   // add, type, Enter, Saving…, Saved, pinned as New
-    [6.10, MX, br[1] + 80, 1.5], [10.8, MX, br[1] + 80, 1.5],   // duplicate rejected on the row, kept; Esc
+    [1.20, MX, br[1] + 70, 1.32], [5.60, MX, br[1] + 70, 1.32],   // add, type, Enter, Saving…, Saved, pinned as New
+    [6.10, MX, br[1] + 90, 1.32], [10.8, MX, br[1] + 90, 1.32],   // duplicate rejected on the row, kept; Esc
     [11.6, 660, 360, 1.05], [11.8, 656, 360, 1.04]
   ];
   return { cam, cur };
@@ -120,26 +144,26 @@ function render(t) {
   r1.style.display = t >= T.add1 ? "" : "none";
   if (t < T.enter1) {
     r1.className = "ed";
-    $("c1").innerHTML = `<span class="ein">${typed("rogue-one", t, ...T.type1)}${caret(t)}</span><span class="hint">Enter to save · Esc to cancel</span>`;
-    $("u1").textContent = ""; $("s1").innerHTML = `<span class="st" style="color:var(--faint)">Enter to save · Esc to cancel</span>`;
+    $("c1").innerHTML = `<span class="ein">${typed("rogue-one", t, ...T.type1)}${caret(t)}</span>`;
+    $("u1").innerHTML = ""; $("l1").innerHTML = ""; $("s1").innerHTML = `<span class="st" style="color:var(--faint)">Enter saves · Esc cancels</span>`;
   } else if (t < T.saved1) {
     r1.className = "ed";
     $("c1").innerHTML = `<span class="ein" style="border-color:var(--rule-strong)">rogue-one</span>`;
-    $("u1").textContent = ""; $("s1").innerHTML = `<span class="st" style="color:var(--soft)">Saving…</span>`;
+    $("u1").innerHTML = ""; $("l1").innerHTML = ""; $("s1").innerHTML = `<span class="st" style="color:var(--soft)">Saving…</span>`;
   } else {
     r1.className = t < T.saved1 + 1.2 ? "hl" : "";
-    $("c1").innerHTML = `<span class="tgn"><i style="background:#a3a3a3"></i>rogue-one</span><span class="new">New</span>`;
-    $("u1").textContent = "0 items"; $("s1").innerHTML = t < T.add2 ? `<span class="st"><svg><use href="#ok"/></svg>Saved</span>` : "";
+    $("c1").innerHTML = `<span class="tg"><i style="background:#a3a3a3"></i>rogue-one</span><span class="new">New</span>`;
+    $("u1").textContent = "0 items"; $("l1").textContent = "Today";
+    $("s1").innerHTML = t < T.add2 ? `<span class="st"><svg><use href="#ok"/></svg>Saved</span>` : "";
   }
 
   // row 2: Hoth, a duplicate, rejected and kept until Esc
   const r2 = $("r2");
   r2.style.display = t >= T.add2 && t < T.esc2 ? "" : "none";
   const err = t >= T.err2;
-  $("c2").innerHTML = `<span class="ein${err ? " err" : ""}">${t < T.enter2 ? typed("Hoth", t, ...T.type2) : "Hoth"}${caret(t)}</span>` +
-    (err ? "" : `<span class="hint">Enter to save · Esc to cancel</span>`);
+  $("c2").innerHTML = `<span class="ein${err ? " err" : ""}">${t < T.enter2 ? typed("Hoth", t, ...T.type2) : "Hoth"}${caret(t)}</span>`;
   $("s2").innerHTML = err ? `<span class="st e"><svg><use href="#no"/></svg>Hoth already exists. Use the existing tag?</span>` :
-    t >= T.enter2 ? `<span class="st" style="color:var(--soft)">Checking…</span>` : `<span class="st" style="color:var(--faint)">Enter to save · Esc to cancel</span>`;
+    t >= T.enter2 ? `<span class="st" style="color:var(--soft)">Checking…</span>` : `<span class="st" style="color:var(--faint)">Enter saves · Esc cancels</span>`;
 }
 
 function events() {

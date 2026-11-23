@@ -18,21 +18,12 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 22px 32px; }
-.view { position: absolute; inset: 22px 32px; }
-h1 { font-size: 21px; }
 /* home */
-.hgrid { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.hc { border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; font-size: 13px; color: var(--soft); line-height: 1.5; }
-.hc h3 { margin: 0 0 6px; font-size: 14px; color: var(--ink); font-weight: 600; display: flex; align-items: center; gap: 8px; }
-.hc .big { font-size: 26px; color: var(--ink); font-weight: 600; letter-spacing: -.02em; }
-.hc.alert { border-color: var(--ink); grid-column: span 2; display: flex; align-items: center; gap: 16px; }
+.hc.alert { border-color: var(--ink); grid-column: span 3; display: flex; align-items: center; gap: 16px; }
 .hc.alert .tx { flex: 1; }
 .hc.alert b { color: var(--ink); font-weight: 500; }
 .warn { width: 18px; height: 18px; }
 /* audit log */
-.hd { display: flex; align-items: center; gap: 10px; }
-.hd h1 { flex: 1; }
 .flt { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
 .fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12.5px; color: var(--ink); background: var(--bg); white-space: nowrap; }
 .fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
@@ -86,20 +77,24 @@ tr.row td { transition: none; }
             <div class="tx"><h3>Unusual activity</h3><b>archive-sync</b>, an API key, failed 3 times to reach <b>Death Star plans · archive</b> in the last hour.</div>
             <span class="btn pri" id="openB">Open audit log</span></div>
           <div class="hc"><h3>Access requests</h3><span class="big">4</span> waiting for you</div>
-          <div class="hc"><h3>Seats</h3><span class="big">212</span> of 250 in use</div>
+          <div class="hc"><h3>Seats</h3><span class="big">246</span> of 250 in use</div>
+          <div class="hc"><h3>Renewal</h3>Business plan renews 1 March 2027</div>
         </div>
       </div>
-      <div class="view" id="vLog" style="opacity:0">
-        <div class="hd"><h1>Audit log</h1><span class="btn">Export</span></div>
+      <div class="view alog" id="vLog" style="opacity:0">
+        <div class="hd"><h1>Audit log</h1><span class="vw">Views: <b>All events</b> ▾</span><span class="btn sm">Copy link</span><span class="btn sm">Export</span><span class="btn sm">Save view</span></div>
+        <div class="tabs page"><div id="tEv" class="on">Events</div><div id="tSt">Streaming</div><div id="tAl">Alerts</div></div>
+        <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
         <div class="flt" id="flt">
           <span class="fb on">Last 24 hours</span>
           <span class="fb chip" id="chip">Actor: archive-sync <span class="x">✕</span></span>
           <span class="fb">Actor</span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span>
           <span class="fb srch">Search events</span>
         </div>
+        <div class="ql">Query <code style="position:relative"><span id="q0">time:last_24h</span><span id="q1" style="position:absolute;left:8px;top:3px;opacity:0;white-space:nowrap">actor:"archive-sync" time:last_24h</span></code><a>Edit as query</a></div>
         <div class="meta" id="meta"><span id="m0" style="display:flex;gap:6px">Times in <b>Pacific Time (PT)</b> · Showing <b>50</b> of 18,204 events · narrow by actor, target or time</span>
           <span class="alt" id="m1">Times in <b>Pacific Time (PT)</b> · <b>4 events</b> by archive-sync · 3 failed</span></div>
-        <table id="tbl">
+        <table class="log" id="tbl">
           <colgroup><col style="width:92px"><col style="width:150px"><col><col style="width:176px"><col style="width:132px"></colgroup>
           <thead><tr><th>Time (PT)</th><th>Actor</th><th>Event</th><th>Target</th><th>Result</th></tr></thead>
           <tbody>
@@ -182,6 +177,7 @@ function render(t) {
   $("aS").style.background = t >= T.actorClick - .05 && t < f0 + .3 ? "var(--hover)" : "";
   $("m0").style.opacity = 1 - span(t, f0, f0 + .14);
   $("m1").style.opacity = span(t, f0 + .2, f0 + .38);
+  $("q0").style.opacity = 1 - span(t, f0, f0 + .14); $("q1").style.opacity = span(t, f0 + .2, f0 + .38);
   $("pager").style.opacity = 1 - span(t, f0, f0 + .2);
 }
 

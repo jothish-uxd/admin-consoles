@@ -17,15 +17,7 @@
 -->
 <link rel="stylesheet" href="../shared/console.css">
 <style>
-.main { padding: 0; }
-.view { position: absolute; inset: 20px 32px; }
-h1 { font-size: 20px; }
-.hd { display: flex; align-items: center; gap: 8px; }
-.hd h1 { margin-right: 6px; flex: 1; }
 .btn.sm { height: 32px; font-size: 12.5px; }
-.tabs { margin-top: 14px; display: flex; gap: 22px; border-bottom: 1px solid var(--rule); font-size: 14px; }
-.tabs div { padding: 0 0 10px; color: var(--soft); border-bottom: 2px solid transparent; margin-bottom: -1px; }
-.tabs div.on { color: var(--ink); font-weight: 600; border-color: var(--ink); }
 .body { position: relative; margin-top: 14px; height: 540px; }
 .body > div { position: absolute; inset: 0; }
 .st { margin-top: 12px; border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; }
@@ -88,9 +80,9 @@ table.al { font-size: 12.5px; table-layout: fixed; }
     </div>
     <div class="nav" data-at="compliance" data-role="admin"></div>
     <div class="main">
-      <div class="view">
-        <div class="hd"><h1>Audit log</h1><span class="btn sm">Copy link</span><span class="btn sm">Export</span></div>
-        <div class="tabs"><div>Events</div><div id="tSt" class="on">Streaming</div><div id="tAl">Alerts</div></div>
+      <div class="view alog">
+        <div class="hd"><h1>Audit log</h1><span class="vw">Views: <b>archive-sync investigation</b> · shared ▾</span><span class="btn sm">Copy link</span><span class="btn sm">Export</span><span class="btn sm">Save view</span></div>
+        <div class="tabs page"><div id="tEv">Events</div><div id="tSt" class="on">Streaming</div><div id="tAl">Alerts</div></div>
         <div class="body">
           <div id="vSt">
             <div class="st"><span class="n">Security SIEM</span><span class="k">Splunk · all events</span><div class="d">Healthy · last event delivered 3 seconds ago</div></div>
