@@ -410,5 +410,33 @@ window.VIDEOS = {
         "She opens View API call, which shows the same invite as a request she could automate."
       ]
     }
+  },
+  "mcp-connectors": {
+    "Approving connectors": {
+      src: "media/mcp-connectors/approving-connectors.mp4",
+      poster: "media/mcp-connectors/approving-connectors.jpg",
+      label: "Approving connectors, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens AI › Connectors. The policy reads approved connectors only, with requests on. A banner says Wedge Antilles asked for Fleet Tracker, a custom server, with his reason: track supply ships for the Hoth evacuation. She chooses Review.",
+        "Fleet Tracker opens as a draft. Its details show the publisher, Kessel Logistics, a Custom · unreviewed tag, the server URL, where it runs, who asked and why. What it can do is unknown until it's connected.",
+        "A note warns that Echo Base hasn't reviewed this server: it sees what the AI sends it, its tools can change after it's published, and its tool descriptions may try to steer the AI.",
+        "She connects with a test account. The page confirms Connected · 6 tools found, and lists them by what they do: 3 read, 2 write and 1 delete tool, each in plain words.",
+        "She runs a test call, Find ships with the query Hoth, and sees the result: 3 ships, in 240 milliseconds.",
+        "Only now can she publish. The Publish dialog shows who gets it (Logistics, 24 people), that each person signs in with their own account, and which tools are on: read tools allowed, write tools need approval, the delete tool blocked. She publishes for Logistics, and a message confirms Wedge's request is approved and the change is logged."
+      ]
+    },
+    "Choosing tools": {
+      src: "media/mcp-connectors/choosing-tools.mp4",
+      poster: "media/mcp-connectors/choosing-tools.jpg",
+      label: "Choosing tools, shown in a mock Echo Base console",
+      steps: [
+        "On the published Fleet Tracker page, the admin opens the Tools tab. A line explains that publishing a connector doesn't turn on every tool, and that people can't override these settings.",
+        "Every tool is listed in plain words, with its function name in small type underneath, grouped as read, write and delete, along with where it's on: Chat, Agents or both.",
+        "Each tool has one setting: Allowed, Needs approval or Blocked. Read tools are allowed, the write tools need approval and Cancel shipment is blocked.",
+        "A banner says the server added a new tool yesterday, Hold shipment, and that it's off until she reviews it. She chooses Review, and the new row is highlighted with Off until reviewed.",
+        "She sets Hold shipment to Needs approval. The row explains what that means: the AI asks the person to confirm before it holds a shipment.",
+        "She saves. A message confirms the tool settings are saved, apply within a few minutes and are logged, and the Write group now has 3 tools."
+      ]
+    }
   }
 };

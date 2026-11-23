@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Choosing tools · motion scene</title>
+<!--
+  Source for media/mcp-connectors/choosing-tools.mp4.
+  Built on motion/shared (console.css, connectors.css, motion.js). Starts on the Fleet Tracker page exactly as
+  Approving connectors ends, so the page is the same pixels in both clips.
+
+  Follows the Choosing tools card (data/guidance-governance.js):
+  - way in: the published connector's Tools tab; approving the connector didn't turn on every tool (think 1, avoid 1)
+  - every tool in plain words, function name secondary, grouped as read, write and delete (do 1, avoid 3, WCAG 1.3.1)
+  - Allowed · Needs approval · Blocked per tool, with words for the state (do 2, WCAG 4.1.2, WCAG 1.4.1)
+  - write tools default to Needs approval, delete to Blocked; people can't override (do 3, avoid 2)
+  - a tool the server added later is held off until reviewed (do 4, think 2)
+  - where each tool is on: Chat, Agents (do 5)
+  - what Needs approval means for the person using the AI (UD 4); save confirmed in words (WCAG 4.1.3)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<link rel="stylesheet" href="../shared/connectors.css">
+<style>
+/* Overview (identical to Approving connectors) */
+.cols { margin-top: 16px; display: grid; grid-template-columns: minmax(0, 1fr) 430px; gap: 18px; align-items: start; }
+.cols .note { margin-top: 12px; }
+.steps { margin: 12px 0 0; padding: 0; list-style: none; }
+.steps > li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 11px 0; border-top: 1px solid var(--rule); font-size: 13px; }
+.steps > li:first-child { border-top: 0; padding-top: 4px; }
+.steps .n { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--rule-strong); display: grid; place-items: center; font-size: 11px; color: var(--soft); position: relative; }
+.steps .n.done { background: var(--ink); border-color: var(--ink); color: #fff; }
+.steps .t { font-weight: 600; color: var(--ink); }
+.steps .d { color: var(--soft); margin-top: 2px; }
+.steps .a { margin-top: 8px; position: relative; }
+.tools { margin-top: 8px; display: grid; gap: 4px; font-size: 12.5px; }
+.tools > div { display: grid; grid-template-columns: 62px 1fr; gap: 8px; }
+.tools .k { color: var(--faint); }
+.tools .v { color: var(--ink); }
+.call { margin-top: 8px; border: 1px solid var(--rule); border-radius: 8px; font-size: 12.5px; overflow: hidden; }
+.call .rq { padding: 7px 10px; background: var(--subtle); border-bottom: 1px solid var(--rule); color: var(--soft); }
+.call .rq b { color: var(--ink); font-weight: 500; }
+.call .rs { padding: 7px 10px; color: var(--ink); }
+.call .rs .m { color: var(--faint); }
+/* Tools tab */
+.info { margin-top: 14px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--soft); min-height: 32px; }
+.info b { color: var(--ink); font-weight: 600; }
+.info .sp { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.info .chg { font-size: 12.5px; color: var(--ink); font-weight: 500; }
+.newb { margin-top: 10px; display: flex; gap: 12px; align-items: center; padding: 8px 10px 8px 14px; border: 1px solid var(--ink); border-radius: 10px; font-size: 13px; }
+.newb .m { color: var(--soft); }
+.newb .sp { margin-left: auto; }
+#tt { margin-top: 10px; font-size: 13px; table-layout: fixed; }
+#tt th { padding-bottom: 8px; }
+#tt td { height: 36px; }
+
+#tt td .fn { display: block; font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); font-weight: 400; margin-top: 1px; }
+#tt tr.g td { height: 26px; font-size: 12px; font-weight: 600; color: var(--ink); background: var(--subtle); border-bottom: 1px solid var(--rule); }
+#tt tr.g td span { font-weight: 400; color: var(--faint); margin-left: 6px; }
+#tt td.w { color: var(--soft); font-size: 12.5px; }
+#tt td.on { font-size: 12.5px; color: var(--soft); }
+
+#tt tr.hl td { background: #f6f6f6; }
+.seg { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 7px; overflow: hidden; height: 26px; font-size: 12px; }
+.seg > span { display: grid; place-items: center; padding: 0 10px; color: var(--soft); border-left: 1px solid var(--rule-strong); white-space: nowrap; }
+.seg > span:first-child { border-left: 0; }
+.seg > span.on { background: var(--ink); color: #fff; font-weight: 500; }
+.held { font-size: 12px; color: var(--ink); margin-left: 8px; font-weight: 500; }
+.expl { font-size: 12px; color: var(--soft); margin-top: 4px; white-space: normal; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="AI / Connectors / Fleet Tracker"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="ai" data-role="admin"></div>
+    <div class="main">
+      <!-- Connector page (same markup in every MCP connectors clip) -->
+      <div class="view" id="vB">
+        <div class="back">← Connectors</div>
+        <div class="hd" id="hdB"><h1>Fleet Tracker</h1>
+          <span class="stx" style="width:178px"><span class="tag out" style="opacity:0">Draft · not published</span><span class="tag dk">Published · Logistics</span></span>
+          <span class="swap" style="display:inline-flex;gap:8px">
+            <span style="display:inline-flex;gap:8px"><span class="btn ghost">Turn off for everyone</span></span></span></div>
+        <div class="tabs page"><div id="tbO" class="on">Overview</div><div id="tbT">Tools <span class="mono" style="color:var(--faint)" id="tc">6</span></div><div>Sign-in</div><div>Access</div><div>Data</div></div>
+
+        <div class="cols" id="ovw">
+          <div>
+            <div class="card"><h2>About this connector</h2>
+              <dl class="kv">
+                <div><dt>Publisher</dt><dd>Kessel Logistics</dd></div>
+                <div><dt>Type</dt><dd><span class="tag out">Custom · unreviewed</span></dd></div>
+                <div class="w"><dt>Server URL</dt><dd class="mono">https://mcp.fleettracker.kessel/mcp</dd></div>
+                <div><dt>Runs on</dt><dd>Kessel Logistics servers · Outer Rim</dd></div>
+                <div><dt>Can</dt><dd>Read, write and delete</dd></div>
+                <div><dt>Requested by</dt><dd>Wedge Antilles · Logistics</dd></div>
+                <div><dt>Reason</dt><dd>Track supply ships for the Hoth evacuation.</dd></div>
+              </dl></div>
+            <div class="note"><span class="ic">!</span><span><b>Echo Base hasn’t reviewed this server.</b> It sees what the AI sends it, its tools can change after you publish, and its tool descriptions may try to steer the AI. Test it with a test account before anyone uses it.</span></div>
+          </div>
+          <div class="card"><h2>Before you publish</h2>
+            <ol class="steps">
+              <li><span class="n done">✓</span><div><div class="t">Connect with a test account</div>
+                <div class="a"><span class="ok"><i><svg width="9" height="9"><use href="#tick"/></svg></i>Connected · 6 tools found</span><div class="d">As test-logistics@echobase</div></div></div></li>
+              <li><span class="n done">✓</span><div><div class="t">Review the tools</div>
+                <div class="tools">
+                  <div><span class="k">Read · 3</span><span class="v">Find ships, Get manifest, List routes</span></div>
+                  <div><span class="k">Write · 2</span><span class="v">Update manifest, Reroute ship</span></div>
+                  <div><span class="k">Delete · 1</span><span class="v">Cancel shipment</span></div></div></div></li>
+              <li><span class="n done">✓</span><div><div class="t">Run a test call</div>
+                <div class="call"><div class="rq">Find ships · query <b>“Hoth”</b></div>
+                  <div class="rs"><span class="ok"><i><svg width="9" height="9"><use href="#tick"/></svg></i>3 ships</span> · Bright Hope, Liberty, Quantum Storm <span class="m">· 240 ms</span></div></div></div></li>
+              <li><span class="n done">✓</span><div><div class="t">Publish</div>
+                <div class="d">Choose who gets it and which tools are on. Until then it stays a draft.</div></div></li>
+            </ol></div>
+        </div>
+
+        <div id="tls" style="display:none">
+          <div class="info" id="info"><span>Publishing a connector doesn’t turn on every tool. <b>People can’t override these settings.</b></span>
+            <span class="sp" id="bar" style="opacity:0"><span class="chg">1 change</span><span class="btn sm ghost">Cancel</span><span class="btn sm pri" id="saveB">Save</span></span></div>
+          <div class="newb" id="newb"><span class="tag dk">NEW TOOL</span><span><b>Hold shipment</b> was added by Kessel Logistics yesterday. <span class="m">It’s off until you review it.</span></span><span class="sp"><span class="btn sm" id="revB">Review</span></span></div>
+          <table id="tt"><colgroup><col style="width:200px"><col><col style="width:110px"><col style="width:340px"></colgroup>
+            <thead><tr><th>Tool</th><th>What it does</th><th>On in</th><th>Setting</th></tr></thead>
+            <tbody>
+              <tr class="g"><td colspan="4">Read<span>3 tools</span></td></tr>
+              <tr><td>Find ships<span class="fn">search_ships</span></td><td class="w">Finds ships by name or route</td><td class="on">Chat · Agents</td><td class="set"><span class="seg"><span class="on">Allowed</span><span>Needs approval</span><span>Blocked</span></span></td></tr>
+              <tr><td>Get manifest<span class="fn">get_manifest</span></td><td class="w">Shows what a ship is carrying</td><td class="on">Chat · Agents</td><td class="set"><span class="seg"><span class="on">Allowed</span><span>Needs approval</span><span>Blocked</span></span></td></tr>
+              <tr><td>List routes<span class="fn">list_routes</span></td><td class="w">Lists routes and their status</td><td class="on">Chat</td><td class="set"><span class="seg"><span class="on">Allowed</span><span>Needs approval</span><span>Blocked</span></span></td></tr>
+              <tr class="g"><td colspan="4">Write<span id="wc">2 tools · 1 new</span></td></tr>
+              <tr><td>Update manifest<span class="fn">update_manifest</span></td><td class="w">Changes what a ship is carrying</td><td class="on">Agents</td><td class="set"><span class="seg"><span>Allowed</span><span class="on">Needs approval</span><span>Blocked</span></span></td></tr>
+              <tr><td>Reroute ship<span class="fn">reroute_ship</span></td><td class="w">Sends a ship on a different route</td><td class="on">Agents</td><td class="set"><span class="seg"><span>Allowed</span><span class="on">Needs approval</span><span>Blocked</span></span></td></tr>
+              <tr id="rowH"><td>Hold shipment <span class="tag out" id="newT">new</span><span class="fn">hold_shipment</span></td><td class="w">Stops a shipment from leaving<div class="expl" id="expl" style="opacity:0">The AI asks the person to confirm before it holds a shipment.</div></td><td class="on" id="onH">Off</td>
+                <td class="set"><span class="seg"><span>Allowed</span><span id="naH">Needs approval</span><span>Blocked</span></span><span class="held" id="heldH">Off until reviewed</span></td></tr>
+              <tr class="g"><td colspan="4">Delete<span>1 tool</span></td></tr>
+              <tr><td>Cancel shipment<span class="fn">cancel_shipment</span></td><td class="w">Cancels a shipment for good</td><td class="on">Off</td><td class="set"><span class="seg"><span>Allowed</span><span>Needs approval</span><span class="on">Blocked</span></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#tick"/></svg></i>Tool settings saved · applies within a few minutes · logged</div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+const T = {
+  tabClick: 1.90, toTools: [2.0, 2.3],
+  revClick: 6.20, naClick: 7.70, saveClick: 10.20, saved: 10.40, toastOut: [12.2, 12.5],
+  endCard: [13.4, 13.85], end: 14.9
+};
+
+function build() {
+  const tb = at("tbT");
+  $("ovw").style.display = "none"; $("tls").style.display = "";
+  const tt = at("tt"), nb = at("newb"), rv = at("revB"), na = at("naH"), sv = at("saveB"), rh = at("rowH"), inf = at("info");
+  $("ovw").style.display = ""; $("tls").style.display = "none";
+  const MX = 740;
+  const cur = [
+    [0, 900, 600], [0.5, 900, 600], [1.75, tb[0], tb[1] + 3], [2.05, tb[0], tb[1] + 3],
+    [5.0, rv[0] - 120, rv[1] + 80], [6.05, rv[0], rv[1] + 3], [6.35, rv[0], rv[1] + 3],
+    [7.55, na[0], na[1] + 3], [7.85, na[0], na[1] + 3],
+    [10.05, sv[0], sv[1] + 3], [10.35, sv[0], sv[1] + 3], [12.0, 1010, 560], [13.4, 1014, 566]
+  ];
+  const cam = [
+    [0, 700, 372, 1.04], [0.6, 700, 372, 1.04],                                  // the published page, as Approving connectors ended
+    [1.5, 640, 220, 1.4], [2.1, 640, 220, 1.4],                                   // the Tools tab
+    [2.9, 700, 372, 1.04], [4.2, 700, 372, 1.04],                     // every tool, grouped read · write · delete
+    [5.0, MX, nb[1] + 60, 1.35], [6.4, MX, nb[1] + 60, 1.35],                     // the new tool, held off
+    [7.2, 740, rh[1] - 70, 1.3], [9.3, 740, rh[1] - 70, 1.3],                             // set it to Needs approval; what that means
+    [9.9, 900, inf[1] + 40, 1.4], [10.4, 900, inf[1] + 40, 1.4],                // Save
+    [11.0, 700, 360, 1.04], [12.4, 700, 360, 1.04], [13.4, 660, 360, 1.02]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  const tl = t >= T.toTools[0];
+  $("ovw").style.display = tl ? "none" : ""; $("tls").style.display = tl ? "" : "none";
+  $("tls").style.opacity = span(t, ...T.toTools);
+  $("tbO").classList.toggle("on", !tl); $("tbT").classList.toggle("on", tl);
+
+  $("revB").style.background = t >= T.revClick - .05 && t < T.revClick + .3 ? "#f2f2f2" : "";
+  $("rowH").classList.toggle("hl", t >= T.revClick && t < T.saved + .8);
+  const set = t >= T.naClick;
+  $("naH").classList.toggle("on", set);
+  $("heldH").style.display = set ? "none" : "";
+  $("expl").style.opacity = span(t, T.naClick, T.naClick + .25);
+  $("onH").textContent = set ? "Agents" : "Off";
+  $("bar").style.opacity = set && t < T.saved ? 1 : 0;
+  $("saveB").style.background = t >= T.saveClick - .05 && t < T.saved + .1 ? "#333" : "";
+
+  const saved = t >= T.saved;
+  $("newb").style.display = saved ? "none" : "";
+  $("newT").style.display = saved ? "none" : "";
+  $("wc").textContent = saved ? "3 tools" : "2 tools · 1 new";
+  $("tc").textContent = saved ? "7" : "6";
+  const to = span(t, T.saved, T.saved + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to; $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  return [["click", T.tabClick], ["click", T.revClick], ["click", T.naClick], ["click", T.saveClick], ["chime", T.saved]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.tabClick, T.revClick, T.naClick, T.saveClick], clamp: 140, build, render, events,
+  slow: [[0.1, 1.2, 1.4], [2.6, 4.4, 1.9], [4.8, 6.0, 1.7], [7.9, 9.4, 1.9], [10.5, 12.0, 1.5]]
+});
+</script>
+</body>
+</html>

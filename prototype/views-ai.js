@@ -2,7 +2,7 @@
 (() => {
   const { route, esc, $, $$, icon, okSt, badSt, toast, announce, dialog, head, tabs, kv, empty, go, rerender, save, num } = App;
   const S = () => App.S;
-  const at = a => tabs("AI", [["features", "Features", "/ai/features"], ["data", "Data", "/ai/data"], ["models", "Models", "/ai/models"], ["usage", "Usage", "/ai/usage"], ["safety", "Safety", "/ai/safety"]], a);
+  const at = a => tabs("AI", [["features", "Features", "/ai/features"], ["data", "Data", "/ai/data"], ["models", "Models", "/ai/models"], ["usage", "Usage", "/ai/usage"], ["safety", "Safety", "/ai/safety"], ["connectors", "Connectors", "/ai/connectors"]], a);
   const cr = (t, h) => [["AI", "/ai/features"], [t, h]];
   const guard = crumbs => S().role === "admin" ? null : { nav: "ai", crumbs, title: "Admins only", html: `${head("This page is for admins")}<p class="lede">Switch to the admin view from your name at the top right.</p>` };
   const GROUPS = ["Rogue One", "Red Squadron", "Base Engineering", "Intelligence", "Logistics"];

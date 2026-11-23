@@ -178,5 +178,24 @@ window.SEED = {
     { id: "ledger", name: "Holonet Ledger", logo: "HL", state: "draft", desc: "Finance system for invoices and seat counts.", draft: { by: "Toryn Farr", step: 2, account: "rebel-finance@holonet" } },
     { id: "comms", name: "HoloComms", logo: "HC", state: "Connected", desc: "Sends alerts to #sec-alerts." },
     { id: "pd", name: "PagerDuty", logo: "PD", state: "Connected", desc: "Pages Security on-call." }
+  ],
+  connectorPolicy: "approved",
+  connectors: [
+    { id: "holonet", name: "Holonet Docs", publisher: "Echo Base", type: "Built-in", can: "Reads", status: "Published · everyone", published: true },
+    { id: "mission", name: "Mission Board", publisher: "Corellian Systems", type: "Partner", can: "Reads and writes", status: "Published · 3 groups", published: true },
+    { id: "comms", name: "Comms Relay", publisher: "Bothan Networks", type: "Partner", can: "Reads", status: "Draft · tested Nov 20", published: false },
+    { id: "fleet", name: "Fleet Tracker", publisher: "Kessel Logistics", type: "Custom", url: "https://mcp.fleettracker.kessel/mcp", runs: "Kessel Logistics servers · Outer Rim",
+      request: { by: "Wedge Antilles", team: "Logistics", reason: "Track supply ships for the Hoth evacuation." },
+      published: false, connected: false, tested: false,
+      tools: [
+        { id: "search_ships", name: "Find ships", what: "Finds ships by name or route", kind: "read", on: "Chat · Agents", set: "allowed" },
+        { id: "get_manifest", name: "Get manifest", what: "Shows what a ship is carrying", kind: "read", on: "Chat · Agents", set: "allowed" },
+        { id: "list_routes", name: "List routes", what: "Lists routes and their status", kind: "read", on: "Chat", set: "allowed" },
+        { id: "update_manifest", name: "Update manifest", what: "Changes what a ship is carrying", kind: "write", on: "Agents", set: "approval" },
+        { id: "reroute_ship", name: "Reroute ship", what: "Sends a ship on a different route", kind: "write", on: "Agents", set: "approval" },
+        { id: "cancel_shipment", name: "Cancel shipment", what: "Cancels a shipment for good", kind: "delete", on: "Off", set: "blocked" }
+      ],
+      laterTool: { id: "hold_shipment", name: "Hold shipment", what: "Stops a shipment from leaving", kind: "write", on: "Agents", set: null, isNew: true }
+    }
   ]
 };
