@@ -5,7 +5,8 @@
   const S = () => App.S;
   const at = a => tabs("Access", [["approvals", "Approvals", "/access/approvals"], ["reviews", "Access reviews", "/access/reviews"]], a);
   const guard = crumbs => S().role === "admin" ? null : { nav: "access", crumbs, title: "Admins only", html: `${head("This page is for admins")}<p class="lede">Switch to the admin view from your name at the top right.</p>` };
-  const riskChip = r => `<span class="chip ${r === "High" ? "dk" : ""}">${r} risk</span>`;
+  const riskChip = r => `<span class="chip ${r === "High" ? "dk" : ""}">${r} risk</span>`; // the request page header, as in the Review detail clip
+  const riskPill = r => `<span class="risk ${r === "High" ? "hi" : ""}">${r}</span>`; // queue rows, as in the Approval queue clip
 
   /* ================= Archives ================= */
   route("/archives", () => {
@@ -53,11 +54,12 @@
       html: `${head("Access")}${at("approvals")}<div class="body">
         <div class="row" style="min-height:46px">${sel.size ? `<div class="banner spacer" style="padding:6px 8px 6px 14px;background:var(--ink)"><div class="tx" style="color:#fff"><b style="color:#fff">${sel.size} selected</b></div><button type="button" class="btn sm" data-act="bulk">Approve ${sel.size}</button><button type="button" class="btn sm" data-act="clear" style="background:transparent;color:#fff;border-color:transparent">Clear</button></div>`
           : `<span class="small muted">${pend.length} waiting · oldest ${pend[0] ? esc(pend[0].waiting) : "—"}</span><span class="spacer"></span><button type="button" class="btn" data-act="lowRisk" ${pend.some(r => r.risk === "Low") ? "" : "disabled"}>Select low risk</button>`}</div>
-        <table style="margin-top:8px"><caption class="vh">Requests waiting for you</caption><thead><tr><th scope="col"><span class="vh">Select</span></th><th scope="col">Who</th><th scope="col">Wants</th><th scope="col">Why</th><th scope="col">Waiting</th><th scope="col"><span class="vh">Open</span></th></tr></thead><tbody>
-        ${pend.map(r => `<tr><td><input type="checkbox" aria-label="Select ${esc(r.who)}, ${esc(r.what)}" data-change="sel" data-id="${r.id}" ${sel.has(r.id) ? "checked" : ""}></td>
+        <table style="margin-top:8px"><caption class="vh">Requests waiting for you</caption><thead><tr><th scope="col"><span class="vh">Select</span></th><th scope="col">Who</th><th scope="col">Wants</th><th scope="col">Why</th><th scope="col">Waiting</th><th scope="col">Risk</th><th scope="col"><span class="vh">Open</span></th></tr></thead><tbody>
+        ${pend.map(r => `<tr><td>${r.risk === "High" ? `<input type="checkbox" disabled aria-label="${esc(r.who)}, ${esc(r.what)}: high risk, review on its own" aria-describedby="hr-note">` : `<input type="checkbox" aria-label="Select ${esc(r.who)}, ${esc(r.what)}" data-change="sel" data-id="${r.id}" ${sel.has(r.id) ? "checked" : ""}>`}</td>
           <td><span class="row" style="flex-wrap:nowrap"><span class="av sm" aria-hidden="true">${r.initials}</span><span>${esc(r.who)}<span class="sub">${esc(r.title)}</span></span></span></td>
-          <td>${esc(r.what)}<span class="sub">${esc(r.level)} · ${riskChip(r.risk)}</span></td><td>${esc(r.why)}</td><td>${esc(r.waiting)}${r.note ? `<span class="sub">${esc(r.note)}</span>` : ""}</td>
-          <td class="act"><a class="btn sm" href="#/access/approvals/${r.id}" aria-label="Review ${esc(r.who)}'s request">Review</a></td></tr>`).join("") || `<tr><td colspan="6">${empty("You're all caught up", "New requests show up here.")}</td></tr>`}</tbody></table></div>`,
+          <td>${esc(r.what)}<span class="sub">${esc(r.level)}</span></td><td>${esc(r.why)}</td><td>${esc(r.waiting)}${r.note ? `<span class="sub">${esc(r.note)}</span>` : ""}</td><td>${riskPill(r.risk)}</td>
+          <td class="act"><a class="btn sm" href="#/access/approvals/${r.id}" aria-label="Review ${esc(r.who)}'s request">Review</a></td></tr>`).join("") || `<tr><td colspan="7">${empty("You're all caught up", "New requests show up here.")}</td></tr>`}</tbody></table>
+        <p class="small muted" id="hr-note" style="margin:10px 0 0">Low-risk requests can be approved together. High-risk requests are approved one at a time, from their row.</p></div>`,
       act: {
         sel(el) { const set = new Set(s.apSel || []); el.checked ? set.add(el.dataset.id) : set.delete(el.dataset.id); s.apSel = [...set]; save(); rerender(); },
         lowRisk() { s.apSel = pend.filter(r => r.risk === "Low").map(r => r.id); save(); rerender(); announce(`${s.apSel.length} low-risk requests selected`); },
