@@ -8,7 +8,9 @@
      events() returns sound cues [[name, t], ...] (the end card is silent)
      duration (optional) total length in seconds. The action before the end card
               is stretched to fit; the end card keeps its own length.
-              House rules: fewer than 5 steps run 10 s, 5 or more run 15 s.
+              House rules: a clip runs as long as its action needs, up to 10 s for fewer
+              than 5 steps and 15 s for 5 or more. Don't stretch a short one to fill the
+              cap: leave duration out and it runs at its natural length (T.end).
               Keep what the viewer should look at centred and whole in frame;
               one steady framing per view beats panning across it.
      clamp    (optional, default true) keep the camera inside the stage. Set false when

@@ -112,7 +112,7 @@ Checklist for every clip (all 31 existing clips were brought up to it on 23 Nov 
 - Dropdowns use the drawn chevron (stroke 1.6, `--soft`, 14px) set 12px in from the right edge, with 36px of right padding so text never runs under it; never a ▾ character tight against the border. Use `<i class="cv"></i>` from `shared/console.css`. Open dropdown menus use the shared `.menu` panel (10px corners, one shadow, 7px 10px rows); a scene sets only its position, width and timing.
 - Inline edits show visible Save and Cancel buttons, with Enter and Esc as shortcuts; the steps text covers the field name, announcements and where focus goes. To lift a low button while keeping the clamp, pass `clamp: <px>` (extra room past the bottom of the stage) instead of `false`.
 
-Length: clips with fewer than 5 steps run 10 seconds (`duration: 10`); clips with 5 or more run 15 (`duration: 15`).
+Length: a clip runs as long as its action needs, up to 10 seconds for fewer than 5 steps and 15 for 5 or more. A short, simple clip isn't stretched to fill the cap: leave `duration` out and it runs at its natural length (`T.end`). Keep one steady framing per view rather than panning around a page, and keep the camera inside the window.
 
 Set the length with `duration` in the scene's `Motion.scene({ ... })` call, and the clip is stretched to fit, with the end card kept at its own length. Time isn't stretched evenly: every click is slowed automatically so viewers see the cursor arrive, the press and what changed, and `slow: [[from, to, weight], ...]` lingers on other key moments (a tooltip, rows leaving a list). Ordinary moves get whatever time is left.
 
