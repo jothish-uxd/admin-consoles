@@ -1,14 +1,13 @@
-# Publishes the site to GitHub Pages:
-#   main       -> https://jothish-uxd.github.io/admin-consoles/
-#   v3-videos  -> https://jothish-uxd.github.io/admin-consoles/v3-videos/   (preview)
-# Runs on every push to either branch, so both stay current.
+# Publishes the site to GitHub Pages from main only:
+#   main -> https://jothish-uxd.github.io/admin-consoles/
+# Work in progress on other branches (such as v3-videos) is not published;
+# it's previewed privately through the Claude artifact instead.
 # Needs Settings -> Pages -> Source set to "GitHub Actions".
-# To preview another branch, add it to `branches` and to the copy step below.
 name: Publish site
 
 on:
   push:
-    branches: [main, v3-videos]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -29,16 +28,10 @@ jobs:
         with:
           ref: main
           path: main
-      - name: Check out v3-videos
-        uses: actions/checkout@v4
-        with:
-          ref: v3-videos
-          path: preview
       - name: Assemble site
         run: |
-          mkdir -p _site/v3-videos
+          mkdir -p _site
           rsync -a --exclude .git --exclude .github main/ _site/
-          rsync -a --exclude .git --exclude .github --exclude motion preview/ _site/v3-videos/
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
