@@ -900,3 +900,4 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .v2-alts { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; row-gap: 14px; }
 @media (max-width: 720px) { .v2-alts { grid-template-columns: 1fr; } }
 .v2-shots { margin-top: 0; }
+.pat-detail.v2 .v2-sub { margin: 22px 0 10px; font-size: 15px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); }

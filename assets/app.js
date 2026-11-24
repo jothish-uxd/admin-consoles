@@ -435,7 +435,7 @@
               ${sec("g-do", "Recommended", list(g.do || [], "is-do"))}
               ${sec("g-dont", "Avoid", list(g.dont || [], "is-dont"))}
             </div>
-            ${sec("g-foot", "Accessibility", `${wcag.length ? `<ul class="g-inline">${wcag.map(([t, x]) => `<li>${tagHtml(t)} ${esc(x)}</li>`).join("")}</ul>` : ""}${ud.length ? `<ul class="g-inline g-ud-cols" style="margin-top:12px">${ud.map(([t, x]) => `<li><strong>${esc((window.UD || {})[t] || t)}.</strong> ${esc(x)}</li>`).join("")}</ul>` : ""}`)}
+            ${sec("g-foot", "Accessibility", `${wcag.length ? `<ul class="g-inline">${wcag.map(([t, x]) => `<li>${tagHtml(t)} ${esc(x)}</li>`).join("")}</ul>` : ""}${ud.length ? `<h6 class="v2-sub">Universal design</h6><ul class="g-inline g-ud-cols">${ud.map(([t, x]) => `<li><strong>${esc((window.UD || {})[t] || t)}.</strong> ${esc(x)}</li>`).join("")}</ul>` : ""}`)}
           </div>
           <h4 class="v2-h">At enterprise scale</h4>
           <div class="pat-card g-compact">${list(g.scale || [])}</div>
