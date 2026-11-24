@@ -558,7 +558,10 @@
   function clipHtml(slug, name) {
     const v = ((window.VIDEOS || {})[slug] || {})[name];
     if (!v) return "";
+    // the steps sit above the clip, collapsed, so they can be read first
     return `<figure class="pat-clip">
+        ${v.steps ? `<details class="clip-steps"><summary><span>What happens in this clip</span><span class="clip-count">${v.steps.length} steps</span>${CLIP_ICON.chev}</summary>
+          <ol id="clip-steps">${v.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol></details>` : ""}
         <div class="clip-frame">
           <video class="clip-video" src="${esc(v.src)}" poster="${esc(v.poster || "")}" muted playsinline preload="metadata"
             aria-label="${esc(v.label || name)}" aria-describedby="clip-steps"></video>
@@ -572,8 +575,6 @@
             <button type="button" class="clip-btn" data-clip="full"></button>
           </div>
         </div>
-        ${v.steps ? `<details class="clip-steps"><summary><span>What happens in this clip</span><span class="clip-count">${v.steps.length} steps</span>${CLIP_ICON.chev}</summary>
-          <ol id="clip-steps">${v.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol></details>` : ""}
       </figure>`;
   }
   function initClip(scope) {
