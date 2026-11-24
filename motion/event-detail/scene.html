@@ -22,6 +22,7 @@
 /* list */
 .flt { margin-top: 14px; display: flex; gap: 8px; }
 .fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12.5px; color: var(--ink); background: var(--bg); white-space: nowrap; }
+.fb.dd { padding-right: 12px; }
 .fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
 .fb .x { color: var(--faint); }
 .meta { margin-top: 12px; font-size: 12.5px; color: var(--soft); }
@@ -90,7 +91,7 @@ table.chg { font-size: 12.5px; }
         <div class="hd"><h1>Audit log</h1><span class="vw">Views: <b>All events</b><i class="cv"></i></span><span class="btn sm">Copy link</span><span class="btn sm">Export</span><span class="btn sm">Save view</span></div>
         <div class="tabs page"><div id="tEv" class="on">Events</div><div id="tSt">Streaming</div><div id="tAl">Alerts</div></div>
         <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
-        <div class="flt"><span class="fb on">Last 24 hours</span><span class="fb on">Actor: archive-sync <span class="x">✕</span></span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span></div>
+        <div class="flt"><span class="fb on dd">Last 24 hours<i class="cv"></i></span><span class="fb on">Actor: archive-sync <span class="x">✕</span></span><span class="fb dd">Action<i class="cv"></i></span><span class="fb dd">Target<i class="cv"></i></span><span class="fb dd">Result<i class="cv"></i></span></div>
         <div class="ql">Query <code>actor:"archive-sync" time:last_24h</code><a>Edit as query</a></div>
         <div class="meta">Times in <b>Pacific Time (PT)</b> · <b>4 events</b> by archive-sync · 3 failed</div>
         <table class="log"><colgroup><col style="width:92px"><col style="width:140px"><col><col style="width:176px"><col style="width:132px"></colgroup>

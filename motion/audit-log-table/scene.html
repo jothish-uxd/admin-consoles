@@ -26,6 +26,7 @@
 /* audit log */
 .flt { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
 .fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 7px; font-size: 12.5px; color: var(--ink); background: var(--bg); white-space: nowrap; }
+.fb.dd { padding-right: 12px; }
 .fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
 .fb .x { color: var(--faint); margin-left: 2px; }
 .fb.srch { flex: 1; color: var(--faint); }
@@ -86,9 +87,9 @@ tr.row td { transition: none; }
         <div class="tabs page"><div id="tEv" class="on">Events</div><div id="tSt">Streaming</div><div id="tAl">Alerts</div></div>
         <div class="qk">Quick filters<span class="q">Failed sign-ins</span><span class="q">Admin role changes</span><span class="q">API key changes</span><span class="q">New IP addresses</span></div>
         <div class="flt" id="flt">
-          <span class="fb on">Last 24 hours</span>
+          <span class="fb on dd">Last 24 hours<i class="cv"></i></span>
           <span class="fb chip" id="chip">Actor: archive-sync <span class="x">✕</span></span>
-          <span class="fb">Actor</span><span class="fb">Action</span><span class="fb">Target</span><span class="fb">Result</span>
+          <span class="fb dd">Actor<i class="cv"></i></span><span class="fb dd">Action<i class="cv"></i></span><span class="fb dd">Target<i class="cv"></i></span><span class="fb dd">Result<i class="cv"></i></span>
           <span class="fb srch">Search events</span>
         </div>
         <div class="ql">Query <code style="position:relative"><span id="q0">time:last_24h</span><span id="q1" style="position:absolute;left:8px;top:3px;opacity:0;white-space:nowrap">actor:"archive-sync" time:last_24h</span></code><a>Edit as query</a></div>
