@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Undo toast · motion scene</title>
+<!--
+  Source for media/destructive-actions/undo-toast.mp4. Built by motion/_build/undo_toast.py
+  from asset-library/scene.html, so Content › All content is the same page.
+  Follows the Undo toast card (data/guidance-actions.js):
+  - a routine, reversible delete: she moves Supply run notes.md to Trash from its row, no dialog
+  - the toast names the file, says Trash keeps it 30 days, and offers Undo with a visible timer
+  - the timer pauses while the pointer is on the toast ("Paused"), so there is time to act
+  - Undo puts the row back where it was, and the toast says so
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.meta { margin-top: 4px; font-size: 12.5px; color: var(--soft); position: relative; height: 18px; }
+.meta span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.meta b { color: var(--ink); font-weight: 600; }
+.seg { display: inline-grid; grid-template-columns: auto auto; border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; font-size: 12.5px; }
+.seg div { padding: 6px 12px; color: var(--soft); display: flex; gap: 6px; align-items: center; }
+.seg div + div { border-left: 1px solid var(--rule); }
+.seg div.on { background: var(--ink); color: #fff; font-weight: 500; }
+.seg svg { width: 13px; height: 13px; }
+.btn.sm { height: 30px; font-size: 12px; }
+.sr { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.search { flex: 1; height: 36px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; gap: 8px; align-items: center; padding: 0 12px; font-size: 13px; color: var(--faint); }
+.search svg { width: 14px; height: 14px; color: var(--faint); }
+.flt { height: 36px; display: inline-flex; gap: 6px; align-items: center; padding: 0 12px; border: 1px solid var(--rule-strong); border-radius: 8px; font-size: 12.5px; color: var(--soft); position: relative; white-space: nowrap; }
+.flt b { color: var(--ink); font-weight: 600; }
+.flt.on { border-color: var(--ink); background: var(--ink); color: #fff; }
+.flt.on b { color: #fff; }
+.flt svg { width: 11px; height: 11px; }
+.flt.on .cv { background: #fff; }
+.menu { position: absolute; left: 0; top: 40px; width: 200px; z-index: 5; opacity: 0; }
+.menu div { font-size: 13px; display: flex; justify-content: space-between; }
+.menu div span { color: var(--faint); font-family: "Geist Mono", monospace; font-size: 11px; }
+.menu div.hov { background: var(--hover); }
+.views { margin-top: 10px; display: flex; gap: 6px; align-items: center; font-size: 12.5px; }
+.views .l { color: var(--faint); margin-right: 4px; }
+.view { display: inline-flex; gap: 6px; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--hover); color: var(--ink); }
+.view .n { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); }
+.view.on { background: var(--ink); color: #fff; }
+.view.on .n { color: #bdbdbd; }
+.area { position: relative; margin-top: 12px; height: 380px; }
+.area > div { position: absolute; left: 0; right: 0; top: 0; }
+table { font-size: 12.5px; }
+th { padding: 0 10px 8px; font-size: 11.5px; }
+td { padding: 0 10px; height: 50px; }
+.nm { display: flex; gap: 10px; align-items: center; color: var(--ink); font-weight: 500; }
+.ty { width: 26px; height: 30px; border: 1.5px solid var(--rule-strong); border-radius: 4px; display: grid; place-items: end center; padding-bottom: 3px; font-family: "Geist Mono", monospace; font-size: 7.5px; color: var(--soft); flex: none; background: var(--bg); }
+.own .a { color: var(--ink); }
+.own .b { font-size: 11.5px; color: var(--faint); }
+.own .b.off { color: var(--ink); font-weight: 600; }
+.sh { display: inline-flex; gap: 5px; align-items: center; font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--soft); white-space: nowrap; }
+.sh.pub { border-color: var(--ink); background: var(--ink); color: #fff; font-weight: 500; }
+th.ck, td.ck { width: 36px; padding: 0 0 0 10px; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); vertical-align: middle; position: relative; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+td.num { font-family: "Geist Mono", monospace; font-size: 11.5px; color: var(--soft); }
+.cnt { margin-top: 8px; font-size: 12px; color: var(--faint); }
+/* grid */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.card { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+.card .pv { height: 92px; background: var(--subtle); display: grid; place-items: center; border-bottom: 1px solid var(--rule); }
+.card .pv .ty { width: 40px; height: 48px; font-size: 10px; }
+.card .in { padding: 10px 12px; font-size: 12.5px; line-height: 1.4; }
+.card .in .a { color: var(--ink); font-weight: 600; }
+.card .in .b { color: var(--soft); font-size: 12px; margin: 2px 0 6px; }
+.gnote { margin-top: 10px; font-size: 12px; color: var(--faint); display: flex; gap: 6px; align-items: center; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+/* undo toast */
+tr.hov td { background: var(--subtle); }
+.ra { position: absolute; width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center; color: var(--ink); background: var(--bg); border: 1px solid var(--rule-strong); opacity: 0; z-index: 3; }
+.ra svg { width: 15px; height: 15px; }
+.tip { position: absolute; background: var(--ink); color: #fff; font-size: 11.5px; border-radius: 6px; padding: 4px 8px; white-space: nowrap; opacity: 0; z-index: 4; }
+.ut { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 12px; padding: 0 8px 0 14px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; overflow: hidden; }
+.ut .msg { position: relative; width: 330px; height: 18px; }
+.ut .msg span { position: absolute; left: 0; top: 0; }
+.ut .sec { color: #bdbdbd; font-size: 12px; width: 52px; text-align: right; font-family: "Geist Mono", monospace; }
+.ut .btn { height: 30px; font-size: 12.5px; background: #fff; color: var(--ink); border-color: #fff; font-weight: 600; }
+.ut .btn.dn { background: #d4d4d4; border-color: #d4d4d4; }
+.ut .bar { position: absolute; left: 0; bottom: 0; height: 3px; background: #fff; transform-origin: left center; }
+.ut i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; flex: none; }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="chev" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="list" viewBox="0 0 16 16"><path d="M3 4h10M3 8h10M3 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="gridi" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="9" y="2.5" width="4.5" height="4.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="2.5" y="9" width="4.5" height="4.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="9" y="9" width="4.5" height="4.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="dl" viewBox="0 0 16 16"><path d="M8 2.5v8M4.5 7.5 8 11l3.5-3.5M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="Content / All content"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="content" data-role="admin"></div>
+    <div class="main">
+      <div class="hd">
+        <h1>Content</h1>
+        <div class="seg"><div id="vList" class="on"><svg><use href="#list"/></svg>List</div><div id="vGrid"><svg><use href="#gridi"/></svg>Grid</div></div>
+        <span class="btn sm" id="expB"><svg width="13" height="13"><use href="#dl"/></svg>Export results</span>
+      </div>
+      <div class="tabs page"><div class="on">All content</div><div>Sharing</div><div>Tags</div><div>Storage</div><div>Trash</div></div>
+      <div class="meta" style="margin-top:14px"><span id="m0"><b>About 2.4M items</b> · index updated 2 min ago</span><span id="m1" style="opacity:0"><b>112 items</b> owned by deactivated people · index updated 2 min ago</span><span id="m2" style="opacity:0"><b>3 items</b> owned by deactivated people, shared by public link</span></div>
+      <div class="sr" id="sr">
+        <div class="search"><svg><use href="#srch"/></svg>Search name, owner, type or tag</div>
+        <span class="flt">Owner<i class="cv"></i></span>
+        <span class="flt" id="fShare"><span id="fsL">Sharing</span><i class="cv"></i>
+          <div class="menu" id="menu"><div>Internal only<span>1.9M</span></div><div>Specific people<span>410K</span></div><div id="optPub">Public link<span>38</span></div></div></span>
+        <span class="flt">Last modified<i class="cv"></i></span>
+        <span class="flt">Size<i class="cv"></i></span>
+      </div>
+      <div class="views"><span class="l">Saved views</span>
+        <span class="view">Shared publicly <span class="n">38</span></span>
+        <span class="view" id="vwDeact">Owner deactivated <span class="n">112</span></span>
+        <span class="view">Large files <span class="n">2.1K</span></span>
+      </div>
+      <div class="area" id="area">
+        <span class="ra" id="ra" aria-label="Move to Trash"><svg><use href="#bin"/></svg></span><span class="tip" id="tip">Move to Trash</span>
+        <div id="tA">
+          <table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
+            <tr id="aR1"><td class="ck"><span class="cb" id="aC1"></span></td><td><div class="nm"><span class="ty">PDF</span>Death Star plans.pdf</div></td><td class="own"><div class="a">Jyn Erso</div><div class="b">Rebel Intelligence</div></td><td><span class="sh">Restricted</span></td><td>2 days ago</td><td class="num">48 MB</td></tr>
+            <tr id="aR2"><td class="ck"><span class="cb" id="aC2"></span></td><td><div class="nm"><span class="ty">DWG</span>Echo Base layout.dwg</div></td><td class="own"><div class="a">Base Engineering</div><div class="b">Team</div></td><td><span class="sh">Internal</span></td><td>5 hours ago</td><td class="num">212 MB</td></tr>
+            <tr id="aR3"><td class="ck"><span class="cb" id="aC3"></span></td><td><div class="nm"><span class="ty">PNG</span>Recruitment poster.png</div></td><td class="own"><div class="a">Mon Mothma</div><div class="b">Senate liaison</div></td><td><span class="sh">Public link</span></td><td>3 hours ago</td><td class="num">6 MB</td></tr>
+            <tr id="aR4"><td class="ck"><span class="cb" id="aC4"></span></td><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
+            <tr id="aR5"><td class="ck"><span class="cb" id="aC5"></span></td><td><div class="nm"><span class="ty">MD</span>Supply run notes.md</div></td><td class="own"><div class="a">Cassian Andor</div><div class="b">Intelligence</div></td><td><span class="sh">Specific people</span></td><td>Yesterday</td><td class="num">24 KB</td></tr>
+            <tr id="aR6"><td class="ck"><span class="cb" id="aC6"></span></td><td><div class="nm"><span class="ty">MP4</span>Trench run briefing.mp4</div></td><td class="own"><div class="a">Gen. Dodonna</div><div class="b">Command</div></td><td><span class="sh">Internal</span></td><td>4 days ago</td><td class="num">1.2 GB</td></tr>
+          </tbody></table><div class="cnt">Showing 1–50 of about 2.4M · sorted by last activity</div>
+        </div>
+        <div id="tB" style="opacity:0">
+          <table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
+            <tr id="bR1"><td class="ck"><span class="cb" id="bC1"></span></td><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
+            <tr id="bR2"><td class="ck"><span class="cb" id="bC2"></span></td><td><div class="nm"><span class="ty">PDF</span>Red Squadron roster.pdf</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>63 days ago</td><td class="num">2 MB</td></tr>
+            <tr id="bR3"><td class="ck"><span class="cb" id="bC3"></span></td><td><div class="nm"><span class="ty">DOC</span>Pilot rotation.docx</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh">Internal</span></td><td>70 days ago</td><td class="num">180 KB</td></tr>
+            <tr id="bR4"><td class="ck"><span class="cb" id="bC4"></span></td><td><div class="nm"><span class="ty">MP4</span>X-wing maintenance.mp4</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>45 days ago</td><td class="num">640 MB</td></tr>
+            <tr id="bR5"><td class="ck"><span class="cb" id="bC5"></span></td><td><div class="nm"><span class="ty">PDF</span>Yavin flight plan.pdf</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh">Specific people</span></td><td>52 days ago</td><td class="num">3 MB</td></tr>
+          </tbody></table><div class="cnt">Showing 1–50 of 112 · sorted by last activity</div>
+        </div>
+        <div id="tC" style="opacity:0">
+          <table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
+            <tr id="cR1"><td class="ck"><span class="cb" id="cC1"></span></td><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
+            <tr id="cR2"><td class="ck"><span class="cb" id="cC2"></span></td><td><div class="nm"><span class="ty">MP4</span>X-wing maintenance.mp4</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>45 days ago</td><td class="num">640 MB</td></tr>
+            <tr id="cR3"><td class="ck"><span class="cb" id="cC3"></span></td><td><div class="nm"><span class="ty">PDF</span>Red Squadron roster.pdf</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>63 days ago</td><td class="num">2 MB</td></tr>
+          </tbody></table><div class="cnt">3 items</div>
+        </div>
+        <div id="gC" style="opacity:0">
+          <div class="grid">
+            <div class="card"><div class="pv"><span class="ty">XLS</span></div><div class="in"><div class="a">Hoth patrol routes.xlsx</div><div class="b">Biggs Darklighter · deactivated</div><span class="sh pub">Public link</span></div></div>
+            <div class="card"><div class="pv"><span class="ty">MP4</span></div><div class="in"><div class="a">X-wing maintenance.mp4</div><div class="b">Biggs Darklighter · deactivated</div><span class="sh pub">Public link</span></div></div>
+            <div class="card"><div class="pv"><span class="ty">PDF</span></div><div class="in"><div class="a">Red Squadron roster.pdf</div><div class="b">Jek Porkins · deactivated</div><span class="sh pub">Public link</span></div></div>
+          </div>
+          <div class="gnote">Previews off · names and owners shown · turn on previews to see contents</div>
+        </div>
+      </div>
+    </div>
+    <svg width="0" height="0" style="position:absolute"><defs><symbol id="bin" viewBox="0 0 16 16"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.6 8.5h5.8l.6-8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol></defs></svg>
+    <div class="ut" id="ut" role="status"><i><svg width="11" height="11"><use href="#tick"/></svg></i><div class="msg"><span id="u0"><b>Supply run notes.md</b> moved to Trash · kept 30 days</span><span id="u1" style="opacity:0"><b>Supply run notes.md</b> is back where it was</span></div><span class="sec" id="sec">10s</span><span class="btn" id="undo">Undo</span><div class="bar" id="bar"></div></div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  hover: 2.30, binClick: 3.50, gone: [3.60, 3.95], toast: 3.65, life: 10,
+  pause: 5.40, undoClick: 7.60, back: [8.45, 8.85], swap: 7.70, toastOut: [9.9, 10.2],
+  endCard: [10.6, 11.05], end: 12.1
+};
+
+function build() {
+  // the row action sits at the end of the hovered row
+  let el = $("aR5"), y = 0;
+  while (el && el.id !== "area") { y += el.offsetTop; el = el.offsetParent; }
+  const top = y + ($("aR5").offsetHeight - 32) / 2, left = $("area").offsetWidth - 40;
+  Object.assign($("ra").style, { top: top + "px", left: left + "px" });
+  Object.assign($("tip").style, { top: (top - 30) + "px", left: (left - 34) + "px" });
+  const MX = 740, r = at("ra"), rw = at("aR5"), hw = $("ut").offsetWidth / 2, u = at("undo", -hw), ut = at("ut", -hw);   // the toast is centred with translateX(-50%)
+  const cur = [
+    [0.00, 860, 650], [0.40, 860, 650], [2.10, rw[0] + 120, rw[1] + 4], [2.50, rw[0] + 120, rw[1] + 4],
+    [3.30, r[0], r[1] + 2], [3.70, r[0], r[1] + 2],
+    [5.20, ut[0] - 40, ut[1] + 6], [6.10, ut[0] - 20, ut[1] + 6], [7.40, u[0], u[1] + 3], [7.80, u[0], u[1] + 3],
+    [8.80, rw[0] + 160, rw[1] + 60], [10.6, rw[0] + 164, rw[1] + 64]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.50, MX, 420, 1.30], [3.70, MX, 420, 1.30],          // the row and its action
+    [4.20, MX, 250, 1.30], [7.85, MX, 250, 1.30],          // the toast in the top bar: timer, pause, Undo
+    [8.35, MX, 420, 1.30], [10.0, MX, 420, 1.30],          // the row back in place
+    [10.5, 660, 360, 1.05], [10.6, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  ["tB", "tC", "gC", "m1", "m2"].forEach(x => $(x).style.opacity = 0);
+  $("tA").style.opacity = 1; $("m0").style.opacity = 1;
+
+  // hover the row: the action shows
+  const hov = t >= T.hover && t < T.gone[0];
+  $("aR5").classList.toggle("hov", hov);
+  const ro = span(t, T.hover, T.hover + .15) * (1 - span(t, T.gone[0], T.gone[0] + .1));
+  $("ra").style.opacity = ro;
+  $("ra").style.background = t >= T.binClick - .05 && t < T.gone[0] + .1 ? "#f2f2f2" : "";
+  $("tip").style.opacity = span(t, T.hover + .5, T.hover + .65) * (1 - span(t, T.binClick - .1, T.binClick));
+  $("tip").textContent = "Move to Trash";
+
+  // row leaves, then comes back in place
+  const g = span(t, ...T.gone) * (1 - span(t, ...T.back));
+  $("aR5").querySelectorAll("td").forEach(td => td.style.opacity = 1 - g);
+  $("aR6").style.transform = `translateY(${-50 * g}px)`;
+  $("tA").querySelector(".cnt").style.transform = `translateY(${-50 * g}px)`;
+  const moving = g > 0;
+  $("tA").querySelectorAll("td").forEach(td => { td.style.borderBottomColor = moving ? "transparent" : ""; td.style.boxShadow = moving ? "inset 0 -1px 0 var(--rule)" : ""; });
+
+  // the toast: a timer that pauses under the pointer
+  const to = span(t, T.toast, T.toast + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("ut").style.opacity = to;
+  $("ut").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+  const run = Math.max(0, Math.min(t, T.pause) - T.toast);   // scene seconds the timer ran before the pause
+  const left = 1 - run / T.life * 2.2;                       // drawn quicker than real time so the drain reads
+  const undone = t >= T.swap;
+  $("bar").style.width = "100%";
+  $("bar").style.transform = `scaleX(${undone ? 0 : Math.max(left, 0)})`;
+  $("sec").textContent = undone ? "" : t >= T.pause ? "Paused" : `${Math.max(1, Math.ceil(T.life * left))}s`;
+  $("sec").style.width = undone ? "0px" : "52px";
+  $("undo").style.display = undone ? "none" : "";
+  $("undo").classList.toggle("dn", t >= T.undoClick - .05 && t < T.swap);
+  $("u0").style.opacity = undone ? 0 : 1; $("u1").style.opacity = undone ? 1 : 0;
+}
+
+function events() {
+  return [["click", T.binClick], ["pop", T.toast], ["click", T.undoClick], ["whoosh", T.back[0]]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.binClick, T.undoClick], build, render, events,
+  // linger on: the row action, the timer draining, the pause under the pointer, the row back in place
+  slow: [[2.4, 3.3, 1.5], [4.2, 5.2, 1.6], [5.4, 7.2, 1.8], [8.5, 9.8, 1.5]]
+});
+</script>
+</body>
+</html>

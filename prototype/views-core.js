@@ -160,16 +160,42 @@
   });
 
   /* ----- Groups: Create modal ----- */
-  route("/people/groups", () => {
+  route("/people/groups", p => {
     if (!isAdmin()) return adminOnly(pc("Groups", "/people/groups"), "people");
-    const s = S();
+    const s = S(), arch = p.show === "archived", nArch = s.groups.filter(g => g.archived).length;
+    const rows = s.groups.filter(g => arch ? g.archived : !g.archived);
+    const filter = nArch ? `<div class="row" style="margin-top:12px" role="group" aria-label="Show"><a class="chip ${arch ? "" : "dk"}" href="#/people/groups" ${arch ? "" : 'aria-current="true"'}>Active</a><a class="chip ${arch ? "dk" : ""}" href="#/people/groups?show=archived" ${arch ? 'aria-current="true"' : ""}>Archived <span class="mono">${nArch}</span></a></div>` : "";
     return { nav: "people", crumbs: pc("Groups", "/people/groups"), title: "Groups",
       html: `${head("People", `<button type="button" class="btn pri" data-act="newGroup" id="newGroup">New group</button>`)}${peopleTabs("groups")}
-      <div class="body"><table><caption class="vh">Groups</caption><thead><tr><th scope="col">Group</th><th scope="col">Members</th><th scope="col">Owner</th><th scope="col">Licenses</th></tr></thead><tbody>
-      ${s.groups.map(g => `<tr${g.fresh ? ' class="hl"' : ""}><td>${esc(g.name)}${g.fresh ? ' <span class="chip">New</span>' : ""}<span class="sub">${esc(g.desc || "")}</span></td><td>${g.members}</td><td>${esc(g.owner)}</td><td>${esc(g.license)}</td></tr>`).join("")}
+      <div class="body">${filter}<table><caption class="vh">${arch ? "Archived groups" : "Groups"}</caption><thead><tr><th scope="col">Group</th><th scope="col">Members</th>${arch ? '<th scope="col">Status</th><th scope="col">Archived</th>' : '<th scope="col">Owner</th><th scope="col">Licenses</th>'}<th scope="col"><span class="vh">Actions</span></th></tr></thead><tbody>
+      ${rows.map(g => `<tr${g.fresh ? ' class="hl"' : ""}><td>${esc(g.name)}${g.fresh ? ' <span class="chip">New</span>' : ""}<span class="sub">${esc(g.desc || "")}</span></td><td>${g.members}</td>
+        ${arch ? `<td><span class="lab">Archived</span></td><td>${esc(g.archived)}</td><td class="act"><button type="button" class="btn sm" data-act="restore" data-id="${g.id}">Restore</button></td>` :
+        `<td>${esc(g.owner)}</td><td>${esc(g.license)}</td><td class="act"><div class="has-menu"><button type="button" class="icon-btn" aria-label="More actions for ${esc(g.name)}" aria-haspopup="menu" aria-expanded="false" data-act="menu" data-menu="gm-${g.id}">···</button>
+          <div class="menu" role="menu" id="gm-${g.id}" hidden><button role="menuitem" data-act="archive" data-id="${g.id}">Archive group</button><div class="sep"></div><button role="menuitem" class="danger" data-act="delGroup" data-id="${g.id}">Delete group…</button></div></div></td>`}</tr>`).join("") || `<tr><td colspan="5">${empty(arch ? "Nothing archived" : "No groups", "")}</td></tr>`}
       </tbody></table></div>`,
-      act: { newGroup() { openNewGroup(); } } };
+      act: {
+        newGroup() { openNewGroup(); },
+        archive(b) {
+          App.closeMenus(); const g = S().groups.find(x => x.id === b.dataset.id);
+          dialog({ title: `Archive ${g.name}?`, label: "Archive group",
+            body: `<div class="impact"><b>Archive keeps everything.</b> The group is hidden from lists and its ${g.members} members lose the access it gives. Members, shared files and history are kept, so you can restore it any time.</div>
+              <p style="margin:10px 0 0">Deleting removes the group and its history for good. <button type="button" class="link" style="color:#b91c1c" id="delInstead">Delete permanently instead</button></p>`,
+            foot: `<button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn pri" id="arcGo" autofocus>Archive group</button>`,
+            onOpen(d, api) {
+              $("#arcGo", d).onclick = () => { g.archived = "Today · Lavanya Sienna"; g.fresh = false; save(); api.close(); rerender(); toast(`${g.name} archived · find it under Archived`); };
+              $("#delInstead", d).onclick = () => { api.close(); openDeleteGroup(g); };
+            } });
+        },
+        delGroup(b) { App.closeMenus(); openDeleteGroup(S().groups.find(x => x.id === b.dataset.id)); },
+        restore(b) { const g = S().groups.find(x => x.id === b.dataset.id); delete g.archived; g.fresh = true; save(); go("/people/groups"); rerender(); toast(`${g.name} restored · ${g.members} members have their access back`); }
+      } };
   });
+  function openDeleteGroup(g) {
+    dialog({ title: `Delete ${g.name} for good?`, label: "Delete group",
+      body: `<div class="impact"><b>${g.members} members lose the access this group gives</b>, and its history is deleted. This can’t be undone.</div><p style="margin:10px 0 0">Archiving keeps everything and can be restored.</p>`,
+      foot: `<button type="button" class="btn" data-close autofocus>Cancel</button><button type="button" class="btn dgr" id="dgGo">Delete group</button>`,
+      onOpen(d, api) { $("#dgGo", d).onclick = () => { const s = S(); s.groups = s.groups.filter(x => x !== g); save(); api.close(); rerender(); toast(`${g.name} deleted · logged`); }; } });
+  }
   function openNewGroup(prefill) {
     const names = () => S().groups.map(g => g.name.trim().toLowerCase());
     dialog({ title: "New group", body: `<form id="ng" novalidate onsubmit="return false">
@@ -215,7 +241,7 @@
       </tbody></table></div>`,
       act: {
         newRole() { toast("New role isn't part of this prototype yet. Try Duplicate."); },
-        delRole(b) { const r = S().roles.find(x => x.id === b.dataset.id); App.closeMenus(); toast(`${r.name} has ${r.members} members. Remove them before deleting.`); },
+        delRole(b) { App.closeMenus(); openDeleteRole(S().roles.find(x => x.id === b.dataset.id)); },
         dup(b) {
           App.closeMenus(); const r = S().roles.find(x => x.id === b.dataset.id);
           dialog({ title: `Duplicate ${r.name}`, body: `<div class="field" style="margin-top:8px"><label for="rn">Name of the copy</label><input type="text" id="rn" value="Copy of ${esc(r.name)}" autofocus></div>
@@ -237,6 +263,39 @@
         several() { toast("Duplicating to several teams runs as a job. Not part of this prototype yet."); }
       } };
   });
+  /* Cascading impact: what depends on a role, grouped by what happens; Delete stays off while something would break */
+  function openDeleteRole(r) {
+    const s = S(), dep = (s.roleDeps || {})[r.id] || {}, others = s.roles.filter(x => x !== r);
+    let moveTo = null, switched = !dep.integration;
+    const ok = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    dialog({ title: `Delete ${r.name}?`, label: "Delete role", wide: true,
+      body: `<p style="margin:0">Here’s what depends on this role.</p>
+        ${r.members ? `<div class="dep"><span class="tg">Detached</span><div><b>${r.members} people lose this role</b>They keep their other roles.</div><div id="dm"><label class="vh" for="mvTo">Give them</label><select id="mvTo" style="width:auto"><option value="">Leave them without it</option>${others.map(o => `<option value="${o.id}">Give them ${esc(o.name)}</option>`).join("")}</select></div></div>` : ""}
+        ${dep.sets ? `<div class="dep"><span class="tg">Deleted</span><div><b>${dep.sets.length} saved permission sets</b>${dep.sets.join(" and ")} are built on it and go with it.</div><div></div></div>` : ""}
+        ${dep.integration ? `<div class="dep"><span class="tg br" id="tgI">Breaks</span><div><b>${esc(dep.integration)} integration</b>It signs in with this role. <a href="#/settings/integrations">Open ${esc(dep.integration)} ↗</a></div><div id="dsw"><button type="button" class="btn sm" id="swGo">Switch to Viewer</button></div></div>` : ""}
+        ${!r.members && !dep.sets && !dep.integration ? '<div class="impact">Nothing depends on this role.</div>' : ""}`,
+      foot: `<span class="spacer small" id="why" aria-live="polite"></span><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn dgr" id="drGo">Delete role</button>`,
+      onOpen(d, api) {
+        const go_ = $("#drGo", d), why = $("#why", d);
+        const sync = () => {
+          go_.setAttribute("aria-disabled", switched ? "false" : "true");
+          go_.setAttribute("aria-describedby", "why");
+          why.innerHTML = switched ? "Nothing breaks now." : `<b style="color:var(--ink)">${esc(dep.integration)} uses this role.</b> Switch it first.`;
+        };
+        const mv = $("#mvTo", d); if (mv) mv.onchange = () => { moveTo = mv.value || null; };
+        const sw = $("#swGo", d);
+        if (sw) sw.onclick = () => { switched = true; $("#dsw", d).innerHTML = `<span class="done">${ok}Switched to Viewer</span>`; const tg = $("#tgI", d); tg.textContent = "Fixed"; tg.className = "tg"; sync(); announce(`${dep.integration} switched to Viewer. Nothing breaks now.`); $("#drGo", d).focus(); };
+        go_.onclick = () => {
+          if (!switched) { why.focus && announce(why.textContent); return; }
+          const st = S(), to = moveTo && st.roles.find(x => x.id === moveTo);
+          if (to) to.members += r.members;
+          st.roles = st.roles.filter(x => x !== r); if (st.roleDeps) delete st.roleDeps[r.id];
+          save(); api.close(); rerender();
+          toast(`${r.name} deleted${to ? ` · ${r.members} people now have ${to.name}` : ""} · logged`);
+        };
+        sync();
+      } });
+  }
   route("/people/roles/:id", ({ id }) => {
     if (!isAdmin()) return adminOnly(pc("Roles", "/people/roles"), "people");
     const r = S().roles.find(x => x.id === id);
@@ -372,11 +431,68 @@
   });
 
   /* ================= Settings: Integrations + wizard ================= */
+  /* ----- Settings › Organization: routine settings, then the Danger zone (Type-to-confirm for the deletes) ----- */
+  const setTabs = at => tabs("Settings", [["org", "Organization", "/settings/organization"], ["integrations", "Integrations", "/settings/integrations"]], at);
+  const norm = v => v.trim().replace(/\s+/g, " ").toLowerCase();
+  function typeToConfirm({ title, name, body, button, done }) {
+    dialog({ title, label: title,
+      body: `${body}<div class="field" style="margin-top:16px"><div class="row" style="justify-content:space-between"><label for="ttc">Type <b>${esc(name)}</b> to confirm</label><button type="button" class="btn ghost sm" id="cpy">Copy name</button></div>
+        <input type="text" id="ttc" autocomplete="off" spellcheck="false" aria-describedby="ttc-st" autofocus><div class="match" id="ttc-st" aria-live="polite">Type the name to turn on ${esc(button)}</div></div>`,
+      foot: `<button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn dgr" id="ttcGo" aria-disabled="true" aria-describedby="ttc-st">${esc(button)}</button>`,
+      onOpen(d, api) {
+        const f = $("#ttc", d), st = $("#ttc-st", d), b = $("#ttcGo", d);
+        const ok = () => norm(f.value) === norm(name);
+        let was = false;
+        f.addEventListener("input", () => {
+          const m = ok(); b.setAttribute("aria-disabled", m ? "false" : "true");
+          if (m !== was) st.innerHTML = m ? `<span style="color:var(--ink)">${icon("ok")} Matches · capitals and spaces don’t matter</span>` : `Type the name to turn on ${esc(button)}`;
+          was = m;
+        });
+        f.addEventListener("keydown", e => { if (e.key === "Enter" && ok()) b.click(); });
+        $("#cpy", d).onclick = () => { try { navigator.clipboard.writeText(name); } catch (e) { /* no clipboard */ } announce("Name copied"); };
+        b.onclick = () => { if (!ok()) { f.focus(); announce(st.textContent); return; } api.close(); done(); };
+      } });
+  }
+  route("/settings/organization", () => {
+    if (!isAdmin()) return adminOnly([["Settings", "/settings/organization"], ["Organization", ""]], "settings");
+    const o = S().org, sb = o.sandbox;
+    return { nav: "settings", crumbs: [["Settings", "/settings/organization"], ["Organization", ""]], title: "Organization",
+      html: `${head("Settings")}${setTabs("org")}<div class="body">
+        <section class="secbox" aria-labelledby="op-h"><div class="row" style="justify-content:space-between"><h2 id="op-h" style="margin:0;font-size:14px">Organization profile</h2><button type="button" class="btn sm" data-act="edit">Edit</button></div>
+          ${kv([["Name", esc(o.name)], ["Domain", esc(o.domain)], ["Time zone", esc(o.tz)], ["Owner", esc(o.owner)], ["Plan", esc(o.plan)], ["Data region", esc(o.region)]])}</section>
+        <section class="dz" aria-labelledby="dz-h"><div class="h"><h2 id="dz-h">Irreversible actions</h2><span class="small muted">Only owners see this section</span></div>
+          <div class="dzr"><div><b>Reset all public links</b>${o.linksReset ? `Reset ${esc(o.linksReset)} by Lavanya Sienna · links stopped working, owners told.` : "Every public link stops working right away. File owners are told by email."}</div><button type="button" class="btn dgr" data-act="resetLinks">Reset public links</button></div>
+          <div class="dzr"><div><b>Transfer ownership</b>Someone else becomes the owner. You stay an admin.</div><button type="button" class="btn dgr" data-act="transfer">Transfer ownership</button></div>
+          <div class="dzr"><div><b>Delete sandbox</b>${sb.state === "deleting" ? "Deletion started by Lavanya Sienna · takes about 10 minutes. Owners are notified." : `${esc(sb.name)} and everything in it is deleted. Asks you to type its name.`}</div>${sb.state === "deleting" ? '<button type="button" class="btn" aria-disabled="true">Deleting…</button>' : '<button type="button" class="btn dgr" data-act="delSandbox">Delete sandbox</button>'}</div>
+          <div class="dzr"><div><b>Delete organization</b>${o.deleteAt ? `Scheduled by Lavanya Sienna · everything is deleted in 30 days unless you cancel.` : "Every person, file and setting is deleted after 30 days. Asks you to type its name."}</div>${o.deleteAt ? '<button type="button" class="btn" data-act="cancelOrg">Cancel deletion</button>' : '<button type="button" class="btn dgr" data-act="delOrg">Delete organization</button>'}</div>
+        </section></div>`,
+      act: {
+        edit() { toast("Editing the profile comes with a later pattern"); },
+        transfer() { toast("Transfer ownership comes with a later pattern"); },
+        resetLinks() {
+          const n = S().files.filter(f => f.sharing === "Public link").length || o.publicLinks;
+          dialog({ title: "Reset all public links?", body: `<div class="impact"><b>${n} public links</b> stop working right away. Their file owners are told by email.</div><p style="margin:10px 0 0">Files and people’s access aren’t touched, and owners can share a new link. No name to type for this one.</p>`,
+            foot: `<button type="button" class="btn" data-close autofocus>Cancel</button><button type="button" class="btn dgr" id="rlGo">Reset ${n} links</button>`,
+            onOpen(d, api) { $("#rlGo", d).onclick = () => { S().files.forEach(f => { if (f.sharing === "Public link") f.sharing = "Internal"; }); o.linksReset = "just now"; save(); api.close(); rerender(); toast(`${n} public links reset · owners are told by email`); }; } });
+        },
+        delSandbox() {
+          typeToConfirm({ title: `Delete ${sb.name}?`, name: sb.name, button: "Delete sandbox",
+            body: `<dl class="kv" style="grid-template-columns:repeat(3,1fr)"><div><dt>Files</dt><dd>${sb.files}</dd></div><div><dt>Integrations</dt><dd>${sb.integrations}</dd></div><div><dt>Test users</dt><dd>${sb.users}</dd></div></dl><p style="margin:10px 0 0">All of it is deleted for good. The live ${esc(o.name)} organization isn’t touched.</p>`,
+            done() { sb.state = "deleting"; save(); rerender(); toast(`Deleting ${sb.name} · owners are notified`); } });
+        },
+        delOrg() {
+          typeToConfirm({ title: `Delete ${o.name}?`, name: o.name, button: "Delete organization",
+            body: `<div class="impact"><b>Every person, file and setting</b> in ${esc(o.name)} is deleted after 30 days. Until then you can cancel.</div>`,
+            done() { o.deleteAt = "30 days"; save(); rerender(); toast(`${o.name} is scheduled for deletion in 30 days · every owner is told`); } });
+        },
+        cancelOrg() { delete o.deleteAt; save(); rerender(); toast("Deletion cancelled"); }
+      } };
+  });
   route("/settings/integrations", () => {
     if (!isAdmin()) return adminOnly([["Settings", "/settings/integrations"], ["Integrations", ""]], "settings");
     const s = S();
-    return { nav: "settings", crumbs: [["Settings", "/settings/integrations"], ["Integrations", ""]], title: "Integrations",
-      html: `${head("Integrations", `<button type="button" class="btn" data-act="browse">Browse integrations</button>`)}
+    return { nav: "settings", crumbs: [["Settings", "/settings/organization"], ["Integrations", ""]], title: "Integrations",
+      html: `${head("Settings", `<button type="button" class="btn" data-act="browse">Browse integrations</button>`)}${setTabs("integrations")}
       <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px">
       ${s.integrations.map(i => `<section class="card ${i.state === "draft" ? "strong" : ""}" style="margin:0" aria-labelledby="int-${i.id}"><div class="row"><span class="av" style="border-radius:8px">${i.logo}</span><h2 id="int-${i.id}" class="spacer" style="margin:0">${esc(i.name)}</h2>
         ${i.state === "draft" ? '<span class="chip">Setup in progress</span>' : `<span class="chip ${i.fresh ? "dk" : ""}">${esc(i.state)}</span>`}</div>

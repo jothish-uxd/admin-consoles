@@ -11,6 +11,10 @@
     try { saved = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { saved = null; }
     S = saved && saved.v === 1 ? saved : Object.assign(clone(window.SEED), { v: 1 });
     S.plan.assigned = S.plan.assigned ?? 246;
+    // newer seed data for state saved before it existed
+    if (!S.groups.some(g => g.id === "hoth")) S.groups.splice(1, 0, clone(window.SEED.groups.find(g => g.id === "hoth")));
+    S.org = S.org || clone(window.SEED.org);
+    S.roleDeps = S.roleDeps || clone(window.SEED.roleDeps);
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage off: changes last until reload */ } }
   load();
@@ -48,7 +52,7 @@
   const RAIL = [
     ["Workspace", [["home", "Home", "/home"], ["archives", "Archives", "/archives"], ["myaccess", "My access", "/my-access"]]],
     ["Admin", [["people", "People", "/people/users"], ["access", "Access", "/access/approvals"], ["content", "Content", "/content/all"], ["ai", "AI", "/ai/features"],
-      ["compliance", "Audit log", "/compliance/audit"], ["policies", "Policies", "/compliance/policies"], ["insights", "Insights", "/insights"], ["billing", "Billing", "/billing/plan"], ["settings", "Settings", "/settings/integrations"]], "admin"]
+      ["compliance", "Audit log", "/compliance/audit"], ["policies", "Policies", "/compliance/policies"], ["insights", "Insights", "/insights"], ["billing", "Billing", "/billing/plan"], ["settings", "Settings", "/settings/organization"]], "admin"]
   ];
   function drawRail(at) {
     $("#rail").innerHTML = RAIL.filter(g => !g[2] || S.role === "admin").map(([label, items]) =>
@@ -100,13 +104,24 @@
   /* ---------- announcements and toasts ---------- */
   function announce(msg) { const l = $("#live"); l.textContent = ""; setTimeout(() => { l.textContent = msg; }, 40); }
   function toast(msg, undo) {
+    // a toast with Undo waits 10 s, and the wait pauses while the pointer or focus is on it
     const t = document.createElement("div"); t.className = "toast";
-    t.innerHTML = `${icon("ok")}<span>${esc(msg)}</span>${undo ? '<button type="button" data-undo>Undo</button>' : ""}<button type="button" class="close" aria-label="Dismiss">✕</button>`;
-    $("#toasts").appendChild(t); announce(msg);
-    const kill = () => t.remove();
+    t.innerHTML = `${icon("ok")}<span>${esc(msg)}</span>${undo ? '<span class="tm" aria-hidden="true"></span><button type="button" data-undo>Undo</button><i class="bar" aria-hidden="true"></i>' : ""}<button type="button" class="close" aria-label="Dismiss">✕</button>`;
+    $("#toasts").appendChild(t); announce(msg + (undo ? ". Undo is available for 10 seconds." : ""));
+    let left = undo ? 10000 : 6000, last = Date.now(), paused = false, timer;
+    const kill = () => { clearInterval(timer); t.remove(); };
+    const tick = () => {
+      if (!paused) { left -= Date.now() - last; }
+      last = Date.now();
+      if (undo) { t.querySelector(".tm").textContent = paused ? "Paused" : Math.max(1, Math.ceil(left / 1000)) + "s"; t.querySelector(".bar").style.transform = `scaleX(${Math.max(0, left / 10000)})`; }
+      if (left <= 0) kill();
+    };
+    const pause = on => { tick(); paused = on && !!undo; tick(); };
+    t.addEventListener("mouseenter", () => pause(true)); t.addEventListener("mouseleave", () => pause(t.contains(document.activeElement)));
+    t.addEventListener("focusin", () => pause(true)); t.addEventListener("focusout", () => setTimeout(() => pause(t.matches(":hover")), 0));
+    timer = setInterval(tick, 200); tick();
     t.querySelector(".close").onclick = kill;
     if (undo) t.querySelector("[data-undo]").onclick = () => { undo(); kill(); };
-    setTimeout(kill, undo ? 10000 : 6000);
   }
 
   /* ---------- dialogs: labelled, focus held inside, Esc closes, focus goes back ---------- */
@@ -140,6 +155,7 @@
     d.addEventListener("click", e => { if (e.target.closest("[data-close]")) close(); });
     scrim.addEventListener("click", close);
     onOpen && onOpen(d, api);
+    window.DD && window.DD.scan(d);   // selects in dialogs get the same custom dropdown
     const first = $("[autofocus]", d) || $("input, select, textarea, button:not(.x)", d);
     first && first.focus();
     return api;

@@ -59,6 +59,10 @@ td { padding: 0 10px; height: 50px; }
 .own .b.off { color: var(--ink); font-weight: 600; }
 .sh { display: inline-flex; gap: 5px; align-items: center; font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--soft); white-space: nowrap; }
 .sh.pub { border-color: var(--ink); background: var(--ink); color: #fff; font-weight: 500; }
+th.ck, td.ck { width: 36px; padding: 0 0 0 10px; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); vertical-align: middle; position: relative; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
 td.num { font-family: "Geist Mono", monospace; font-size: 11.5px; color: var(--soft); }
 .cnt { margin-top: 8px; font-size: 12px; color: var(--faint); }
 /* grid */
@@ -114,29 +118,29 @@ td.num { font-family: "Geist Mono", monospace; font-size: 11.5px; color: var(--s
       </div>
       <div class="area" id="area">
         <div id="tA">
-          <table><thead><tr><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
-            <tr><td><div class="nm"><span class="ty">PDF</span>Death Star plans.pdf</div></td><td class="own"><div class="a">Jyn Erso</div><div class="b">Rebel Intelligence</div></td><td><span class="sh">Restricted</span></td><td>2 days ago</td><td class="num">48 MB</td></tr>
-            <tr><td><div class="nm"><span class="ty">DWG</span>Echo Base layout.dwg</div></td><td class="own"><div class="a">Base Engineering</div><div class="b">Team</div></td><td><span class="sh">Internal</span></td><td>5 hours ago</td><td class="num">212 MB</td></tr>
-            <tr><td><div class="nm"><span class="ty">PNG</span>Recruitment poster.png</div></td><td class="own"><div class="a">Mon Mothma</div><div class="b">Senate liaison</div></td><td><span class="sh">Public link</span></td><td>3 hours ago</td><td class="num">6 MB</td></tr>
-            <tr><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
-            <tr><td><div class="nm"><span class="ty">MD</span>Supply run notes.md</div></td><td class="own"><div class="a">Cassian Andor</div><div class="b">Intelligence</div></td><td><span class="sh">Specific people</span></td><td>Yesterday</td><td class="num">24 KB</td></tr>
-            <tr><td><div class="nm"><span class="ty">MP4</span>Trench run briefing.mp4</div></td><td class="own"><div class="a">Gen. Dodonna</div><div class="b">Command</div></td><td><span class="sh">Internal</span></td><td>4 days ago</td><td class="num">1.2 GB</td></tr>
+          <table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">PDF</span>Death Star plans.pdf</div></td><td class="own"><div class="a">Jyn Erso</div><div class="b">Rebel Intelligence</div></td><td><span class="sh">Restricted</span></td><td>2 days ago</td><td class="num">48 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">DWG</span>Echo Base layout.dwg</div></td><td class="own"><div class="a">Base Engineering</div><div class="b">Team</div></td><td><span class="sh">Internal</span></td><td>5 hours ago</td><td class="num">212 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">PNG</span>Recruitment poster.png</div></td><td class="own"><div class="a">Mon Mothma</div><div class="b">Senate liaison</div></td><td><span class="sh">Public link</span></td><td>3 hours ago</td><td class="num">6 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">MD</span>Supply run notes.md</div></td><td class="own"><div class="a">Cassian Andor</div><div class="b">Intelligence</div></td><td><span class="sh">Specific people</span></td><td>Yesterday</td><td class="num">24 KB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">MP4</span>Trench run briefing.mp4</div></td><td class="own"><div class="a">Gen. Dodonna</div><div class="b">Command</div></td><td><span class="sh">Internal</span></td><td>4 days ago</td><td class="num">1.2 GB</td></tr>
           </tbody></table><div class="cnt">Showing 1–50 of about 2.4M · sorted by last activity</div>
         </div>
         <div id="tB" style="opacity:0">
-          <table><thead><tr><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
-            <tr><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
-            <tr><td><div class="nm"><span class="ty">PDF</span>Red Squadron roster.pdf</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>63 days ago</td><td class="num">2 MB</td></tr>
-            <tr><td><div class="nm"><span class="ty">DOC</span>Pilot rotation.docx</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh">Internal</span></td><td>70 days ago</td><td class="num">180 KB</td></tr>
-            <tr><td><div class="nm"><span class="ty">MP4</span>X-wing maintenance.mp4</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>45 days ago</td><td class="num">640 MB</td></tr>
-            <tr><td><div class="nm"><span class="ty">PDF</span>Yavin flight plan.pdf</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh">Specific people</span></td><td>52 days ago</td><td class="num">3 MB</td></tr>
+          <table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">PDF</span>Red Squadron roster.pdf</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>63 days ago</td><td class="num">2 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">DOC</span>Pilot rotation.docx</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh">Internal</span></td><td>70 days ago</td><td class="num">180 KB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">MP4</span>X-wing maintenance.mp4</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>45 days ago</td><td class="num">640 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">PDF</span>Yavin flight plan.pdf</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh">Specific people</span></td><td>52 days ago</td><td class="num">3 MB</td></tr>
           </tbody></table><div class="cnt">Showing 1–50 of 112 · sorted by last activity</div>
         </div>
         <div id="tC" style="opacity:0">
-          <table><thead><tr><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
-            <tr><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
-            <tr><td><div class="nm"><span class="ty">MP4</span>X-wing maintenance.mp4</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>45 days ago</td><td class="num">640 MB</td></tr>
-            <tr><td><div class="nm"><span class="ty">PDF</span>Red Squadron roster.pdf</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>63 days ago</td><td class="num">2 MB</td></tr>
+          <table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">MP4</span>X-wing maintenance.mp4</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>45 days ago</td><td class="num">640 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">PDF</span>Red Squadron roster.pdf</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>63 days ago</td><td class="num">2 MB</td></tr>
           </tbody></table><div class="cnt">3 items</div>
         </div>
         <div id="gC" style="opacity:0">

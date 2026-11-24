@@ -22,6 +22,7 @@
 table.g { margin-top: 14px; font-size: 13px; }
 .g td { height: 48px; }
 .g td:first-child { color: var(--ink); font-weight: 500; }
+.mo { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; color: var(--ink); font-weight: 700; letter-spacing: 1px; position: relative; }
 .g .s { display: block; font-size: 11.5px; color: var(--faint); font-weight: 400; }
 .scrim2 { position: absolute; inset: 52px 0 0 0; background: rgba(0,0,0,.18); opacity: 0; z-index: 30; }
 .dlg { position: absolute; left: 440px; top: 120px; width: 520px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); }
@@ -68,13 +69,14 @@ table.g { margin-top: 14px; font-size: 13px; }
       <div class="view">
         <div class="hd"><h1>People</h1><span class="btn sm pri" id="newB">New group</span></div>
         <div class="tabs page"><div>Users</div><div class="on">Groups</div><div>Roles</div></div>
-        <table class="g"><thead><tr><th>Group</th><th>Members</th><th>Owner</th><th>Licenses</th></tr></thead><tbody id="tb">
-          <tr id="rN" style="display:none"><td>Rogue One pilot<span class="s">Pilot members, Dec 2026</span></td><td>0</td><td>Lavanya Sienna</td><td>Console</td></tr>
-          <tr><td>Rogue Squadron<span class="s">X-wing pilots</span></td><td>12</td><td>Wedge Antilles</td><td>Console + AI</td></tr>
-          <tr><td>Fleet<span class="s">Transports and escorts</span></td><td>82</td><td>Gen. Rieekan</td><td>Console</td></tr>
-          <tr><td>Shield Ops<span class="s">Shield generator crew</span></td><td>19</td><td>Toryn Farr</td><td>Console</td></tr>
-          <tr><td>Intelligence<span class="s">Analysts and slicers</span></td><td>41</td><td>Gen. Madine</td><td>Console</td></tr>
-          <tr><td>Security admins<span class="s">Audit and access reviews</span></td><td>6</td><td>Lavanya Sienna</td><td>Console + AI</td></tr>
+        <table class="g"><thead><tr><th>Group</th><th>Members</th><th>Owner</th><th>Licenses</th><th style="width:40px"></th></tr></thead><tbody id="tb">
+          <tr id="rN" style="display:none"><td>Rogue One pilot<span class="s">Pilot members, Dec 2026</span></td><td>0</td><td>Lavanya Sienna</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Rogue Squadron<span class="s">X-wing pilots</span></td><td>12</td><td>Wedge Antilles</td><td>Console + AI</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Hoth Evacuation<span class="s">Evacuation crews, Nov 2026</span></td><td>64</td><td>Gen. Rieekan</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Fleet<span class="s">Transports and escorts</span></td><td>82</td><td>Gen. Rieekan</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Shield Ops<span class="s">Shield generator crew</span></td><td>19</td><td>Toryn Farr</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Intelligence<span class="s">Analysts and slicers</span></td><td>41</td><td>Gen. Madine</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Security admins<span class="s">Audit and access reviews</span></td><td>6</td><td>Lavanya Sienna</td><td>Console + AI</td><td><span class="mo">···</span></td></tr>
         </tbody></table>
       </div>
     </div>

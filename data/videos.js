@@ -516,5 +516,79 @@ window.VIDEOS = {
         "She turns it off for 61 people. The status reads Off for everyone, applies within 10 minutes, and a note says open sessions stop too and what people now see."
       ]
     }
+  },
+  "destructive-actions": {
+    "Delete confirmation": {
+      src: "media/destructive-actions/delete-confirmation.mp4",
+      poster: "media/destructive-actions/delete-confirmation.jpg",
+      label: "Delete confirmation, shown in a mock Echo Base console",
+      steps: [
+        "In Content › All content, the admin opens the Owner deactivated saved view: 112 items owned by people who have left.",
+        "She selects the three files shared by public link. A selection bar says 3 selected and offers Delete.",
+        "Delete opens a dialog titled Delete 3 files? It names each file and says what breaks: 3 public links stop working and 14 people lose access they were given.",
+        "It also says the files stay in Trash for 30 days, then they're gone for good. Focus starts on Cancel, and the Delete 3 files button is outlined in red rather than styled as the default.",
+        "She confirms. The three rows leave the list, the count drops to 109, and a message says 3 files moved to Trash and can be restored within 30 days."
+      ]
+    },
+    "Type-to-confirm": {
+      src: "media/destructive-actions/type-to-confirm.mp4",
+      poster: "media/destructive-actions/type-to-confirm.jpg",
+      label: "Type-to-confirm, shown in a mock Echo Base console",
+      steps: [
+        "In Settings › Organization, the irreversible actions sit in their own bordered section. The admin chooses Delete sandbox.",
+        "The dialog says what goes: 1,204 files, 3 integrations and 18 test users, all deleted for good. The live Echo Base organization isn't touched.",
+        "It asks her to type Echo Base Sandbox to confirm, and offers Copy name. Delete sandbox stays off, with the reason beside it: type the name to turn on Delete.",
+        "She types echo base sandbox in lower case, with a space at the end. It still matches: the dialog announces Matches, and says capitals and spaces don't matter.",
+        "She deletes. A message says the sandbox is being deleted and owners are notified, and the row now reads Deleting…, started by her, about 10 minutes."
+      ]
+    },
+    "Archive vs. delete": {
+      src: "media/destructive-actions/archive-vs-delete.mp4",
+      poster: "media/destructive-actions/archive-vs-delete.jpg",
+      label: "Archive vs. delete, shown in a mock Echo Base console",
+      steps: [
+        "In People › Groups, the admin opens the menu on Hoth Evacuation. Archive group comes first; Delete group… sits below a divider.",
+        "She chooses Archive group. The dialog says archiving keeps everything: the group is hidden and its 64 members lose the access it gives, but members, shared files and history are kept, so it can be restored any time.",
+        "Deleting for good is a small separate link, Delete permanently instead, not the main button. She archives.",
+        "The row leaves the list, a message says where to find it, and an Archived filter appears. In it, the group carries a text label, Archived, with when and by whom.",
+        "She chooses Restore. The group is back in the list, highlighted, and a message says its 64 members have their access back."
+      ]
+    },
+    "Undo toast": {
+      src: "media/destructive-actions/undo-toast.mp4",
+      poster: "media/destructive-actions/undo-toast.jpg",
+      label: "Undo toast, shown in a mock Echo Base console",
+      steps: [
+        "In Content › All content, the admin hovers Supply run notes.md. A Move to Trash button appears at the end of the row.",
+        "She moves it to Trash. There's no dialog for a routine, reversible delete: the row leaves the list right away.",
+        "A message names the file, says Trash keeps it for 30 days, and offers Undo with a 10-second timer.",
+        "When she points at the message, the timer pauses and says Paused, so it won't disappear while she decides.",
+        "She chooses Undo. The row comes back exactly where it was, and the message says so."
+      ]
+    },
+    "Cascading impact": {
+      src: "media/destructive-actions/cascading-impact.mp4",
+      poster: "media/destructive-actions/cascading-impact.jpg",
+      label: "Cascading impact, shown in a mock Echo Base console",
+      steps: [
+        "In People › Roles, the admin opens the menu on Content admin and chooses Delete.",
+        "Before anything is deleted, the dialog lists what depends on the role, grouped by what happens to it: Detached, 8 people lose this role but keep their others; Deleted, 2 saved permission sets; Breaks, the Holonet sync integration, with a link to open it.",
+        "Delete role is off while something would break. The reason sits beside it: Holonet sync uses this role, switch it first.",
+        "She gives the 8 people Viewer, and switches Holonet sync to Viewer. Its label changes to Fixed, and the dialog says nothing breaks now.",
+        "She deletes the role. It leaves the list, Viewer now has 148 members, and a message confirms it and says the change is logged."
+      ]
+    },
+    "Danger zone": {
+      src: "media/destructive-actions/danger-zone.mp4",
+      poster: "media/destructive-actions/danger-zone.jpg",
+      label: "Danger zone, shown in a mock Echo Base console",
+      steps: [
+        "Settings › Organization starts with routine settings: name, domain, time zone, owner, plan and data region.",
+        "Below them, a bordered Irreversible actions section, marked Only owners see this section, has one row per action: reset all public links, transfer ownership, delete sandbox and delete organization. Each says what happens, and each button names its action.",
+        "She chooses Reset public links. It asks for a plain confirmation, with no name to type: 38 public links stop working right away and their owners are told by email. Focus starts on Cancel.",
+        "She resets them. A message confirms it, and the row now says who reset the links and when.",
+        "Pointing at Delete organization shows that it asks for the organization's name first, as Delete sandbox does."
+      ]
+    }
   }
 };

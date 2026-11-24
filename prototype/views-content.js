@@ -7,6 +7,21 @@
   const cc = (t, h) => [["Content", "/content/all"], [t, h]];
   const guard = (crumbs) => S().role === "admin" ? null : { nav: "content", crumbs, title: "Admins only", html: `${head("This page is for admins")}<p class="lede">Switch to the admin view from your name at the top right.</p>` };
 
+  /* selection for bulk delete (Delete confirmation); a row's own Move to Trash goes straight to an Undo toast */
+  const sel = new Set();
+  const BIN = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.6 8.5h5.8l.6-8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function trash(ids, on) { S().files.forEach(f => { if (ids.includes(f.id)) f.trashed = on ? "Today" : undefined; }); save(); rerender(); }
+  function openBulkDelete() {
+    const files = S().files.filter(f => sel.has(f.id)), n = files.length, pub = files.filter(f => f.sharing === "Public link").length;
+    const shared = files.filter(f => f.sharing === "Specific people").length;
+    dialog({ title: `Delete ${n} file${n === 1 ? "" : "s"}?`, label: "Delete files",
+      body: `<ul class="files-l">${files.map(f => `<li><span class="mono muted" style="margin-right:8px">${f.type}</span>${esc(f.name)}</li>`).join("")}</ul>
+        <div class="impact">${pub ? `<div><b>${pub} public link${pub === 1 ? "" : "s"} stop${pub === 1 ? "s" : ""} working</b>, so anyone using ${pub === 1 ? "it" : "them"} loses access.</div>` : ""}${shared ? `<div><b>People it was shared with</b> lose access.</div>` : ""}${!pub && !shared ? "<div>Nobody else has access to these files.</div>" : ""}</div>
+        <p style="margin:12px 0 0">They stay in Trash for 30 days, then they’re gone for good.</p>`,
+      foot: `<button type="button" class="btn" data-close autofocus>Cancel</button><button type="button" class="btn dgr" id="delGo">Delete ${n} file${n === 1 ? "" : "s"}</button>`,
+      onOpen(d, api) { $("#delGo", d).onclick = () => { const ids = [...sel]; sel.clear(); api.close(); trash(ids, true); toast(`${n} file${n === 1 ? "" : "s"} moved to Trash · restore within 30 days`); }; } });
+  }
+
   /* ================= All content ================= */
   route("/content/all", p => {
     const g = guard(cc("All content", "/content/all")); if (g) return g;
@@ -27,11 +42,16 @@
       <div class="row" style="margin-top:10px" role="group" aria-label="Saved views"><span class="small muted">Saved views</span>${views.map(([id, n, c]) => `<a class="chip ${view === id ? "dk" : ""}" href="#${qs({ view: view === id ? "" : id })}" ${view === id ? 'aria-current="true"' : ""}>${n} <span class="mono">${c}</span></a>`).join("")}</div>
       ${grid ? `<ul style="list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">${rows.map(f => `<li class="card" style="margin:0"><div class="mono muted">${f.type}</div><a href="#/content/item/${f.id}"><b style="font-weight:500">${esc(f.name)}</b></a><div class="small muted">${esc(f.owner)}${f.deact ? " · deactivated" : ""}</div><div style="margin-top:6px"><span class="cls ${f.sharing === "Public link" ? "r" : ""}">${esc(f.sharing)}</span></div></li>`).join("")}</ul>
         <p class="small muted">Previews off · names and owners shown</p>` :
-      `<table style="margin-top:12px"><caption class="vh">Content, sorted by last activity</caption><thead><tr><th scope="col">Name</th><th scope="col">Owner</th><th scope="col">Sharing</th><th scope="col">Last activity</th><th scope="col">Size</th></tr></thead><tbody>
-        ${rows.map(f => `<tr><td><span class="mono muted" style="margin-right:8px">${f.type}</span><a href="#/content/item/${f.id}">${esc(f.name)}</a></td><td>${esc(f.owner)}<span class="sub">${esc(f.ownerSub)}</span></td><td><span class="cls ${f.sharing === "Public link" ? "r" : ""}">${esc(f.sharing)}</span></td><td>${esc(f.last)}</td><td>${esc(f.size)}</td></tr>`).join("") || `<tr><td colspan="5">${empty("Nothing matches", "Try a different search or clear the filters.")}</td></tr>`}
+      `${[...sel].length ? `<div class="bulkbar" role="region" aria-label="Selection"><b>${sel.size} selected</b><button type="button" class="btn ghost" data-act="clearSel">Clear</button><span class="spacer"></span><button type="button" class="btn" data-act="bulkDel">Delete</button></div>` : ""}<table style="margin-top:12px"><caption class="vh">Content, sorted by last activity</caption><thead><tr><th scope="col" class="ck"><input type="checkbox" aria-label="Select all shown" data-change="pickAll" ${rows.length && rows.every(f => sel.has(f.id)) ? "checked" : ""}></th><th scope="col">Name</th><th scope="col">Owner</th><th scope="col">Sharing</th><th scope="col">Last activity</th><th scope="col">Size</th><th scope="col"><span class="vh">Actions</span></th></tr></thead><tbody>
+        ${rows.map(f => `<tr${sel.has(f.id) ? ' class="hl"' : ""}><td class="ck"><input type="checkbox" aria-label="Select ${esc(f.name)}" data-change="pick" data-id="${f.id}" ${sel.has(f.id) ? "checked" : ""}></td><td><span class="mono muted" style="margin-right:8px">${f.type}</span><a href="#/content/item/${f.id}">${esc(f.name)}</a></td><td>${esc(f.owner)}<span class="sub">${esc(f.ownerSub)}</span></td><td><span class="cls ${f.sharing === "Public link" ? "r" : ""}">${esc(f.sharing)}</span></td><td>${esc(f.last)}</td><td>${esc(f.size)}</td><td class="act"><button type="button" class="icon-btn rowact" aria-label="Move ${esc(f.name)} to Trash" title="Move to Trash" data-act="trashOne" data-id="${f.id}">${BIN}</button></td></tr>`).join("") || `<tr><td colspan="7">${empty("Nothing matches", "Try a different search or clear the filters.")}</td></tr>`}
       </tbody></table><p class="small muted">Showing ${rows.length} · sorted by last activity</p>`}</div>`,
       act: {
         search(el) { go(qs({ q: el.value })); }, sharing(el) { go(qs({ sharing: el.value })); }, layout(el) { go(qs({ layout: el.value === "grid" ? "grid" : "" })); },
+        pick(el) { el.checked ? sel.add(el.dataset.id) : sel.delete(el.dataset.id); rerender(); },
+        pickAll(el) { rows.forEach(f => el.checked ? sel.add(f.id) : sel.delete(f.id)); rerender(); },
+        clearSel() { sel.clear(); rerender(); announce("Selection cleared"); },
+        bulkDel() { openBulkDelete(); },
+        trashOne(b) { const f = S().files.find(x => x.id === b.dataset.id); sel.delete(f.id); trash([f.id], true); toast(`${f.name} moved to Trash · kept 30 days`, () => { trash([f.id], false); announce(`${f.name} is back where it was`); }); },
         export() { toast(`Exporting ${rows.length > 8 ? "the results" : rows.length + " items"}. We'll send the file when it's ready.`); }
       } };
   });
@@ -187,5 +207,12 @@
   });
 
   route("/content/storage", () => ({ nav: "content", crumbs: cc("Storage", "/content/storage"), title: "Storage", html: `${head("Content")}${ct("storage")}<div class="body">${empty("Storage comes with a later pattern", "This prototype grows as each pattern gets its clip.")}</div>` }));
-  route("/content/trash", () => ({ nav: "content", crumbs: cc("Trash", "/content/trash"), title: "Trash", html: `${head("Content")}${ct("trash")}<div class="body">${empty("Trash comes with a later pattern", "Deleted items are kept for 30 days.")}</div>` }));
+  route("/content/trash", () => {
+    const g = guard(cc("Trash", "/content/trash")); if (g) return g;
+    const rows = S().files.filter(f => f.trashed);
+    return { nav: "content", crumbs: cc("Trash", "/content/trash"), title: "Trash", html: `${head("Content")}${ct("trash")}<div class="body"><p class="small muted" style="margin:0">Items stay here for 30 days, then they’re deleted for good.</p>
+      ${rows.length ? `<table style="margin-top:12px"><caption class="vh">Trash</caption><thead><tr><th scope="col">Name</th><th scope="col">Owner</th><th scope="col">Deleted</th><th scope="col"><span class="vh">Actions</span></th></tr></thead><tbody>
+      ${rows.map(f => `<tr><td><span class="mono muted" style="margin-right:8px">${f.type}</span>${esc(f.name)}</td><td>${esc(f.owner)}</td><td>${esc(f.trashed)} · gone for good in 30 days</td><td class="act"><button type="button" class="btn sm" data-act="restore" data-id="${f.id}">Restore</button></td></tr>`).join("")}</tbody></table>` : empty("Trash is empty", "Deleted items are kept here for 30 days.")}</div>`,
+      act: { restore(b) { const f = S().files.find(x => x.id === b.dataset.id); trash([f.id], false); toast(`${f.name} restored`); } } };
+  });
 })();

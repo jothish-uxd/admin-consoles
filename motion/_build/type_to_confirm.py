@@ -1,0 +1,113 @@
+import sys; sys.path.insert(0, __file__.rsplit("/", 1)[0])
+from settings_org import make
+CSS = r"""
+.scrim2 { position: absolute; inset: 52px 0 0 0; background: rgba(0,0,0,.18); opacity: 0; z-index: 30; }
+.dlg { position: absolute; left: 450px; top: 130px; width: 520px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); line-height: 1.45; }
+.dlg h3 { margin: 0; font-size: 17px; color: var(--ink); }
+.dlg .ls { margin-top: 12px; border: 1px solid var(--rule-strong); border-radius: 10px; padding: 10px 12px; display: grid; grid-template-columns: repeat(3, 1fr); }
+.dlg .ls div { color: var(--soft); font-size: 12px; }
+.dlg .ls b { display: block; color: var(--ink); font-size: 15px; font-weight: 600; }
+.dlg .p { margin-top: 10px; }
+.dlg .lab { margin-top: 16px; display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink); font-weight: 500; }
+.dlg .lab b { font-weight: 700; }
+.dlg .lab .cp { margin-left: auto; height: 26px; font-size: 12px; gap: 5px; }
+.dlg .lab .cp svg { width: 12px; height: 12px; }
+.in { margin-top: 6px; height: 38px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 12px; color: var(--ink); font-size: 13.5px; white-space: pre; }
+.in.focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in .c { width: 1.5px; height: 18px; background: var(--ink); margin-left: 1px; }
+.st { margin-top: 6px; height: 18px; position: relative; font-size: 12px; }
+.st span { position: absolute; left: 0; top: 0; display: flex; gap: 5px; align-items: center; white-space: nowrap; }
+.st svg { width: 12px; height: 12px; color: var(--ink); }
+.dlg .r { margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end; }
+.dlg .btn { height: 36px; }
+.btn.off { background: #f5f5f5; color: #737373; border-color: var(--rule); }
+.btn.dgr.dn { background: #b91c1c; color: #fff; }
+.dz .row .btn.wait { color: #737373; border-color: var(--rule); }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+"""
+TOAST = """      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Deleting Echo Base Sandbox · owners are notified</div>"""
+EXTRA = r"""    <div class="scrim2" id="scrim"></div>
+    <div class="dlg" id="dlg" role="alertdialog" aria-labelledby="dT">
+      <h3 id="dT">Delete Echo Base Sandbox?</h3>
+      <div class="ls"><div><b>1,204</b>files</div><div><b>3</b>integrations</div><div><b>18</b>test users</div></div>
+      <div class="p">All of it is deleted for good. The live Echo Base organization isn’t touched.</div>
+      <div class="lab"><span>Type <b>Echo Base Sandbox</b> to confirm</span><span class="btn cp ghost"><svg><use href="#copy"/></svg>Copy name</span></div>
+      <div class="in" id="fld"><span id="fv"></span><span class="c" id="cr"></span></div>
+      <div class="st" aria-live="polite"><span id="s0">Type the name to turn on Delete</span><span id="s1" style="opacity:0;color:var(--ink)"><svg><use href="#ok"/></svg>Matches · capitals and spaces don’t matter</span></div>
+      <div class="r"><span class="btn">Cancel</span><span class="btn off" id="go" aria-disabled="true">Delete sandbox</span></div>
+    </div>"""
+SCRIPT = r"""const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const TYPED = "echo base sandbox ";
+const T = {
+  openClick: 2.80, dlg: [2.90, 3.15], fldClick: 4.40, type: [4.65, 6.45], match: 6.50,
+  goClick: 8.10, dlgOut: [8.15, 8.35], toast: 8.40, toastOut: [10.3, 10.6],
+  endCard: [11.3, 11.75], end: 12.8
+};
+
+function build() {
+  const dz = at("dz"), rs = at("rSandbox"), b = at("bSandbox"), f = at("fld", -150, 0), g = at("go"), dl = at("dlg");
+  const cur = [
+    [0.00, 860, 650], [0.40, 860, 650], [2.60, b[0], b[1] + 3], [2.95, b[0], b[1] + 3],
+    [4.20, f[0], f[1] + 3], [4.55, f[0], f[1] + 3], [5.20, f[0] + 60, f[1] + 40], [7.90, g[0], g[1] + 3], [8.25, g[0], g[1] + 3],
+    [9.30, g[0] - 60, g[1] + 120], [11.3, g[0] - 56, g[1] + 124]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.40, 640, 360, 1.00],
+    [1.40, 700, dz[1] - 10, 1.30], [2.70, 700, dz[1] - 10, 1.30],       // the irreversible actions, set apart
+    [3.40, dl[0], dl[1], 1.36], [8.20, dl[0], dl[1], 1.36],             // the dialog: what goes, type the name
+    [8.70, 700, 250, 1.24], [9.40, 700, 250, 1.24],                     // the toast: owners are notified
+    [9.90, 700, rs[1], 1.30], [10.8, 700, rs[1], 1.30],                 // the row now says it is deleting
+    [11.2, 660, 360, 1.05], [11.3, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  const dov = span(t, ...T.dlg, easeOut) * (1 - span(t, ...T.dlgOut));
+  $("scrim").style.opacity = dov; $("dlg").style.opacity = dov;
+  $("dlg").style.transform = `translateY(${(1 - dov) * 8}px)`;
+  $("bSandbox").style.background = t >= T.openClick - .05 && t < T.dlg[1] ? "#fef2f2" : "";
+
+  const focused = t >= T.fldClick;
+  $("fld").classList.toggle("focus", focused);
+  const n = Math.round(TYPED.length * span(t, ...T.type, x => x));
+  $("fv").textContent = TYPED.slice(0, n);
+  $("cr").style.opacity = focused && (t < T.type[0] || t > T.type[1] ? Math.floor(t * 2.4) % 2 === 0 : true) ? 1 : 0;
+
+  const ok = t >= T.match;
+  $("s0").style.opacity = ok ? 0 : 1; $("s1").style.opacity = ok ? 1 : 0;
+  $("go").className = ok ? "btn dgr" + (t >= T.goClick - .25 && t < T.dlgOut[1] ? " dn" : "") : "btn off";
+  $("go").setAttribute("aria-disabled", ok ? "false" : "true");
+
+  const del = t >= T.dlgOut[0];
+  $("bSandbox").textContent = del ? "Deleting…" : "Delete sandbox";
+  $("bSandbox").className = del ? "btn wait" : "btn dgr";
+  $("rSandbox").querySelector(".tx").innerHTML = del ? "<b>Delete sandbox</b>Started by Lavanya Sienna just now · takes about 10 minutes. Owners are notified."
+    : "<b>Delete sandbox</b>Echo Base Sandbox and everything in it is deleted. Asks you to type its name.";
+
+  const hw = 0, to = span(t, T.toast, T.toast + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to;
+  $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  return [["click", T.openClick], ["whoosh", T.dlg[0]], ["click", T.fldClick], ["key", T.type[0]], ["click", T.goClick], ["pop", T.toast]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.openClick, T.fldClick, T.goClick], build, render, events,
+  // linger on: the section, what gets deleted, the disabled reason, the match
+  slow: [[1.5, 2.5, 1.4], [3.3, 4.2, 1.7], [6.5, 7.7, 1.7], [8.5, 9.4, 1.3], [9.9, 10.8, 1.4]]
+});"""
+COMMENT = """  Source for media/destructive-actions/type-to-confirm.mp4. Built by motion/_build/type_to_confirm.py
+  on motion/_build/settings_org.py, so Settings › Organization is the same page as the Danger zone clip.
+  Follows the Type-to-confirm card (data/guidance-actions.js):
+  - kept for the rare, unrecoverable action: deleting the sandbox, not a single file
+  - the dialog says what goes (1,204 files, 3 integrations, 18 test users) and what stays
+  - the name to type is shown, and can be copied; Delete stays off with a reason until it matches
+  - she types it in lower case with a trailing space; capitals and spaces don't matter, and "Matches" is announced
+  - after Delete, the row says the deletion is under way and owners are told"""
+make("type-to-confirm", "Type-to-confirm", COMMENT, CSS, EXTRA, TOAST, SCRIPT)

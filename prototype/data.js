@@ -25,6 +25,7 @@ window.SEED = {
   ],
   groups: [
     { id: "rogue-sq", name: "Rogue Squadron", desc: "X-wing pilots", members: 12, owner: "Wedge Antilles", license: "Console + AI" },
+    { id: "hoth", name: "Hoth Evacuation", desc: "Evacuation crews, Nov 2026", members: 64, owner: "Gen. Rieekan", license: "Console" },
     { id: "fleet", name: "Fleet", desc: "Transports and escorts", members: 82, owner: "Gen. Rieekan", license: "Console" },
     { id: "shield", name: "Shield Ops", desc: "Shield generator crew", members: 19, owner: "Toryn Farr", license: "Console" },
     { id: "intel", name: "Intelligence", desc: "Analysts and slicers", members: 41, owner: "Gen. Madine", license: "Console" },
@@ -36,6 +37,8 @@ window.SEED = {
     { id: "billing-viewer", name: "Billing viewer", desc: "See plan and invoices", members: 2, perms: 4, scope: "Billing" },
     { id: "viewer", name: "Viewer", desc: "Read-only access", members: 140, perms: 6, scope: "Whole org" }
   ],
+  // what depends on a role, shown before it is deleted (Cascading impact)
+  roleDeps: { "content-admin": { sets: ["Ops review", "Content audit"], integration: "Holonet sync" } },
   invite: { file: "rogue-one-pilot.csv", count: 38, group: "Rogue One pilot", outside: 2, domain: "rogueone.alliance" },
 
   /* ---------- Access ---------- */
@@ -62,6 +65,10 @@ window.SEED = {
       { id: "r3", who: "K-2SO", initials: "K2", team: "Rogue One", what: "Holonet relay keys", level: "Add and change files", last: "3 days ago", why: "Unusual: 1 of 8 on Rogue One has this", suggest: "keep", decision: null }
     ]
   },
+
+  /* ---------- Settings › Organization ---------- */
+  org: { name: "Echo Base", domain: "echobase.rebellion", tz: "Hoth Standard (UTC−5)", owner: "Lavanya Sienna", plan: "Enterprise · 412 seats", region: "Outer Rim · Hoth",
+    publicLinks: 38, linksReset: null, sandbox: { name: "Echo Base Sandbox", files: "1,204", integrations: 3, users: 18, state: "live" } },
 
   /* ---------- Content ---------- */
   files: [
