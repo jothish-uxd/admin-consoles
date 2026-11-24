@@ -878,3 +878,9 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
   .hs-list [data-i][aria-selected="true"] { outline: 2px solid Highlight; outline-offset: -2px; }
   .hs-name mark { color: CanvasText; }
 }
+
+/* Decisions & trade-offs tab */
+.dec-trade { margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink); max-width: 80ch; }
+.dec-alts { margin: 0; display: grid; gap: 10px; }
+.dec-alts dt { font-weight: 600; color: var(--ink); font-size: 14px; }
+.dec-alts dd { margin: 2px 0 0; color: var(--ink-soft); font-size: 14px; line-height: 1.5; }

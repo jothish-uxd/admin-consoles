@@ -238,6 +238,8 @@
     const G = (window.GUIDANCE || {})[c.slug] || {};
     // Refined Scale + pattern browser layout, used by every category with guidance.
     const refined = !!G.patterns;
+    const D = (window.DECISIONS || {})[c.slug];   // Decisions & trade-offs, where written
+    let decSync = null;                            // set once the Decisions tab is ready
     const GP = G.patterns || {};
     const pid = name => "p-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     const kebab = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -377,6 +379,7 @@
         <div class="tablist" role="tablist" aria-label="${esc(c.name)} sections">
           <button type="button" class="tab" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="true">Patterns <span class="count">${c.patterns.length}</span></button>
           ${nested ? `<button type="button" class="tab" role="tab" id="tab-scale" aria-controls="panel-scale" aria-selected="false" tabindex="-1">Scale</button>` : ""}
+          ${D ? `<button type="button" class="tab" role="tab" id="tab-decisions" aria-controls="panel-decisions" aria-selected="false" tabindex="-1">Decisions &amp; trade-offs</button>` : ""}
           <button type="button" class="tab" role="tab" id="tab-screens" aria-controls="panel-screens" aria-selected="false" tabindex="-1">Real-world examples <span class="count">${c.screens.length}</span></button>
         </div>
       </div>
@@ -391,6 +394,22 @@
         </section>`}
       </div>
       ${nested ? `<div class="tab-panel" role="tabpanel" id="panel-scale" aria-labelledby="tab-scale" tabindex="0" hidden>${scaleCard}</div>` : ""}
+      ${D ? `<div class="tab-panel" role="tabpanel" id="panel-decisions" aria-labelledby="tab-decisions" tabindex="0" hidden>
+        <section class="doc-section" aria-labelledby="decisions-h">
+          <div class="section-head"><div><h2 id="decisions-h">Decisions &amp; trade-offs</h2><p>${esc(D.intro)}</p></div></div>
+          <div class="pat-layout">
+            <div class="pat-nav dec-nav" role="group" aria-label="Choose a pattern">
+              ${c.patterns.map(([name], i) => `<button type="button" class="chip dec-item" data-i="${i}" aria-pressed="false" aria-controls="dec-detail">${esc(name)}</button>`).join("")}
+            </div>
+            <div class="pat-select">
+              <label for="dec-select">Pattern</label>
+              <select id="dec-select" aria-controls="dec-detail">${c.patterns.map(([name], i) => `<option value="${i}">${i + 1}. ${esc(name)}</option>`).join("")}</select>
+            </div>
+            <div class="pat-detail" id="dec-detail" tabindex="-1"></div>
+          </div>
+          <p class="visually-hidden" role="status" id="dec-status"></p>
+        </section>
+      </div>` : ""}
       <div class="tab-panel" role="tabpanel" id="panel-screens" aria-labelledby="tab-screens" tabindex="0" hidden>
         <section class="doc-section" aria-labelledby="screens-h">
           <h2 id="screens-h">Real-world examples</h2>
@@ -491,6 +510,7 @@
       if (patSelect) patSelect.value = String(i);
       if (updateHash) history.replaceState(null, "", "#" + pid(name));
       if (announce) $("#pat-status").textContent = `Showing ${name}, pattern ${i + 1} of ${c.patterns.length}`;
+      if (decSync) decSync(i);
     }
     if (patItems.length) {
       main.querySelector(".pat-nav").addEventListener("click", e => {
@@ -519,7 +539,56 @@
       showPattern(0, { updateHash: false });
     }
 
-    /* deep links: #scale, #patterns, #screens, or #p-pattern-name */
+    /* Decisions & trade-offs: the same pattern as the Patterns tab, kept in step */
+    const decItems = [...main.querySelectorAll(".dec-item")];
+    const decSelect = $("#dec-select");
+    function showDecision(i, { announce = false } = {}) {
+      if (!D) return;
+      const [name, desc] = c.patterns[i];
+      const d = D.patterns[name];
+      const sec = (cls, label, content) => `<section class="g-blk ${cls}"><h4>${label}</h4>${content}</section>`;
+      $("#dec-detail").innerHTML = `
+        <header class="pat-head">
+          <p class="pat-pos">Pattern ${i + 1} of ${c.patterns.length}</p>
+          <h3 class="pat-title" tabindex="-1">${esc(name)}</h3>
+          <p class="pat-desc">${esc(desc)}</p>
+        </header>
+        <div class="pat-card g-compact">${d ? `
+          ${sec("g-lead", "The trade-off", `<p class="dec-trade">${esc(d.tradeoff)}</p>`)}
+          <div class="g-quad">
+            ${sec("g-do", "Use it when", list(d.use, "is-do"))}
+            ${sec("g-dont", "Avoid it when", list(d.avoid, "is-dont"))}
+            ${sec("g-alt", "Alternatives", `<dl class="dec-alts">${d.alternatives.map(([n, w]) => `<div><dt>${esc(n)}</dt><dd>${esc(w)}</dd></div>`).join("")}</dl>`)}
+            ${sec("g-mist", "Common implementation mistakes", list(d.mistakes))}
+          </div>` : `<p class="g-empty">Decisions for this pattern haven’t been written yet.</p>`}</div>
+        <nav class="pat-pager" aria-label="Previous and next pattern">
+          ${c.patterns[i - 1] ? `<button type="button" class="pat-step" data-i="${i - 1}"><span>Previous</span>${esc(c.patterns[i - 1][0])}</button>` : "<span></span>"}
+          ${c.patterns[i + 1] ? `<button type="button" class="pat-step is-next" data-i="${i + 1}"><span>Next</span>${esc(c.patterns[i + 1][0])}</button>` : ""}
+        </nav>`;
+      decItems.forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
+      if (decSelect) decSelect.value = String(i);
+      if (announce) $("#dec-status").textContent = `Showing decisions for ${name}, pattern ${i + 1} of ${c.patterns.length}`;
+    }
+    if (decItems.length) {
+      const pick = (i, focusEl) => { showDecision(i, { announce: true }); if (patItems.length) showPattern(i, { updateHash: false }); if (focusEl) focusEl.focus({ preventScroll: true }); };
+      main.querySelector(".dec-nav").addEventListener("click", e => { const b = e.target.closest(".dec-item"); if (b) pick(+b.dataset.i); });
+      main.querySelector(".dec-nav").addEventListener("keydown", e => {
+        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key], at = decItems.indexOf(document.activeElement);
+        if (!k || at < 0) return;
+        e.preventDefault(); const to = decItems[Math.min(Math.max(at + k, 0), decItems.length - 1)]; to.focus(); pick(+to.dataset.i);
+      });
+      decSelect.addEventListener("change", () => pick(+decSelect.value));
+      $("#dec-detail").addEventListener("click", e => {
+        const st = e.target.closest(".pat-step"); if (!st) return;
+        const i = +st.dataset.i, nav = main.querySelector(".dec-nav");
+        pick(i, nav && nav.offsetParent ? decItems[i] : decSelect);
+        $("#dec-detail").scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      });
+      showDecision(0);
+      decSync = i => showDecision(i);
+    }
+
+    /* deep links: #scale, #patterns, #decisions, #screens, or #p-pattern-name */
     const h = location.hash.slice(1);
     const tabFor = $("#tab-" + CSS.escape(h));
     if (tabFor && tabFor.getAttribute("role") === "tab") selectTab(tabFor);
