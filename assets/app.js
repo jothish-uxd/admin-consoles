@@ -464,7 +464,7 @@
       const toDetail = () => $("#pat-detail").scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
       main.onclick = e => {
         const shot = e.target.closest("a[data-sheet]");
-        if (shot && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button)) { e.preventDefault(); openSheet(c, +shot.dataset.sheet, shot); return; }
+        if (shot && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button)) { e.preventDefault(); openSheet(c, +shot.dataset.sheet, shot, c.patterns[+sel.value][0]); return; }
         const j = e.target.closest(".v2-jump, .pat-step");
         if (!j) return;
         const i = +j.dataset.i, nav = main.querySelector(".pat-nav");
@@ -565,7 +565,8 @@
       const shot = e.target.closest("a[data-sheet]");
       if (shot && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button)) {
         e.preventDefault();
-        openSheet(c, +shot.dataset.sheet, shot);
+        const on = document.querySelector('.screen-filter .chip[aria-pressed="true"]');
+        openSheet(c, +shot.dataset.sheet, shot, on && on.dataset.p || undefined);
         return;
       }
       const b = e.target.closest("[data-goto-screens]");
@@ -840,9 +841,12 @@
   const SHEET_W = "90vw";
   let sheet = null;
 
-  function openSheet(c, index, opener) {
+  function openSheet(c, index, opener, only) {
+    // only: a pattern name, so stepping moves through that pattern's screens, not the whole category
     closeSheet(true);
-    const list = c.screens;
+    const shot = c.screens[index];
+    const list = only ? c.screens.filter(s => s.pattern === only) : c.screens;
+    index = list.indexOf(shot);
     const layer = document.createElement("div");
     layer.className = "sheet-layer";
     layer.style.setProperty("--sheet-w", SHEET_W);
@@ -954,8 +958,10 @@
     document.documentElement.classList.remove("has-sheet");
     st.layer.remove();
     if (silent) return;
-    const card = document.querySelector(`#screen-list a[data-sheet="${st.index}"]`);
-    const back = card && !card.closest("li").hidden ? card : st.opener;
+    // return focus to the card for the screen last shown (indexes in data-sheet are the category's)
+    const k = st.c.screens.indexOf(st.list[st.index]);
+    const card = [...document.querySelectorAll(`#content a[data-sheet="${k}"]`)].find(a => a.offsetParent);
+    const back = card || st.opener;
     if (back && document.contains(back)) back.focus();
   }
 
