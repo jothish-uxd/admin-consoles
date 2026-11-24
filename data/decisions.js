@@ -3,9 +3,23 @@
    Shape: { intro, patterns: { "<pattern name>": { tradeoff, use: [], avoid: [], alternatives: [[name, when]], mistakes: [] } } } */
 window.DECISIONS = Object.assign(window.DECISIONS || {}, {
   "access-requests": {
+    // trial of the one-view layout: the category page is an overview, each pattern is one complete view
+    overview: {
+      sizes: [
+        ["Tens of people", ["Request access"], "People ask an admin, and a request button with a notification to the admin is enough."],
+        ["Thousands", ["Approval queue", "Review detail", "Time-bound access"], "Requests go to resource owners and managers. Approvers need a queue and context, and sensitive access starts to expire."],
+        ["Hundreds of thousands", ["Access reviews"], "Auditors expect periodic certification, routing runs on policy, and sensitive access needs more than one approver."]
+      ],
+      principles: [
+        "Route each request to the person who knows whether it’s appropriate, usually the resource owner or manager, not a central admin.",
+        "Make each decision one step, with the context needed to make it.",
+        "Keep who asked, who decided, why and when. That record is the audit evidence."
+      ]
+    },
     intro: "Access requests trade speed for control. Every request is a moment where someone is waiting to work, and every shortcut is a moment where access goes unchecked. These notes help decide which pattern fits, what to use instead, and where implementations usually go wrong.",
     patterns: {
       "Request access": {
+        payoff: "From the start, even at tens of people.",
         tradeoff: "A request flow adds a wait in exchange for a record and a second pair of eyes. It only pays off if asking is easier than going around it.",
         use: [
           "Access is granted per resource or per role, and people regularly hit things they can’t open.",
@@ -33,6 +47,7 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       },
 
       "Approval queue": {
+        payoff: "At thousands of people, once approvers see more than a handful of requests a week.",
         tradeoff: "A queue makes approvers efficient at volume, but it also makes approving feel routine. The design has to keep speed for safe requests and slow people down for risky ones.",
         use: [
           "One person or team approves many requests a week, often for different resources.",
@@ -60,6 +75,7 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       },
 
       "Review detail": {
+        payoff: "At thousands, when approvers can’t judge a request from its row alone.",
         tradeoff: "More context makes for better decisions but slower ones. Show what changes the decision, and keep everything else one click away.",
         use: [
           "The approver isn’t sure whether this person should have this access, and the answer depends on who they are and what they’d get.",
@@ -86,6 +102,7 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       },
 
       "Time-bound access": {
+        payoff: "At thousands, and from the start for admin rights and other sensitive access.",
         tradeoff: "Expiry removes standing access but adds interruptions: renewals, extensions and access ending mid-task. It’s worth it where the access is sensitive or rarely needed.",
         use: [
           "Access is sensitive: admin rights, production systems, legal or financial data.",
@@ -112,6 +129,7 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       },
 
       "Access reviews": {
+        payoff: "At hundreds of thousands, or sooner if an audit standard requires certification.",
         tradeoff: "Reviews catch access that should have gone, but they ask a lot of reviewers. Too many items, and reviewers approve everything to get through.",
         use: [
           "An audit standard or policy requires periodic certification of who has access.",

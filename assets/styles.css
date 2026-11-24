@@ -884,3 +884,19 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .dec-alts { margin: 0; display: grid; gap: 10px; }
 .dec-alts dt { font-weight: 600; color: var(--ink); font-size: 14px; }
 .dec-alts dd { margin: 2px 0 0; color: var(--ink-soft); font-size: 14px; line-height: 1.5; }
+
+/* Trial layout: overview, then one complete view per pattern */
+.v2-note { margin: 14px 0 0; font-size: 13.5px; color: var(--ink-soft); background: var(--nest-bg); border: 1px solid var(--nest-rule); border-radius: 8px; padding: 8px 12px; display: inline-block; }
+.v2-note a { color: var(--ink); font-weight: 500; }
+.tabbar + .tab-panel, .v2-note + .tabbar { margin-top: 18px; }
+.v2-sizes .v2-pats { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0; color: var(--tier-1-soft, var(--ink-soft)); font-size: 13px; }
+.v2-sizes .chip { font-size: 12.5px; }
+.pat-detail.v2 .v2-h { margin: 28px 0 10px; font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); display: flex; gap: 8px; align-items: baseline; }
+.pat-detail.v2 .v2-h .count { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); font-weight: 400; }
+.pat-detail.v2 .g-blk > h5 { margin: 0 0 10px; font-size: 15px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); }
+.pat-detail.v2 .g-foot { border-top: 1px solid var(--nest-rule); padding-top: 18px; }
+.v2-pay { margin: 10px 0 0; font-size: 14px; color: var(--ink-soft); }
+.v2-pay b { color: var(--ink); font-weight: 600; }
+.v2-alts { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; row-gap: 14px; }
+@media (max-width: 720px) { .v2-alts { grid-template-columns: 1fr; } }
+.v2-shots { margin-top: 0; }

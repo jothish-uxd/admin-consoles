@@ -370,11 +370,117 @@
           <p class="visually-hidden" role="status" id="pat-status"></p>
         </section>` : "";
     main.classList.toggle("is-refined", refined);
+
+    /* Trial: one view per pattern (Access requests & approvals). The category page is an overview;
+       each pattern is one complete view: Should you use it? · How to build it · At scale · examples.
+       ?layout=current shows the tabbed layout for comparison. */
+    const qs = new URLSearchParams(location.search);
+    if (refined && D && D.overview && qs.get("layout") !== "current") {
+      const O = D.overview, idxOf = n => c.patterns.findIndex(([x]) => x === n);
+      const sec = (cls, label, content) => `<section class="g-blk ${cls}"><h5>${label}</h5>${content}</section>`;
+      const cur = `?c=${encodeURIComponent(c.slug)}&layout=current`;
+      main.innerHTML = `
+        <header class="hero">
+          <h1 class="page-title" tabindex="-1">${esc(c.name)}</h1>
+          <p class="page-lede">${esc(c.summary)}</p>
+          <p class="v2-note">Trying a new layout: an overview, then one complete view per pattern. <a href="${cur}">Compare with the current layout</a></p>
+        </header>
+        <section class="doc-section" aria-labelledby="ov-h">
+          <h2 id="ov-h">Overview</h2>
+          <p>${esc(G.scale ? G.scale.intro : c.summary)}</p>
+          <h3 class="sub-h2" id="size-h">Which patterns you need, by size</h3>
+          <ol class="tiers is-ramp v2-sizes" aria-labelledby="size-h">${O.sizes.map(([t, pats, x], i) => `<li><span class="tier-tag">${String(i + 1).padStart(2, "0")}</span><strong>${esc(t)}</strong>
+            <span class="v2-pats">${i ? "Adds " : ""}${pats.map(n => `<button type="button" class="chip v2-jump" data-i="${idxOf(n)}">${esc(n)}</button>`).join("")}</span><span>${esc(x)}</span></li>`).join("")}</ol>
+          <h3 class="sub-h2">Principles across the category</h3>
+          <ul class="check-list">${O.principles.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
+        </section>
+        <section class="doc-section" aria-labelledby="patterns-h">
+          <div class="section-head"><div><h2 id="patterns-h">Patterns</h2><p>Each pattern in one view: whether to use it, how to build it, how it holds up at scale, and real examples.</p></div></div>
+          <div class="pat-layout">
+            <div class="pat-nav" role="group" aria-label="Choose a pattern">
+              ${c.patterns.map(([name], i) => `<button type="button" class="chip pat-item" data-i="${i}" aria-pressed="false" aria-controls="pat-detail">${esc(name)}</button>`).join("")}
+            </div>
+            <div class="pat-select"><label for="pat-select">Pattern</label>
+              <select id="pat-select" aria-controls="pat-detail">${c.patterns.map(([name], i) => `<option value="${i}">${i + 1}. ${esc(name)}</option>`).join("")}</select></div>
+            <div class="pat-detail v2" id="pat-detail" tabindex="-1"></div>
+          </div>
+          <p class="visually-hidden" role="status" id="pat-status"></p>
+        </section>`;
+      const items = [...main.querySelectorAll(".pat-item")], sel = $("#pat-select");
+      const show = (i, { announce = false, hash = true } = {}) => {
+        const [name, desc] = c.patterns[i], g = GP[name] || {}, d = D.patterns[name] || {};
+        const wcag = (g.access || []).filter(([t]) => t.startsWith("WCAG")), ud = (g.access || []).filter(([t]) => !t.startsWith("WCAG"));
+        const shots = c.screens.map((x, k) => [x, k]).filter(([x]) => x.pattern === name);
+        const prev = c.patterns[i - 1], next = c.patterns[i + 1];
+        $("#pat-detail").innerHTML = `
+          <header class="pat-head">
+            <p class="pat-pos">Pattern ${i + 1} of ${c.patterns.length}</p>
+            <h3 class="pat-title" id="${pid(name)}" tabindex="-1">${esc(name)}</h3>
+            <p class="pat-desc">${esc(desc)}</p>
+          </header>
+          ${clipHtml(c.slug, name)}
+          <h4 class="v2-h">Should you use it?</h4>
+          <div class="pat-card g-compact">
+            ${sec("g-lead", "The trade-off", `<p class="dec-trade">${esc(d.tradeoff || "")}</p>${d.payoff ? `<p class="v2-pay"><b>Starts to pay off:</b> ${esc(d.payoff)}</p>` : ""}`)}
+            <div class="g-quad">
+              ${sec("g-do", "Use it when", list(d.use || [], "is-do"))}
+              ${sec("g-dont", "Skip it when", list(d.avoid || [], "is-dont"))}
+            </div>
+            ${sec("g-foot", "Alternatives", `<dl class="dec-alts v2-alts">${(d.alternatives || []).map(([n, w]) => `<div><dt>${esc(n)}</dt><dd>${esc(w)}</dd></div>`).join("")}</dl>`)}
+          </div>
+          <h4 class="v2-h">How to build it</h4>
+          <div class="pat-card g-compact">
+            ${sec("g-lead", "How to think about it", list(g.think || []))}
+            <div class="g-quad">
+              ${sec("g-do", "Recommended", list(g.do || [], "is-do"))}
+              ${sec("g-dont", "Avoid", list(g.dont || [], "is-dont"))}
+            </div>
+            ${sec("g-foot", "Accessibility", `${wcag.length ? `<ul class="g-inline">${wcag.map(([t, x]) => `<li>${tagHtml(t)} ${esc(x)}</li>`).join("")}</ul>` : ""}${ud.length ? `<ul class="g-inline g-ud-cols" style="margin-top:12px">${ud.map(([t, x]) => `<li><strong>${esc((window.UD || {})[t] || t)}.</strong> ${esc(x)}</li>`).join("")}</ul>` : ""}`)}
+          </div>
+          <h4 class="v2-h">At enterprise scale</h4>
+          <div class="pat-card g-compact">${list(g.scale || [])}</div>
+          ${shots.length ? `<h4 class="v2-h">Real-world examples <span class="count">${shots.length}</span></h4><ul class="screens v2-shots">${shots.map(([x, k]) => screenCard(x, k)).join("")}</ul>` : ""}
+          <nav class="pat-pager" aria-label="Previous and next pattern">
+            ${prev ? `<button type="button" class="pat-step" data-i="${i - 1}"><span>Previous</span>${esc(prev[0])}</button>` : "<span></span>"}
+            ${next ? `<button type="button" class="pat-step is-next" data-i="${i + 1}"><span>Next</span>${esc(next[0])}</button>` : ""}
+          </nav>`;
+        initClip($("#pat-detail"));
+        items.forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
+        sel.value = String(i);
+        if (hash) history.replaceState(null, "", "#" + pid(name));
+        if (announce) $("#pat-status").textContent = `Showing ${name}, pattern ${i + 1} of ${c.patterns.length}`;
+      };
+      const go = (i, focusEl) => {
+        show(i, { announce: true });
+        if (focusEl) focusEl.focus({ preventScroll: true });
+      };
+      main.querySelector(".pat-nav").addEventListener("click", e => { const b = e.target.closest(".pat-item"); if (b) go(+b.dataset.i); });
+      main.querySelector(".pat-nav").addEventListener("keydown", e => {
+        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key], at = items.indexOf(document.activeElement);
+        if (!k || at < 0) return; e.preventDefault();
+        const to = items[Math.min(Math.max(at + k, 0), items.length - 1)]; to.focus(); go(+to.dataset.i);
+      });
+      sel.addEventListener("change", () => go(+sel.value));
+      const toDetail = () => $("#pat-detail").scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      main.onclick = e => {
+        const shot = e.target.closest("a[data-sheet]");
+        if (shot && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button)) { e.preventDefault(); openSheet(c, +shot.dataset.sheet, shot); return; }
+        const j = e.target.closest(".v2-jump, .pat-step");
+        if (!j) return;
+        const i = +j.dataset.i, nav = main.querySelector(".pat-nav");
+        go(i, nav && nav.offsetParent ? items[i] : sel); toDetail();
+      };
+      const h = location.hash.slice(1), at = c.patterns.findIndex(([n]) => pid(n) === h);
+      show(at >= 0 ? at : 0, { hash: false });
+      if (at >= 0) requestAnimationFrame(() => $("#pat-detail").scrollIntoView({ block: "start" }));
+      return;
+    }
     main.innerHTML = `
       <header class="hero">
         <h1 class="page-title" tabindex="-1">${esc(c.name)}</h1>
         <p class="page-lede">${esc(c.summary)}</p>
       </header>
+      ${D && D.overview ? `<p class="v2-note">There’s a trial of a new layout for this category. <a href="?c=${encodeURIComponent(c.slug)}">Try the new layout</a></p>` : ""}
       <div class="tabbar">
         <div class="tablist" role="tablist" aria-label="${esc(c.name)} sections">
           <button type="button" class="tab" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="true">Patterns <span class="count">${c.patterns.length}</span></button>
