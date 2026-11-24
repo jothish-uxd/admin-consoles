@@ -666,7 +666,7 @@
             ${sec("g-do", "Use it when", list(d.use, "is-do"))}
             ${sec("g-dont", "Avoid it when", list(d.avoid, "is-dont"))}
             ${sec("g-alt", "Alternatives", `<dl class="dec-alts">${d.alternatives.map(([n, w]) => `<div><dt>${esc(n)}</dt><dd>${esc(w)}</dd></div>`).join("")}</dl>`)}
-            ${sec("g-mist", "Common implementation mistakes", list(d.mistakes))}
+            ${d.mistakes ? sec("g-mist", "Common implementation mistakes", list(d.mistakes)) : ""}
           </div>` : `<p class="g-empty">Decisions for this pattern haven’t been written yet.</p>`}</div>
         <nav class="pat-pager" aria-label="Previous and next pattern">
           ${c.patterns[i - 1] ? `<button type="button" class="pat-step" data-i="${i - 1}"><span>Previous</span>${esc(c.patterns[i - 1][0])}</button>` : "<span></span>"}
