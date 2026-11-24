@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contextual action bar · motion scene</title>
+<!--
+  Source for media/edit-bulk-actions/contextual-action-bar.mp4. Built by motion/_build/contextual_action_bar.py
+  on motion/_build/users_page.py, so People › Users is the same page in every Edit & bulk actions clip.
+  Follows the Contextual action bar card (data/guidance-actions.js):
+  - selecting a row brings up a bar above the table, in the results line's place, so it covers no row
+  - the count and Clear first; common actions next (Edit, Add to group, Change license, Export)
+  - Suspend last, set apart by a divider, never next to the most common action
+  - selecting a deactivated person turns Suspend off in the same place, and says why
+  - the actions never change order, whatever is selected
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.fr { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
+.srch { flex: 1; height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; gap: 8px; align-items: center; padding: 0 12px; font-size: 13px; color: var(--faint); }
+.srch svg { width: 14px; height: 14px; }
+.fb { height: 34px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border: 1px solid var(--rule-strong); border-radius: 8px; font-size: 12.5px; color: var(--ink); white-space: nowrap; }
+.fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
+.fb .x { color: var(--faint); }
+.slot { position: relative; height: 46px; margin-top: 10px; }
+.slot .mt { position: absolute; left: 0; top: 11px; font-size: 12.5px; color: var(--soft); white-space: nowrap; }
+.slot .mt b { color: var(--ink); font-weight: 600; }
+.bar { position: absolute; left: 0; right: 0; top: 0; height: 38px; background: var(--ink); color: #fff; border-radius: 8px; display: flex; align-items: center; gap: 4px; padding: 0 5px 0 12px; font-size: 12.5px; opacity: 0; z-index: 3; }
+.bar > * { flex: none; }
+.bar .n { font-weight: 600; white-space: nowrap; margin-right: 6px; }
+.bar .sp { flex: 1 1 auto; }
+.bar a { color: #fff; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; margin: 0 4px; }
+.bar .sp { flex: 1; }
+.bar .btn { height: 28px; font-size: 12px; padding: 0 8px; white-space: nowrap; background: transparent; color: #fff; border-color: #737373; position: relative; }
+.bar .btn.clr { border-color: transparent; color: #d4d4d4; }
+.bar .btn.off { color: #a3a3a3; border-color: #525252; }
+.bar .div { width: 1px; height: 18px; background: #525252; margin: 0 4px; }
+table.u { font-size: 13px; }
+.u th { padding: 0 10px 8px; }
+.u td { height: 50px; padding: 0 10px; }
+.u th.ck, .u td.ck { width: 34px; padding: 0 0 0 10px; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); vertical-align: middle; position: relative; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.cb.part { background: var(--ink); border-color: var(--ink); }
+.cb.part::after { content: ""; position: absolute; left: 3px; top: 6px; width: 7px; height: 2px; background: #fff; }
+.pp { display: flex; gap: 10px; align-items: center; color: var(--ink); font-weight: 500; }
+.pp .av { width: 28px; height: 28px; font-size: 10.5px; }
+.pp .s { display: block; font-size: 11.5px; color: var(--faint); font-weight: 400; }
+.u td.dea { color: var(--ink); font-weight: 600; }
+tr.sel td { background: var(--subtle); }
+.cnt { margin-top: 8px; font-size: 12px; color: var(--faint); }
+
+.tip { position: absolute; right: 0; top: 34px; width: 250px; background: var(--bg); color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.14); padding: 8px 10px; font-size: 12px; line-height: 1.45; white-space: normal; opacity: 0; z-index: 6; text-align: left; font-weight: 400; }
+.tip b { color: var(--ink); font-weight: 600; }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="no" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6v4.2M8 11v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="People / Users"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>People</h1><span class="btn sm pri">Invite people</span></div>
+        <div class="tabs page"><div class="on">Users</div><div>Groups</div><div>Roles</div></div>
+        <div class="fr"><div class="srch"><svg><use href="#srch"/></svg>Search people</div><span class="fb on">Team: Fleet <span class="x">✕</span></span><span class="fb">License<i class="cv"></i></span><span class="fb">Status<i class="cv"></i></span></div>
+        <div class="slot" id="slot"><div class="mt" id="mt"><b>82 people</b> match Team: Fleet · sorted by name</div>
+          <div class="bar" id="bar" role="region" aria-label="Selected people"><span class="n" id="bN">1 selected</span><a id="bAll">Select all 82 matching</a><span class="btn clr" id="bClr">Clear</span><span class="sp"></span>
+            <span class="btn" id="bEdit">Edit…</span><span class="btn" id="bGrp">Add to group</span><span class="btn" id="bLic">Change license</span><span class="btn" id="bExp">Export</span><span class="div"></span><span class="btn" id="bSus">Suspend<span class="tip" id="tip" role="tooltip"><b>Bren Derlin is already deactivated.</b> Unselect them to suspend the other 2.</span></span></div></div>
+        <table class="u" id="tU"><thead><tr><th class="ck"><span class="cb" id="cAll"></span></th><th>Person</th><th>Team</th><th>Groups</th><th>License</th><th>Last active</th></tr></thead><tbody>
+          <tr id="r-hobbie"><td class="ck"><span class="cb" id="c-hobbie"></span></td><td><div class="pp"><span class="av">HK</span><div>Hobbie Klivian<span class="s">Pilot</span></div></div></td><td>Fleet</td><td id="g-hobbie">Fleet, Rogue Squadron</td><td>Console</td><td>Yesterday</td></tr>
+          <tr id="r-cal"><td class="ck"><span class="cb" id="c-cal"></span></td><td><div class="pp"><span class="av">CA</span><div>Cal Alder<span class="s">Patrol lead</span></div></div></td><td>Fleet</td><td id="g-cal">Fleet</td><td>Console</td><td>3 days ago</td></tr>
+          <tr id="r-zev"><td class="ck"><span class="cb" id="c-zev"></span></td><td><div class="pp"><span class="av">ZS</span><div>Zev Senesca<span class="s">Pilot</span></div></div></td><td>Fleet</td><td id="g-zev">Fleet</td><td>Console</td><td>61 days ago</td></tr>
+          <tr id="r-wes"><td class="ck"><span class="cb" id="c-wes"></span></td><td><div class="pp"><span class="av">WJ</span><div>Wes Janson<span class="s">Gunner</span></div></div></td><td>Fleet</td><td id="g-wes">Fleet, Shield Ops</td><td>Console + AI</td><td>Today</td></tr>
+          <tr id="r-bren"><td class="ck"><span class="cb" id="c-bren"></span></td><td><div class="pp"><span class="av">BD</span><div>Bren Derlin<span class="s">Security officer</span></div></div></td><td>Fleet</td><td id="g-bren">Fleet</td><td>Console</td><td class="dea">Deactivated</td></tr>
+          <tr id="r-jes"><td class="ck"><span class="cb" id="c-jes"></span></td><td><div class="pp"><span class="av">JG</span><div>Jes Gistang<span class="s">Pilot</span></div></div></td><td>Fleet</td><td id="g-jes">Fleet</td><td>Console</td><td>2 days ago</td></tr>
+          <tr id="r-ved"><td class="ck"><span class="cb" id="c-ved"></span></td><td><div class="pp"><span class="av">VF</span><div>Ved Foslo<span class="s">Mechanic</span></div></div></td><td>Fleet</td><td id="g-ved">Fleet, Hangar 3</td><td>Console</td><td>Today</td></tr>
+        </tbody></table><div class="cnt" id="cnt">Showing 1–25 of 82</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  c1: 1.10, c2: 1.75, c3: 2.50, tip: [3.05, 4.10],
+  endCard: [4.50, 4.95], end: 5.6
+};
+
+function build() {
+  const a = at("c-cal"), z = at("c-zev"), b = at("c-bren"), s = at("bSus");
+  const cur = [
+    [0.00, 860, 650], [0.25, 860, 650], [0.95, a[0], a[1] + 2], [1.20, a[0], a[1] + 2],
+    [1.60, z[0], z[1] + 2], [1.85, z[0], z[1] + 2], [2.35, b[0], b[1] + 2], [2.60, b[0], b[1] + 2],
+    [3.00, s[0], s[1] + 4], [4.20, s[0] + 2, s[1] + 5], [4.50, s[0] - 40, s[1] + 90]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00],
+    [0.85, 724, 340, 1.15], [4.25, 724, 340, 1.15],     // one steady view: the bar above the rows
+    [4.50, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  const picked = { cal: t >= T.c1, zev: t >= T.c2, bren: t >= T.c3 };
+  ["hobbie", "cal", "zev", "wes", "bren", "jes", "ved"].forEach(id => { const on = !!picked[id]; $("c-" + id).classList.toggle("on", on); $("r-" + id).classList.toggle("sel", on); });
+  const n = Object.values(picked).filter(Boolean).length;
+  $("cAll").className = "cb" + (n ? " part" : "");
+  const bo = span(t, T.c1, T.c1 + .15);
+  $("bar").style.opacity = bo; $("mt").style.opacity = 1 - bo;
+  $("bN").textContent = `${Math.max(n, 1)} selected`;
+  $("bAll").style.display = "none";
+  // Suspend can't apply to a deactivated person: it turns off, in the same place, and says why
+  const dis = picked.bren;
+  $("bSus").classList.toggle("off", dis);
+  $("bSus").setAttribute("aria-disabled", dis ? "true" : "false");
+  $("tip").style.opacity = span(t, T.tip[0], T.tip[0] + .15) * (1 - span(t, T.tip[1], T.tip[1] + .15));
+}
+
+function events() { return [["click", T.c1], ["pop", T.c1 + .05], ["click", T.c2], ["click", T.c3]]; }
+
+Motion.scene({
+  // 3 clicks and a hover: natural length, within the 10 s cap
+  T, clicks: [T.c1, T.c2, T.c3], build, render, events,
+  slow: [[3.1, 4.0, 1.6]]
+});
+</script>
+</body>
+</html>

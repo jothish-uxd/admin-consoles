@@ -15,6 +15,8 @@
     if (!S.groups.some(g => g.id === "hoth")) S.groups.splice(1, 0, clone(window.SEED.groups.find(g => g.id === "hoth")));
     S.org = S.org || clone(window.SEED.org);
     S.roleDeps = S.roleDeps || clone(window.SEED.roleDeps);
+    window.SEED.people.forEach(x => { if (!S.people.some(p => p.id === x.id)) S.people.splice(S.people.length - 1, 0, clone(x)); });
+    S.people.forEach(p => { const seed = window.SEED.people.find(x => x.id === p.id); if (!p.groups) { p.groups = seed ? clone(seed.groups || []) : []; if (seed && seed.locked) p.locked = true; } });
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage off: changes last until reload */ } }
   load();

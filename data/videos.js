@@ -590,5 +590,65 @@ window.VIDEOS = {
         "Pointing at Delete organization shows that it asks for the organization's name first, as Delete sandbox does."
       ]
     }
+  },
+  "edit-bulk-actions": {
+    "Selection model": {
+      src: "media/edit-bulk-actions/selection-model.mp4",
+      poster: "media/edit-bulk-actions/selection-model.jpg",
+      label: "Selection model, shown in a mock Echo Base console",
+      steps: [
+        "People › Users is filtered to Team: Fleet, 82 people. Every row has a checkbox named for its person.",
+        "The admin checks Hobbie Klivian. A bar takes the place of the results line, above the table, and says 1 selected.",
+        "She shift-clicks Wes Janson to select the range between them: 4 selected. The header checkbox shows the page is partly selected.",
+        "The header checkbox selects this page only, and the bar says so: 25 on this page selected.",
+        "Select all 82 matching selects everyone in the results, including the people who aren't on screen."
+      ]
+    },
+    "Contextual action bar": {
+      src: "media/edit-bulk-actions/contextual-action-bar.mp4",
+      poster: "media/edit-bulk-actions/contextual-action-bar.jpg",
+      label: "Contextual action bar, shown in a mock Echo Base console",
+      steps: [
+        "On People › Users, selecting Cal Alder brings up the action bar above the table, where the results line was, so it covers no row.",
+        "It shows the count and Clear, then the common actions: Edit, Add to group, Change license and Export. Suspend comes last, set apart by a divider.",
+        "She adds Zev Senesca, then Bren Derlin, who is deactivated. Suspend turns off in the same place; the actions never change order.",
+        "Pointing at Suspend explains why: Bren Derlin is already deactivated, so unselect them to suspend the other 2."
+      ]
+    },
+    "Bulk edit": {
+      src: "media/edit-bulk-actions/bulk-edit.mp4",
+      poster: "media/edit-bulk-actions/bulk-edit.jpg",
+      label: "Bulk edit, shown in a mock Echo Base console",
+      steps: [
+        "All 82 people matching Team: Fleet are selected. Edit… opens a dialog that says who that is, including the 57 not on this page.",
+        "She picks the field first: Groups. Team is off, because it's synced from Holonet HR.",
+        "Then the operation, each in plain words: Add to existing, Remove, Replace all or Clear. She chooses Add to existing, which keeps each person's groups.",
+        "She picks the group, Hoth Evacuation. The current value is shown honestly as Various: these 82 people are in 14 different groups.",
+        "A preview shows 3 of the 82 before and after, with the added group marked. The button says what it does and to how many: Add Hoth Evacuation to 82 people. It runs as a job, logged as one change."
+      ]
+    },
+    "Inline edit": {
+      src: "media/edit-bulk-actions/inline-edit.mp4",
+      poster: "media/edit-bulk-actions/inline-edit.jpg",
+      label: "Inline edit, shown in a mock Echo Base console",
+      steps: [
+        "In Content › All content, pointing at Supply run notes.md shows a pencil beside the name. Owner and Sharing have none, because changing them has side effects.",
+        "The pencil opens the name in place, with the name part selected so the extension stays, and visible Save and Cancel buttons. Enter saves and Esc cancels.",
+        "She types a name with a slash. It's refused before saving, and the field stays open with the reason: names can't include /.",
+        "She fixes it and presses Enter. The row shows Saving…, then Saved · renamed by you just now, and Last activity reads Just now."
+      ]
+    },
+    "Progress & results": {
+      src: "media/edit-bulk-actions/progress-results.mp4",
+      poster: "media/edit-bulk-actions/progress-results.jpg",
+      label: "Progress & results, shown in a mock Echo Base console",
+      steps: [
+        "The bulk edit runs as a job above the People list: a labelled progress bar, how many are done and about how long is left.",
+        "The page stays usable while it runs, and the list picks up the change as each person is done. She can leave the page and be notified.",
+        "It finishes as Done with issues, not Done: 79 added, 2 skipped because they were already in the group, and 1 failed because Zev Senesca's account is locked.",
+        "Retry failed acts on just that one person. Download list and View in audit log are beside it.",
+        "After the retry the job reads Done: 80 added, 2 skipped. The results stay until she dismisses them."
+      ]
+    }
   }
 };

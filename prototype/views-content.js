@@ -9,6 +9,8 @@
 
   /* selection for bulk delete (Delete confirmation); a row's own Move to Trash goes straight to an Undo toast */
   const sel = new Set();
+  let renaming = null;   // Inline edit: one name at a time, with Save / Cancel and Enter / Esc
+  const PEN = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10.5 3l2.5 2.5L6 12.5H3.5V10z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
   const BIN = '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.6 8.5h5.8l.6-8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   function trash(ids, on) { S().files.forEach(f => { if (ids.includes(f.id)) f.trashed = on ? "Today" : undefined; }); save(); rerender(); }
   function openBulkDelete() {
@@ -43,14 +45,33 @@
       ${grid ? `<ul style="list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">${rows.map(f => `<li class="card" style="margin:0"><div class="mono muted">${f.type}</div><a href="#/content/item/${f.id}"><b style="font-weight:500">${esc(f.name)}</b></a><div class="small muted">${esc(f.owner)}${f.deact ? " · deactivated" : ""}</div><div style="margin-top:6px"><span class="cls ${f.sharing === "Public link" ? "r" : ""}">${esc(f.sharing)}</span></div></li>`).join("")}</ul>
         <p class="small muted">Previews off · names and owners shown</p>` :
       `${[...sel].length ? `<div class="bulkbar" role="region" aria-label="Selection"><b>${sel.size} selected</b><button type="button" class="btn ghost" data-act="clearSel">Clear</button><span class="spacer"></span><button type="button" class="btn" data-act="bulkDel">Delete</button></div>` : ""}<table style="margin-top:12px"><caption class="vh">Content, sorted by last activity</caption><thead><tr><th scope="col" class="ck"><input type="checkbox" aria-label="Select all shown" data-change="pickAll" ${rows.length && rows.every(f => sel.has(f.id)) ? "checked" : ""}></th><th scope="col">Name</th><th scope="col">Owner</th><th scope="col">Sharing</th><th scope="col">Last activity</th><th scope="col">Size</th><th scope="col"><span class="vh">Actions</span></th></tr></thead><tbody>
-        ${rows.map(f => `<tr${sel.has(f.id) ? ' class="hl"' : ""}><td class="ck"><input type="checkbox" aria-label="Select ${esc(f.name)}" data-change="pick" data-id="${f.id}" ${sel.has(f.id) ? "checked" : ""}></td><td><span class="mono muted" style="margin-right:8px">${f.type}</span><a href="#/content/item/${f.id}">${esc(f.name)}</a></td><td>${esc(f.owner)}<span class="sub">${esc(f.ownerSub)}</span></td><td><span class="cls ${f.sharing === "Public link" ? "r" : ""}">${esc(f.sharing)}</span></td><td>${esc(f.last)}</td><td>${esc(f.size)}</td><td class="act"><button type="button" class="icon-btn rowact" aria-label="Move ${esc(f.name)} to Trash" title="Move to Trash" data-act="trashOne" data-id="${f.id}">${BIN}</button></td></tr>`).join("") || `<tr><td colspan="7">${empty("Nothing matches", "Try a different search or clear the filters.")}</td></tr>`}
+        ${rows.map(f => `<tr${sel.has(f.id) ? ' class="hl"' : ""}><td class="ck"><input type="checkbox" aria-label="Select ${esc(f.name)}" data-change="pick" data-id="${f.id}" ${sel.has(f.id) ? "checked" : ""}></td><td>${renaming === f.id ? `<span class="rn"><label class="vh" for="rnI">Name of ${esc(f.name)}</label><input type="text" id="rnI" value="${esc(f.name)}" aria-describedby="rnM" autocomplete="off"><button type="button" class="btn pri sm" data-act="rnSave">Save</button><button type="button" class="btn sm" data-act="rnCancel">Cancel</button></span><div class="rn-msg muted" id="rnM" aria-live="polite">Enter saves · Esc cancels</div>`
+          : `<span class="mono muted" style="margin-right:8px">${f.type}</span><a href="#/content/item/${f.id}">${esc(f.name)}</a><button type="button" class="icon-btn pen" aria-label="Rename ${esc(f.name)}" title="Rename" data-act="rename" data-id="${f.id}">${PEN}</button>${f.renamed ? `<span class="sub">${icon("ok")} Saved · renamed by you ${esc(f.renamed)}</span>` : ""}`}</td><td>${esc(f.owner)}<span class="sub">${esc(f.ownerSub)}</span></td><td><span class="cls ${f.sharing === "Public link" ? "r" : ""}">${esc(f.sharing)}</span></td><td>${esc(f.last)}</td><td>${esc(f.size)}</td><td class="act"><button type="button" class="icon-btn rowact" aria-label="Move ${esc(f.name)} to Trash" title="Move to Trash" data-act="trashOne" data-id="${f.id}">${BIN}</button></td></tr>`).join("") || `<tr><td colspan="7">${empty("Nothing matches", "Try a different search or clear the filters.")}</td></tr>`}
       </tbody></table><p class="small muted">Showing ${rows.length} · sorted by last activity</p>`}</div>`,
+      mount() {
+        const inp = document.getElementById("rnI"); if (!inp) return;
+        inp.focus(); const dot = inp.value.lastIndexOf("."); inp.setSelectionRange(0, dot > 0 ? dot : inp.value.length);
+        inp.addEventListener("keydown", e => {
+          if (e.key === "Enter") { e.preventDefault(); document.querySelector('[data-act="rnSave"]').click(); }
+          if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); document.querySelector('[data-act="rnCancel"]').click(); }
+        });
+        inp.addEventListener("input", () => { inp.removeAttribute("aria-invalid"); const m = document.getElementById("rnM"); m.className = "rn-msg muted"; m.textContent = "Enter saves · Esc cancels"; });
+      },
       act: {
         search(el) { go(qs({ q: el.value })); }, sharing(el) { go(qs({ sharing: el.value })); }, layout(el) { go(qs({ layout: el.value === "grid" ? "grid" : "" })); },
         pick(el) { el.checked ? sel.add(el.dataset.id) : sel.delete(el.dataset.id); rerender(); },
         pickAll(el) { rows.forEach(f => el.checked ? sel.add(f.id) : sel.delete(f.id)); rerender(); },
         clearSel() { sel.clear(); rerender(); announce("Selection cleared"); },
         bulkDel() { openBulkDelete(); },
+        rename(b) { renaming = b.dataset.id; rerender(); },
+        rnCancel() { const id = renaming; renaming = null; rerender(); const b = document.querySelector(`[data-act="rename"][data-id="${id}"]`); b && b.focus(); announce("Rename cancelled"); },
+        rnSave() {
+          const f = S().files.find(x => x.id === renaming), inp = document.getElementById("rnI"), m = document.getElementById("rnM"), v = inp.value.trim();
+          const bad = !v ? "Enter a name." : /[\/]/.test(v) ? "Names can’t include / or \\." : S().files.some(x => x !== f && !x.trashed && x.name.toLowerCase() === v.toLowerCase()) ? "Another file already has that name." : "";
+          if (bad) { inp.setAttribute("aria-invalid", "true"); m.className = "rn-msg err"; m.textContent = bad; inp.focus(); return; }
+          m.className = "rn-msg muted"; m.textContent = "Saving…"; inp.disabled = true;
+          setTimeout(() => { f.name = v; f.renamed = "just now"; f.last = "Just now"; renaming = null; save(); rerender(); announce(`Saved. Renamed to ${v}`); const b = document.querySelector(`[data-act="rename"][data-id="${f.id}"]`); b && b.focus(); }, 500);
+        },
         trashOne(b) { const f = S().files.find(x => x.id === b.dataset.id); sel.delete(f.id); trash([f.id], true); toast(`${f.name} moved to Trash · kept 30 days`, () => { trash([f.id], false); announce(`${f.name} is back where it was`); }); },
         export() { toast(`Exporting ${rows.length > 8 ? "the results" : rows.length + " items"}. We'll send the file when it's ready.`); }
       } };

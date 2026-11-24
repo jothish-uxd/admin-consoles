@@ -251,3 +251,20 @@ svg[viewBox="0 0 16 16"] { width: 14px; height: 14px; flex: none; vertical-align
 td.ck, th.ck { width: 36px; }
 .rowact { opacity: 0; }
 tr:hover .rowact, .rowact:focus-visible, tr:focus-within .rowact { opacity: 1; }
+/* edit & bulk actions */
+.bulkbar .bdiv { width: 1px; height: 18px; background: #525252; margin: 0 2px; }
+.bulkbar .btn[aria-disabled="true"] { background: transparent; color: #a3a3a3; border-color: #525252; }
+.job { margin-top: 14px; border: 1px solid var(--rule-strong); border-radius: 12px; padding: 12px 16px; max-width: 960px; }
+.pbar { margin-top: 8px; height: 8px; border-radius: 999px; background: var(--hover); overflow: hidden; }
+.pbar i { display: block; height: 100%; background: var(--ink); transition: width .3s; }
+.res3 { margin-top: 10px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.res3 > div { border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; color: var(--soft); }
+.res3 b { display: block; font-size: 16px; color: var(--ink); }
+.res3 .bad { border-color: #b91c1c; }
+.res3 .bad b { color: #b91c1c; }
+.chip.warn { color: #b91c1c; border-color: #b91c1c; }
+.rn { display: inline-flex; gap: 6px; align-items: center; }
+.rn input { width: 240px; }
+.rn-msg { font-size: 12px; margin-top: 4px; }
+.pen { opacity: 0; }
+tr:hover .pen, .pen:focus-visible { opacity: 1; }

@@ -32,19 +32,141 @@
   const peopleTabs = at => tabs("People", [["users", "Users", "/people/users"], ["groups", "Groups", "/people/groups"], ["roles", "Roles", "/people/roles"]], at);
   const pc = (t, h) => [["People", "/people/users"], [t, h]];
 
-  route("/people/users", () => {
+  /* ----- Users: Selection model, Contextual action bar, Bulk edit, Progress & results ----- */
+  const uSel = new Set(); let uAll = false, uLast = null;
+  const teams = () => [...new Set(S().people.map(p => p.team))].sort();
+  const usersIn = team => S().people.filter(p => !team || p.team === team);
+  function runJob(job) {
+    // a pretend background job: works through the people, a few each tick, so progress and results can be seen
+    const s = S(); s.job = job; save();
+    const tick = () => {
+      const j = S().job; if (!j || j.id !== job.id || j.state !== "running") return;
+      const step = Math.max(1, Math.ceil(j.ids.length / 6));
+      j.ids.slice(j.done, j.done + step).forEach(id => {
+        const p = S().people.find(x => x.id === id); p.groups = p.groups || [];
+        if (j.retry ? false : (p.locked && !j.retry)) { j.failed.push({ id, why: `${p.name}’s account is locked` }); return; }
+        if (j.op === "add") { if (p.groups.includes(j.value)) j.skipped.push({ id, why: "already in the group" }); else { p.groups.push(j.value); j.added.push(id); } }
+        if (j.op === "remove") { if (!p.groups.includes(j.value)) j.skipped.push({ id, why: "not in the group" }); else { p.groups = p.groups.filter(g => g !== j.value); j.added.push(id); } }
+        if (j.op === "replace") { p.groups = [j.value]; j.added.push(id); }
+        if (j.op === "clear") { p.groups = []; j.added.push(id); }
+      });
+      j.done = Math.min(j.ids.length, j.done + step);
+      if (j.done >= j.ids.length) { j.state = "done"; announce(j.failed.length ? `Done with issues: ${j.added.length} changed, ${j.skipped.length} skipped, ${j.failed.length} failed` : `Done: ${j.added.length} changed, ${j.skipped.length} skipped`); }
+      save(); if (location.hash.startsWith("#/people/users") && !location.hash.includes("/people/users/")) rerender();
+      if (j.state === "running") setTimeout(tick, 700);
+    };
+    setTimeout(tick, 500);
+  }
+  function jobPanel() {
+    const j = S().job; if (!j) return "";
+    const total = j.ids.length, name = id => (S().people.find(p => p.id === id) || {}).name;
+    if (j.state === "running") return `<section class="job" aria-labelledby="job-h"><div class="row"><h2 id="job-h" class="spacer" style="margin:0;font-size:14px">${esc(j.title)}</h2><span class="chip">Running</span></div>
+      <div class="pbar" role="progressbar" aria-label="${esc(j.title)}" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${j.done}"><i style="width:${Math.round(j.done / total * 100)}%"></i></div>
+      <p class="small muted" style="margin:6px 0 0"><b style="color:var(--ink)">${j.done} of ${total}</b> done · you can leave this page, the list updates as people are done</p></section>`;
+    const issues = j.failed.length > 0;
+    return `<section class="job" aria-labelledby="job-h"><div class="row"><h2 id="job-h" class="spacer" style="margin:0;font-size:14px">${esc(j.title)}</h2><span class="chip ${issues ? "warn" : ""}">${issues ? "Done with issues" : "Done"}</span><button type="button" class="icon-btn" aria-label="Dismiss results" data-act="jobClose">✕</button></div>
+      <div class="res3"><div><b>${j.added.length}</b>${j.op === "add" ? "added" : j.op === "remove" ? "removed" : "changed"}</div><div><b>${j.skipped.length}</b>skipped${j.skipped[0] ? " · " + esc(j.skipped[0].why) : ""}</div><div class="${issues ? "bad" : ""}"><b>${j.failed.length}</b>failed${j.failed.map(f => " · " + esc(f.why)).join("")}</div></div>
+      <div class="row" style="margin-top:10px">${issues ? `<button type="button" class="btn pri sm" data-act="retry">Retry failed (${j.failed.length})</button>` : ""}<button type="button" class="btn sm" data-act="dl">Download list</button><a class="btn ghost sm" href="#/compliance/audit">View in audit log</a></div></section>`;
+  }
+  function openBulkEdit(ids, preset) {
+    const people = ids.map(id => S().people.find(p => p.id === id)), n = people.length;
+    const groups = [...new Set(S().groups.map(g => g.name))];
+    const distinct = new Set(people.flatMap(p => p.groups || [])).size;
+    dialog({ title: `Edit ${n} ${n === 1 ? "person" : "people"}`, wide: true, label: "Bulk edit",
+      body: `<p class="small muted" style="margin:0">${uAll ? `Everyone matching the filter, including people not on screen.` : `The ${n} people you selected.`}</p>
+        <div class="field"><label for="beF">Field</label><select id="beF"><option value="">Choose a field</option><option value="groups" ${preset === "groups" ? "selected" : ""}>Groups</option><option value="license" ${preset === "license" ? "selected" : ""}>License</option><option value="team" disabled>Team · synced from Holonet HR</option></select></div>
+        <div id="beBody"></div>`,
+      foot: `<span class="spacer small muted">Runs as a job · logged as one change</span><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn pri" id="beGo" aria-disabled="true">Choose a field</button>`,
+      onOpen(d, api) {
+        const f = $("#beF", d), body = $("#beBody", d), go_ = $("#beGo", d);
+        const draw = () => {
+          if (f.value === "groups") {
+            body.innerHTML = `<fieldset style="border:0;padding:0;margin:14px 0 0"><legend style="font-size:12.5px;font-weight:500">What to do</legend>
+              ${[["add", "Add to existing", "Keeps each person’s groups and adds this one."], ["remove", "Remove", "Takes this group away and leaves the rest."], ["replace", "Replace all", "Their groups become only this one."], ["clear", "Clear", "Removes every group."]].map(([v, l, h], i) => `<label class="check"><input type="radio" name="beOp" value="${v}" ${i === 0 ? "checked" : ""}><span><b>${l}</b><span class="d">${h}</span></span></label>`).join("")}</fieldset>
+              <div class="field" id="beValF"><label for="beV">Group</label><select id="beV">${groups.map(g => `<option ${g === "Hoth Evacuation" ? "selected" : ""}>${esc(g)}</option>`).join("")}</select>
+              <p class="small muted" style="margin:6px 0 0">Now: <b style="color:var(--ink)">${distinct > 1 ? "Various" : esc((people[0].groups || [])[0] || "None")}</b>${distinct > 1 ? ` · these people are in ${distinct} different groups` : ""}</p></div>
+              <div class="field"><b style="font-size:12.5px">Preview · ${Math.min(3, n)} of ${n}</b><table style="margin-top:6px"><thead><tr><th scope="col">Person</th><th scope="col">Groups now</th><th scope="col">After</th></tr></thead><tbody id="bePv"></tbody></table></div>`;
+          } else if (f.value === "license") {
+            body.innerHTML = `<div class="field"><label for="beL">Set license to</label><select id="beL"><option>Console</option><option>Console + AI</option></select></div><div class="field"><b style="font-size:12.5px">Preview · ${Math.min(3, n)} of ${n}</b><table style="margin-top:6px"><thead><tr><th scope="col">Person</th><th scope="col">Now</th><th scope="col">After</th></tr></thead><tbody id="bePv"></tbody></table></div>`;
+          } else body.innerHTML = "";
+          window.DD && window.DD.scan(body);
+          $$("input, select", body).forEach(x => x.addEventListener("change", pv));
+          pv();
+        };
+        const pv = () => {
+          const t = $("#bePv", d);
+          if (!f.value) { go_.setAttribute("aria-disabled", "true"); go_.textContent = "Choose a field"; return; }
+          if (f.value === "groups") {
+            const op = ($('input[name="beOp"]:checked', d) || {}).value, v = $("#beV", d).value;
+            $("#beValF", d).hidden = op === "clear";
+            const after = g => op === "add" ? [...new Set([...g, v])] : op === "remove" ? g.filter(x => x !== v) : op === "replace" ? [v] : [];
+            t.innerHTML = people.slice(0, 3).map(p => `<tr><td>${esc(p.name)}</td><td>${esc((p.groups || []).join(", ") || "None")}</td><td style="color:var(--ink)">${esc(after(p.groups || []).join(", ") || "None")}</td></tr>`).join("");
+            go_.textContent = op === "add" ? `Add ${v} to ${n} people` : op === "remove" ? `Remove ${v} from ${n} people` : op === "replace" ? `Replace groups for ${n} people` : `Clear groups for ${n} people`;
+          } else {
+            const v = $("#beL", d).value;
+            t.innerHTML = people.slice(0, 3).map(p => `<tr><td>${esc(p.name)}</td><td>${esc(p.license)}</td><td style="color:var(--ink)">${esc(v)}</td></tr>`).join("");
+            go_.textContent = `Set ${v} for ${n} people`;
+          }
+          go_.setAttribute("aria-disabled", "false");
+        };
+        f.addEventListener("change", draw); draw();
+        go_.onclick = () => {
+          if (go_.getAttribute("aria-disabled") === "true") { f.focus(); return; }
+          if (f.value === "license") { const v = $("#beL", d).value; people.forEach(p => p.license = v); save(); api.close(); rerender(); toast(`${v} set for ${n} people · logged`); return; }
+          const op = $('input[name="beOp"]:checked', d).value, v = $("#beV", d).value;
+          api.close(); uSel.clear(); uAll = false;
+          runJob({ id: "j" + Date.now(), title: go_.textContent, op, value: v, ids: people.map(p => p.id), done: 0, added: [], skipped: [], failed: [], state: "running" });
+          rerender(); toast(`${go_.textContent} · progress is above the list`);
+        };
+      } });
+  }
+  route("/people/users", p => {
     if (!isAdmin()) return adminOnly(pc("Users", "/people/users"), "people");
-    const s = S();
+    const s = S(), team = p.team || "", rows = usersIn(team), ids = rows.map(r => r.id);
+    [...uSel].forEach(id => { if (!ids.includes(id)) uSel.delete(id); });
+    const n = uAll ? rows.length : uSel.size, pageAll = rows.length && rows.every(r => uSel.has(r.id));
+    const picked = s.people.filter(x => uAll ? ids.includes(x.id) : uSel.has(x.id));
+    const dea = picked.filter(x => x.status === "deactivated");
+    const susOff = dea.length > 0;
+    const bar = n ? `<div class="bulkbar" role="region" aria-label="Selected people"><b>${uAll ? `All ${rows.length} matching selected` : `${n} selected`}</b>${pageAll && !uAll && team ? `<button type="button" class="link" style="color:#fff" data-act="allMatching">Select all ${rows.length} matching</button>` : ""}<button type="button" class="btn ghost" data-act="uClear">Clear</button><span class="spacer"></span>
+      <button type="button" class="btn" data-act="bEdit">Edit…</button><button type="button" class="btn" data-act="bGroup">Add to group</button><button type="button" class="btn" data-act="bLic">Change license</button><button type="button" class="btn" data-act="bExport">Export</button><span class="bdiv" aria-hidden="true"></span>
+      <button type="button" class="btn" data-act="bSus" aria-disabled="${susOff}" ${susOff ? 'aria-describedby="susWhy"' : ""}>Suspend</button>${susOff ? `<span id="susWhy" class="vh">${esc(dea[0].name)} is already deactivated. Unselect them to suspend the others.</span>` : ""}</div>` : `<p class="small muted" style="margin:12px 0 0" aria-live="polite"><b style="color:var(--ink)">${rows.length} people</b>${team ? ` match Team: ${esc(team)}` : ""} · sorted by name</p>`;
     return { nav: "people", crumbs: pc("Users", "/people/users"), title: "Users",
       html: `${head("People", `<a class="btn pri" href="#/people/users/invite">Invite people</a>`)}${peopleTabs("users")}
-      <div class="body"><table><caption class="vh">People in Echo Base</caption><thead><tr><th scope="col">Person</th><th scope="col">Team</th><th scope="col">License</th><th scope="col">Last active</th><th scope="col">Status</th></tr></thead><tbody>
-      ${s.people.map(p => `<tr><td><a href="#/people/users/${p.id}" style="text-decoration:none"><span class="row" style="gap:10px"><span class="av sm">${p.initials}</span><span><span style="text-decoration:underline;text-decoration-color:var(--rule-strong);text-underline-offset:3px">${esc(p.name)}</span><span class="sub">${esc(p.title)}</span></span></span></a></td>
-        <td>${esc(p.team)}</td><td>${esc(p.license)}</td><td>${esc(p.last)}</td><td>${p.status === "deactivated" ? '<span class="chip">Deactivated</span>' : p.reclaim ? `<span class="chip">Until ${esc(p.reclaim)}</span>` : '<span class="muted">Active</span>'}</td></tr>`).join("")}
-      ${s.invited ? `<tr class="hl"><td>Rogue One pilot<span class="sub">${s.invite.count} invitations · ${s.accepted || 0} accepted</span></td><td>Rogue One pilot</td><td>Console</td><td>—</td><td><span class="chip">Invited</span></td></tr>` : ""}
-      </tbody></table><p class="small muted" style="margin-top:10px">Showing ${s.people.length} of ${s.plan.assigned} people with licenses.</p></div>` };
+      <div class="body">${jobPanel()}<div class="row" style="margin-top:12px"><label for="uTeam" class="vh">Team</label><select id="uTeam" style="width:auto" data-change="team"><option value="">Team: any</option>${teams().map(t => `<option ${t === team ? "selected" : ""} value="${esc(t)}">Team: ${esc(t)}</option>`).join("")}</select></div>
+      ${bar}
+      <table style="margin-top:10px"><caption class="vh">People in Echo Base</caption><thead><tr><th scope="col" class="ck"><input type="checkbox" aria-label="Select everyone on this page" data-change="uPage" ${pageAll ? "checked" : ""}></th><th scope="col">Person</th><th scope="col">Team</th><th scope="col">Groups</th><th scope="col">License</th><th scope="col">Last active</th></tr></thead><tbody>
+      ${rows.map(x => `<tr${uAll || uSel.has(x.id) ? ' class="hl"' : ""}><td class="ck"><input type="checkbox" aria-label="Select ${esc(x.name)}" data-act="uPick" data-id="${x.id}" ${uAll || uSel.has(x.id) ? "checked" : ""}></td><td><a href="#/people/users/${x.id}" style="text-decoration:none"><span class="row" style="gap:10px"><span class="av sm">${x.initials}</span><span><span style="text-decoration:underline;text-decoration-color:var(--rule-strong);text-underline-offset:3px">${esc(x.name)}</span><span class="sub">${esc(x.title)}</span></span></span></a></td>
+        <td>${esc(x.team)}</td><td>${esc((x.groups || []).join(", ") || "—")}</td><td>${esc(x.license)}</td><td>${x.status === "deactivated" ? "<b>Deactivated</b>" : esc(x.last)}</td></tr>`).join("")}
+      ${s.invited && !team ? `<tr class="hl"><td></td><td>Rogue One pilot<span class="sub">${s.invite.count} invitations · ${s.accepted || 0} accepted</span></td><td>Rogue One pilot</td><td>—</td><td>Console</td><td><span class="chip">Invited</span></td></tr>` : ""}
+      </tbody></table><p class="small muted" style="margin-top:10px">Shift-click a checkbox to select a range.</p></div>`,
+      act: {
+        team(el) { uSel.clear(); uAll = false; go("/people/users" + (el.value ? "?team=" + encodeURIComponent(el.value) : "")); },
+        uPick(el, e) {
+          const id = el.dataset.id, on = el.checked;
+          if (uAll) { uAll = false; ids.forEach(i => uSel.add(i)); }
+          if (e && e.shiftKey && uLast) { const a = ids.indexOf(uLast), b = ids.indexOf(id); ids.slice(Math.min(a, b), Math.max(a, b) + 1).forEach(i => on ? uSel.add(i) : uSel.delete(i)); }
+          else on ? uSel.add(id) : uSel.delete(id);
+          uLast = id; rerender(); announce(`${uSel.size} selected`);
+        },
+        uPage(el) { uAll = false; ids.forEach(i => el.checked ? uSel.add(i) : uSel.delete(i)); rerender(); announce(el.checked ? `${ids.length} on this page selected` : "Selection cleared"); },
+        allMatching() { uAll = true; rerender(); announce(`All ${rows.length} matching selected`); },
+        uClear() { uSel.clear(); uAll = false; rerender(); announce("Selection cleared"); },
+        bEdit() { openBulkEdit(picked.map(x => x.id)); },
+        bGroup() { openBulkEdit(picked.map(x => x.id), "groups"); },
+        bLic() { openBulkEdit(picked.map(x => x.id), "license"); },
+        bExport() { toast(`Exporting ${picked.length} people. We'll send the file when it's ready.`); },
+        bSus() { if (susOff) { announce(`${dea[0].name} is already deactivated. Unselect them to suspend the others.`); toast(`${dea[0].name} is already deactivated. Unselect them to suspend the others.`); return; } toast("Suspend comes with a later pattern"); },
+        jobClose() { delete S().job; save(); rerender(); },
+        retry() {
+          const j = S().job, failed = j.failed.map(f => f.id);
+          failed.forEach(id => { S().people.find(q => q.id === id).locked = false; });
+          runJob(Object.assign({}, j, { id: "j" + Date.now(), ids: failed, done: 0, failed: [], state: "running", retry: true }));
+          rerender(); announce(`Retrying ${failed.length}`);
+        },
+        dl() { toast("Results list downloaded (CSV)"); }
+      } };
   });
-
-  /* ----- Invite → job → success panel (Success & next steps) ----- */
   route("/people/users/invite", p => {
     if (!isAdmin()) return adminOnly(pc("Invite", "/people/users/invite"), "people");
     const s = S(), inv = s.invite, state = s.inviteState || "review";

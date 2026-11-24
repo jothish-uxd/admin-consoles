@@ -176,7 +176,8 @@
     document.body.insertAdjacentHTML("beforeend", `<div id="endcard"><p><b>${CREDIT[0]}</b><span>${CREDIT[1]}</span></p></div>`);
     buildWarp(def);
     window.EVENTS = def.events().map(([n, t]) => [n, +realTime(t).toFixed(3)]);
-    window.DURATION = def.duration || def.T.end;
+    // no duration: the clip runs at its natural length (the clicks' pauses included), not cut at T.end
+    window.DURATION = def.duration || +(contentReal() + (def.T.end - def.T.endCard[0])).toFixed(3);
     window.renderAt = renderAt; window.AUDIT = audit;
     document.fonts.ready.then(() => {
       ({ cam: CAM, cur: CUR } = def.build());
