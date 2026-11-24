@@ -437,6 +437,45 @@ window.VIDEOS = {
         "She sets Hold shipment to Needs approval. The row explains what that means: the AI asks the person to confirm before it holds a shipment.",
         "She saves. A message confirms the tool settings are saved, apply within a few minutes and are logged, and the Write group now has 3 tools."
       ]
+    },
+    "Sign-in & credentials": {
+      src: "media/mcp-connectors/sign-in-credentials.mp4",
+      poster: "media/mcp-connectors/sign-in-credentials.jpg",
+      label: "Sign-in & credentials, shown in a mock Echo Base console",
+      steps: [
+        "On the published Fleet Tracker page, the admin opens the Sign-in tab. A line explains that whose account Fleet Tracker uses decides what the AI can reach.",
+        "Three choices are stacked, each explained in a sentence: Each person signs in (recommended, and selected), Org-managed sign-in through the identity provider, and One org connection.",
+        "She tries One org connection. A warning says actions will show the shared account, fleet-svc, not the person who asked, and to use a least-privilege service account, never an admin's.",
+        "She chooses Org-managed sign-in instead: Holonet ID, with groups synced. She runs a test, and it confirms a test user signed in through Holonet ID.",
+        "Beside it, a preview shows what each person sees when they connect: what Fleet Tracker will be able to do, with changes asking first, and that they're connected as w.antilles@echobase through Holonet ID. The client secret is masked and was shown only once, when it was added.",
+        "She saves. A message confirms that Logistics will connect through Holonet ID at their next login, and that the change is logged."
+      ]
+    },
+    "Who gets each connector": {
+      src: "media/mcp-connectors/who-gets-each-connector.mp4",
+      poster: "media/mcp-connectors/who-gets-each-connector.jpg",
+      label: "Who gets each connector, shown in a mock Echo Base console",
+      steps: [
+        "On the published Fleet Tracker page, the admin opens the Access tab. A note says it's a pilot: Logistics only since November 23, with 18 of 24 people connected.",
+        "A table shows who has it and how: Logistics as a group, Base Ops leads as a role, and Biggs Darklighter as a person, each with the tools they get.",
+        "She chooses Add group, and picks Rogue One, 8 people, from the menu.",
+        "The new row offers a tools setting with visible Add and Cancel buttons. She opens the dropdown and picks Read only: Find ships, Get manifest and List routes.",
+        "She adds it. A message announces that Fleet Tracker is now available to Rogue One, read only, and Biggs's row now says his own access overrides Rogue One, so it's clear which setting wins.",
+        "Below the table, a note shows what everyone else sees: Fleet Tracker isn't on for you; ask Lavanya Sienna."
+      ]
+    },
+    "Allowed connectors": {
+      src: "media/mcp-connectors/allowed-connectors.mp4",
+      poster: "media/mcp-connectors/allowed-connectors.jpg",
+      label: "Allowed connectors, shown in a mock Echo Base console",
+      steps: [
+        "On AI › Connectors, the admin chooses the Policy: approved connectors only pill, which opens Connector policy.",
+        "Three choices run from most to least restrictive: Off, Approved connectors only (marked Recommended, and selected) and Any server.",
+        "She picks Any server. A dialog asks her to confirm, and lists what a rogue server could do: read everything the AI sends it, hide instructions in its tool descriptions, and change its tools after it's added. People would have to accept these risks, and every server added would be logged. She keeps approved only.",
+        "The approved list shows every connector in one place, where it came from (built-in or the catalog) and its owner.",
+        "Enforced in shows the web, desktop and mobile apps enforcing the list, and coding tools not yet, so people could still add local servers there. She chooses Enforce and saves, and a message confirms it applies within 10 minutes and is logged.",
+        "A preview shows what people see when a server is blocked: Rebel Radar isn't approved by Echo Base, with a Request it button."
+      ]
     }
   }
 };

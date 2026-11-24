@@ -180,6 +180,7 @@ window.SEED = {
     { id: "pd", name: "PagerDuty", logo: "PD", state: "Connected", desc: "Pages Security on-call." }
   ],
   connectorPolicy: "approved",
+  connectorEnforce: { web: true, desktop: true, mobile: true, code: false },
   connectors: [
     { id: "holonet", name: "Holonet Docs", publisher: "Echo Base", type: "Built-in", can: "Reads", status: "Published · everyone", published: true },
     { id: "mission", name: "Mission Board", publisher: "Corellian Systems", type: "Partner", can: "Reads and writes", status: "Published · 3 groups", published: true },
@@ -193,7 +194,12 @@ window.SEED = {
     { id: "droid", name: "Droid Workshop", publisher: "Industrial Automaton", label: "Community · not reviewed", can: "Reads" },
     { id: "fleetcmd", name: "Fleet Command", publisher: "Rebel Fleet Systems", label: "Verified partner", can: "Reads" },
     { id: "fleet", name: "Fleet Tracker", publisher: "Kessel Logistics", label: "Community · not reviewed", can: "Reads, writes and deletes", url: "https://mcp.fleettracker.kessel/mcp", runs: "Kessel Logistics servers · Outer Rim",
-      published: false, connected: false, tested: false,
+      published: false, connected: false, tested: false, signin: "person",
+      access: [
+        { id: "logistics", who: "Logistics", sub: "24 people", how: "Group", tools: "same" },
+        { id: "opsleads", who: "Base Ops leads", sub: "6 people", how: "Role", tools: "same" },
+        { id: "biggs", who: "Biggs Darklighter", sub: "Rogue One", how: "Person", tools: "same", memberOf: "Rogue One" }
+      ],
       tools: [
         { id: "search_ships", name: "Find ships", what: "Finds ships by name or route", kind: "read", on: "Chat · Agents", set: "allowed" },
         { id: "get_manifest", name: "Get manifest", what: "Shows what a ship is carrying", kind: "read", on: "Chat · Agents", set: "allowed" },
