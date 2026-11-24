@@ -7,11 +7,21 @@
   const aiTabs = a => tabs("AI", [["features", "Features", "/ai/features"], ["data", "Data", "/ai/data"], ["models", "Models", "/ai/models"], ["usage", "Usage", "/ai/usage"], ["safety", "Safety", "/ai/safety"], ["connectors", "Connectors", "/ai/connectors"]], a);
   const guard = crumbs => S().role === "admin" ? null : { nav: "ai", crumbs, title: "Admins only", html: `${head("This page is for admins")}<p class="lede">Switch to the admin view from your name at the top right.</p>` };
   // older saved demo state predates connectors
-  const data = () => { const s = S(); if (!s.connectors || s.connectors.some(c => c.request)) { s.connectors = JSON.parse(JSON.stringify(window.SEED.connectors)); s.connectorPolicy = window.SEED.connectorPolicy; save(); } return s.connectors; };
+  const data = () => { const s = S(); if (!s.connectors || s.connectors.some(c => c.request)) { s.connectors = JSON.parse(JSON.stringify(window.SEED.connectors)); s.connectorPolicy = window.SEED.connectorPolicy; save(); }
+    window.SEED.connectors.forEach(sc => { const c = s.connectors.find(x => x.id === sc.id); if (c && sc.health && !c.health) { c.health = sc.health; if (sc.failing) c.failing = JSON.parse(JSON.stringify(sc.failing)); } });
+    return s.connectors; };
   const catalog = () => window.SEED.connectorCatalog;
   const SET = [["allowed", "Allowed"], ["approval", "Needs approval"], ["blocked", "Blocked"]];
   const KIND = { read: "Read", write: "Write", delete: "Delete" };
   const kinds = c => { const k = { read: 0, write: 0, delete: 0 }; c.tools.forEach(t => k[t.kind]++); return k; };
+
+
+  function statusCell(c) {
+    if (c.off) return `<b>Off for everyone</b><span class="sub">Turned off by Lavanya Sienna</span>`;
+    if (c.health) return `${c.health[0] === "Failing" ? `<b>${c.health[0]}</b>` : c.health[0]}<span class="sub">${c.health[1]}</span>`;
+    if (c.tools) return c.published ? `3 people need sign-in<span class="sub">They see Reconnect in their AI</span>` : c.tested ? "Draft · tested" : "Draft";
+    return `Draft<span class="sub">Not published</span>`;
+  }
 
   /* ================= List ================= */
   route("/ai/connectors", () => {
@@ -21,9 +31,10 @@
       html: `${head("AI", `<button type="button" class="btn" data-act="add">Add connector</button>`)}${aiTabs("connectors")}<div class="body">
         <p class="lede" style="margin-top:0">Connectors let the AI reach other systems. Nothing connects until it’s published here.</p>
         <p class="small muted"><a class="chip" href="#/ai/connectors/policy">Policy: <b style="color:var(--ink);margin-left:4px">${({ off: "off", approved: "approved connectors only", any: "any server" })[S().connectorPolicy]}</b></a> <span class="chip">Requests: <b style="color:var(--ink);margin-left:4px">on</b></span></p>
+        ${list.filter(c => c.failing && !c.off).map(c => `<div class="banner" role="status" style="margin-top:12px"><div class="tx"><b>${esc(c.name)} is failing</b> since ${c.failing.since}, with 42 failed calls, and its tools changed since you approved it.</div><a class="btn sm" href="#/ai/connectors/${c.id}">Open ${esc(c.name)}</a></div>`).join("")}
         <table style="margin-top:14px"><caption class="vh">Connectors</caption><thead><tr><th scope="col">Connector</th><th scope="col">Type</th><th scope="col">Can</th><th scope="col">Status</th><th scope="col"><span class="vh">Open</span></th></tr></thead><tbody>
         ${list.map(c => `<tr><td><a href="#/ai/connectors/${c.id}">${esc(c.name)}</a><span class="sub">${esc(c.publisher)}</span></td><td>${esc(c.type)}</td>
-          <td>${c.tools ? (c.connected ? "Read, write and delete" : "Not connected yet") : esc(c.can)}</td><td>${c.tools ? (c.published ? `Published · ${esc(c.audience || "Logistics")}` : c.tested ? "Draft · tested" : "Draft") : esc(c.status)}</td>
+          <td>${c.tools ? (c.connected ? "Read, write and delete" : "Not connected yet") : esc(c.can)}</td><td>${statusCell(c)}</td>
           <td class="act"><a class="btn sm" href="#/ai/connectors/${c.id}" aria-label="Open ${esc(c.name)}">${c.tools && !c.published ? "Review" : "Open"}</a></td></tr>`).join("")}</tbody></table></div>`,
       act: {
         add() {
@@ -99,11 +110,10 @@
     const g = guard([["AI", "/ai/features"], ["Connectors", "/ai/connectors"]]); if (g) return g;
     const c = data().find(x => x.id === p.id);
     if (!c) return { nav: "ai", crumbs: [["AI", "/ai/features"], ["Connectors", "/ai/connectors"]], html: head("Connector not found") };
-    if (!c.tools) return { nav: "ai", crumbs: [["AI", "/ai/features"], ["Connectors", "/ai/connectors"], [c.name, ""]], title: c.name,
-      html: `<a class="back" href="#/ai/connectors">← Connectors</a>${head(c.name, `<span class="chip">${esc(c.status)}</span>`)}<p class="lede">${esc(c.type)} · ${esc(c.publisher)}. Open Fleet Tracker to see the review and tool settings.</p>` };
-    const tab = ["tools", "signin", "access"].includes(p.tab) && c.connected ? p.tab : "overview", k = kinds(c);
+    if (!c.tools) return healthPage(c);
+    const tab = ["tools", "signin", "access", "data"].includes(p.tab) && c.connected ? p.tab : "overview", k = kinds(c);
     if (!c.access) { const src = window.SEED.connectorCatalog.find(x => x.id === c.id) || {}; c.signin = c.signin || src.signin || "person"; c.access = JSON.parse(JSON.stringify(src.access || [])); }
-    const ctabs = `<nav class="tabs" aria-label="${esc(c.name)}"><a href="#/ai/connectors/${c.id}"${tab === "overview" ? ' aria-current="page"' : ""}>Overview</a>${c.connected ? `<a href="#/ai/connectors/${c.id}?tab=tools"${tab === "tools" ? ' aria-current="page"' : ""}>Tools <span class="mono muted">${c.tools.length}</span></a>` : `<span class="muted" style="padding:0 0 10px" aria-disabled="true">Tools</span>`}${c.connected ? `<a href="#/ai/connectors/${c.id}?tab=signin"${tab === "signin" ? ' aria-current="page"' : ""}>Sign-in</a><a href="#/ai/connectors/${c.id}?tab=access"${tab === "access" ? ' aria-current="page"' : ""}>Access</a>` : '<span class="muted" style="padding:0 0 10px">Sign-in</span><span class="muted" style="padding:0 0 10px">Access</span>'}<span class="muted" style="padding:0 0 10px">Data</span></nav>`;
+    const ctabs = `<nav class="tabs" aria-label="${esc(c.name)}"><a href="#/ai/connectors/${c.id}"${tab === "overview" ? ' aria-current="page"' : ""}>Overview</a>${c.connected ? `<a href="#/ai/connectors/${c.id}?tab=tools"${tab === "tools" ? ' aria-current="page"' : ""}>Tools <span class="mono muted">${c.tools.length}</span></a>` : `<span class="muted" style="padding:0 0 10px" aria-disabled="true">Tools</span>`}${c.connected ? `<a href="#/ai/connectors/${c.id}?tab=signin"${tab === "signin" ? ' aria-current="page"' : ""}>Sign-in</a><a href="#/ai/connectors/${c.id}?tab=access"${tab === "access" ? ' aria-current="page"' : ""}>Access</a>` : '<span class="muted" style="padding:0 0 10px">Sign-in</span><span class="muted" style="padding:0 0 10px">Access</span>'}${c.connected ? `<a href="#/ai/connectors/${c.id}?tab=data"${tab === "data" ? ' aria-current="page"' : ""}>Data</a>` : '<span class="muted" style="padding:0 0 10px">Data</span>'}</nav>`;
     const status = c.published ? `<span class="chip dk">Published · ${esc(c.audience || "Logistics")}</span>` : `<span class="chip out">Draft · not published</span>`;
     const actions = c.published ? `<button type="button" class="btn ghost" data-act="off">Turn off for everyone</button>` : `<button type="button" class="btn ghost" data-act="deleteDraft">Delete draft</button><button type="button" class="btn pri" data-act="publish" id="pubB" ${c.tested ? "" : 'aria-disabled="true" aria-describedby="pub-h"'}>Publish…</button>`;
     const n = (i, done) => `<span class="av sm" aria-hidden="true" style="${done ? "background:var(--ink);color:#fff" : "background:var(--bg);border:1.5px solid var(--rule-strong);color:var(--soft)"}">${done ? "✓" : i}</span>`;
@@ -125,7 +135,8 @@
       </ol></section></div>`;
     else if (tab === "tools") body = toolsTab(c);
     else if (tab === "signin") body = signinTab(c);
-    else body = accessTab(c);
+    else if (tab === "access") body = accessTab(c);
+    else body = dataTab(c);
     return { nav: "ai", crumbs: [["AI", "/ai/features"], ["Connectors", "/ai/connectors"], [c.name, ""]], title: c.name,
       html: `<a class="back" href="#/ai/connectors">← Connectors</a><div class="hd"><h1>${esc(c.name)}</h1>${status}<span class="spacer"></span>${actions}</div>${ctabs}<div class="body">${body}</div>`,
       act: Object.assign({
@@ -164,7 +175,7 @@
         off() { dialog({ title: `Turn off ${c.name} for everyone?`, body: `<p class="muted">24 people lose access right away, in chat and in agents. Open sessions stop within a few minutes. You can turn it back on.</p>`,
           foot: `<button type="button" class="btn ghost" data-close>Cancel</button><button type="button" class="btn pri" id="tf">Turn off</button>`,
           onOpen: (d, api) => $("#tf", d).onclick = () => { api.close(); toast("Turning off isn't part of this prototype yet"); } }); }
-      }, toolActs(c), signinActs(c), accessActs(c)) };
+      }, toolActs(c), signinActs(c), accessActs(c), dataActs(c)) };
   });
 
 
@@ -221,6 +232,58 @@
             toast(`${c.name} now available to ${n} · ${tl === "read" ? "read only" : "same tools as the connector"} · logged`); } }); },
       removeAccess(b) { const a = c.access.find(x => x.id === b.dataset.id), i = c.access.indexOf(a); c.access.splice(i, 1); save(); rerender();
         toast(`${a.who} removed from ${c.name}`, () => { c.access.splice(i, 0, a); save(); rerender(); }); }
+    };
+  }
+
+
+  function healthPage(c) {
+    const f = c.failing;
+    const actions = c.off ? `<button type="button" class="btn" data-act="backOn">Turn back on</button>` : `<button type="button" class="btn ghost" data-act="signOut">Sign everyone out</button><button type="button" class="btn" data-act="turnOff" id="offB">Turn off for everyone</button>`;
+    return { nav: "ai", crumbs: [["AI", "/ai/features"], ["Connectors", "/ai/connectors"], [c.name, ""]], title: c.name,
+      html: `<a class="back" href="#/ai/connectors">← Connectors</a><div class="hd"><h1>${esc(c.name)}</h1>${c.off ? '<span class="chip dk">Off for everyone</span>' : `<span class="chip out">${esc(c.status)}</span>`}<span class="spacer"></span>${actions}</div>
+        <div class="cols" style="grid-template-columns:minmax(0,1fr) 380px;margin-top:16px"><div>
+          <section class="card" aria-labelledby="hh-h" style="margin:0"><h2 id="hh-h">Health</h2>
+            <div aria-live="polite">${kv([["Status", c.off ? "<b>Off for everyone · applies within 10 minutes</b>" : f ? `<b>Failing since ${f.since}</b>` : esc(c.health ? c.health[0] : "Connected"), 1],
+              ["Last successful call", f ? f.lastOk : esc(c.health ? c.health[1] : "")], ["Failed calls", f ? f.failed : "None in the last hour"], ["Used by", f ? f.usedBy : esc(c.status.replace("Published · ", ""))], ["In", "Chat and agents · every app"]])}</div></section>
+          <div class="note" style="margin-top:12px">${c.off ? `Open sessions stop too. People see: <b>“${esc(c.name)} is off. Ask Lavanya Sienna.”</b>` : f ? `People using it see: <b>“${esc(c.name)} isn’t working right now. Your admin has been told.”</b>` : `${esc(c.type)} · ${esc(c.publisher)}.`}</div></div>
+        <section class="card" aria-labelledby="cs-h" style="margin:0"><h2 id="cs-h">Changed since you approved it</h2>${f ? `<p class="small muted" style="margin:-6px 0 8px">Approved Oct 14 by Toryn Farr</p>${kv(f.changes.map(([k, n, d]) => [k, `${esc(n)}<span class="small muted" style="display:block">${esc(d)}</span>`]))}` : '<p class="muted" style="margin:0">Nothing has changed.</p>'}</section></div>`,
+      act: {
+        turnOff() { const n = f ? f.people : 24;
+          dialog({ title: `Turn off ${c.name} for everyone?`, body: `${kv([["Who", f ? f.usedBy : "Everyone with access"], ["Where", "Chat and agents, in every app"], ["Open sessions", "Stop within 10 minutes"], ["You can", "Turn it back on later"]])}
+            <label class="check" style="margin-top:12px"><input type="checkbox" id="so" checked><span>Also sign everyone out of ${esc(c.name)}</span></label>
+            <p class="small muted">People will see “${esc(c.name)} is off. Ask Lavanya Sienna.”</p>`,
+            foot: `<button type="button" class="btn ghost" data-close>Cancel</button><button type="button" class="btn pri" id="toOk">Turn off for ${n} people</button>`,
+            onOpen: (d, api) => $("#toOk", d).onclick = () => { const so = $("#so", d).checked; c.off = true; save(); api.close(); rerender(); toast(`${c.name} turned off for ${n} people${so ? " · everyone signed out" : ""} · logged`, () => { c.off = false; save(); rerender(); }); } }); },
+        backOn() { c.off = false; save(); rerender(); toast(`${c.name} is back on · logged`); },
+        signOut() { toast(`Everyone signed out of ${c.name} · they sign in again next time · logged`); }
+      } };
+  }
+
+  /* ---------- Data tab ---------- */
+  const LABELS = ["Restricted", "Mission plans", "Personnel"];
+  function dataTab(c) {
+    const s = S(), never = c.never || (c.never = ["Confidential"]), d = s.labelDraft && s.labelDraft.id === c.id ? s.labelDraft.list : never, changed = d !== never && d.join() !== never.join();
+    const left = LABELS.filter(l => !d.includes(l));
+    return `<div class="row" style="min-height:36px"><span class="muted">What Fleet Tracker sends out, where it goes, and <b style="color:var(--ink)">whose rules apply once it’s there.</b></span><span class="spacer"></span>
+        ${changed ? `<span class="small" style="font-weight:500" aria-live="polite">1 change</span><button type="button" class="btn sm ghost" data-act="cancelLabels">Cancel</button><button type="button" class="btn sm pri" data-act="saveLabels">Save</button>` : ""}</div>
+      <div class="cols" style="grid-template-columns:minmax(0,1fr) 380px;margin-top:10px"><div>
+        <section class="card" aria-labelledby="wd-h" style="margin:0"><h2 id="wd-h">Where data goes</h2>${kv([["Runs on", esc(c.runs)], ["Kept by Kessel Logistics", "30 days, under their terms"], ["Sends", "The AI’s question, and the ships, routes or manifests it asks about", 1]])}
+          <div class="note" style="margin-top:10px"><b>Your AI region, Core Worlds, doesn’t move Fleet Tracker.</b> Echo Base’s AI data policy stops here: once data reaches Kessel Logistics, their retention and privacy rules apply.</div></section>
+        <section class="card" aria-labelledby="cs2-h"><h2 id="cs2-h">What can be sent</h2>
+          <label class="check"><input type="checkbox" checked disabled><span>Only what the tool asks for <span class="small muted">· fields the tool needs, not whole documents</span></span></label>
+          <div style="margin-top:10px"><div class="small muted">Never sent to Fleet Tracker</div><div class="row" style="margin-top:6px">${d.map(l => `<span class="chip dk">${esc(l)}</span>`).join("")}
+            ${left.length ? `<label for="addLbl" class="vh">Add a label</label><select id="addLbl" style="width:auto" data-change="addLabel"><option value="">+ Add label</option>${left.map(l => `<option>${l}</option>`).join("")}</select>` : ""}</div></div></section></div>
+        <section class="card" aria-labelledby="ot-h" style="margin:0"><h2 id="ot-h">Outside AI tools that can reach Echo Base</h2><p class="small muted" style="margin:-6px 0 8px">Through Echo Base’s own MCP server</p>
+          <table><caption class="vh">Outside AI tools</caption><thead><tr><th scope="col">Tool</th><th scope="col">Domain</th><th scope="col">Can</th></tr></thead><tbody>
+          ${[["Holonet Assistant", "assistant.holonet.ai", "Read and write"], ["Droid Code", "droidcode.dev", "Read"], ["Astromech CLI", "r2.astromech.io", "Read"]].map(([n, dm, cn]) => `<tr><td>${n}</td><td class="mono small">${dm}</td><td>${cn}</td></tr>`).join("")}</tbody></table>
+          <p class="small muted"><b style="color:var(--ink)">API tokens: off.</b> Token connections would skip this list, so they stay off.</p></section></div>`;
+  }
+  function dataActs(c) {
+    const s = S();
+    return {
+      addLabel(el) { if (!el.value) return; const base = s.labelDraft && s.labelDraft.id === c.id ? s.labelDraft.list : (c.never || ["Confidential"]); s.labelDraft = { id: c.id, list: base.concat(el.value) }; save(); rerender(); announce(`${el.value} added. Save to apply.`); },
+      cancelLabels() { s.labelDraft = null; save(); rerender(); announce("Change discarded"); },
+      saveLabels() { const added = s.labelDraft.list.filter(l => !(c.never || []).includes(l)); c.never = s.labelDraft.list; s.labelDraft = null; save(); rerender(); toast(`${added.join(", ")} content won’t be sent to ${c.name} · logged`); }
     };
   }
 

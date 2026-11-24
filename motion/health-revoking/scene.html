@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Health &amp; revoking · motion scene</title>
+<!--
+  Source for media/mcp-connectors/health-revoking.mp4.
+  Built on motion/shared (console.css, connectors.css, motion.js) by motion/_build/health.py, which takes the Connectors
+  list from allowed-connectors so the page is the same markup; here its Status column shows health.
+
+  Follows the Health & revoking card (data/guidance-governance.js):
+  - way in: Connectors, where each status is in words with the last good call (do 1, WCAG 1.4.1)
+  - people whose sign-in expired see Reconnect in their AI (do 2, avoid 3)
+  - a banner for the failing connector (WCAG 4.1.3, think 1)
+  - the connector's health, and what changed in its tools since approval (do 5, think 2)
+  - one action turns it off for everyone and signs everyone out, confirmed with who it affects (do 3, WCAG 3.3.4)
+  - how long it takes everywhere; open sessions stop too; chat and agents, every app (do 4, avoid 1, avoid 2)
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<link rel="stylesheet" href="../shared/connectors.css">
+<style>
+/* list page */
+.pol { margin-top: -8px; display: flex; gap: 8px; font-size: 12.5px; }
+.pol span { display: inline-flex; gap: 6px; align-items: center; padding: 4px 10px; border-radius: 999px; background: var(--hover); color: var(--soft); }
+.req .sp { margin-left: auto; display: flex; gap: 6px; }
+#vA table { margin-top: 14px; font-size: 13px; }
+#vA td { height: 56px; }
+#vA td .s { display: block; font-size: 12px; color: var(--faint); font-weight: 400; margin-top: 2px; }
+
+#vA td .s { display: block; }
+.fl { color: var(--ink); font-weight: 600; }
+.alert { margin-top: 14px; display: flex; gap: 10px; align-items: center; padding: 9px 10px 9px 14px; border: 1px solid var(--ink); border-radius: 10px; font-size: 13px; }
+.alert .ic, .hl1 .ic { width: 18px; height: 18px; flex: none; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+.alert .sp { margin-left: auto; }
+#rowM td { background: #f7f7f7; }
+/* Mission Board page */
+.cols { margin-top: 16px; display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 18px; align-items: start; }
+.cols .kv { margin-top: 10px; }
+.hl1 { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; color: var(--ink); }
+.chg { margin: 10px 0 0; padding: 0; list-style: none; font-size: 13px; }
+.chg li { display: grid; grid-template-columns: 70px 1fr; gap: 10px; padding: 9px 0; border-top: 1px solid var(--rule); }
+.chg li:first-child { border-top: 0; }
+.chg .k { font-size: 12px; color: var(--ink); font-weight: 600; }
+.chg .d { color: var(--soft); font-size: 12.5px; margin-top: 1px; }
+.seen { margin-top: 12px; }
+/* confirm */
+.dlg { position: absolute; left: 440px; top: 110px; width: 520px; background: var(--bg); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.22); opacity: 0; z-index: 10; }
+.dlg .h { padding: 20px 22px 0; }
+.dlg .h h2 { margin: 0; font-size: 17px; font-weight: 600; }
+.dlg .b { padding: 4px 22px 16px; font-size: 13px; }
+.dlg .b .kv { margin-top: 10px; }
+.dlg .ck { margin-top: 14px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--ink); }
+.dlg .ck .bx { width: 16px; height: 16px; border-radius: 4px; background: var(--ink); color: #fff; display: grid; place-items: center; flex: none; }
+.dlg .b p { margin: 12px 0 0; color: var(--soft); font-size: 12.5px; }
+.dlg .f { border-top: 1px solid var(--rule); padding: 14px 22px; display: flex; justify-content: flex-end; gap: 8px; }
+.dlg .f .btn { height: 34px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crA" data-path="AI / Connectors"></span>
+      <span class="crumb" id="crM" data-path="AI / Connectors / Mission Board" style="display:none"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="ai" data-role="admin"></div>
+    <div class="main">
+
+      <div class="view" id="vA">
+        <div class="hd" id="hdA"><h1>Connectors</h1><span class="btn" id="addB">Add connector</span></div>
+        <p class="lede">Connectors let the AI reach other systems. Nothing connects until it’s published here.</p>
+        <div class="pol" id="pol"><span id="polB">Policy: <b>approved connectors only</b></span><span>Requests: <b>on</b></span></div>
+        <div class="alert" id="alert"><span class="ic">!</span><span><b>Mission Board is failing</b> since 09:40, with 42 failed calls, and its tools changed since you approved it.</span><span class="sp"><span class="btn sm" id="openM">Open Mission Board</span></span></div>
+        <table>
+          <thead><tr><th>Connector</th><th>Type</th><th>Can</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>Holonet Docs<span class="s">Echo Base</span></td><td>Built-in</td><td>Reads</td><td>Connected<span class="s">Last call 2 min ago</span></td><td class="act"><span class="btn sm">Open</span></td></tr>
+            <tr id="rowM"><td>Mission Board<span class="s">Corellian Systems</span></td><td>Partner</td><td>Reads and writes</td><td><b class="fl">Failing</b><span class="s">Last worked 09:40</span></td><td class="act"><span class="btn sm">Open</span></td></tr>
+            <tr><td>Supply Depot<span class="s">Echo Base</span></td><td>Built-in</td><td>Reads and writes</td><td>Connected<span class="s">Last call 5 min ago</span></td><td class="act"><span class="btn sm">Open</span></td></tr>
+            <tr id="rowF"><td>Fleet Tracker<span class="s">Kessel Logistics</span></td><td>Community</td><td>Reads, writes and deletes</td><td>3 people need sign-in<span class="s">They see Reconnect in their AI</span></td><td class="act"><span class="btn sm">Open</span></td></tr>
+            <tr><td>Comms Relay<span class="s">Bothan Networks</span></td><td>Partner</td><td>Reads</td><td>Draft<span class="s">Not published</span></td><td class="act"><span class="btn sm">Open</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <!-- Mission Board -->
+      <div class="view" id="vM" style="opacity:0">
+        <div class="back">← Connectors</div>
+        <div class="hd"><h1>Mission Board</h1>
+          <span class="stx" style="width:178px"><span class="tag out" id="stOn">Published · 3 groups</span><span class="tag dk" id="stOff" style="opacity:0">Off for everyone</span></span>
+          <span id="hbOn" style="display:inline-flex;gap:8px"><span class="btn ghost">Sign everyone out</span><span class="btn" id="offB">Turn off for everyone</span></span>
+          <span id="hbOff" style="display:none;gap:8px"><span class="btn">Turn back on</span></span></div>
+        <div class="tabs page"><div class="on">Overview</div><div>Tools <span class="mono" style="color:var(--faint)">9</span></div><div>Sign-in</div><div>Access</div><div>Data</div></div>
+        <div class="cols">
+          <div>
+            <div class="card" id="hc"><h2>Health</h2>
+              <dl class="kv">
+                <div class="w"><dt>Status</dt><dd><span id="hs1" class="hl1"><span class="ic">!</span>Failing since 09:40</span><span id="hs2" class="hl1" style="display:none">Off for everyone · applies within 10 minutes</span></dd></div>
+                <div><dt>Last successful call</dt><dd>09:39:58 · Find cards</dd></div>
+                <div><dt>Failed calls</dt><dd>42 in the last hour · the server returned errors</dd></div>
+                <div><dt>Used by</dt><dd>3 groups · 61 people</dd></div>
+                <div><dt>In</dt><dd>Chat and agents · every app</dd></div>
+              </dl></div>
+            <div class="note seen" id="seen"><span class="ic">i</span><span id="sn1">People using it see: <b>“Mission Board isn’t working right now. Your admin has been told.”</b></span><span id="sn2" style="display:none">Open sessions stop too. People see: <b>“Mission Board is off. Ask Lavanya Sienna.”</b></span></div>
+          </div>
+          <div class="card" id="cc"><h2>Changed since you approved it</h2><div class="sub">Approved Oct 14 by Toryn Farr</div>
+            <ul class="chg">
+              <li><span class="k">Added</span><div>Delete board<div class="d">A delete tool · held off until reviewed</div></div></li>
+              <li><span class="k">Changed</span><div>Update card<div class="d">Its description now asks for full board access</div></div></li>
+              <li><span class="k">Server</span><div>Moved to a new address<div class="d">mcp.missionboard.corellia → api.mb-cloud.net</div></div></li>
+            </ul></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="scrim" id="scrim"></div>
+    <div class="dlg" id="dlg">
+      <div class="h"><h2>Turn off Mission Board for everyone?</h2></div>
+      <div class="b"><dl class="kv">
+        <div><dt>Who</dt><dd>3 groups · 61 people</dd></div>
+        <div><dt>Where</dt><dd>Chat and agents, in every app</dd></div>
+        <div><dt>Open sessions</dt><dd>Stop within 10 minutes</dd></div>
+        <div><dt>You can</dt><dd>Turn it back on later</dd></div></dl>
+        <div class="ck"><span class="bx"><svg width="10" height="10"><use href="#tick"/></svg></span>Also sign everyone out of Mission Board</div>
+        <p>People will see “Mission Board is off. Ask Lavanya Sienna.”</p></div>
+      <div class="f"><span class="btn ghost">Cancel</span><span class="btn pri" id="goB">Turn off for 61 people</span></div>
+    </div>
+    <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#tick"/></svg></i>Mission Board turned off for 61 people · everyone signed out · logged</div>
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+const T = {
+  openClick: 4.40, toM: [4.50, 4.80], offClick: 8.60, dlgIn: [8.70, 9.00], goClick: 10.90, dlgOut: [11.00, 11.20], off: 11.25, toastOut: [13.0, 13.3],
+  endCard: [14.2, 14.65], end: 15.7
+};
+
+function build() {
+  const tb = at("rowM"), al = at("alert"), om = at("openM");
+  const rf = at("rowF");
+  $("vM").style.opacity = 1;
+  const hc = at("hc"), cc = at("cc"), ob = at("offB"), sn = at("seen");
+  $("vM").style.opacity = 0;
+  const go = at("goB"), dl = at("dlg");
+  const cur = [
+    [0, 900, 620], [0.5, 900, 620], [3.4, om[0] - 120, om[1] + 60], [4.25, om[0], om[1] + 3], [4.55, om[0], om[1] + 3],
+    [7.6, ob[0] - 100, ob[1] + 60], [8.45, ob[0], ob[1] + 3], [8.75, ob[0], ob[1] + 3],
+    [10.75, go[0], go[1] + 3], [11.05, go[0], go[1] + 3], [12.6, 1010, 580], [14.2, 1014, 584]
+  ];
+  const cam = [
+    [0, 640, 360, 1], [0.4, 640, 360, 1],
+    [1.1, 740, tb[1] - 30, 1.25], [2.6, 740, tb[1] - 30, 1.25],                // statuses in words: failing, last worked, need sign-in
+    [3.0, 740, rf[1] - 40, 1.3], [3.7, 740, rf[1] - 40, 1.3],                 // 3 people see Reconnect in their AI
+    [4.1, 880, al[1] + 10, 1.35], [4.6, 880, al[1] + 10, 1.35],               // the banner → Open Mission Board
+    [5.4, 740, hc[1] + 10, 1.22], [6.4, 740, hc[1] + 10, 1.22],             // health: failing since, last good call
+    [6.9, cc[0] - 40, cc[1], 1.38], [7.8, cc[0] - 40, cc[1], 1.38],                       // what changed since it was approved
+    [8.4, 900, 230, 1.35], [8.8, 900, 230, 1.35],                              // Turn off for everyone
+    [9.3, dl[0], dl[1] + 10, 1.45], [11.0, dl[0], dl[1] + 10, 1.45],          // who it affects, where, how long; sign everyone out
+    [11.7, 740, 320, 1.22], [13.4, 740, 320, 1.22], // off everywhere, within 10 minutes; what people see
+    [14.2, 660, 360, 1.02]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  const m = span(t, ...T.toM);
+  $("vA").style.opacity = t < T.toM[0] ? 1 : 0; $("vM").style.opacity = m;
+  $("crA").style.display = t < T.toM[0] + .15 ? "" : "none"; $("crM").style.display = t < T.toM[0] + .15 ? "none" : "";
+  $("openM").style.background = t >= T.openClick - .05 && t < T.toM[0] ? "#f2f2f2" : "";
+  $("offB").style.background = t >= T.offClick - .05 && t < T.dlgIn[1] ? "#f2f2f2" : "";
+  const d = span(t, ...T.dlgIn, easeOut) * (1 - span(t, ...T.dlgOut));
+  $("dlg").style.opacity = d; $("dlg").style.transform = `translateY(${(1 - d) * 8}px)`;
+  $("scrim").style.opacity = .22 * d;
+  $("goB").style.background = t >= T.goClick - .05 && t < T.dlgOut[1] ? "#333" : "";
+  const off = t >= T.off;
+  $("stOn").style.opacity = off ? 0 : 1; $("stOff").style.opacity = off ? 1 : 0;
+  $("hbOn").style.display = off ? "none" : "inline-flex"; $("hbOff").style.display = off ? "inline-flex" : "none";
+  $("hs1").style.display = off ? "none" : "inline-flex"; $("hs2").style.display = off ? "inline-flex" : "none";
+  $("sn1").style.display = off ? "none" : ""; $("sn2").style.display = off ? "" : "none";
+  const to = span(t, T.off, T.off + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to; $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() {
+  return [["click", T.openClick], ["whoosh", T.toM[0]], ["click", T.offClick], ["whoosh", T.dlgIn[0]], ["click", T.goClick], ["chime", T.off]];
+}
+
+Motion.scene({
+  T, duration: 15, clicks: [T.openClick, T.offClick, T.goClick], clamp: 140, build, render, events,
+  slow: [[1.1, 2.6, 1.7], [3.0, 3.7, 1.6], [5.4, 7.8, 1.7], [9.3, 10.7, 1.7], [11.7, 13.4, 1.5]]
+});
+</script>
+</body>
+</html>

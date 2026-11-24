@@ -119,6 +119,12 @@ window.SEED = {
 
   /* ---------- Compliance ---------- */
   events: [
+    { id: "ai1", kind: "ai", time: "09:43:10", date: "Nov 22", actor: "Wedge Antilles", type: "via Holonet Assistant", via: true, text: "The AI rerouted Bright Hope to the Ord Mantell route", code: "fleet_tracker.reroute_ship · write · approved by Wedge", target: "Bright Hope · Fleet Tracker", ok: true },
+    { id: "ai2", kind: "ai", time: "09:41:52", date: "Nov 22", actor: "Wedge Antilles", type: "via Holonet Assistant", via: true, text: "The AI found 3 ships on the Hoth route", code: "fleet_tracker.search_ships · read", target: "Fleet Tracker", ok: true },
+    { id: "ai3", kind: "ai", time: "09:38:04", date: "Nov 22", actor: "fleet-svc", type: "Shared account", text: "The Ops agent updated Liberty’s manifest · no person attached", code: "fleet_tracker.update_manifest · write", target: "Liberty · Fleet Tracker", ok: true },
+    { id: "ai4", kind: "ai", time: "09:35:40", date: "Nov 22", actor: "Biggs Darklighter", type: "via Holonet Assistant", via: true, text: "The AI tried to cancel shipment 4471", code: "fleet_tracker.cancel_shipment · delete", target: "Shipment 4471", ok: false, reason: "blocked by admin" },
+    { id: "ai5", kind: "ai", time: "09:20:13", date: "Nov 22", actor: "Lavanya Sienna", type: "Admin", text: "Lavanya Sienna set Hold shipment to Needs approval", code: "connector.tool.update", target: "Fleet Tracker · connector", ok: true },
+    { id: "ai6", kind: "ai", time: "08:57:31", date: "Nov 22", actor: "Toryn Farr", type: "via Droid Code", via: true, text: "The AI read 4 pages in Supply Depot", code: "supply_depot.read_page · read", target: "Supply Depot", ok: true },
     { id: "e1", time: "09:42:10", date: "Nov 22", actor: "Toryn Farr", type: "Admin", text: "Toryn Farr removed Cal Alder from Shield Ops", code: "group.member.remove", target: "Shield Ops · group", ok: true },
     { id: "e2", time: "09:40:55", ms: ".312", date: "Nov 22", actor: "archive-sync", type: "API key", text: "archive-sync tried to download Death Star plans.pdf", code: "file.download", target: "Death Star plans · archive", ok: false, reason: "no access",
       ctx: { ip: "10.4.22.8", where: "Outer Rim relay · new for this key", ua: "archive-sync/2.3 python-requests", session: "ses_41c9e2 · started 08:58:30", req: "req_7f3a90b1 · also in Storage service" }, why: "Blocked because the key's scopes don't include Death Star plans · archive." },
@@ -182,9 +188,11 @@ window.SEED = {
   connectorPolicy: "approved",
   connectorEnforce: { web: true, desktop: true, mobile: true, code: false },
   connectors: [
-    { id: "holonet", name: "Holonet Docs", publisher: "Echo Base", type: "Built-in", can: "Reads", status: "Published · everyone", published: true },
-    { id: "mission", name: "Mission Board", publisher: "Corellian Systems", type: "Partner", can: "Reads and writes", status: "Published · 3 groups", published: true },
-    { id: "supply", name: "Supply Depot", publisher: "Echo Base", type: "Built-in", can: "Reads and writes", status: "Published · Logistics", published: true },
+    { id: "holonet", name: "Holonet Docs", publisher: "Echo Base", type: "Built-in", can: "Reads", status: "Published · everyone", published: true, health: ["Connected", "Last call 2 min ago"] },
+    { id: "mission", name: "Mission Board", publisher: "Corellian Systems", type: "Partner", can: "Reads and writes", status: "Published · 3 groups", published: true, health: ["Failing", "Last worked 09:40"],
+      failing: { since: "09:40", lastOk: "09:39:58 · Find cards", failed: "42 in the last hour · the server returned errors", usedBy: "3 groups · 61 people", people: 61,
+        changes: [["Added", "Delete board", "A delete tool · held off until reviewed"], ["Changed", "Update card", "Its description now asks for full board access"], ["Server", "Moved to a new address", "mcp.missionboard.corellia → api.mb-cloud.net"]] } },
+    { id: "supply", name: "Supply Depot", publisher: "Echo Base", type: "Built-in", can: "Reads and writes", status: "Published · Logistics", published: true, health: ["Connected", "Last call 5 min ago"] },
     { id: "comms", name: "Comms Relay", publisher: "Bothan Networks", type: "Partner", can: "Reads", status: "Draft · tested Nov 20", published: false }
   ],
   connectorCatalog: [

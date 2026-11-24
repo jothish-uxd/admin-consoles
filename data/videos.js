@@ -476,6 +476,45 @@ window.VIDEOS = {
         "Enforced in shows the web, desktop and mobile apps enforcing the list, and coding tools not yet, so people could still add local servers there. She chooses Enforce and saves, and a message confirms it applies within 10 minutes and is logged.",
         "A preview shows what people see when a server is blocked: Rebel Radar isn't approved by Echo Base, with a Request it button."
       ]
+    },
+    "Data leaving the org": {
+      src: "media/mcp-connectors/data-leaving-the-org.mp4",
+      poster: "media/mcp-connectors/data-leaving-the-org.jpg",
+      label: "Data leaving the org, shown in a mock Echo Base console",
+      steps: [
+        "On the published Fleet Tracker page, the admin opens the Data tab. A line explains it shows what Fleet Tracker sends out, where it goes, and whose rules apply once it's there.",
+        "Where data goes, with each label above its value: it runs on Kessel Logistics servers in the Outer Rim, Kessel keeps data for 30 days under their terms, and it sends the AI's question and the ships, routes or manifests it asks about.",
+        "A note explains that Echo Base's AI region, Core Worlds, doesn't move Fleet Tracker, and that Echo Base's AI data policy stops there: once data reaches Kessel Logistics, their retention and privacy rules apply.",
+        "Under What can be sent, Only what the tool asks for is on, so the tool gets the fields it needs, not whole documents. Content labelled Confidential is never sent.",
+        "She chooses Add label, picks Restricted from the menu and saves. A message confirms Restricted content won't be sent to Fleet Tracker.",
+        "On the right, Outside AI tools that can reach Echo Base lists each tool with its domain and what it can do. API tokens are off, because token connections would skip that list."
+      ]
+    },
+    "AI activity record": {
+      src: "media/mcp-connectors/ai-activity-record.mp4",
+      poster: "media/mcp-connectors/ai-activity-record.jpg",
+      label: "AI activity record, shown in a mock Echo Base console",
+      steps: [
+        "In Compliance › Audit log, the admin opens the Action filter and picks AI tool calls. The filter chip and the query update; tool calls live in the same audit log as everything else.",
+        "A summary line reads: 38 AI tool calls, 12 people, top tool Find ships, 1 failed, 1 by a shared account.",
+        "Each row names the person and the AI client, such as Wedge Antilles via Holonet Assistant, says what the AI did as a sentence, and shows the tool, whether it read, wrote or deleted, the target and the result.",
+        "A call by fleet-svc is marked as a shared account with no person, and a failed call says Failed · blocked in words, not just with a red icon.",
+        "Admin changes appear in the same list, such as Lavanya Sienna setting Hold shipment to Needs approval and giving Rogue One read-only access.",
+        "She chooses Export, then JSON. A message confirms 38 AI tool calls were exported to audit-log.json, and that the export is logged."
+      ]
+    },
+    "Health & revoking": {
+      src: "media/mcp-connectors/health-revoking.mp4",
+      poster: "media/mcp-connectors/health-revoking.jpg",
+      label: "Health & revoking, shown in a mock Echo Base console",
+      steps: [
+        "On AI › Connectors, the Status column reads in words, with the last good call: Holonet Docs is connected, Mission Board is failing and last worked at 09:40.",
+        "Fleet Tracker shows 3 people need sign-in, and that they see Reconnect in their AI.",
+        "A banner says Mission Board is failing since 09:40, with 42 failed calls, and that its tools changed since it was approved. She opens Mission Board.",
+        "Its health panel shows the status, the last successful call, the failed calls and who uses it: 3 groups, 61 people, in chat and agents. Changed since you approved it lists a new Delete board tool, a changed Update card description and a new server address.",
+        "She chooses Turn off for everyone. The dialog confirms who it affects (3 groups, 61 people), where (chat and agents, in every app) and how long (open sessions stop within 10 minutes), with Also sign everyone out ticked.",
+        "She turns it off for 61 people. The status reads Off for everyone, applies within 10 minutes, and a note says open sessions stop too and what people now see."
+      ]
     }
   }
 };

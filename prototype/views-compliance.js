@@ -16,10 +16,10 @@
   }
   function filtered(p) {
     const r = p.range || "24h";
-    return S().events.filter(e => (!p.actor || e.actor === p.actor) && (!p.result || (p.result === "failed" ? !e.ok : e.ok)) && (r === "7d" || r === "30d" ? true : !e.old) && (!p.q || (e.text + e.target + e.actor).toLowerCase().includes(p.q.toLowerCase())));
+    return (S().events.some(e => e.kind === "ai") ? S().events : S().events.concat(window.SEED.events.filter(e => e.kind === "ai"))).filter(e => (!p.kind || e.kind === p.kind) && (!p.actor || e.actor === p.actor) && (!p.result || (p.result === "failed" ? !e.ok : e.ok)) && (r === "7d" || r === "30d" ? true : !e.old) && (!p.q || (e.text + e.target + e.actor).toLowerCase().includes(p.q.toLowerCase())));
   }
-  const qstr = (p, o = {}) => { const x = Object.assign({ actor: p.actor, range: p.range, result: p.result, q: p.q }, o); const s = Object.entries(x).filter(([k, v]) => v && !(k === "range" && v === "24h")).map(([k, v]) => k + "=" + encodeURIComponent(v)).join("&"); return s ? "?" + s : ""; };
-  const query = p => [p.actor && `actor:"${p.actor}"`, p.result && `result:${p.result}`, `time:last_${p.range || "24h"}`].filter(Boolean).join(" ");
+  const qstr = (p, o = {}) => { const x = Object.assign({ kind: p.kind, actor: p.actor, range: p.range, result: p.result, q: p.q }, o); const s = Object.entries(x).filter(([k, v]) => v && !(k === "range" && v === "24h")).map(([k, v]) => k + "=" + encodeURIComponent(v)).join("&"); return s ? "?" + s : ""; };
+  const query = p => [p.kind === "ai" && "action:ai.tool_call", p.actor && `actor:"${p.actor}"`, p.result && `result:${p.result}`, `time:last_${p.range || "24h"}`].filter(Boolean).join(" ");
   const sharedAct = p => ({
     copyLink() { const url = location.href; try { navigator.clipboard && navigator.clipboard.writeText(url).catch(() => {}); } catch (e) {} toast("Link copied · it includes your filters"); },
     export() {
@@ -45,7 +45,7 @@
     const g = guard([["Compliance", "/compliance/audit"], ["Audit log", ""]]); if (g) return g;
     const s = S(), rows = filtered(p), failed = rows.filter(e => !e.ok).length;
     const view = s.views.find(v => v.qs === qstr(p));
-    const quick = [["Failed sign-ins", { result: "failed" }], ["Admin role changes", { q: "role" }], ["API key changes", { q: "API key" }], ["New IP addresses", { q: "new IP" }]];
+    const quick = [["AI tool calls", { kind: "ai" }], ["Failed sign-ins", { result: "failed" }], ["Admin role changes", { q: "role" }], ["API key changes", { q: "API key" }], ["New IP addresses", { q: "new IP" }]];
     return { nav: "compliance", crumbs: [["Compliance", "/compliance/audit"], ["Audit log", ""]], title: "Audit log",
       html: `${auditHead(p, "events", view && view.name)}
       <div class="body">
@@ -54,11 +54,12 @@
           <label for="rg" class="vh">Time range</label><select id="rg" style="width:auto" data-change="range" aria-describedby="rg-h">${RANGES.map(([v, n]) => `<option value="${v}" ${(p.range || "24h") === v ? "selected" : ""}>${n}</option>`).join("")}<option value="custom">Custom range…</option></select>
           ${p.actor ? `<span class="chip out">Actor: ${esc(p.actor)} <a href="#/compliance/audit${qstr(p, { actor: "" })}" aria-label="Remove actor filter ${esc(p.actor)}" style="text-decoration:none">✕</a></span>` : ""}
           ${p.result ? `<span class="chip out">Result: ${esc(p.result)} <a href="#/compliance/audit${qstr(p, { result: "" })}" aria-label="Remove result filter" style="text-decoration:none">✕</a></span>` : ""}
+          ${p.kind === "ai" ? `<span class="chip out">Action: AI tool calls <a href="#/compliance/audit${qstr(p, { kind: "" })}" aria-label="Remove AI tool calls filter" style="text-decoration:none">✕</a></span>` : ""}
           ${p.q ? `<span class="chip out">Text: ${esc(p.q)} <a href="#/compliance/audit${qstr(p, { q: "" })}" aria-label="Remove text filter" style="text-decoration:none">✕</a></span>` : ""}
           <label for="aq" class="vh">Search events</label><input type="search" id="aq" placeholder="Search events" value="${esc(p.q || "")}" style="flex:1;min-width:180px" data-change="search"></div>
         <span id="rg-h" class="vh">There is no all-time option. Ranges over 90 days run in the background.</span>
         <p class="small muted" style="margin:10px 0 0">Query <code style="color:var(--ink);background:var(--subtle);border:1px solid var(--rule);border-radius:6px;padding:2px 7px">${esc(query(p))}</code> <button type="button" class="link" data-act="editQuery">Edit as query</button></p>
-        <p class="small muted" style="margin:8px 0 0" role="status">Times in <b style="color:var(--ink);font-weight:500">Pacific Time (PT)</b> · ${p.actor || p.result || p.q || p.range ? `<b style="color:var(--ink);font-weight:500">${rows.length} events</b>${failed ? ` · ${failed} failed` : ""}` : `Showing <b style="color:var(--ink);font-weight:500">${rows.length}</b> of 18,204 events · narrow by actor, target or time`}</p>
+        <p class="small muted" style="margin:8px 0 0" role="status">Times in <b style="color:var(--ink);font-weight:500">Pacific Time (PT)</b> · ${p.kind === "ai" ? `<b style="color:var(--ink);font-weight:500">${rows.length} AI tool calls</b> · ${new Set(rows.filter(e => e.via).map(e => e.actor)).size} people · ${rows.filter(e => !e.ok).length} failed · ${rows.filter(e => e.type === "Shared account").length} by a shared account` : p.actor || p.result || p.q || p.range ? `<b style="color:var(--ink);font-weight:500">${rows.length} events</b>${failed ? ` · ${failed} failed` : ""}` : `Showing <b style="color:var(--ink);font-weight:500">${rows.length}</b> of 18,204 events · narrow by actor, target or time`}</p>
         <table style="margin-top:8px"><caption class="vh">Audit events, newest first</caption><thead><tr><th scope="col">Time (PT)</th><th scope="col">Actor</th><th scope="col">Event</th><th scope="col">Target</th><th scope="col">Result</th></tr></thead><tbody>
         ${rows.map(e => `<tr><td class="mono" style="color:var(--ink)"><abbr title="${esc(e.date)} 2026 · ${e.time}${e.ms || ".000"} PT" style="text-decoration:underline dotted;text-underline-offset:3px">${e.date !== "Nov 22" ? e.date + " · " : ""}${e.time}</abbr></td>
           <td><a href="#/compliance/audit${qstr(p, { actor: e.actor })}" aria-label="Filter by actor ${esc(e.actor)}">${esc(e.actor)}</a><span class="sub">${esc(e.type)}</span></td>
@@ -82,7 +83,7 @@
   /* ================= Event detail ================= */
   route("/compliance/audit/event/:id", p => {
     const g = guard([["Compliance", "/compliance/audit"], ["Audit log", "/compliance/audit"]]); if (g) return g;
-    const s = S(), e = s.events.find(x => x.id === p.id);
+    const s = S(), e = s.events.find(x => x.id === p.id) || window.SEED.events.find(x => x.id === p.id);
     if (!e) return { nav: "compliance", crumbs: [["Compliance", "/compliance/audit"]], html: head("Event not found") };
     const raw = p.raw === "1";
     const related = e.actor === "archive-sync" ? [["Same actor", [["e4", "09:40:48", "3 failed attempts on this archive"]]], ["Same session", [["e7", "08:58:30", "Signed in from a new IP address"]]], ["Same key, settings", [["e8", "21 Nov", "Toryn Farr changed archive-sync's API key settings"]]]]
@@ -96,7 +97,7 @@
       <div class="body cols"><div>${raw ? `<h2>Raw event</h2><pre class="json">${esc(json)}</pre>` : `
         <section aria-labelledby="ch-h"><h2 id="ch-h">Changes</h2>${e.changes ? `<table><caption class="vh">Changes</caption><thead><tr><th scope="col">Field</th><th scope="col">Before</th><th scope="col">After</th><th scope="col">Change</th></tr></thead><tbody>
           ${e.changes.map(([k, b, a, c]) => `<tr><td>${k}</td>${b === null ? `<td colspan="2" class="muted">${esc(a)}</td>` : `<td><del>${esc(b)}</del><span class="vh"> (before)</span></td><td style="color:var(--ink)">${esc(a)}</td>`}<td><span class="chip out">${c}</span></td></tr>`).join("")}</tbody></table>`
-          : `<div class="note">No changes: this was a read attempt.${e.why ? ` <b>${esc(e.why)}</b>` : ""}</div>`}</section>
+          : e.kind === "ai" ? `<div class="note"><b>AI tool call</b> · ${esc(e.code)}. ${e.via ? `Asked by ${esc(e.actor)}, run by ${esc(e.type.replace("via ", ""))}.` : e.type === "Shared account" ? "Run by a shared account, so no person is attached." : ""}</div>` : `<div class="note">No changes: this was a read attempt.${e.why ? ` <b>${esc(e.why)}</b>` : ""}</div>`}</section>
         ${e.ctx ? `<section style="margin-top:18px" aria-labelledby="cx-h"><h2 id="cx-h">Context</h2>${kv(Object.entries({ "IP address": e.ctx.ip, Location: e.ctx.where, "User agent": e.ctx.ua, Session: e.ctx.session, "Request ID": e.ctx.req }).filter(([, v]) => v).map(([k, v]) => [k, esc(v)]))}</section>` : ""}`}</div>
       <aside aria-labelledby="rl-h"><h2 id="rl-h">Related events</h2>${related.length ? `<div class="card">${related.map(([g, items]) => `<h3 class="small muted" style="font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin:8px 0 4px">${g}</h3><ul style="list-style:none;padding:0;margin:0">${items.map(([id, t, x]) => `<li class="row small" style="padding:4px 0;flex-wrap:nowrap"><span class="mono muted" style="width:64px;flex:none">${t}</span><a href="#/compliance/audit/event/${id}">${esc(x)}</a></li>`).join("")}</ul>`).join("")}</div>` : '<p class="muted">None found in the last 7 days.</p>'}</aside></div>`,
       act: { raw(el) { go(`/compliance/audit/event/${e.id}${el.value === "raw" ? "?raw=1" : ""}`); } } };
