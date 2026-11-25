@@ -386,10 +386,12 @@
         <section class="doc-section" aria-labelledby="ov-h">
           <h2 id="ov-h">Overview</h2>
           <p>${esc(G.scale ? G.scale.intro : c.summary)}</p>
-          <h3 class="sub-h2" id="size-h">Which patterns you need, by size</h3>
-          <p class="v2-key" aria-hidden="true"><span><span class="chip">New at this size</span></span><span><span class="chip is-carried">Carried over from smaller sizes</span></span></p>
-          <ol class="tiers is-ramp v2-sizes" aria-labelledby="size-h">${O.sizes.map(([t, pats, x], i) => `<li><span class="tier-tag">${String(i + 1).padStart(2, "0")}</span><strong>${esc(t)}</strong>
-            <span class="v2-pats">${O.sizes.slice(0, i + 1).flatMap(([, ps], k) => ps.map(n => [n, k < i])).map(([n, carried]) => `<button type="button" class="chip v2-jump${carried ? " is-carried" : ""}" data-i="${idxOf(n)}"${carried ? ` aria-label="${esc(n)}, also needed at smaller sizes"` : ` aria-label="${esc(n)}${i ? ", new at this size" : ""}"`}>${esc(n)}</button>`).join("")}</span><span>${esc(x)}</span></li>`).join("")}</ol>
+          <h3 class="sub-h2" id="size-h">Which patterns you need</h3>
+          <div class="v2-size">
+            <p class="v2-q" id="size-q">How many people use your console?</p>
+            <div class="v2-seg" role="group" aria-labelledby="size-q">${O.sizes.map(([t], i) => `<button type="button" class="v2-seg-b" data-s="${i}" aria-pressed="false">${esc(t)}</button>`).join("")}</div>
+            <div class="v2-size-out" id="size-out" aria-live="polite"></div>
+          </div>
           <h3 class="sub-h2">Principles across the category</h3>
           <ul class="check-list">${O.principles.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
         </section>
@@ -406,6 +408,18 @@
           <p class="visually-hidden" role="status" id="pat-status"></p>
         </section>`;
       const items = [...main.querySelectorAll(".pat-item")], sel = $("#pat-select");
+      // Which patterns you need: pick a size, see only the patterns needed at that size
+      const showSize = k => {
+        const need = O.sizes.slice(0, k + 1).flatMap(([, ps]) => ps).map(idxOf).sort((x, y) => x - y);
+        main.querySelectorAll(".v2-seg-b").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.s === k)));
+        $("#size-out").innerHTML = `<p class="v2-size-note">${esc(O.sizes[k][2])}</p>
+          <p class="v2-size-n"><b>${need.length} of ${c.patterns.length} patterns</b> at this size</p>
+          <ul class="v2-need">${need.map(i => `<li><button type="button" class="v2-jump" data-i="${i}"><b>${esc(c.patterns[i][0])}</b><span>${esc(c.patterns[i][1])}</span></button></li>`).join("")}</ul>`;
+        try { localStorage.setItem("ac-size", String(k)); } catch (e) { /* storage unavailable */ }
+      };
+      main.querySelector(".v2-seg").addEventListener("click", e => { const b = e.target.closest(".v2-seg-b"); if (b) showSize(+b.dataset.s); });
+      let k0 = 1; try { const v = localStorage.getItem("ac-size"); if (v !== null && O.sizes[+v]) k0 = +v; } catch (e) { /* storage unavailable */ }
+      showSize(Math.min(k0, O.sizes.length - 1));
       const show = (i, { announce = false, hash = true } = {}) => {
         const [name, desc] = c.patterns[i], g = GP[name] || {}, d = D.patterns[name] || {};
         const wcag = (g.access || []).filter(([t]) => t.startsWith("WCAG")), ud = (g.access || []).filter(([t]) => !t.startsWith("WCAG"));

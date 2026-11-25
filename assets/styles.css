@@ -906,3 +906,20 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .v2-sizes .chip:not(.is-carried), .v2-key .chip:not(.is-carried) { font-weight: 500; }
 .v2-key { margin: 8px 0 0; font-size: 13px; color: var(--ink-soft); display: inline-flex; gap: 8px; flex-wrap: wrap; align-items: center; background: var(--tier-2-bg); border-radius: 10px; padding: 8px 10px; }
 .v2-key .chip { font-size: 12px; pointer-events: none; }
+/* Which patterns you need: pick a size, see only those patterns */
+.v2-size { border: 1px solid var(--rule); border-radius: 14px; padding: 20px 22px; max-width: 900px; }
+.v2-q { margin: 0 0 10px; font-size: 14px; font-weight: 600; color: var(--ink); }
+.v2-seg { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 10px; padding: 3px; gap: 3px; flex-wrap: wrap; }
+.v2-seg-b { font: inherit; font-size: 13.5px; border: 0; background: transparent; color: var(--ink); border-radius: 7px; padding: 7px 14px; cursor: pointer; }
+.v2-seg-b:hover { background: var(--nest-bg); }
+.v2-seg-b[aria-pressed="true"] { background: var(--ink); color: var(--bg); font-weight: 500; }
+.v2-seg-b:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.v2-size-note { margin: 16px 0 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; max-width: 72ch; }
+.v2-size-n { margin: 14px 0 8px; font-size: 13px; color: var(--ink-soft); }
+.v2-size-n b { color: var(--ink); font-weight: 600; }
+.v2-need { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+.v2-need button { width: 100%; text-align: left; font: inherit; background: var(--nest-bg); border: 1px solid var(--nest-rule); border-radius: 10px; padding: 10px 12px; cursor: pointer; color: var(--ink); display: grid; gap: 2px; }
+.v2-need button:hover { border-color: var(--rule-strong); }
+.v2-need button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.v2-need b { font-size: 14px; font-weight: 600; }
+.v2-need span { font-size: 13px; color: var(--ink-soft); }
