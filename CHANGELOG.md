@@ -14,6 +14,7 @@
 - **Trial layout on *Access requests & approvals***: an overview (intro, which patterns you need by size, principles that span the category), then one complete view per pattern: clip, *Should you use it?* (trade-off, when it starts to pay off, use it when, skip it when, alternatives), *How to build it*, *At enterprise scale* and that pattern's real-world examples. No tabs. `?layout=current` shows the tabbed layout to compare.
 - **The screen viewer stays within a pattern.** Opened from a pattern's examples (or with a pattern filter on Real-world examples), it counts and steps through that pattern's screens only, such as "2 of 3". With All selected it still covers the whole category. Closing it returns focus to the last screen shown.
 - **Trial layout on *AI governance*** too: patterns by size (Feature availability and Data usage controls from the start; Usage & cost and Content safety at thousands; Model & provider settings at hundreds of thousands), 3 principles that span the category, and for each pattern the trade-off, when it starts to pay off, use it when, skip it when and alternatives, then how to build it, at scale and its examples.
+- **New layout on *Asset management* and *Audit logs & activity*** too, with patterns by size, 3 principles each that span the category, and for every pattern the trade-off, when it starts to pay off, use it when, skip it when and alternatives. Decisions for Storage overview and Per-user quotas are written but kept as a draft, since they belong to *Storage & quotas*.
 
 ## v0.2.2 preview — 2026-11-21
 

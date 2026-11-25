@@ -238,7 +238,7 @@
     const G = (window.GUIDANCE || {})[c.slug] || {};
     // Refined Scale + pattern browser layout, used by every category with guidance.
     const refined = !!G.patterns;
-    const D = (window.DECISIONS || {})[c.slug];   // Decisions & trade-offs, where written
+    const D0 = (window.DECISIONS || {})[c.slug], D = D0 && !D0.draft ? D0 : null;   // Decisions & trade-offs, where written and not a draft
     let decSync = null;                            // set once the Decisions tab is ready
     const GP = G.patterns || {};
     const pid = name => "p-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");

@@ -2,6 +2,308 @@
    goes wrong when built. One entry per category; a category without one has no Decisions tab.
    Shape: { intro, patterns: { "<pattern name>": { tradeoff, use: [], avoid: [], alternatives: [[name, when]], mistakes: [] } } } */
 window.DECISIONS = Object.assign(window.DECISIONS || {}, {
+  "asset-management": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Asset library", "Sharing controls", "Versions & restore"], "Admins browse content like everyone else and fix things one item at a time. Sharing limits and version history matter from day one."],
+        ["Thousands", ["Asset detail", "Transfer ownership"], "Content is found by search, not folders. Admins arrive at single items from alerts and requests, and people who leave need new owners for their files."],
+        ["Hundreds of thousands", ["Tags & metadata"], "Content is governed by policy and report: labels, retention and external sharing audits, applied to result sets rather than items."]
+      ],
+      principles: [
+        "Lead with questions, not folders: what is shared externally, what is orphaned, what is sensitive, what is stale.",
+        "Respect privacy. Admins usually need metadata, not content. Show the least that answers the question, and log access to anything more.",
+        "Admin views of content must agree with what people see. Different numbers in two places destroy trust."
+      ]
+    },
+    intro: "Asset management trades oversight for privacy and effort. The more an admin can see and change across everyone’s content, the more useful the console is, and the more it looks like surveillance.",
+    patterns: {
+      "Asset library": {
+        payoff: "From the start, as a list with search. Reports and saved questions pay off at thousands.",
+        tradeoff: "An org-wide inventory makes problems findable, but it also puts everyone’s content in one place for one person to browse. Lead with metadata and questions, not previews.",
+        use: [
+          "Admins need to answer questions across everyone’s content: what’s shared outside, what’s orphaned, what’s sensitive.",
+          "Content is too spread out to find by asking owners.",
+          "Admins act on sets of items: transfer, restrict, label, delete.",
+          "Legal, security or audit teams ask for lists of content that match a condition."
+        ],
+        avoid: [
+          "Admins never need to look across people’s content. The product’s normal file browser is enough.",
+          "The library would show content admins shouldn’t see, with no way to limit it to metadata.",
+          "A report would answer the question better, such as a weekly list of external shares."
+        ],
+        alternatives: [
+          ["Saved reports", "When the same questions come up every week. Send ‘external shares’ or ‘orphaned files’ as a list, with actions."],
+          ["Search only", "When admins look for one item at a time. A search box with filters, and no browsing."],
+          ["Owner self-service", "When owners can fix it themselves. Ask them to review their own shared files, and track who did."]
+        ]
+      },
+      "Asset detail": {
+        payoff: "At thousands, when admins arrive from alerts, requests from legal or a question about one file.",
+        tradeoff: "A full detail page answers ‘what happened to this file?’ in one place, but every field shown is something an admin can now see about someone’s work. Show what the question needs, and log the rest when opened.",
+        use: [
+          "Admins land on single items from alerts, legal requests or support questions.",
+          "Access is layered: direct, by group, by link, inherited. Someone needs to see all of it.",
+          "Ownership, sharing and versions need to be checked together.",
+          "Admin actions on one item, such as removing a link, need context first."
+        ],
+        avoid: [
+          "Admins only ever act on items in bulk. Put the needed facts in the list row instead.",
+          "Most fields would repeat the list row. Expand the row instead of opening a page.",
+          "The page would open the content itself just to show its details."
+        ],
+        alternatives: [
+          ["Side panel from the list", "When admins check several items in a row. Keep the list beside the details."],
+          ["Expanded row", "When only a few facts matter, such as owner, sharing and last activity."],
+          ["Access report for one item", "When the question is only ‘who can see this?’. A focused list of every path to access."]
+        ]
+      },
+      "Transfer ownership": {
+        payoff: "At thousands, when people leaving or changing teams happens every week.",
+        tradeoff: "Moving content to a new owner keeps it alive, but the new owner inherits responsibility they didn’t ask for, and a transfer can break sharing if done carelessly.",
+        use: [
+          "People leave or change roles, and their content still matters.",
+          "Content must always have an owner for retention, sharing or legal hold.",
+          "Offboarding has a checklist, and content is part of it.",
+          "Managers or successors need to pick up work in progress."
+        ],
+        avoid: [
+          "Content lives in shared spaces owned by the team, not by people. Nothing needs to move.",
+          "The departing person’s content should be deleted under the retention policy.",
+          "There’s no sensible new owner. Put it in an archive owned by the org instead."
+        ],
+        alternatives: [
+          ["Team-owned spaces", "When work belongs to teams. Content never belongs to one person, so nothing moves when they leave."],
+          ["Org archive", "When content must be kept but not worked on. Move it to an archive with a records owner."],
+          ["Delegate access", "When someone is on leave, not leaving. Give a colleague access without changing the owner."]
+        ]
+      },
+      "Sharing controls": {
+        payoff: "From the start: the org’s outer limit on sharing outside should be set before the first file goes out.",
+        tradeoff: "Tight limits keep data in, but block legitimate work with partners, and people route around them with email attachments and personal accounts. Set limits people can live with, and show what each one blocks.",
+        use: [
+          "People share content outside the org, with partners, customers or the public.",
+          "Some groups or labels need tighter rules than others.",
+          "Regulations or contracts limit where certain data can go.",
+          "Admins need to know how many existing shares a change would affect."
+        ],
+        avoid: [
+          "Nothing is ever shared outside. One org-wide setting is enough.",
+          "Rules by group would contradict rules by label, with no clear answer to which wins.",
+          "The policy would be stricter than the work allows. People will just use email."
+        ],
+        alternatives: [
+          ["Label-based rules", "When sensitivity decides what can be shared. Rules follow the label, wherever the file goes."],
+          ["Approved domains", "When sharing is with known partners. Allow only those domains instead of everyone outside."],
+          ["Expiring links by default", "When public links are needed but risky. Links end after a set time unless renewed."]
+        ]
+      },
+      "Versions & restore": {
+        payoff: "From the start. It’s the undo for accidental edits, overwrites and ransomware.",
+        tradeoff: "Keeping more versions for longer makes recovery possible, but costs storage and can keep content longer than the retention policy allows. Say how long versions are kept, and why.",
+        use: [
+          "Content is edited by several people, and mistakes get saved over good work.",
+          "The org needs to recover from bulk damage, such as ransomware or a bad sync.",
+          "People need to see who changed what, and when.",
+          "Legal or compliance needs earlier states of a document."
+        ],
+        avoid: [
+          "Content is written once and never edited, such as exported reports. A version list adds nothing.",
+          "Versions would be kept beyond what the retention policy allows.",
+          "Restoring one file would quietly undo other people’s later work."
+        ],
+        alternatives: [
+          ["Trash with a recovery window", "When the risk is deletion, not editing. Keep deleted items for 30 days."],
+          ["Org-wide point-in-time restore", "When damage is bulk, such as ransomware. Restore everything changed after a time, as a job."],
+          ["Backups outside the product", "When recovery must survive the product itself. A separate backup with its own retention."]
+        ]
+      },
+      "Tags & metadata": {
+        payoff: "At hundreds of thousands, when content is governed by labels and policies, not by people knowing where things are.",
+        tradeoff: "Curated tags make content findable and policies possible, but every tag list needs an owner, and free tagging turns into a mess of near-duplicates.",
+        use: [
+          "Policies act on content by label: retention, sharing limits, AI exclusion.",
+          "People search by project, client or type across many teams.",
+          "Admins need to merge and retire tags as the org changes.",
+          "Some labels must be applied automatically, not left to people."
+        ],
+        avoid: [
+          "Folders or spaces already say what content is. Tags would repeat them.",
+          "Nobody will curate the tag list, so it will grow without limit.",
+          "Labels would be applied by hand to millions of items with no automation."
+        ],
+        alternatives: [
+          ["Folders or spaces", "When content naturally sits in one place. Structure does the work tags would do."],
+          ["Automatic classification", "When labels follow content patterns, such as ID numbers or contracts. Apply them by rule, and let people correct."],
+          ["Fixed fields", "When the same facts matter for every item, such as client or region. Required fields with set values."]
+        ]
+      }
+    }
+  },
+
+  // Written for Storage & quotas, which shares its guidance with Asset management. Not shown until that category gets its overview.
+  "storage-quotas": {
+    draft: true,
+    patterns: {
+      "Storage overview": {
+        payoff: "At thousands, when storage is shared by many people and running out would stop work.",
+        tradeoff: "A detailed breakdown helps admins free space and plan purchases, but it also shows who stores what. Show it by type and group first, and by person only when needed.",
+        use: [
+          "Storage is a shared, paid pool that can run out.",
+          "Admins need to forecast when to buy more.",
+          "A few people, groups or file types use most of the space.",
+          "Trash, old versions and shared drives count toward the limit."
+        ],
+        avoid: [
+          "Storage is effectively unlimited. Show the number and stop there.",
+          "The breakdown would only be by person, inviting surveillance of who stores what.",
+          "Nobody can act on it: no quotas, no cleanup, no purchasing."
+        ],
+        alternatives: [
+          ["Plan usage meter", "When storage is part of the plan and rarely an issue. One number on the billing page."],
+          ["Alerts at thresholds", "When admins only need to know when it matters. Warn at 80% and 95%."],
+          ["Cleanup suggestions", "When space is the problem. List large, old and duplicate files with owners, and ask owners to act."]
+        ]
+      },
+      "Per-user quotas": {
+        payoff: "At hundreds of thousands, when one shared pool has to be spread fairly across many people.",
+        tradeoff: "Quotas stop a few people using everything, but each limit someone hits interrupts their work, and overrides pile up. Set defaults that fit most people, and make overrides visible and temporary.",
+        use: [
+          "A few people use far more than everyone else.",
+          "The storage pool is fixed and expensive to grow.",
+          "Departments are charged for their share.",
+          "Admins need overrides for people with real needs, such as video teams."
+        ],
+        avoid: [
+          "The pool is large and usage is even. Quotas only add support tickets.",
+          "Hitting a quota would block access to existing files.",
+          "There’s no easy way for people to ask for more."
+        ],
+        alternatives: [
+          ["Group quotas", "When teams share a budget. Limit the group, and let them manage within it."],
+          ["Alerts without limits", "When the aim is awareness. Tell heavy users and their managers, and don’t block anyone."],
+          ["Archive tiers", "When old content takes the space. Move it to cheaper storage automatically."]
+        ]
+      }
+    }
+  },
+
+  "audit-logs": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Audit log table"], "A list of recent admin changes, searchable by person, answers ‘who changed this?’"],
+        ["Thousands", ["Event detail", "Filters & saved views", "Export & SIEM streaming"], "Investigations need before and after values, precise filters, and exports for auditors. Retention periods start to matter."],
+        ["Hundreds of thousands", ["Alerts on events"], "Billions of events, streamed to security tools and kept for years, with alerts on the few that are risky."]
+      ],
+      principles: [
+        "Every event has the same core fields: who, what, which target, when, from where, and the result.",
+        "Log admin and system actions, not only people’s. Automation must be traceable too.",
+        "Logs are tamper-evident and kept according to policy. Admins can’t edit or delete them."
+      ]
+    },
+    intro: "Audit logs trade completeness for findability. Logging everything makes the record trustworthy, and also makes the ten events that matter harder to find.",
+    patterns: {
+      "Audit log table": {
+        payoff: "From the start, even at tens of people: a list of who changed what.",
+        tradeoff: "A table makes every event scannable, but at enterprise volume nobody scans. Design it for narrowing down, not reading through.",
+        use: [
+          "Admins need to answer ‘who changed this, and when?’",
+          "Security and compliance teams investigate incidents.",
+          "Auditors ask for evidence of admin activity.",
+          "Several admins share the console and need to see each other’s changes."
+        ],
+        avoid: [
+          "The only question is about one object. Show its history on that object instead.",
+          "Events are only consumed by a security tool, never by people in the console.",
+          "The table would mix audit events with product analytics. Keep them separate."
+        ],
+        alternatives: [
+          ["Activity on each object", "When questions start from a user, file or setting. Show its history where it lives."],
+          ["Change summaries", "When admins want awareness, not investigation. A weekly digest of admin changes."],
+          ["Stream only", "When the security team works only in their own tools. Send events there, and keep a minimal view in the console."]
+        ]
+      },
+      "Event detail": {
+        payoff: "At thousands, when ‘settings changed’ isn’t enough and someone needs exactly what changed.",
+        tradeoff: "Full before and after values answer the question, but they can expose secrets and personal data to anyone who can read the log. Show what changed, and mask what shouldn’t be seen.",
+        use: [
+          "Events change values, and the old and new values matter.",
+          "Investigators need the session, IP address, device and related events.",
+          "One event leads to others: same person, same target, same session.",
+          "Auditors ask for exact evidence of a change."
+        ],
+        avoid: [
+          "Events are simple, such as ‘signed in’. The row says everything.",
+          "Before and after values would show secrets or personal data with no masking.",
+          "The detail would only show raw JSON."
+        ],
+        alternatives: [
+          ["Expanded row", "When a few more fields are enough. Show them inline in the table."],
+          ["Raw event view", "When readers are engineers or a security tool. Show the event as data, with field names documented."],
+          ["Object history", "When the question is about one object over time. Show each change to it in order."]
+        ]
+      },
+      "Filters & saved views": {
+        payoff: "At thousands, once the log is too long to read and the same investigations repeat.",
+        tradeoff: "Precise filters make investigations possible, but complex filter builders are slow for quick checks. Give fast common filters, and keep the full builder one step away.",
+        use: [
+          "Logs are long, and most questions start from a person, an object or an action.",
+          "Security teams repeat the same investigations.",
+          "Views need sharing between people, such as ‘failed sign-ins this week’.",
+          "Time ranges need to be bounded so queries stay fast."
+        ],
+        avoid: [
+          "The log is short. Search by person and time is enough.",
+          "Saved views would never be shared or reused.",
+          "Most questions come in as alerts with links to the right events already."
+        ],
+        alternatives: [
+          ["Quick filters only", "When questions are simple. Person, action and time, with no builder."],
+          ["Query language", "When readers are security analysts. A query box with documented fields."],
+          ["Alerts", "When the same question is asked to catch a problem. Turn it into an alert instead of a view people check."]
+        ]
+      },
+      "Export & SIEM streaming": {
+        payoff: "Exports at thousands, for auditors. Streaming at hundreds of thousands, when a security team watches events in its own tools.",
+        tradeoff: "Getting logs out makes them useful to security teams, but every copy outside is one more place the data lives, and a dropped event can’t be got back. Make exports complete and restricted.",
+        use: [
+          "A security team uses a SIEM and expects every event there.",
+          "Auditors ask for logs covering a period.",
+          "Logs must be kept longer than the product keeps them.",
+          "Events need to be combined with other systems’ logs."
+        ],
+        avoid: [
+          "Nobody will read the exported data. It only spreads copies.",
+          "Any admin could export the full log. Restrict it by role first.",
+          "The event format isn’t documented or versioned yet."
+        ],
+        alternatives: [
+          ["Scheduled exports", "When auditors need periodic files. Send a file each month to a set location."],
+          ["API access", "When teams pull events into their own tools on their own schedule."],
+          ["Longer retention in the product", "When the only reason to export is keeping logs longer."]
+        ]
+      },
+      "Alerts on events": {
+        payoff: "At hundreds of thousands, or sooner for a few high-risk actions such as admin rights given or MFA turned off.",
+        tradeoff: "Alerts catch risky actions as they happen, but every alert that isn’t acted on teaches people to ignore the next one. Alert on few things, precisely, with a link to the events.",
+        use: [
+          "Some actions are rare and risky: admin rights given, MFA turned off, bulk downloads.",
+          "Someone is responsible for responding, and has time to.",
+          "Patterns matter more than single events, such as many failed sign-ins.",
+          "The org has to show it monitors privileged actions."
+        ],
+        avoid: [
+          "Nobody will respond to the alerts.",
+          "The security team already alerts on these events in their SIEM.",
+          "The event is common, and an alert would fire many times a day."
+        ],
+        alternatives: [
+          ["Digest", "When awareness is enough. A daily or weekly summary of risky actions."],
+          ["SIEM rules", "When the security team owns detection. Stream events and let them alert."],
+          ["Approval before the action", "When the action itself is the risk. Require approval instead of alerting afterwards."]
+        ]
+      }
+    }
+  },
   "ai-governance": {
     overview: {
       sizes: [
