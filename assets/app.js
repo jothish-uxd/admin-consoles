@@ -378,12 +378,10 @@
     if (refined && D && D.overview && qs.get("layout") !== "current") {
       const O = D.overview, idxOf = n => c.patterns.findIndex(([x]) => x === n);
       const sec = (cls, label, content) => `<section class="g-blk ${cls}"><h5>${label}</h5>${content}</section>`;
-      const cur = `?c=${encodeURIComponent(c.slug)}&layout=current`;
       main.innerHTML = `
         <header class="hero">
           <h1 class="page-title" tabindex="-1">${esc(c.name)}</h1>
           <p class="page-lede">${esc(c.summary)}</p>
-          <p class="v2-note">Trying a new layout: an overview, then one complete view per pattern. <a href="${cur}">Compare with the current layout</a></p>
         </header>
         <section class="doc-section" aria-labelledby="ov-h">
           <h2 id="ov-h">Overview</h2>
@@ -480,7 +478,6 @@
         <h1 class="page-title" tabindex="-1">${esc(c.name)}</h1>
         <p class="page-lede">${esc(c.summary)}</p>
       </header>
-      ${D && D.overview ? `<p class="v2-note">There’s a trial of a new layout for this category. <a href="?c=${encodeURIComponent(c.slug)}">Try the new layout</a></p>` : ""}
       <div class="tabbar">
         <div class="tablist" role="tablist" aria-label="${esc(c.name)} sections">
           <button type="button" class="tab" role="tab" id="tab-patterns" aria-controls="panel-patterns" aria-selected="true">Patterns <span class="count">${c.patterns.length}</span></button>
