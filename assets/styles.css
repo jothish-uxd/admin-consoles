@@ -646,19 +646,19 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 /* ---------- Refined Scale + pattern layout (all categories) ---------- */
 .is-refined .doc-section .sub-h2 { margin: 48px 0 16px; font-size: 20px; font-weight: 600; letter-spacing: -.025em; }
 /* Cool-grey ramp: three subtle steps, light to slightly darker (dark mode: dark to slightly lighter). */
-.is-refined .tiers.is-ramp, .is-refined .v2-key {
+.is-refined .tiers.is-ramp {
   --tier-1-bg: #f8f9fb; --tier-1-ink: #171717; --tier-1-soft: #4a535e;
   --tier-2-bg: #eef1f5; --tier-2-ink: #171717; --tier-2-soft: #4a535e;
   --tier-3-bg: #e3e8ee; --tier-3-ink: #171717; --tier-3-soft: #4a535e;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .is-refined .tiers.is-ramp, :root:not([data-theme="light"]) .is-refined .v2-key {
+  :root:not([data-theme="light"]) .is-refined .tiers.is-ramp {
     --tier-1-bg: #14171b; --tier-1-ink: #ededed; --tier-1-soft: #a9b1bb;
     --tier-2-bg: #1b1f24; --tier-2-ink: #ededed; --tier-2-soft: #a9b1bb;
     --tier-3-bg: #232830; --tier-3-ink: #ededed; --tier-3-soft: #a9b1bb;
   }
 }
-:root[data-theme="dark"] .is-refined .tiers.is-ramp, [data-theme="dark"] .is-refined .v2-key {
+:root[data-theme="dark"] .is-refined .tiers.is-ramp {
   --tier-1-bg: #14171b; --tier-1-ink: #ededed; --tier-1-soft: #a9b1bb;
   --tier-2-bg: #1b1f24; --tier-2-ink: #ededed; --tier-2-soft: #a9b1bb;
   --tier-3-bg: #232830; --tier-3-ink: #ededed; --tier-3-soft: #a9b1bb;
@@ -889,7 +889,7 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 .v2-note { margin: 14px 0 0; font-size: 13.5px; color: var(--ink-soft); background: var(--nest-bg); border: 1px solid var(--nest-rule); border-radius: 8px; padding: 8px 12px; display: inline-block; }
 .v2-note a { color: var(--ink); font-weight: 500; }
 .tabbar + .tab-panel, .v2-note + .tabbar { margin-top: 18px; }
-.v2-sizes .v2-pats { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0; color: var(--tier-1-soft, var(--ink-soft)); font-size: 13px; }
+.v2-sizes .v2-pats { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 14px 0 0; }
 .v2-sizes .chip { font-size: 12.5px; }
 .pat-detail.v2 .v2-h { margin: 28px 0 10px; font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); display: flex; gap: 8px; align-items: baseline; }
 .pat-detail.v2 .v2-h .count { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); font-weight: 400; }
@@ -901,25 +901,9 @@ html.has-sheet, html.has-sheet body { overflow: hidden; }
 @media (max-width: 720px) { .v2-alts { grid-template-columns: 1fr; } }
 .v2-shots { margin-top: 0; }
 .pat-detail.v2 .v2-sub { margin: 22px 0 10px; font-size: 15px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); }
-/* by size: each column lists everything needed at that size; patterns carried over from smaller sizes are lighter */
-.v2-sizes .chip.is-carried, .v2-key .chip.is-carried { background: transparent; border-color: var(--rule); color: var(--ink-soft); font-weight: 400; }
-.v2-sizes .chip:not(.is-carried), .v2-key .chip:not(.is-carried) { font-weight: 500; }
-.v2-key { margin: 8px 0 0; font-size: 13px; color: var(--ink-soft); display: inline-flex; gap: 8px; flex-wrap: wrap; align-items: center; background: var(--tier-2-bg); border-radius: 10px; padding: 8px 10px; }
-.v2-key .chip { font-size: 12px; pointer-events: none; }
-/* Which patterns you need: pick a size, see only those patterns */
-.v2-size { border: 1px solid var(--rule); border-radius: 14px; padding: 20px 22px; max-width: 900px; }
-.v2-q { margin: 0 0 10px; font-size: 14px; font-weight: 600; color: var(--ink); }
-.v2-seg { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 10px; padding: 3px; gap: 3px; flex-wrap: wrap; }
-.v2-seg-b { font: inherit; font-size: 13.5px; border: 0; background: transparent; color: var(--ink); border-radius: 7px; padding: 7px 14px; cursor: pointer; }
-.v2-seg-b:hover { background: var(--nest-bg); }
-.v2-seg-b[aria-pressed="true"] { background: var(--ink); color: var(--bg); font-weight: 500; }
-.v2-seg-b:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.v2-size-note { margin: 16px 0 0; font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; max-width: 72ch; }
-.v2-size-n { margin: 14px 0 8px; font-size: 13px; color: var(--ink-soft); }
-.v2-size-n b { color: var(--ink); font-weight: 600; }
-.v2-need { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
-.v2-need button { width: 100%; text-align: left; font: inherit; background: var(--nest-bg); border: 1px solid var(--nest-rule); border-radius: 10px; padding: 10px 12px; cursor: pointer; color: var(--ink); display: grid; gap: 2px; }
-.v2-need button:hover { border-color: var(--rule-strong); }
-.v2-need button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.v2-need b { font-size: 14px; font-weight: 600; }
-.v2-need span { font-size: 13px; color: var(--ink-soft); }
+/* by size: the description sits above the chips, so it can't rely on span:last-child */
+.tiers .v2-desc { font-size: 13.5px; line-height: 1.5; }
+.tiers.is-ramp li:nth-child(1) .v2-desc { color: var(--tier-1-soft); }
+.tiers.is-ramp li:nth-child(2) .v2-desc { color: var(--tier-2-soft); }
+.tiers.is-ramp li:nth-child(3) .v2-desc { color: var(--tier-3-soft); }
+.tiers.is-ramp li .v2-pats { color: inherit; font-size: inherit; }
