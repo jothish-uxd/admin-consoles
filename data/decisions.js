@@ -2,6 +2,484 @@
    goes wrong when built. One entry per category; a category without one has no Decisions tab.
    Shape: { intro, patterns: { "<pattern name>": { tradeoff, use: [], avoid: [], alternatives: [[name, when]], mistakes: [] } } } */
 window.DECISIONS = Object.assign(window.DECISIONS || {}, {
+  "billing-licenses": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Plan overview", "Invoices & payment"], "One plan and a card on file. Admins need to see what they pay, when it renews, and their receipts."],
+        ["Thousands", ["Seat assignment", "Add seats"], "Several products and licence types. Seats are assigned by group, unused ones reclaimed, and every purchase shows its cost first."],
+        ["Hundreds of thousands", [], "The same patterns, run on contracts: committed volumes, cost centres, purchase orders, true-ups, and finance teams who never sign in."]
+      ],
+      principles: [
+        "Show the cost of every change before it’s made, including proration.",
+        "Separate who can see billing from who can change it, and both from who can assign licences.",
+        "Never let a billing issue lock people out without warning and a grace period."
+      ]
+    },
+    intro: "Billing trades flexibility for predictability. Making it easy to add seats and change plans helps admins move fast, and every easy change is also a charge someone has to explain.",
+    patterns: {
+      "Plan overview": {
+        payoff: "From the start: even a small team needs to see what it pays and when it renews.",
+        tradeoff: "A full overview answers ‘what are we paying for?’, but every upgrade prompt on it makes it feel like a sales page. Lead with what the org has, and keep what higher plans add to one clear section.",
+        use: [
+          "The product is paid, and someone has to justify the spend.",
+          "Plans include different features or limits that admins need to compare.",
+          "Renewal and cancellation terms affect what admins can do and when.",
+          "Several products or contracts need showing side by side."
+        ],
+        avoid: [
+          "Billing happens entirely outside the product, through a reseller or contract. Link to it instead.",
+          "The page would mostly exist to sell upgrades.",
+          "There’s one free plan with nothing to manage."
+        ],
+        alternatives: [
+          ["Billing portal from the payment provider", "When billing is simple and handled by a provider. Link out, and show only the plan name in the console."],
+          ["Contract summary", "When enterprises buy by contract. Show terms, volumes and dates, with a contact instead of self-service changes."],
+          ["Usage-first page", "When cost follows usage. Lead with usage and forecast, and put plan details below."]
+        ]
+      },
+      "Seat assignment": {
+        payoff: "At thousands, when licences are limited, assigned by group, and reclaimed from people who left.",
+        tradeoff: "Assigning seats by hand gives exact control, but it drifts as people join and leave. Assigning by group stays accurate, but makes it harder to see why one person has a licence.",
+        use: [
+          "Licences are limited and paid per seat.",
+          "Different people need different licence types or add-ons.",
+          "Unused licences cost money and should be reclaimed.",
+          "New people need a licence the day they join."
+        ],
+        avoid: [
+          "Everyone in the org gets the same access, billed as a flat fee.",
+          "Licences are assigned automatically to anyone who signs in, and that’s the deal the org wants.",
+          "Seat counts here would disagree with what billing charges."
+        ],
+        alternatives: [
+          ["Group-based licensing only", "When access follows teams. Licences come with the group, and the console shows each person’s source."],
+          ["Assign on first sign-in", "When growth matters more than control. Give a seat when someone first signs in, and true up later."],
+          ["Org-wide licence", "When the contract covers everyone. Nothing to assign, only usage to report."]
+        ]
+      },
+      "Add seats": {
+        payoff: "At thousands, when buying more seats is routine and the cost has to be clear before anyone commits.",
+        tradeoff: "One-click buying keeps new hires unblocked, but surprises finance. A quote or approval path keeps spend controlled, but slows people down. Show the price either way.",
+        use: [
+          "Admins buy seats themselves, by card or on account.",
+          "Prices depend on proration, tiers or contract rates.",
+          "Seats running out would block new people.",
+          "Purchases above a set amount need approval."
+        ],
+        avoid: [
+          "All purchasing goes through procurement. Offer a request or quote instead of a checkout.",
+          "Seats are unlimited under the contract.",
+          "The admin can’t see the price, so the flow would charge without a clear amount."
+        ],
+        alternatives: [
+          ["Request a quote", "When enterprises buy by purchase order. Collect the count and send a quote."],
+          ["Temporary overage with true-up", "When blocking new hires is worse than a later bill. Allow going over, and settle at renewal."],
+          ["Approval before purchase", "When spend needs a second person. Route the request to a billing owner."]
+        ]
+      },
+      "Invoices & payment": {
+        payoff: "From the start: anyone paying needs receipts and a way to fix a failed payment.",
+        tradeoff: "Self-service payment keeps things running, but card details and invoices are sensitive. Limit who can change payment details, and give finance read-only access.",
+        use: [
+          "The org pays the product directly, by card or invoice.",
+          "Finance teams need invoices that match their records, with PO numbers and tax IDs.",
+          "Failed payments can happen and need fixing before access is affected.",
+          "Several billing contacts or entities are involved."
+        ],
+        avoid: [
+          "A reseller or partner bills the org. Show who to contact instead.",
+          "Invoices are only ever needed by finance in their own system. Send them there.",
+          "The page would show full card numbers or other details that should stay masked."
+        ],
+        alternatives: [
+          ["Invoices by email only", "When finance never signs in. Send each invoice to billing contacts, and keep a copy in the console."],
+          ["Finance system integration", "When the org reconciles automatically. Send invoices to their system."],
+          ["Billing contact role", "When finance needs access but not admin rights. A role that can see invoices and nothing else."]
+        ]
+      }
+    }
+  },
+
+  "creation-flows": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Create modal", "Inline create", "Success & next steps"], "Admins create things one at a time with a short form. Good defaults matter more than options."],
+        ["Thousands", ["Multi-step wizard", "Create from template", "Duplicate / clone"], "The same kinds of things are created over and over. Guided setups, templates and cloning keep results consistent."],
+        ["Hundreds of thousands", [], "The same patterns, with most objects created by API, configuration or provisioning rules. The UI handles exceptions and must match what the automation would create."]
+      ],
+      principles: [
+        "Match the container to the complexity: inline for a single field, a modal for a few, a page or wizard for many.",
+        "Ask only what can’t be defaulted, and show the defaults before creating.",
+        "Name and own everything at creation. Unowned, unnamed objects become clutter nobody can clean up."
+      ]
+    },
+    intro: "Creation flows trade speed for guidance. The quicker it is to create something, the more often it’s created half set up; the more guided it is, the longer the simple case takes.",
+    patterns: {
+      "Create modal": {
+        payoff: "From the start, for small objects with a few fields.",
+        tradeoff: "A modal keeps the admin in context, but it has no room to grow, and it hides the page behind it, which is sometimes the reference the admin needs.",
+        use: [
+          "The object needs a few fields, such as a group, tag or API key.",
+          "Admins create it while working on a list, and want to stay there.",
+          "Defaults cover most settings, and the rest can be edited later.",
+          "Admins create several in a row."
+        ],
+        avoid: [
+          "The form needs more than one screen or several sections.",
+          "Admins need to look at the page behind while filling it in.",
+          "A single field would do. Create it inline instead."
+        ],
+        alternatives: [
+          ["Inline create", "When one field is enough. Add the row in place."],
+          ["Full page", "When the form is long or has sections. Give it its own page with a clear way back."],
+          ["Side panel", "When admins need the list in view while filling in a medium form."]
+        ]
+      },
+      "Multi-step wizard": {
+        payoff: "At thousands, for setups where later choices depend on earlier ones, such as SSO or an integration.",
+        tradeoff: "Steps make a complex setup manageable, but they hide what comes next and slow down people who already know the answers. Keep each step to one decision, and end with a review.",
+        use: [
+          "Later choices depend on earlier ones.",
+          "The setup is long and may be finished by someone else later.",
+          "Mistakes are costly, so a review before finishing matters.",
+          "Each step needs its own explanation."
+        ],
+        avoid: [
+          "Steps would have no decisions in them, only fields.",
+          "Experienced admins create this often. One form with sections is quicker.",
+          "Every step is optional. Use a single page with defaults."
+        ],
+        alternatives: [
+          ["One page with sections", "When choices don’t depend on each other. Everything visible, with a summary at the end."],
+          ["Checklist after creation", "When the object can exist half set up. Create it, then guide the remaining steps."],
+          ["Configuration file", "When admins set it up many times. Import a file instead of clicking through."]
+        ]
+      },
+      "Create from template": {
+        payoff: "At thousands, when the same kind of thing is created often and should follow the org’s standards.",
+        tradeoff: "Templates make the right setup the easy one, but every template needs an owner and keeping up to date, and a gallery nobody curates becomes noise.",
+        use: [
+          "The org has standards for naming, permissions or defaults.",
+          "Many admins create the same kind of object and results should match.",
+          "Some objects must follow policy, such as workspaces for regulated teams.",
+          "Admins want a head start rather than a blank form."
+        ],
+        avoid: [
+          "Each object is different, so a template would be changed every time.",
+          "Nobody would own or update the templates.",
+          "Defaults alone would give the same result."
+        ],
+        alternatives: [
+          ["Better defaults", "When one setup fits most cases. Make it the default and skip the gallery."],
+          ["Duplicate an existing one", "When the best example is something that already exists."],
+          ["Enforced policy", "When the rule must always apply. Apply it automatically instead of hoping people choose the template."]
+        ]
+      },
+      "Inline create": {
+        payoff: "From the start, for lightweight items added while working in a list.",
+        tradeoff: "Creating in place is the fastest flow there is, but it’s easy to create things by accident or half-name them. Make saving explicit, and keep the row if validation fails.",
+        use: [
+          "The item needs one or two fields, such as a tag or a label.",
+          "Admins add several while working in the same list.",
+          "The new item should appear where it will live."
+        ],
+        avoid: [
+          "The item needs more than a few fields.",
+          "Creating it has side effects, such as inviting people or charging for seats.",
+          "The list is sorted so the new row would jump out of view."
+        ],
+        alternatives: [
+          ["Create modal", "When a few more fields are needed."],
+          ["Bulk add", "When admins add many at once. Paste a list or upload a file."],
+          ["Create from search", "When people type a value that doesn’t exist yet. Offer ‘Create tag Q4’ in the menu."]
+        ]
+      },
+      "Duplicate / clone": {
+        payoff: "At thousands, when a good existing setup is the fastest starting point.",
+        tradeoff: "Cloning copies a proven setup in seconds, and also copies things nobody meant to: members, secrets, history. Say exactly what comes along.",
+        use: [
+          "A new object should be like an existing one with small changes.",
+          "Admins roll out one setup to many teams or regions.",
+          "The existing object holds settings that are tedious to recreate."
+        ],
+        avoid: [
+          "Copying would bring access or secrets that shouldn’t move.",
+          "A template already captures the standard setup.",
+          "The original is out of date, so copies would spread its problems."
+        ],
+        alternatives: [
+          ["Create from template", "When the setup is a standard the org maintains."],
+          ["Export and import", "When the setup moves between environments or orgs."],
+          ["Bulk clone", "When the same setup goes to many teams at once. Run it as a job."]
+        ]
+      },
+      "Success & next steps": {
+        payoff: "From the start: every create flow needs to say it worked and what to do next.",
+        tradeoff: "Suggesting next steps helps admins finish the setup, but a long list of suggestions gets ignored. Offer the two or three that matter for this object.",
+        use: [
+          "The new object isn’t useful until more is done, such as adding members or verifying a domain.",
+          "Creation runs in the background and finishes later.",
+          "Admins need to find the new object quickly."
+        ],
+        avoid: [
+          "The object is complete on creation and there’s nothing next. Show it in the list and move on.",
+          "The suggestions would be generic and the same for every object.",
+          "The success step would interrupt admins creating many in a row."
+        ],
+        alternatives: [
+          ["Open the new object", "When its page already shows what’s missing. Go straight there."],
+          ["Setup checklist on the object", "When setup takes days. A checklist on the object’s page that persists."],
+          ["Toast with a link", "When creation is routine. Confirm and link, without a full success screen."]
+        ]
+      }
+    }
+  },
+
+  "destructive-actions": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Delete confirmation", "Type-to-confirm", "Undo toast", "Danger zone"], "Confirmations that name the item and its consequences, undo for routine deletes, and the few irreversible actions kept apart and asking for the name."],
+        ["Thousands", ["Archive vs. delete", "Cascading impact"], "Deletes reach into content, access and integrations. The reversible option comes first, and dependents are shown before anything goes."],
+        ["Hundreds of thousands", [], "The same patterns, with approvals, retention and legal-hold checks, staged deletions and complete audit records."]
+      ],
+      principles: [
+        "Offer the reversible option first: archive, suspend or disable before delete.",
+        "Make consequences concrete with names and counts, not generic warnings.",
+        "Scale the friction to the risk. A tag deletion needs undo; deleting an org needs typed confirmation."
+      ]
+    },
+    intro: "Destructive actions trade safety for speed. Every confirmation protects against a mistake and slows down everyone who meant it. The aim is friction that matches the risk.",
+    patterns: {
+      "Delete confirmation": {
+        payoff: "From the start, for any delete that can’t simply be undone.",
+        tradeoff: "A confirmation catches mistakes, but confirmations shown for everything get clicked through without reading. Use them where the consequences are worth reading.",
+        use: [
+          "The delete removes more than the item: access, links, shared copies.",
+          "It can’t be undone, or only from Trash within a window.",
+          "Several items are deleted at once.",
+          "The admin may not know what depends on the item."
+        ],
+        avoid: [
+          "The action is routine and reversible. Use undo instead.",
+          "The dialog would only say ‘Are you sure?’ with nothing specific.",
+          "The action is so risky it needs typed confirmation or approval."
+        ],
+        alternatives: [
+          ["Undo toast", "When the action is reversible and frequent."],
+          ["Type-to-confirm", "When the action is irreversible and high impact."],
+          ["Approval by a second admin", "When one person shouldn’t be able to do it alone."]
+        ]
+      },
+      "Type-to-confirm": {
+        payoff: "From the start, for the one or two actions that can’t be undone, such as deleting the org.",
+        tradeoff: "Typing the name forces a pause, but it adds friction for everyone, including people for whom typing is hard. Keep it for the rare action where a pause is worth it.",
+        use: [
+          "The action is irreversible and affects a lot: an org, a sandbox, a production integration.",
+          "Similar names make it easy to act on the wrong thing.",
+          "Auditors expect evidence that the action was deliberate."
+        ],
+        avoid: [
+          "The deletion is routine, or can be restored.",
+          "The text to type would be long or random.",
+          "An approval step would protect better than typing."
+        ],
+        alternatives: [
+          ["Delete confirmation", "When the action can be restored, even within a window."],
+          ["Approval by a second person", "When the risk is one person acting alone."],
+          ["Delayed deletion", "When a cooling-off period helps. Schedule it for 30 days and allow cancelling."]
+        ]
+      },
+      "Archive vs. delete": {
+        payoff: "At thousands, when most deletes are really ‘get this out of the way’ and something would be lost for good.",
+        tradeoff: "Archive gives admins a safe default, but it’s one more choice, and archived things still cost storage or seats. Make the difference between them concrete.",
+        use: [
+          "Most people who delete want the item hidden, not destroyed.",
+          "Items may be needed again, for audits or a returning team.",
+          "Deleting would remove history that matters."
+        ],
+        avoid: [
+          "Items must be deleted for privacy or legal reasons. Archive would keep data that should go.",
+          "Archived items would keep costing seats or storage without anyone noticing.",
+          "There’s no view for archived items, so they’d be lost anyway."
+        ],
+        alternatives: [
+          ["Trash with a recovery window", "When the risk is accidental deletion. Delete, and keep it restorable for 30 days."],
+          ["Suspend or disable", "When the item should stop working but stay intact, such as an account or integration."],
+          ["Archive by rule", "When inactivity decides. Archive anything unused for a year automatically."]
+        ]
+      },
+      "Undo toast": {
+        payoff: "From the start, for frequent actions that are easy to reverse.",
+        tradeoff: "Undo keeps admins moving without a dialog, but it only protects for as long as the toast is on screen. Pair it with another way back, such as Trash.",
+        use: [
+          "The action is frequent and low risk, such as removing a tag or moving a file to Trash.",
+          "It can be reversed exactly, or held back until the undo window ends.",
+          "A confirmation every time would slow admins down."
+        ],
+        avoid: [
+          "The action can’t really be reversed.",
+          "The action is high impact. A missed toast would mean a real loss.",
+          "Many toasts would stack and cover the page."
+        ],
+        alternatives: [
+          ["Trash", "When people notice mistakes later. Keep deleted items for 30 days."],
+          ["Delete confirmation", "When the consequences need reading before acting."],
+          ["Version history", "When the change is an edit, not a delete."]
+        ]
+      },
+      "Cascading impact": {
+        payoff: "At thousands, when deleting one thing reaches into access, content and integrations elsewhere.",
+        tradeoff: "Showing every dependent makes consequences clear, but a long list overwhelms. Group them by what happens, and block only on what would break.",
+        use: [
+          "Other things depend on the item: people, saved settings, integrations.",
+          "Some dependents would break, not just be removed.",
+          "Admins can fix dependents before deleting."
+        ],
+        avoid: [
+          "The item has no dependents. A plain confirmation is enough.",
+          "Dependents can’t be worked out reliably. A list that might be wrong is worse than none.",
+          "The list would be thousands long. Show counts with a link to the full list."
+        ],
+        alternatives: [
+          ["Block until resolved", "When any dependent would break. Say what to fix, and stop there."],
+          ["Replace on delete", "When dependents can move automatically. Ask which role or group should take over."],
+          ["Impact report", "When the chain is long. Generate a report to review before deleting."]
+        ]
+      },
+      "Danger zone": {
+        payoff: "From the start, for the few settings that can’t be undone.",
+        tradeoff: "A separate section keeps irreversible actions away from routine settings, but makes it look like the only dangerous place. Keep it short, and still confirm each action.",
+        use: [
+          "A settings page mixes routine changes with a few irreversible ones.",
+          "Only owners should see or use those actions.",
+          "Admins need to find them when they really mean it."
+        ],
+        avoid: [
+          "There’s only one dangerous action. Confirm it where it lives.",
+          "The section would grow into a dumping ground for anything risky.",
+          "The actions belong next to what they affect, such as deleting a group on its own page."
+        ],
+        alternatives: [
+          ["Action on the object’s page", "When the action is about one object. Keep it with that object, behind a menu."],
+          ["Owner-only page", "When there are many owner actions. Give them their own page."],
+          ["Support request", "When the action is rare and risky. Ask support to do it with verification."]
+        ]
+      }
+    }
+  },
+
+  "edit-bulk-actions": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Selection model", "Contextual action bar", "Inline edit"], "Checkboxes on a page, a few actions, and quick fixes in place."],
+        ["Thousands", ["Bulk edit", "Progress & results"], "Selections span pages, the same change goes to hundreds of records, and actions run in the background with partial failures to report."],
+        ["Hundreds of thousands", [], "The same patterns, acting on queries rather than selections. Changes are queued, throttled, logged and sometimes approved first."]
+      ],
+      principles: [
+        "Make the scope unmistakable: these 50 rows, all 12,408 matches, or a saved query.",
+        "Preview the impact before running: how many records, and what changes.",
+        "Log every bulk action as one auditable event with the full list of affected records."
+      ]
+    },
+    intro: "Bulk actions trade effort for risk. One decision instead of a thousand clicks is a huge saving, and one mistake now reaches a thousand records.",
+    patterns: {
+      "Selection model": {
+        payoff: "From the start: any list that has actions on more than one row needs selection.",
+        tradeoff: "Selecting across pages makes bulk work possible, but the selected items aren’t on screen. The count and scope must always be visible.",
+        use: [
+          "Admins act on several rows at once.",
+          "Lists are paged or filtered, and actions need to reach rows not on screen.",
+          "Admins pick ranges or patterns of rows."
+        ],
+        avoid: [
+          "Actions only ever apply to one row. Put them on the row.",
+          "The action applies to everything matching a filter. Act on the filter instead.",
+          "Clicking a row also opens it, and checkboxes would make rows ambiguous."
+        ],
+        alternatives: [
+          ["Act on a filter", "When the set is defined by a rule. ‘Suspend everyone inactive for 90 days’."],
+          ["Row actions only", "When bulk actions aren’t needed."],
+          ["Upload a list", "When the set comes from elsewhere, such as a spreadsheet of names."]
+        ]
+      },
+      "Contextual action bar": {
+        payoff: "From the start, once there’s selection and more than one action.",
+        tradeoff: "Showing actions only on selection keeps the page calm, but hides what’s possible until something is chosen. Keep the bar in a fixed place and its actions in a fixed order.",
+        use: [
+          "Several actions apply to selected rows.",
+          "Some actions don’t apply to every selected item and need explaining.",
+          "Destructive actions need to sit apart from common ones."
+        ],
+        avoid: [
+          "There’s one bulk action. A button above the list is enough.",
+          "The bar would cover the rows being worked on.",
+          "Actions would change order depending on the selection."
+        ],
+        alternatives: [
+          ["Toolbar always visible", "When actions should be discoverable. Disable them until rows are selected."],
+          ["Menu on the selection count", "When there are many actions. One ‘Actions’ menu next to the count."],
+          ["Row actions", "When most work is on single items."]
+        ]
+      },
+      "Bulk edit": {
+        payoff: "At thousands, when the same field changes on hundreds of records at once.",
+        tradeoff: "Editing many records at once saves hours, but replace, add and remove are easy to confuse, and one wrong choice changes every record. Name the operation and preview the result.",
+        use: [
+          "The same field changes across many records, such as groups after a re-org.",
+          "Fields can hold several values, so adding and replacing differ.",
+          "Changes need a preview and a record."
+        ],
+        avoid: [
+          "The field is synced from another system. Change it there.",
+          "Each record needs a different value. Use import instead.",
+          "The change has large side effects, such as role or email."
+        ],
+        alternatives: [
+          ["Import a file", "When each record gets its own value."],
+          ["Rule-based assignment", "When the value follows another field. ‘Everyone in Fleet gets Hoth Evacuation’."],
+          ["Edit in the source system", "When the field is synced from HR or the identity provider."]
+        ]
+      },
+      "Inline edit": {
+        payoff: "From the start, for quick corrections to a single field in a list.",
+        tradeoff: "Editing in place is fast, but in a dense table it causes accidental edits. Make editing a deliberate step with visible Save and Cancel.",
+        use: [
+          "Admins correct one field on one row, such as a name or label.",
+          "Leaving the list to edit would lose their place.",
+          "The field has no side effects."
+        ],
+        avoid: [
+          "The field has side effects, such as email, role or owner.",
+          "Most cells would be editable, inviting accidental changes.",
+          "Edits need review or approval."
+        ],
+        alternatives: [
+          ["Edit in a side panel", "When several fields change together."],
+          ["Detail page", "When the edit needs context or has side effects."],
+          ["Bulk edit", "When the same correction applies to many rows."]
+        ]
+      },
+      "Progress & results": {
+        payoff: "At thousands, when bulk actions take longer than a click and some items will fail.",
+        tradeoff: "A job with progress and results keeps admins informed, but adds a place to check and something to dismiss. Report partial success honestly, and keep the page usable meanwhile.",
+        use: [
+          "Actions take more than a few seconds.",
+          "Some items may be skipped or fail, and the admin needs to know which.",
+          "Admins need to leave and come back, or be notified."
+        ],
+        avoid: [
+          "Actions finish instantly and always succeed. A toast is enough.",
+          "Nobody will read the results.",
+          "Failures can’t be retried or explained."
+        ],
+        alternatives: [
+          ["Toast with a summary", "When actions are quick and rarely fail."],
+          ["Jobs page", "When admins run many jobs. List them all with status and results."],
+          ["Email or notification", "When jobs take hours. Notify on completion with a link to results."]
+        ]
+      }
+    }
+  },
   "asset-management": {
     overview: {
       sizes: [
