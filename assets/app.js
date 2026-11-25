@@ -387,8 +387,9 @@
           <h2 id="ov-h">Overview</h2>
           <p>${esc(G.scale ? G.scale.intro : c.summary)}</p>
           <h3 class="sub-h2" id="size-h">Which patterns you need, by size</h3>
+          <p class="v2-key" aria-hidden="true"><span><span class="chip">New at this size</span></span><span><span class="chip is-carried">Carried over from smaller sizes</span></span></p>
           <ol class="tiers is-ramp v2-sizes" aria-labelledby="size-h">${O.sizes.map(([t, pats, x], i) => `<li><span class="tier-tag">${String(i + 1).padStart(2, "0")}</span><strong>${esc(t)}</strong>
-            <span class="v2-pats">${i ? "Adds " : ""}${pats.map(n => `<button type="button" class="chip v2-jump" data-i="${idxOf(n)}">${esc(n)}</button>`).join("")}</span><span>${esc(x)}</span></li>`).join("")}</ol>
+            <span class="v2-pats">${O.sizes.slice(0, i + 1).flatMap(([, ps], k) => ps.map(n => [n, k < i])).map(([n, carried]) => `<button type="button" class="chip v2-jump${carried ? " is-carried" : ""}" data-i="${idxOf(n)}"${carried ? ` aria-label="${esc(n)}, also needed at smaller sizes"` : ` aria-label="${esc(n)}${i ? ", new at this size" : ""}"`}>${esc(n)}</button>`).join("")}</span><span>${esc(x)}</span></li>`).join("")}</ol>
           <h3 class="sub-h2">Principles across the category</h3>
           <ul class="check-list">${O.principles.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
         </section>
