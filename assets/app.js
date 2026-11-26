@@ -1,4 +1,4 @@
-/* Admin Consoles — shared shell, home grid and category page. */
+/* Enterprise Library — shared shell, home grid and category page. */
 
 (function () {
   const GROUPS = window.GROUPS || [];
@@ -11,7 +11,7 @@
   // Links stay on the current page path (index.html or its alias category.html)
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
-  const CREDIT = ["Patterns for Enterprise Admin Consoles", "Jothish John · © 2026"];
+  const CREDIT = ["Enterprise Library", "Jothish John · © 2026"];
   const creditHtml = () => `<strong>${esc(CREDIT[0])}</strong><span>${esc(CREDIT[1])}</span>`;
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
@@ -160,12 +160,23 @@
   /* ---------- Home ---------- */
   function renderHome() {
     $("#content").classList.remove("is-refined");
-    document.title = "Admin Consoles — Pattern Library";
+    document.title = "Enterprise Library — Patterns for enterprise workflows";
     $("#content").innerHTML = `
-      <header class="hero is-home">
-        <h1 class="page-title" tabindex="-1">Patterns for enterprise admin consoles.</h1>
-        <p class="page-lede">Real screens grouped by the job the admin is doing, not by product, with guidance on usability, accessibility and scale for each pattern.</p>
-        <ul class="stats" id="stats"></ul>
+      <header class="hero is-home hero-v2">
+        <div class="hero-text">
+          <p class="hero-eyebrow">For designers of enterprise software</p>
+          <h1 class="page-title" tabindex="-1">Patterns for enterprise workflows.</h1>
+          <p class="page-lede">Real screens, short clips and the decisions behind them, for the software that runs organisations: admin consoles, access, compliance, content and AI. Grouped by the job someone is doing, not by product.</p>
+          <div class="hero-cta"><a class="btn-cta is-primary" href="#categories">Browse patterns</a><a class="btn-cta" href="${catUrl(CATS.find(c => c.slug === "access-requests") || CATS[0])}">See a pattern in action</a></div>
+          <ul class="stats" id="stats"></ul>
+        </div>
+        <a class="hero-visual" href="${catUrl(CATS.find(c => c.slug === "access-requests") || CATS[0])}#p-approval-queue" aria-label="Watch the Approval queue clip">
+          <div class="hv-frame"><img src="media/access-requests/approval-queue.jpg" alt="" width="1280" height="720"><span class="hv-play"><svg viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="currentColor"/></svg></span></div>
+          <div class="hv-cards">
+            <div class="hv-card"><b>Should you use it?</b><span>The trade-off, when it pays off, and the alternatives</span></div>
+            <div class="hv-card"><b>How to build it</b><span>Do and avoid, accessibility, and how it holds up at scale</span></div>
+          </div>
+        </a>
       </header>
       <div class="toolbar">
         <div class="chips" id="chips" role="group" aria-label="Filter by group"></div>
@@ -174,10 +185,12 @@
       <div id="categories"></div>`;
     const totalPatterns = CATS.reduce((n, c) => n + c.patterns.length, 0);
     const totalScreens = CATS.reduce((n, c) => n + c.screens.length, 0);
+    const totalClips = Object.values(window.VIDEOS || {}).reduce((n, v) => n + Object.keys(v).length, 0);
     $("#stats").innerHTML = `
       <li><strong>${CATS.length}</strong><span>categories</span></li>
       <li><strong>${totalPatterns}</strong><span>patterns</span></li>
-      <li><strong>${totalScreens}</strong><span>screenshots collected</span></li>`;
+      <li><strong>${totalScreens}</strong><span>screenshots collected</span></li>
+      <li><strong>${totalClips}</strong><span>pattern clips</span></li>`;
 
     const chips = $("#chips");
     chips.innerHTML = [{ id: "all", name: "All" }, ...GROUPS].map((g, i) =>
@@ -227,13 +240,13 @@
     const idx = CATS.findIndex(c => c.slug === slug);
     const main = $("#content");
     if (idx < 0) {
-      document.title = "Not found — Admin Consoles";
+      document.title = "Not found — Enterprise Library";
       main.innerHTML = `<div class="hero"><h1 class="page-title" tabindex="-1">Category not found.</h1><p class="page-lede"><a href="${HOME}">Back to all categories</a></p></div>`;
       return;
     }
     const c = CATS[idx];
     const g = GROUPS.find(x => x.id === c.group);
-    document.title = `${c.name} — Admin Consoles`;
+    document.title = `${c.name} — Enterprise Library`;
 
     const G = (window.GUIDANCE || {})[c.slug] || {};
     // Refined Scale + pattern browser layout, used by every category with guidance.

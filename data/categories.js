@@ -1,5 +1,5 @@
 /*
-  Admin Consoles — category + screenshot data.
+  Enterprise Library — category + screenshot data.
 
   To add a screenshot:
     1. Drop the image in  screens/<category-slug>/  (PNG, JPG or WebP).

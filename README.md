@@ -1,4 +1,4 @@
-# Admin Consoles
+# Enterprise Library
 
 A personal inspiration library of admin console UI patterns. Screens are grouped by the job the admin is doing (adding users, setting policy, deleting things) rather than by product, and each pattern comes with guidance on usability, accessibility and enterprise scale.
 

@@ -24,7 +24,7 @@
         <section class="card" aria-labelledby="h-arc"><h2 id="h-arc">Archives</h2><span class="muted">Briefings, plans and records you can open.</span><div style="margin-top:8px"><a class="link" href="#/archives">Browse archives</a></div></section>`}
       </div>
       <section style="margin-top:28px" aria-labelledby="h-tour"><h2 id="h-tour">About this prototype</h2>
-        <p class="muted" style="max-width:720px">A working version of the console in the pattern clips, from <i>Patterns for Enterprise Admin Consoles</i>. Everything is sample data. Changes stay in this browser, and <b style="font-weight:500;color:var(--ink)">Reset demo data</b> at the bottom of the menu puts it back. Switch between the admin and member views from your name at the top right.</p></section>`,
+        <p class="muted" style="max-width:720px">A working version of the console in the pattern clips, from <i>Enterprise Library</i>. Everything is sample data. Changes stay in this browser, and <b style="font-weight:500;color:var(--ink)">Reset demo data</b> at the bottom of the menu puts it back. Switch between the admin and member views from your name at the top right.</p></section>`,
       act: { dismiss() { S().homeAlertDismissed = true; save(); rerender(); announce("Alert dismissed"); } } };
   });
 
