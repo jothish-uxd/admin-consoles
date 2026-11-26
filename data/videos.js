@@ -817,7 +817,7 @@ window.VIDEOS = {
       poster: "media/integrations-api/integration-catalog.jpg",
       label: "Integration catalog, shown in a mock Echo Base console",
       steps: [
-        "On Settings › Integrations, she goes from the org's connected apps to Browse. Each integration shows what it does, who makes it, and its status: allowed, needs approval or blocked.",
+        "On Settings › Integrations, the admin goes from the org's connected apps to Browse. Each integration shows what it does, who makes it, and its status: allowed, needs approval or blocked.",
         "She searches for “cal”. Holonet Calendar needs approval, and 14 people are asking for it.",
         "Its detail says what it can do for each person who connects it, in plain words, including what it can't: no files, messages or other people's calendars.",
         "Who can connect it: admins approve each request, anyone in the org, or blocked. She picks Anyone in the org.",
