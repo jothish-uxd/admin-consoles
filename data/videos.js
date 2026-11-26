@@ -1096,5 +1096,80 @@ window.VIDEOS = {
         "She enforces with these results. The confirmation says what will happen, and the simulation is attached to the change."
       ]
     }
+  },
+  "roles-permissions": {
+    "Role catalog": {
+      src: "media/roles-permissions/role-catalog.mp4",
+      poster: "media/roles-permissions/role-catalog.jpg",
+      label: "Role catalog, shown in a mock Echo Base console",
+      steps: [
+        "People › Roles lists roles from most to least powerful: Owner, Admin, Security admin, Content admin, Billing admin and Member.",
+        "Each says what it can do in everyday words, whether it's built-in or custom, what a custom role is based on, and how many people have it.",
+        "The admin ticks Admin and Security admin, and Compare counts them.",
+        "The comparison shows only what's different first: what only Admin can do, and that Security admin is a narrower Admin. Then what both can do.",
+        "From there she can duplicate Admin as the start of a custom role."
+      ]
+    },
+    "Permission matrix": {
+      src: "media/roles-permissions/permission-matrix.mp4",
+      poster: "media/roles-permissions/permission-matrix.jpg",
+      label: "Permission matrix, shown in a mock Echo Base console",
+      steps: [
+        "The admin switches People › Roles from Roles to Permissions.",
+        "Capabilities are grouped by area down the side, with a count for each, and roles run across the top. A legend says what each mark means.",
+        "Each cell says Yes, No or Own groups in words as well as a shape, never colour alone.",
+        "She opens Data & export. Export people is marked Risky.",
+        "She opens its explanation: it downloads the full people list, and its use isn't logged after download. Export for audit sits in the toolbar."
+      ]
+    },
+    "Create custom role": {
+      src: "media/roles-permissions/create-custom-role.mp4",
+      poster: "media/roles-permissions/create-custom-role.jpg",
+      label: "Create custom role, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens Member's menu and picks Duplicate, so the new role starts from a built-in one, not a blank list.",
+        "She names it Help desk and says who it's for. A summary beside the form updates as she goes.",
+        "Capabilities are grouped by area in plain words. Use the console comes from Member and stays on.",
+        "She ticks Reset sign-in and MFA. View people is added too, and the row says why: Reset sign-in needs it.",
+        "She adds Unlock devices and leaves Export people, marked Risky, off.",
+        "She creates the role. It's listed with the others, based on Member, with nobody in it yet."
+      ]
+    },
+    "Assign role": {
+      src: "media/roles-permissions/assign-role.mp4",
+      poster: "media/roles-permissions/assign-role.jpg",
+      label: "Assign role, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens Security admin from People › Roles.",
+        "Who has it lists groups first, then people added directly, with how and when each got it.",
+        "She adds Wes Janson. Before assigning, she sees what he gains and that he keeps Member: nothing he has now is taken away.",
+        "Security admin is an admin-level role, so Assign waits for a reason. Her reason goes in the audit log.",
+        "She assigns it. Wes is listed straight away with the reason, and a toast offers Undo."
+      ]
+    },
+    "Scoped access": {
+      src: "media/roles-permissions/scoped-access.mp4",
+      poster: "media/roles-permissions/scoped-access.jpg",
+      label: "Scoped access, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens Admin from People › Roles. Its people show the role with its scope, such as Admin · Ground forces.",
+        "She adds Cal Alder and chooses where it applies: Only part of it, rather than the whole organization.",
+        "She picks Fleet from the org tree, which shows how many people each part has.",
+        "Before assigning, she sees what Admin · Fleet covers and what it doesn't: not Echo Base settings, other teams or billing.",
+        "She gives a reason, as for any admin-level role, and assigns it. Cal is listed as Admin · Fleet, the same label as in the toast."
+      ]
+    },
+    "Effective permissions": {
+      src: "media/roles-permissions/effective-permissions.mp4",
+      poster: "media/roles-permissions/effective-permissions.jpg",
+      label: "Effective permissions, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens Check access from People › Roles.",
+        "She asks one question: can Hobbie Klivian share files outside Echo Base?",
+        "The answer comes first, in words: No. A locked setting wins over his role.",
+        "Then each step that decided it, in order: his Content admin role, through the Fleet content group, allows it.",
+        "But External sharing is Off, locked by Rebel Alliance, and locked settings win. Each step links to where it can be changed."
+      ]
+    }
   }
 };

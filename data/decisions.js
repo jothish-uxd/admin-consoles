@@ -992,6 +992,137 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "roles-permissions": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Role catalog", "Assign role"], "A few built-in roles, each in everyday words, given to people and groups, with a reason for admin-level ones."],
+        ["Thousands", ["Permission matrix", "Create custom role", "Effective permissions"], "Custom roles multiply. Admins check who can do what in a grid, build narrow roles from built-in ones, and explain why someone can or can't do something."],
+        ["Hundreds of thousands", ["Scoped access"], "Regions and divisions have their own admins. Roles are given for part of the org, and the scope is in the label everywhere."]
+      ],
+      principles: [
+        "Say what a role can do in everyday words, not capability codes.",
+        "Show what someone gains before they get it, and nothing is taken away silently.",
+        "When rules combine, say which one wins and why, and link to where it can be changed."
+      ]
+    },
+    intro: "Roles decide what each admin can see and change. Too broad, and a help-desk agent can export everyone's data; too narrow, and work stops while people wait for access. The design job is to make each role understandable in plain words, keep custom roles narrow without making them a maintenance burden, and explain the answer when someone asks why they can or can't do something.",
+    patterns: {
+      "Role catalog": {
+        payoff: "From the start: as soon as there's more than one kind of admin, people need to see what each role is.",
+        tradeoff: "A short list of built-in roles is easy to understand, but organizations outgrow it and start making near-duplicates. List roles from most to least powerful, in everyday words, with who has each, and compare two by what differs.",
+        use: [
+          "There's more than one admin role.",
+          "Custom roles exist alongside built-in ones.",
+          "People ask what the difference between two roles is."
+        ],
+        avoid: [
+          "Everyone is either an admin or not. Say that on the person.",
+          "Roles are managed in the identity provider. Link to it.",
+          "The list would only repeat the permission matrix. Show the matrix."
+        ],
+        alternatives: [
+          ["Permission matrix", "When the question is who can do one specific thing."],
+          ["Role on the person", "When there are only two or three roles."],
+          ["Compare roles", "When people choose between two similar roles."]
+        ]
+      },
+      "Permission matrix": {
+        payoff: "At thousands, when custom roles multiply and auditors ask who can do what.",
+        tradeoff: "A grid answers who can do what at a glance, but it gets wide and dense fast. Group capabilities by area with counts, keep the header in view, say each cell in words, and mark the risky ones.",
+        use: [
+          "There are several roles and dozens of capabilities.",
+          "Auditors ask for who can do what.",
+          "Admins design custom roles and need to see the gaps."
+        ],
+        avoid: [
+          "There are two or three roles. A list of what each can do is clearer.",
+          "Capabilities are too many to scan. Search and filter first.",
+          "Access is mostly per resource, not per role. Show it on the resource."
+        ],
+        alternatives: [
+          ["Role catalog", "When people pick a role, not audit one."],
+          ["Effective permissions", "When the question is about one person."],
+          ["Export for audit", "When the grid is for an auditor, not the admin."]
+        ]
+      },
+      "Create custom role": {
+        payoff: "At thousands, when built-in roles give too much to people who need only part of it.",
+        tradeoff: "Custom roles fit how the organization works, but each one is another thing to maintain and audit. Start from a built-in role, say who it's for, add what a capability needs with it, and show a running summary.",
+        use: [
+          "Built-in roles give too much to some people.",
+          "The same narrow set of capabilities is given to many people.",
+          "Least privilege is a compliance requirement."
+        ],
+        avoid: [
+          "One person needs one extra thing. Give it on its own, with an end date.",
+          "A built-in role is close enough.",
+          "No one will own and review the role."
+        ],
+        alternatives: [
+          ["Duplicate a built-in role", "When most of an existing role fits."],
+          ["Scoped access", "When the role is right but should cover only part of the org."],
+          ["Temporary access", "When the extra capability is for a short time."]
+        ]
+      },
+      "Assign role": {
+        payoff: "From the start: every person needs a role, and someone must give it.",
+        tradeoff: "Assigning from the role is quick for many people, and from the person is quick for one. Offer both, show what someone gains before assigning, require a reason for admin-level roles, and allow Undo.",
+        use: [
+          "Admins give roles to people and groups.",
+          "Admin-level roles need to be justified.",
+          "People often hold more than one role."
+        ],
+        avoid: [
+          "Roles come only from the identity provider. Show where they come from instead.",
+          "Every role change needs approval. Use access requests.",
+          "Roles are given only through groups. Manage the group."
+        ],
+        alternatives: [
+          ["Assign through a group", "When access should follow team membership."],
+          ["Access requests", "When people ask and an approver decides."],
+          ["Directory sync", "When roles are set in the identity provider."]
+        ]
+      },
+      "Scoped access": {
+        payoff: "At hundreds of thousands, when regions, divisions or subsidiaries each have their own admins.",
+        tradeoff: "Scoped roles let local admins run their own part without touching the rest, but they make who can do what harder to see. Pick the scope from the org tree, say what it covers and what it doesn't, and put the scope in the label everywhere.",
+        use: [
+          "Parts of the org have their own admins.",
+          "Regulations keep some admins out of other regions.",
+          "Admins should manage only their own groups or content."
+        ],
+        avoid: [
+          "The org is small enough for a few org-wide admins.",
+          "Scope would change too often to keep up. Use groups.",
+          "Access is per item, not per part of the org. Share the item."
+        ],
+        alternatives: [
+          ["Custom role", "When the capabilities differ, not where they apply."],
+          ["Group ownership", "When admins manage only the groups they own."],
+          ["Separate organizations", "When parts share nothing at all."]
+        ]
+      },
+      "Effective permissions": {
+        payoff: "At thousands, when roles, groups, scopes and locked settings combine and no one can say why someone can or can't do something.",
+        tradeoff: "Explaining every rule that decided an answer is more work than a yes or no, but it's what support and auditors need. Answer one question first, in words, then list each role and setting in order, say which one wins, and link to where each can be changed.",
+        use: [
+          "Access comes from more than one place.",
+          "Support is asked why someone can't do something.",
+          "Locked settings from a parent org can override roles."
+        ],
+        avoid: [
+          "Access comes from one role only. The role says it all.",
+          "The answer would expose access the admin can't see.",
+          "People ask about every capability at once. Show the matrix."
+        ],
+        alternatives: [
+          ["Permission matrix", "When the question is about a role, not a person."],
+          ["View as", "When admins need to see the console as someone else."],
+          ["Access review", "When the question is who should still have access."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [
