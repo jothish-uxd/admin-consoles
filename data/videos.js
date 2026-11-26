@@ -1518,6 +1518,54 @@ window.VIDEOS = {
         "A reason is required, shown on his page and in the audit log. She enters Extended leave.",
         "His page now says Suspended by you, today, with the reason and a single Reactivate button. Security shows he's signed out and his tokens are revoked."
       ]
+    },
+    "Offboarding": {
+      src: "media/user-management/offboarding.mp4",
+      poster: "media/user-management/offboarding.jpg",
+      label: "Offboarding, shown in a mock Echo Base console",
+      steps: [
+        "Offboard Bren Derlin is a checklist, with the safe steps first and deletion last. A check at the top shows there's no legal hold.",
+        "His access is already removed: he was deactivated on Nov 18, with sessions ended and tokens revoked.",
+        "What he owned is listed with counts: 1,284 files, 12 shared links, 2 API keys and an admin role. It goes to his manager, Cal Alder, by default.",
+        "The admin starts the transfer. It runs as a job with progress, and nothing is deleted until it finishes. His license is freed when it's done.",
+        "Deleting the account is scheduled for after a 30-day restore window, and she types his name to confirm. Offboarding says it isn't done until every step is."
+      ]
+    },
+    "Pending invites": {
+      src: "media/user-management/pending-invites.mp4",
+      poster: "media/user-management/pending-invites.jpg",
+      label: "Pending invites, shown in a mock Echo Base console",
+      steps: [
+        "Pending invites lists the 14 people who haven't joined yet: who invited them, the status, when it expires, as a date and days left, and whether it holds a seat.",
+        "They aren't counted as active people, and the page says so.",
+        "The admin filters to Expired, selects all 4 and resends them together. They're pending again, expiring Dec 3.",
+        "She filters to Bounced. chirrut@echobase.org says why: the mailbox doesn't exist.",
+        "From its menu, with Revoke set apart from Fix email and Copy invite link, she revokes it."
+      ]
+    },
+    "Bulk add users": {
+      src: "media/user-management/bulk-add-users.mp4",
+      poster: "media/user-management/bulk-add-users.jpg",
+      label: "Bulk add users, shown in a mock Echo Base console",
+      steps: [
+        "This is the last step of Import people, after upload, mapping and review. The admin adds 46 people, and it runs in the background with progress.",
+        "44 are added. 2 rows couldn't be, each named by row, with why: one already has a pending invite, one names a manager who isn't here.",
+        "She fixes them here, without the file: resend the existing invite instead, and pick Cal Alder as the manager.",
+        "She adds the 2. All 46 are in Fleet as Members. Running the same file again is safe, since people already added are skipped.",
+        "The import history records who ran it, the file and the result, with a report."
+      ]
+    },
+    "Auto-join by domain": {
+      src: "media/user-management/auto-join.mp4",
+      poster: "media/user-management/auto-join.jpg",
+      label: "Auto-join by domain, shown in a mock Echo Base console",
+      steps: [
+        "Auto-join by domain only lists verified domains, and public ones like gmail.com can never be used.",
+        "echobase.org lets people join automatically. The admin switches it to Ask to join, so a People admin approves each person.",
+        "People join as Members with no admin rights, and now a seat is only used once they're approved.",
+        "What they see updates too: which org they're joining, who runs it, and that an admin will approve them.",
+        "She saves, and echobase.org now says Ask to join."
+      ]
     }
   }
 };

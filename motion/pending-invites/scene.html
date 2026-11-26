@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pending invites · motion scene</title>
+<!--
+  Source for media/user-management/pending-invites.mp4. Built by motion/_build/pending_invites.py on _build/user_page.py
+  (People › Users › Pending invites), with the top bar's alerts bell.
+  Follows the Pending invites card (data/guidance.js):
+  - invites as rows: who sent them, status (pending, expired, bounced), expiry as a date and days left, and whether a seat is held
+  - not counted as active people
+  - filter and resend expired ones together; a bounced invite says why, with fix, copy link and revoke in its menu
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+
+.bk { margin-top: 2px; font-size: 12.5px; color: var(--soft); }
+.ph { margin-top: 8px; display: flex; align-items: center; gap: 14px; }
+.ph .av3 { width: 48px; height: 48px; border-radius: 50%; background: var(--hover); color: var(--ink); display: grid; place-items: center; font-weight: 650; font-size: 16px; flex: none; }
+.ph h1 { margin: 0; font-size: 22px; }
+.ph .sub { margin-top: 2px; font-size: 12.5px; color: var(--soft); }
+.ph .sp { flex: 1; }
+.ph .btn { height: 34px; }
+.ph .gap2 { width: 14px; }
+.btn.red { color: #b91c1c; border-color: #fca5a5; }
+.pill2 { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 9px; color: var(--ink); margin-left: 8px; vertical-align: 3px; }
+.pill2 i { width: 7px; height: 7px; border-radius: 50%; background: #15803d; }
+.pill2.sus i { background: none; border: 1.5px solid #92400e; width: 5px; height: 5px; }
+.pill2.sus { color: #92400e; border-color: #b45309; }
+.ban2 { display: none; margin-top: 12px; align-items: center; gap: 10px; border: 1px solid #b45309; background: #fffbeb; border-radius: 10px; padding: 9px 12px; color: var(--ink); font-size: 12.5px; }
+.ban2 .sp { flex: 1; } .ban2 .btn { height: 30px; } .ban2 svg { width: 15px; height: 15px; flex: none; }
+.snav { margin-top: 14px; display: flex; gap: 18px; border-bottom: 1px solid var(--rule); font-size: 13px; color: var(--soft); }
+.snav span { padding: 0 0 8px; } .snav span.on { color: var(--ink); font-weight: 500; border-bottom: 2px solid var(--ink); margin-bottom: -1px; }
+.g2 { display: grid; grid-template-columns: 1.15fr 1fr; gap: 14px; align-items: start; }
+.sec { margin-top: 14px; border: 1px solid var(--rule); border-radius: 12px; padding: 12px 16px; font-size: 12.5px; color: var(--soft); position: relative; }
+.sec h3 { margin: 0 0 6px; font-size: 14px; color: var(--ink); font-weight: 600; display: flex; align-items: center; }
+.sec h3 a { margin-left: auto; font-size: 12.5px; font-weight: 400; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.kvg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+.kvg .k { font-size: 12px; color: var(--soft); }
+.kvg .v { color: var(--ink); font-size: 13px; margin-top: 1px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.kvg .v svg { width: 14px; height: 14px; flex: none; }
+.src { font-size: 11.5px; color: var(--soft); }
+.srcl { font-size: 11.5px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.acc .ar { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; padding: 7px 0; border-top: 1px solid var(--rule); }
+.acc .ar:first-of-type { border-top: 0; }
+.acc .ar .k { font-size: 12px; display: block; } .acc .ar b { color: var(--ink); font-weight: 500; font-size: 13px; display: block; margin-top: 1px; }
+.ev div { padding: 5px 0; border-top: 1px solid var(--rule); color: var(--ink); }
+.ev div:first-of-type { border-top: 0; } .ev div span { color: var(--soft); margin-left: 6px; }
+.edl { margin-top: 8px; font-size: 12px; }
+.edl a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; margin-left: 6px; }
+
+.ih { margin-top: 6px; display: flex; align-items: baseline; gap: 10px; }
+.ih h1 { margin: 0; font-size: 22px; } .ih span { color: var(--soft); font-size: 13px; } .ih .sp { flex: 1; }
+.chs2 { margin-top: 12px; display: flex; gap: 6px; align-items: center; }
+.chs2 .c2 { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--ink); font-size: 12.5px; }
+.chs2 .c2.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.chs2 .c2 i { font-style: normal; font-size: 11px; opacity: .75; font-family: "Geist Mono", monospace; }
+.chs2 .nt { margin-left: auto; color: var(--soft); font-size: 12px; }
+table.sx { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+table.sx th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 8px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.sx td { height: 44px; padding: 0 8px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+table.sx td b { display: block; color: var(--ink); font-weight: 500; font-size: 13px; }
+table.sx td.ck { width: 26px; } table.sx tr.sel td { background: var(--subtle); }
+table.sx td.ra { text-align: right; position: relative; overflow: visible; }
+.kb { width: 28px; height: 28px; border-radius: 7px; display: inline-grid; place-items: center; color: var(--ink); font-size: 15px; letter-spacing: 1px; }
+.kb.on { background: var(--hover); }
+.stx { display: inline-flex; gap: 5px; align-items: center; color: var(--ink); font-weight: 500; }
+.stx svg { width: 13px; height: 13px; flex: none; }
+.sbar3 { display: none; margin-top: 10px; height: 42px; border-radius: 10px; background: var(--ink); color: #fff; align-items: center; gap: 10px; padding: 0 8px 0 14px; font-size: 13px; }
+.sbar3 .sp { flex: 1; } .sbar3 .btn { height: 30px; background: #fff; color: var(--ink); border-color: #fff; }
+.rmn { position: absolute; right: 8px; top: 38px; width: 200px; z-index: 20; display: none; text-align: left; }
+.rmn .it { color: var(--ink); } .rmn .it.red { color: #b91c1c; }
+.rmn .sepx { height: 1px !important; min-height: 0 !important; padding: 0 !important; background: var(--rule) !important; margin: 6px 4px; }
+.vx { display: none; }
+
+
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="People / Users / Pending invites"></span>
+      <div class="me"><span class="bell" id="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg" id="bdg">3</span></span>Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i><span id="tT">4 invites resent · they now expire Dec 3</span></div>
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="bk">← Users</div>
+        <div class="ih"><h1>Pending invites</h1><span id="tot">14 people haven’t joined yet</span><span class="sp"></span><span class="btn sm pri">Invite people</span></div>
+        <div class="chs2"><span class="c2 on" id="fA">All <i id="nA">14</i></span><span class="c2">Pending <i id="nP">9</i></span><span class="c2" id="fE">Expired <i id="nE">4</i></span><span class="c2" id="fB">Bounced <i id="nB">1</i></span>
+          <span class="nt">Not counted as active people · a seat is used when someone accepts</span></div>
+        <div class="sbar3" id="sb"><span>4 selected</span><span class="sp"></span><span class="btn">Revoke</span><span class="btn" id="bRs">Resend 4</span></div>
+        <table class="sx" id="tA"><thead><tr><th class="ck"><span class="cb" id="cAllA"></span></th><th style="width:25%">Invited</th><th style="width:13%">Sent by</th><th style="width:19%">Status</th><th>Expires</th><th style="width:11%">Seat</th><th style="width:40px"></th></tr></thead><tbody><tr id="a1"><td class="ck"><span class="cb" id="a1-c"></span></td><td><b>wedge@echobase.org</b>Member · Fleet</td><td>You</td><td id="a1-s"><span class="stx"><svg aria-hidden="true" viewBox="0 0 16 16" style="color:var(--soft)"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.8V8l2.2 1.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Pending</span></td><td id="a1-e">Dec 3 · in 7 days</td><td>On accept</td><td class="ra"><span class="kb" id="a1-k" aria-label="Actions for wedge@echobase.org">⋯</span></td></tr><tr id="a2"><td class="ck"><span class="cb" id="a2-c"></span></td><td><b>han@smuggler.io</b>Guest · Fleet</td><td>You</td><td id="a2-s"><span class="stx"><svg aria-hidden="true" viewBox="0 0 16 16" style="color:var(--soft)"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.8V8l2.2 1.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Pending</span></td><td id="a2-e">Dec 3 · in 7 days</td><td>No, guest</td><td class="ra"><span class="kb" id="a2-k" aria-label="Actions for han@smuggler.io">⋯</span></td></tr><tr id="a3"><td class="ck"><span class="cb" id="a3-c"></span></td><td><b>jyn@echobase.org</b>Member · Intelligence</td><td>Toryn Farr</td><td id="a3-s"><span class="stx"><svg aria-hidden="true" viewBox="0 0 16 16" style="color:#b45309"><path d="M8 1.8L15 14H1z" fill="currentColor"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></svg>Expired</span><span style="display:block;font-size:11.5px">Nov 20 · 6 days ago</span></td><td id="a3-e">—</td><td>On accept</td><td class="ra"><span class="kb" id="a3-k" aria-label="Actions for jyn@echobase.org">⋯</span></td></tr><tr id="a4"><td class="ck"><span class="cb" id="a4-c"></span></td><td><b>chirrut@echobase.org</b>Member · Fleet</td><td>Cal Alder</td><td id="a4-s"><span class="stx"><svg aria-hidden="true" viewBox="0 0 16 16" style="color:#b91c1c"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></svg>Bounced</span><span style="display:block;font-size:11.5px">Mailbox doesn’t exist</span></td><td id="a4-e">—</td><td>No</td><td class="ra"><span class="kb" id="a4-k" aria-label="Actions for chirrut@echobase.org">⋯</span></td></tr></tbody></table>
+        <table class="sx vx" id="tE"><thead><tr><th class="ck"><span class="cb" id="cAll"></span></th><th style="width:25%">Invited</th><th style="width:13%">Sent by</th><th style="width:19%">Status</th><th>Expires</th><th style="width:11%">Seat</th><th style="width:40px"></th></tr></thead><tbody><tr id="e1"><td class="ck"><span class="cb" id="e1-c"></span></td><td><b>jyn@echobase.org</b>Member · Intelligence</td><td>Toryn Farr</td><td id="e1-s"><span class="stx"><svg aria-hidden="true" viewBox="0 0 16 16" style="color:#b45309"><path d="M8 1.8L15 14H1z" fill="currentColor"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></svg>Expired</span><span style="display:block;font-size:11.5px">Nov 20 · 6 days ago</span></td><td id="e1-e">—</td><td>On accept</td><td class="ra"><span class="kb" id="e1-k" aria-label="Actions for jyn@echobase.org">⋯</span></td></tr><tr id="e2"><td class="ck"><span class="cb" id="e2-c"></span></td><td><b>bodhi@echobase.org</b>Member · Fleet</td><td>Cal Alder</td><td id="e2-s"><span class="stx"><svg aria-hidden="true" viewBox="0 0 16 16" style="color:#b45309"><path d="M8 1.8L15 14H1z" fill="currentColor"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></svg>Expired</span><span style="display:block;font-size:11.5px">Nov 19 · 7 days ago</span></td><td id="e2-e">—</td><td>On accept</td><td class="ra"><span class="kb" id="e2-k" aria-label="Actions for bodhi@echobase.org">⋯</span></td></tr><tr id="e3"><td class="ck"><span class="cb" id="e3-c"></span></td><td><b>kes@echobase.org</b>Member · Fleet</td><td>Cal Alder</td><td id="e3-s"><span class="stx"><svg aria-hidden="true" viewBox="0 0 16 16" style="color:#b45309"><path d="M8 1.8L15 14H1z" fill="currentColor"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></svg>Expired</span><span style="display:block;font-size:11.5px">Nov 15 · 11 days ago</span></td><td id="e3-e">—</td><td>On accept</td><td class="ra"><span class="kb" id="e3-k" aria-label="Actions for kes@echobase.org">⋯</span></td></tr><tr id="e4"><td class="ck"><span class="cb" id="e4-c"></span></td><td><b>luthen@echobase.org</b>Member · Command</td><td>Mon Mothma</td><td id="e4-s"><span class="stx"><svg aria-hidden="true" viewBox="0 0 16 16" style="color:#b45309"><path d="M8 1.8L15 14H1z" fill="currentColor"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></svg>Expired</span><span style="display:block;font-size:11.5px">Nov 9 · 17 days ago</span></td><td id="e4-e">—</td><td>On accept</td><td class="ra"><span class="kb" id="e4-k" aria-label="Actions for luthen@echobase.org">⋯</span></td></tr></tbody></table>
+        <table class="sx vx" id="tB"><thead><tr><th class="ck"><span class="cb" id="cAllB"></span></th><th style="width:25%">Invited</th><th style="width:13%">Sent by</th><th style="width:19%">Status</th><th>Expires</th><th style="width:11%">Seat</th><th style="width:40px"></th></tr></thead><tbody><tr id="b1"><td class="ck"><span class="cb" id="b1-c"></span></td><td><b>chirrut@echobase.org</b>Member · Fleet</td><td>Cal Alder</td><td id="b1-s"><span class="stx"><svg aria-hidden="true" viewBox="0 0 16 16" style="color:#b91c1c"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></svg>Bounced</span><span style="display:block;font-size:11.5px">Mailbox doesn’t exist</span></td><td id="b1-e">—</td><td>No</td><td class="ra"><span class="kb" id="b1-k" aria-label="Actions for chirrut@echobase.org">⋯</span><div class="menu rmn" id="rmn"><div class="it">Fix email and resend</div><div class="it">Copy invite link</div><div class="sepx"></div><div class="it red" id="oRv">Revoke invite</div></div></td></tr></tbody></table>
+        <div class="vx" id="none" style="margin-top:12px;padding:14px;border:1px dashed var(--rule-strong);border-radius:10px;text-align:center;color:var(--ink)">No bounced invites <span style="color:var(--soft)">· chirrut@echobase.org was revoked just now</span></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = { eClick: 1.00, aClick: 1.90, rClick: 2.80, rs: 2.90, toast: [2.95, 4.20], bClick: 4.80, kClick: 5.70, vClick: 6.50, toast2: [6.60, 8.00], endCard: [8.30, 8.75], end: 9.25 };
+
+function build() {
+  const e = at("fE"), b = at("fB");
+  ["tA"].forEach(i => $(i).style.display = "none"); $("tE").style.display = "table"; const a = at("cAll"); $("sb").style.display = "flex"; const r = at("bRs"); $("sb").style.display = ""; $("tE").style.display = "";
+  $("tB").style.display = "table"; const k = at("b1-k"); $("rmn").style.display = "block"; const v = at("oRv", -30, 0); $("rmn").style.display = ""; $("tB").style.display = ""; $("tA").style.display = "";
+  const cur = [[0.00, 960, 640], [0.25, 960, 640], [0.70, e[0], e[1] + 3], [1.05, e[0], e[1] + 3], [1.60, a[0], a[1] + 3], [1.95, a[0], a[1] + 3],
+    [2.50, r[0], r[1] + 3], [2.85, r[0], r[1] + 3], [4.50, b[0], b[1] + 3], [4.85, b[0], b[1] + 3], [5.40, k[0], k[1] + 3], [5.75, k[0], k[1] + 3],
+    [6.20, v[0], v[1] + 3], [6.55, v[0], v[1] + 3], [8.30, v[0] - 400, v[1] + 120]];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.04], [8.05, 650, 345, 1.04], [8.30, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("crumb").innerHTML = "/ People / Users / <b>Pending invites</b>";
+  const f = t >= T.bClick ? "B" : t >= T.eClick ? "E" : "A", rs = t >= T.rs, rv = t >= T.vClick;
+  $("fA").classList.toggle("on", f === "A"); $("fE").classList.toggle("on", f === "E"); $("fB").classList.toggle("on", f === "B");
+  $("tA").style.display = f === "A" ? "table" : "none"; $("tE").style.display = f === "E" ? "table" : "none";
+  $("tB").style.display = f === "B" && !rv ? "table" : "none"; $("none").style.display = f === "B" && rv ? "block" : "none";
+  // select the expired ones and resend them together
+  const s = t >= T.aClick && !rs;
+  $("cAll").classList.toggle("on", s && f === "E");
+  [1, 2, 3, 4].forEach(k => { $(`e${k}-c`).classList.toggle("on", s); $(`e${k}`).classList.toggle("sel", s);
+    $(`e${k}-s`).innerHTML = rs ? '<span class="stx">Pending</span><span style="display:block;font-size:11.5px">Resent just now</span>' : $(`e${k}-s`).dataset.o || ($(`e${k}-s`).dataset.o = $(`e${k}-s`).innerHTML);
+    $(`e${k}-e`).textContent = rs ? "Dec 3 · in 7 days" : "—"; });
+  $("sb").style.display = s && f === "E" ? "flex" : "none";
+  $("nE").textContent = rs ? "0" : "4"; $("nP").textContent = rs ? "13" : "9"; $("nB").textContent = rv ? "0" : "1"; $("nA").textContent = rv ? "13" : "14"; $("tot").textContent = rv ? "13 people haven’t joined yet" : "14 people haven’t joined yet";
+  // a bounced invite says why; revoking it is in its menu, set apart
+  $("rmn").style.display = t >= T.kClick && t < T.vClick ? "block" : "none"; $("b1-k").classList.toggle("on", t >= T.kClick && t < T.vClick);
+  $("oRv").classList.toggle("hov", t >= T.vClick - .3);
+  $("tT").textContent = t >= T.toast2[0] ? "Invite to chirrut@echobase.org revoked" : "4 invites resent · they now expire Dec 3";
+  $("toast").style.opacity = Math.max(span(t, T.toast[0], T.toast[0] + .2) * (1 - span(t, T.toast[1] - .2, T.toast[1])), span(t, T.toast2[0], T.toast2[0] + .2) * (1 - span(t, T.toast2[1] - .2, T.toast2[1])));
+}
+
+function events() { return [["click", T.eClick], ["click", T.aClick], ["click", T.rClick], ["pop", T.toast[0]], ["click", T.bClick], ["click", T.kClick], ["click", T.vClick], ["pop", T.toast2[0]]]; }
+
+Motion.scene({
+  // 5+ steps: natural length, within the 15 s cap
+  T, clicks: [T.eClick, T.aClick, T.rClick, T.bClick, T.kClick, T.vClick], build, render, events, duration: 14.5
+});
+</script>
+</body>
+</html>

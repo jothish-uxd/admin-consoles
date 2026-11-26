@@ -73,6 +73,6 @@ def page(extra_access="", title_id="pT", edited='Last edited by Cal Alder, Mar 2
       </div>
 '''
 
-def make(name, title, comment, css, main, script, extra="", defs="", toast=""):
-    _make(name, title, comment, CSS + css, "People / Users / Zev Senesca", "people", main, script, extra=extra, defs=ICONS + defs, toast=toast)
+def make(name, title, comment, css, main, script, extra="", defs="", toast="", crumb="People / Users / Zev Senesca"):
+    _make(name, title, comment, CSS + css, crumb, "people", main, script, extra=extra, defs=ICONS + defs, toast=toast)
     bell.add(name, 3)
