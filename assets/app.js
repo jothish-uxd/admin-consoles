@@ -12,10 +12,7 @@
   // and change only the query, so views swap in place without a page load.
   const HOME = "?";
   const CREDIT = ["Enterprise Library", "Jothish John · © 2026"];
-  // The clip end card (shown when a clip ends) must match the card burnt into the clips, which still says
-  // "Patterns for Enterprise Admin Consoles" until the final pass (motion/FINAL_PASS.md). Change both together.
-  const CLIP_CREDIT = ["Patterns for Enterprise Admin Consoles", "Jothish John · © 2026"];
-  const creditHtml = (c = CREDIT) => `<strong>${esc(c[0])}</strong><span>${esc(c[1])}</span>`;
+  const creditHtml = () => `<strong>${esc(CREDIT[0])}</strong><span>${esc(CREDIT[1])}</span>`;
   const catUrl = c => `?c=${encodeURIComponent(c.slug)}`;
   const slugFromUrl = url => new URL(url, location.href).searchParams.get("c");
 
@@ -755,7 +752,6 @@
         <div class="clip-frame">
           <video class="clip-video" src="${esc(v.src)}" poster="${esc(v.poster || "")}" muted playsinline preload="metadata"
             aria-label="${esc(v.label || name)}" aria-describedby="clip-steps"></video>
-          <div class="clip-end" aria-hidden="true"><p>${creditHtml(CLIP_CREDIT)}</p></div>
           <button type="button" class="clip-big" data-clip="big">${CLIP_ICON.play}<span class="visually-hidden">Play clip</span></button>
           <div class="clip-bar">
             <button type="button" class="clip-btn" data-clip="play"></button>
