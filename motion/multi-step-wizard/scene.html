@@ -19,6 +19,11 @@
 <link rel="stylesheet" href="../shared/console.css">
 <style>
 .btn.sm { height: 32px; font-size: 12.5px; }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
 .cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
 .ic.dr { border-color: var(--ink); }
@@ -87,7 +92,9 @@
     <div class="main">
       <!-- integrations -->
       <div class="view" id="vInt">
-        <div class="hd"><h1>Integrations</h1><span class="btn sm">Browse integrations</span></div>
+        <div class="hd"><h1>Settings</h1></div>
+        <div class="tabs page"><div>Organization</div><div>Defaults</div><div class="on">Integrations</div><div>API keys</div><div>Webhooks</div><div>Notifications</div><div>Announcements</div></div>
+        <div class="sub2"><span class="sg on" id="sg-connected">Connected <span class="n">4</span></span><span class="sg" id="sg-browse">Browse</span><span class="sg" id="sg-people">Connected by people <span class="n">23</span></span><span class="sp"></span></div>
         <div class="cards">
           <div class="ic"><div class="t"><span class="lg">SP</span><b>Splunk</b><span class="pill">Connected</span></div><div class="d">Streams audit events to the Security SIEM.</div></div>
           <div class="ic dr" id="cL"><div class="t"><span class="lg">HL</span><b>Holonet Ledger</b><span class="pill" id="lp0">Setup in progress</span><span class="pill dk" id="lp1" style="display:none">Connected · syncing</span></div>

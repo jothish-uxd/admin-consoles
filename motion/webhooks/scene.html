@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Webhooks · motion scene</title>
+<!--
+  Source for media/integrations-api/webhooks.mp4. Built by motion/_build/webhooks.py on _build/settings_page.py,
+  so Settings › Webhooks has the same Settings header and tabs as the other clips.
+  Follows the Webhooks card (data/guidance-platform.js):
+  - endpoint, events and signing secret; an http:// address is refused and fixed in place
+  - only the events chosen are sent; there's no all-events option
+  - saving sends a test and shows the response
+  - delivery history with status, attempts and the retry policy; a failing endpoint shows Retrying, never silently off; Pause
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+
+.bar2 { margin-top: 14px; display: flex; align-items: center; gap: 10px; height: 32px; font-size: 12.5px; color: var(--soft); }
+.bar2 .sp { flex: 1; }
+.ok2 { display: inline-flex; gap: 5px; align-items: center; color: var(--ink); }
+.ok2 svg { width: 12px; height: 12px; }
+#vD { opacity: 0; }
+.dh { margin-top: 14px; display: flex; align-items: center; gap: 10px; }
+.dh .w { flex: 1; } .dh .w b { display: block; color: var(--ink); font-size: 15px; font-weight: 600; }
+.dh .w span { font-size: 12.5px; color: var(--soft); }
+.dh .btn { height: 32px; font-size: 12.5px; }
+.tres { margin-top: 12px; border: 1px solid var(--rule-strong); border-radius: 10px; padding: 10px 14px; display: flex; gap: 10px; align-items: center; font-size: 12.5px; color: var(--soft); }
+.tres b { color: var(--ink); font-weight: 600; }
+.tres .ic2 { width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; flex: none; }
+.tres .ic2 svg { width: 11px; height: 11px; }
+.pol { margin-top: 10px; font-size: 12.5px; color: var(--soft); }
+.pol b { color: var(--ink); font-weight: 500; }
+.evs { margin-top: 4px; border: 1px solid var(--rule); border-radius: 10px; }
+.evs > div { display: flex; gap: 10px; align-items: center; height: 30px; padding: 0 11px; border-top: 1px solid var(--rule); color: var(--soft); font-size: 12px; }
+.evs > div:first-child { border-top: 0; }
+.evs b { color: var(--ink); font: 500 12px "Geist Mono", monospace; width: 150px; flex: none; }
+.evs .mono { color: var(--soft); }
+.f1 { margin-top: 12px; }
+.key { display: flex; gap: 8px; }
+.key .in { flex: 1; background: var(--subtle); }
+.key .btn { height: 36px; }
+.cpd { display: inline-flex; gap: 5px; align-items: center; } .cpd svg { width: 12px; height: 12px; }
+.in .u { white-space: pre; }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Settings / Webhooks"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="settings" data-role="admin"></div>
+    <div class="main">
+      <div class="view" id="vL">
+        <div class="hd"><h1>Settings</h1></div>
+        <div class="tabs page"><div>Organization</div><div>Defaults</div><div>Integrations</div><div>API keys</div><div class="on">Webhooks</div><div>Notifications</div><div>Announcements</div></div>
+        <div class="bar2">Webhooks send events to another system as they happen, signed so it can check they came from here.<span class="sp"></span><span class="btn sm pri" id="bAdd">Add endpoint</span></div>
+        <table class="st"><thead><tr><th>Endpoint</th><th>Events</th><th>Status</th><th>Last delivery</th></tr></thead><tbody>
+          <tr><td class="nm"><b>Splunk HEC</b><span>https://splunk.echobase.rebellion/hec</span></td><td>6 events</td><td><span class="ok2"><svg aria-hidden="true"><use href="#ok"/></svg>Delivering</span></td><td>1 minute ago · 200</td></tr>
+          <tr><td class="nm"><b>HoloComms security alerts</b><span>https://hooks.holocomms.io/t/sec-alerts</span></td><td>3 events</td><td><span class="flag"><svg aria-hidden="true"><use href="#warn"/></svg>Retrying · 2 failed</span></td><td>4 minutes ago · 503</td></tr>
+        </tbody></table>
+      </div>
+      <div class="view" id="vD">
+        <div class="hd"><h1>Settings</h1></div>
+        <div class="tabs page"><div>Organization</div><div>Defaults</div><div>Integrations</div><div>API keys</div><div class="on">Webhooks</div><div>Notifications</div><div>Announcements</div></div>
+        <div class="dh"><span class="lg">HN</span><div class="w"><b>Holonet HR</b><span>https://hooks.holonet.io/echobase · 2 of 42 events · signed</span></div><span class="btn">Pause</span><span class="btn">Send test</span><span class="btn">Edit</span></div>
+        <div class="tres" role="status"><span class="ic2"><svg aria-hidden="true"><use href="#ok"/></svg></span><span><b>Test event delivered</b> · 200 OK in 142 ms · just now</span></div>
+        <div class="pol"><b>If a delivery fails</b>, it’s retried 5 times over an hour, then listed here and you’re emailed. The endpoint is never turned off without telling you.</div>
+        <table class="st"><thead><tr><th>Event</th><th>Response</th><th>Attempts</th><th>Sent</th><th></th></tr></thead><tbody>
+          <tr><td class="nm mono" style="color:var(--ink)">test.ping</td><td><span class="ok2"><svg aria-hidden="true"><use href="#ok"/></svg>200 OK · 142 ms</span></td><td>1</td><td>Just now</td><td style="text-align:right"><span class="btn sm">View payload</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div class="scr" id="scr"></div>
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="wT" style="left:320px; top:62px; width:560px">
+      <h3 id="wT">Add endpoint</h3>
+      <div class="f1"><label class="lbl">Endpoint URL</label><div class="in" id="uIn"><span class="u" id="u1"></span><span class="u" id="uS"></span><span class="c" id="uC"></span><span class="u" id="u2"></span></div>
+        <div class="msg"><span id="uM">Must start with https://</span></div></div>
+      <div class="f1"><span class="lbl">Events <span>· send only what this system needs</span></span>
+        <div class="evs"><div><span class="cb" id="eC"></span><b>person.created</b>Someone is added</div><div><span class="cb" id="eD"></span><b>person.deactivated</b>Someone is deactivated</div><div><span class="cb"></span><b>person.updated</b>Someone’s details change</div><div><span class="cb"></span><b>group.changed</b>A group’s members change</div></div>
+        <div class="msg"><span>38 more events · all events isn’t an option, so nothing is sent by accident</span></div></div>
+      <div class="f1"><label class="lbl">Signing secret <span>· check it on every request</span></label><div class="key"><span class="in mono">whsec_4Hn8QzT2vLx7RkP1</span><span class="btn"><span class="cpd"><svg><use href="#copy"/></svg>Copy</span></span></div></div>
+      <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn pri" id="bSv">Save and send a test</span></div>
+    </section>
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const A = "http", B = "://hooks.holonet.io/echobase", ALL = A + B;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  addClick: 0.95, open: [1.00, 1.30], type: [1.50, 2.60], err: 2.70, fixClick: 3.50, s: 3.70,
+  e1: 4.60, e2: 5.20, svClick: 6.00, close: [6.10, 6.35], toD: [6.35, 6.60], endCard: [8.20, 8.65], end: 9.2
+};
+
+function build() {
+  const ad = at("bAdd");
+  $("dlg").style.opacity = 1;
+  $("u1").textContent = A; $("u2").textContent = B;
+  const u = at("u1"), fx = [u[0] + $("u1").offsetWidth / 2, u[1]];
+  const e1 = at("eC"), e2 = at("eD"), sv = at("bSv");
+  $("u1").textContent = ""; $("u2").textContent = ""; $("dlg").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.75, ad[0], ad[1] + 3], [1.00, ad[0], ad[1] + 3],
+    [1.50, ad[0] - 260, ad[1] + 150], [3.20, fx[0], fx[1] + 3], [3.55, fx[0], fx[1] + 3],
+    [4.30, e1[0], e1[1] + 3], [4.65, e1[0], e1[1] + 3], [4.95, e2[0], e2[1] + 3], [5.25, e2[0], e2[1] + 3],
+    [5.75, sv[0], sv[1] + 3], [6.05, sv[0], sv[1] + 3], [7.20, sv[0] - 140, sv[1] - 120], [8.20, sv[0] - 138, sv[1] - 118]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.06], [7.95, 650, 345, 1.06], [8.20, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("crumb").innerHTML = t >= T.toD[0] ? "/ Settings / Webhooks / <b>Holonet HR</b>" : "/ Settings / <b>Webhooks</b>";
+  $("bAdd").classList.toggle("dn", t >= T.addClick - .05 && t < T.open[0] + .15);
+  const o = span(t, ...T.open, easeOut) * (1 - span(t, ...T.close, easeOut));
+  $("dlg").style.opacity = o; $("scr").style.opacity = o; $("dlg").style.transform = `translateY(${8 * (1 - o)}px)`;
+  $("dlg").style.visibility = o > 0 ? "visible" : "hidden";
+  // the URL: http:// is refused, and fixed in place
+  const n = Math.round(ALL.length * span(t, ...T.type, x => x));
+  const typed = ALL.slice(0, n), fixing = t >= T.fixClick;
+  $("u1").textContent = fixing ? A : typed.slice(0, Math.min(n, A.length));
+  $("uS").textContent = t >= T.s ? "s" : "";
+  $("u2").textContent = fixing ? B : typed.slice(A.length);
+  // caret: at the end while typing, after "http" once she clicks there
+  $("uC").style.order = "";
+  const caretOn = t < T.e1 && Math.floor(t * 2.4) % 2 === 0;
+  $("uC").style.display = caretOn ? "" : "none";
+  const ins = $("uIn");
+  if (fixing) ins.insertBefore($("uC"), $("u2")); else ins.appendChild($("uC"));
+  const bad = t >= T.err && t < T.s;
+  ins.className = "in" + (bad ? " err" : t < T.e1 ? " f" : "");
+  $("uM").className = bad ? "e" : "";
+  $("uM").innerHTML = bad ? '<svg aria-hidden="true"><use href="#err"/></svg>Use an https:// address, so events are encrypted on the way'
+    : t >= T.s ? '<svg aria-hidden="true"><use href="#ok"/></svg>Encrypted with https' : "Must start with https://";
+  $("eC").classList.toggle("on", t >= T.e1); $("eD").classList.toggle("on", t >= T.e2);
+  $("bSv").classList.toggle("dn", t >= T.svClick - .05 && t < T.close[0]);
+  // the endpoint, with the test it was sent: one view at a time
+  $("vL").style.opacity = 1 - span(t, T.toD[0], T.toD[0] + .1); $("vD").style.opacity = span(t, T.toD[0] + .12, T.toD[1]);
+}
+
+function events() { return [["click", T.addClick], ["whoosh", T.open[0]], ["key", T.type[0]], ["click", T.fixClick], ["key", T.s], ["click", T.e1], ["click", T.e2], ["click", T.svClick], ["chime", T.toD[1]]]; }
+
+Motion.scene({
+  // 5+ steps: natural length, within the 15 s cap
+  T, clicks: [T.addClick, T.fixClick, T.e1, T.e2, T.svClick], build, render, events,
+  slow: [[6.7, 7.6, 1.5]]
+});
+</script>
+</body>
+</html>

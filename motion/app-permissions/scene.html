@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>App permissions · motion scene</title>
+<!--
+  Source for media/integrations-api/app-permissions.mp4. Built by motion/_build/app_permissions.py on _build/settings_page.py,
+  so Settings › Integrations is the same page as in the other clips.
+  Follows the App permissions card (data/guidance-platform.js):
+  - apps people authorised themselves, grouped by app with counts; what each can do in plain words; who authorised it; last used
+  - broad access marked in words (Full access); an unused app flagged
+  - the authoriser has left and the app kept working; revoke for one person or everyone
+  - revoking many is confirmed; it can also be blocked; logged
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+
+#vP { opacity: 0; }
+.btn.dgr { color: #b91c1c; border-color: #b91c1c; font-weight: 500; }
+.btn.dgrf { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+.btn.dgrf.dn { background: #7f1d1d; border-color: #7f1d1d; }
+.btn.dgr.dn { background: #fef2f2; }
+.intro { margin-top: 12px; font-size: 12.5px; color: var(--soft); }
+.fa { display: inline-block; font-size: 11px; font-weight: 600; color: #b91c1c; border: 1px solid #b91c1c; border-radius: 999px; padding: 0 7px; margin-right: 6px; }
+table.st td.who { color: var(--ink); }
+.ppl { display: flex; margin-top: 2px; }
+.ppl .av { width: 26px; height: 26px; font-size: 10px; margin-right: -6px; border: 2px solid var(--bg); }
+.ppl .more { margin-left: 12px; align-self: center; font-size: 12px; color: var(--soft); }
+.drw .acts { margin-top: 18px; display: flex; gap: 8px; }
+.drw .acts .btn { height: 34px; }
+.note { margin-top: 6px; line-height: 1.45; }
+.note b { color: var(--ink); font-weight: 500; }
+.ckr { margin-top: 14px; display: flex; gap: 9px; align-items: flex-start; color: var(--ink); font-size: 12.5px; }
+.ckr span.s { display: block; color: var(--soft); font-size: 12px; }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Settings / Integrations"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Starmap Notes revoked for 12 people and blocked · logged</div>
+    </div>
+    <div class="nav" data-at="settings" data-role="admin"></div>
+    <div class="main">
+      <div class="view" id="vC">
+        <div class="hd"><h1>Settings</h1></div>
+        <div class="tabs page"><div>Organization</div><div>Defaults</div><div class="on">Integrations</div><div>API keys</div><div>Webhooks</div><div>Notifications</div><div>Announcements</div></div>
+        <div class="sub2"><span class="sg on" id="sg-connected">Connected <span class="n">4</span></span><span class="sg" id="sg-browse">Browse</span><span class="sg" id="sg-people">Connected by people <span class="n">23</span></span><span class="sp"></span></div>
+        <div class="cards">
+          <div class="ic"><div class="t"><span class="lg">SP</span><b>Splunk</b><span class="pill">Connected</span></div><div class="d">Streams audit events to the Security SIEM.</div></div>
+          <div class="ic" id="cL"><div class="t"><span class="lg">HL</span><b>Holonet Ledger</b><span class="pill">Connected</span></div><div class="d">Invoices and seat counts sync every hour.</div></div>
+          <div class="ic"><div class="t"><span class="lg">HC</span><b>HoloComms</b><span class="pill">Connected</span></div><div class="d">Sends alerts to #sec-alerts.</div></div>
+          <div class="ic"><div class="t"><span class="lg">PD</span><b>PagerDuty</b><span class="pill">Connected</span></div><div class="d">Pages Security on-call.</div></div>
+        </div>
+      </div>
+      <div class="view" id="vP">
+        <div class="hd"><h1>Settings</h1></div>
+        <div class="tabs page"><div>Organization</div><div>Defaults</div><div class="on">Integrations</div><div>API keys</div><div>Webhooks</div><div>Notifications</div><div>Announcements</div></div>
+        <div class="sub2"><span class="sg" id="sp-connected">Connected <span class="n">4</span></span><span class="sg" id="sp-browse">Browse</span><span class="sg on" id="sp-people">Connected by people <span class="n">23</span></span><span class="sp"></span></div>
+        <div class="intro">Apps people connected with their own accounts, grouped by app. Each one can reach what it lists, for every person shown.</div>
+        <table class="st"><thead><tr><th>App</th><th>What it can do</th><th>People</th><th>Authorised by</th><th>Last used</th></tr></thead>
+          <tbody><tr id="rCal"><td class="nm"><b>Holonet Calendar</b><span>Holonet Systems</span></td><td>See and change their calendar</td><td id="rCal-n">31</td><td class="who">Toryn Farr and 30 others</td><td id="rCal-l">Today</td></tr><tr id="rSta"><td class="nm"><b>Starmap Notes</b><span>Starmap Inc.</span></td><td><span class="fa">Full access</span>Read, change and delete their files</td><td id="rSta-n">12</td><td class="who">Bren Derlin (left) and 11 others</td><td id="rSta-l">94 days ago <span class="flag"><svg aria-hidden="true"><use href="#warn"/></svg>Unused</span></td></tr><tr id="rAst"><td class="nm"><b>Astromech Diagrams</b><span>R2 Works</span></td><td>Read the files they open with it</td><td id="rAst-n">8</td><td class="who">Wes Janson and 7 others</td><td id="rAst-l">Today</td></tr><tr id="rKes"><td class="nm"><b>Kessel Translate</b><span>Kessel Run Co.</span></td><td>Read the documents they translate</td><td id="rKes-n">5</td><td class="who">Jes Gistang and 4 others</td><td id="rKes-l">3 days ago</td></tr></tbody></table>
+      </div>
+    </div>
+    <aside class="drw" id="drw" role="dialog" aria-labelledby="dT">
+      <div class="tt"><span class="lg">SN</span><div><b id="dT">Starmap Notes</b>by Starmap Inc. · not a verified publisher</div><span class="x" aria-label="Close">✕</span></div>
+      <h4>What it can do for each of the 12 people</h4>
+      <div class="can"><svg aria-hidden="true"><use href="#warn"/></svg><span><span class="fa">Full access</span>Read, change and delete all of their files</span></div>
+      <div class="can"><svg aria-hidden="true"><use href="#ok"/></svg>See their name and email</div>
+      <h4>History</h4>
+      <div class="note"><b>First authorised by Bren Derlin</b>, 1 year ago. Bren left on Aug 22, and the app kept working.<br>Last used 94 days ago.</div>
+      <h4>People who connected it</h4>
+      <div class="ppl"><span class="av">BD</span><span class="av">HK</span><span class="av">CA</span><span class="av">ZS</span><span class="av">VF</span><span class="more">and 7 more</span></div>
+      <div class="acts"><span class="btn">Revoke for one person…</span><span class="btn dgr" id="bAll">Revoke for all 12 people</span></div>
+    </aside>
+    <div class="scr" id="scr"></div>
+    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="cT" style="left:330px; top:170px; width:540px">
+      <h3 id="cT">Revoke Starmap Notes for 12 people?</h3>
+      <div style="margin-top:6px; line-height:1.45">It stops working for them right away, and its access tokens are deleted. Their notes stay in Starmap.</div>
+      <div class="ckr"><span class="cb" id="cbB"></span><div>Also block Starmap Notes<span class="s">No one can connect it again until an admin allows it.</span></div></div>
+      <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn dgrf" id="bRev">Revoke for 12 people</span></div>
+    </section>
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  tabClick: 0.95, toP: [1.00, 1.25], rowClick: 2.50, open: [2.55, 2.85], allClick: 4.30, dlg: [4.35, 4.60],
+  cbClick: 5.30, revClick: 6.00, done: [6.05, 6.30], toast: [6.35, 7.80], endCard: [8.00, 8.45], end: 9.0
+};
+
+function build() {
+  const tb = at("sg-people");
+  $("vP").style.opacity = 1; const r = at("rSta", -260, 0); $("vP").style.opacity = 0;
+  $("drw").style.transform = "none"; const al = at("bAll"); $("drw").style.transform = "";
+  $("dlg").style.opacity = 1; const cb = at("cbB"), rv = at("bRev"); $("dlg").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.75, tb[0], tb[1] + 3], [1.00, tb[0], tb[1] + 3],
+    [2.25, r[0], r[1] + 3], [2.55, r[0], r[1] + 3],
+    [4.05, al[0], al[1] + 3], [4.35, al[0], al[1] + 3],
+    [5.05, cb[0], cb[1] + 3], [5.35, cb[0], cb[1] + 3], [5.75, rv[0], rv[1] + 3], [6.05, rv[0], rv[1] + 3], [8.00, rv[0] - 120, rv[1] + 60]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 350, 1.04], [7.75, 650, 350, 1.04], [8.00, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("vC").style.opacity = 1 - span(t, T.toP[0], T.toP[0] + .1); $("vP").style.opacity = span(t, T.toP[0] + .12, T.toP[1]);
+  $("sg-people").classList.toggle("prs", t >= T.tabClick - .05 && t < T.toP[0]);
+  $("crumb").innerHTML = "/ Settings / <b>Integrations</b>";
+  $("rSta").classList.toggle("sel", t >= T.rowClick && t < T.done[1]);
+  // the drawer, then the confirmation: one at a time
+  const o = span(t, ...T.open, easeOut) * (1 - span(t, T.dlg[0], T.dlg[0] + .15));
+  $("drw").style.transform = `translateX(${440 * (1 - o)}px)`; $("drw").style.visibility = o > 0 ? "visible" : "hidden";
+  $("bAll").classList.toggle("dn", t >= T.allClick - .05 && t < T.dlg[0] + .1);
+  const d = span(t, T.dlg[0] + .1, T.dlg[1], easeOut) * (1 - span(t, ...T.done));
+  $("dlg").style.opacity = d; $("scr").style.opacity = d;
+  $("dlg").style.transform = `translateY(${8 * (1 - d)}px)`;
+  $("cbB").classList.toggle("on", t >= T.cbClick);
+  $("bRev").classList.toggle("dn", t >= T.revClick - .05 && t < T.done[0]);
+  // the row now says what happened
+  const gone = t >= T.done[0];
+  $("rSta-n").textContent = gone ? "0" : "12";
+  $("rSta-l").innerHTML = gone ? '<span class="pill bad">Revoked and blocked · just now</span>' : '94 days ago <span class="flag"><svg aria-hidden="true"><use href="#warn"/></svg>Unused</span>';
+  $("toast").style.opacity = span(t, T.toast[0], T.toast[0] + .2) * (1 - span(t, T.toast[1] - .2, T.toast[1]));
+}
+
+function events() { return [["click", T.tabClick], ["click", T.rowClick], ["whoosh", T.open[0]], ["click", T.allClick], ["click", T.cbClick], ["click", T.revClick], ["pop", T.toast[0]]]; }
+
+Motion.scene({
+  // 5+ steps: natural length, within the 15 s cap
+  T, clicks: [T.tabClick, T.rowClick, T.allClick, T.cbClick, T.revClick], build, render, events,
+  slow: [[2.9, 3.9, 1.5]]
+});
+</script>
+</body>
+</html>

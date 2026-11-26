@@ -301,6 +301,99 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "integrations-api": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Integration catalog", "Create API key"], "A few connected apps and a couple of keys, all known to the admin. Clear access descriptions and keys that expire are enough."],
+        ["Thousands", ["App permissions", "Webhooks"], "Teams connect their own apps and systems listen for events. Admins review what people authorised, revoke what's unused and watch deliveries."],
+        ["Hundreds of thousands", [], "Hundreds of integrations, service accounts and endpoints. Approved app lists, scope and expiry policies, leaked-key detection and automatic revocation."]
+      ],
+      principles: [
+        "Say what each app or key can reach in plain words, including what it can't. Scope codes alone aren't an explanation.",
+        "Give every integration, key and endpoint an owner, a purpose and a last-used date, so anything unused can be found.",
+        "Make access narrow and temporary by default: the least scope, an expiry, and revocation that takes effect at once."
+      ]
+    },
+    intro: "Integrations, API keys and webhooks are doors into and out of the org's data. Each is opened by one person for one reason, and they outlast both. The work is knowing which doors exist, what each reaches, and closing the ones no one needs.",
+    patterns: {
+      "Integration catalog": {
+        payoff: "From the start, as soon as people want to connect their own tools.",
+        tradeoff: "Letting people connect apps themselves saves admins time, but every app they connect can reach their data. Decide per app who may connect it, and say what it reaches before anyone does.",
+        use: [
+          "People want to connect their own tools, such as calendars or diagram apps.",
+          "Some apps should be allowed for everyone, and others only with approval.",
+          "Admins need to see what's connected and what's being requested."
+        ],
+        avoid: [
+          "There are only two or three integrations, all set up by admins. A list of connected apps is enough.",
+          "Every integration is org-wide and configured once. Use a setup wizard instead.",
+          "The catalog would mainly promote partners. Keep marketing out of a security decision."
+        ],
+        alternatives: [
+          ["Approved app list", "When admins only need to allow or block, not browse."],
+          ["Request access flow", "When each connection needs a reason and a decision."],
+          ["Multi-step wizard", "When one org-wide integration needs configuring once."]
+        ]
+      },
+      "App permissions": {
+        payoff: "At thousands, when people have authorised more apps than anyone remembers.",
+        tradeoff: "Letting people authorise apps keeps work moving, but the access stays long after the reason has gone. Group by app, flag broad and unused access, and make revoking for everyone one confirmed step.",
+        use: [
+          "People authorise apps with their own accounts.",
+          "Apps keep working after the person who authorised them leaves.",
+          "Security reviews need to see broad access across the org."
+        ],
+        avoid: [
+          "Only admins can connect apps. The catalog already shows everything connected.",
+          "The apps reach nothing sensitive, such as a theme or a clock.",
+          "The identity provider already manages app grants. Link to it instead."
+        ],
+        alternatives: [
+          ["Periodic access review", "When owners should confirm each app is still needed."],
+          ["Automatic revocation", "When apps unused for a set time should lose access on their own."],
+          ["Block list", "When some apps should never be connected at all."]
+        ]
+      },
+      "Create API key": {
+        payoff: "From the start: the first script or sync needs a key, and keys are hard to rein in later.",
+        tradeoff: "Keys let other software do useful work without a person, but a key is a password that doesn't log out. Ask for an owner, start with the narrowest scope and an expiry, and show the secret only once.",
+        use: [
+          "Scripts, syncs or other systems need to use the API.",
+          "Each key's access should be limited and owned by someone.",
+          "Keys should expire and be rotated."
+        ],
+        avoid: [
+          "The other system supports OAuth. Let it connect as an app with an approval instead.",
+          "A person needs access. Give them an account, not a key.",
+          "The key would need full access. Use a service account with an owner's approval."
+        ],
+        alternatives: [
+          ["OAuth app", "When the other system can ask for access the standard way."],
+          ["Service account", "When the software needs its own identity, roles and audit trail."],
+          ["Short-lived tokens", "When keys can be issued on demand and expire in minutes."]
+        ]
+      },
+      "Webhooks": {
+        payoff: "At thousands, when other systems need to react to changes as they happen.",
+        tradeoff: "Pushing events saves other systems from polling, but every event sent is data leaving the org, and failures go unnoticed. Send only chosen events, require https and a signature, and show every delivery.",
+        use: [
+          "Other systems need to act on changes right away, such as provisioning or alerts.",
+          "The same event should reach several systems.",
+          "The receiving team can verify signatures and handle retries."
+        ],
+        avoid: [
+          "Changes are rare, and a daily export is enough.",
+          "The receiver can't verify signatures or handle duplicates.",
+          "The data is too sensitive to push. Let the other system pull with a scoped key."
+        ],
+        alternatives: [
+          ["Scheduled export", "When the other system only needs a daily or weekly snapshot."],
+          ["Polling the API", "When the receiver can't accept incoming requests."],
+          ["Streaming to a SIEM", "When the events are for security monitoring."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [

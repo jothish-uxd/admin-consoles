@@ -224,8 +224,8 @@ People: the person is Lavanya Sienna. As an admin her title fits the scene (Jedi
 
 | Pattern | Section / page |
 |---|---|
-| Integration catalog | Settings / Integrations |
-| App permissions | Settings / Integrations |
+| Integration catalog | Settings / Integrations · Browse |
+| App permissions | Settings / Integrations · Connected by people |
 | Create API key | Settings / API keys |
 | Webhooks | Settings / Webhooks |
 

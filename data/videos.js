@@ -346,8 +346,8 @@ window.VIDEOS = {
       ]
     },
     "Multi-step wizard": {
-      src: "media/creation-flows/multi-step-wizard.mp4",
-      poster: "media/creation-flows/multi-step-wizard.jpg",
+      src: "media/creation-flows/multi-step-wizard.mp4?r=2",
+      poster: "media/creation-flows/multi-step-wizard.jpg?r=2",
       label: "Multi-step wizard, shown in a mock Echo Base console",
       steps: [
         "In Settings / Integrations, Holonet Ledger shows Setup in progress: a draft Toryn Farr saved and shared, with 1 of 4 steps done. The admin chooses Continue setup.",
@@ -808,6 +808,56 @@ window.VIDEOS = {
         "CSV or JSON, each described: one opens in a spreadsheet, the other is for scripts and other tools.",
         "The export runs, with its progress in the dialog.",
         "When it's ready she downloads it right there, and the same link is sent as a notification. It expires in 7 days, only she can open it, and the export is in the audit log."
+      ]
+    }
+  },
+  "integrations-api": {
+    "Integration catalog": {
+      src: "media/integrations-api/integration-catalog.mp4",
+      poster: "media/integrations-api/integration-catalog.jpg",
+      label: "Integration catalog, shown in a mock Echo Base console",
+      steps: [
+        "On Settings › Integrations, she goes from the org's connected apps to Browse. Each integration shows what it does, who makes it, and its status: allowed, needs approval or blocked.",
+        "She searches for “cal”. Holonet Calendar needs approval, and 14 people are asking for it.",
+        "Its detail says what it can do for each person who connects it, in plain words, including what it can't: no files, messages or other people's calendars.",
+        "Who can connect it: admins approve each request, anyone in the org, or blocked. She picks Anyone in the org.",
+        "Saving approves the 14 waiting requests, the tile now says Anyone can connect, and the change is logged."
+      ]
+    },
+    "App permissions": {
+      src: "media/integrations-api/app-permissions.mp4",
+      poster: "media/integrations-api/app-permissions.jpg",
+      label: "App permissions, shown in a mock Echo Base console",
+      steps: [
+        "Connected by people lists the apps people authorised with their own accounts, grouped by app, with what each can do, how many people, who authorised it and when it was last used.",
+        "Starmap Notes is marked Full access in words, and flagged as unused for 94 days.",
+        "Its detail shows it was first authorised by Bren Derlin, who left in August, and that the app kept working for 12 people.",
+        "She chooses Revoke for all 12 people. The confirmation says what stops and what stays, and she also blocks it so no one can connect it again.",
+        "The row now shows Revoked and blocked, with 0 people, and the change is logged."
+      ]
+    },
+    "Create API key": {
+      src: "media/integrations-api/create-api-key.mp4",
+      poster: "media/integrations-api/create-api-key.jpg",
+      label: "Create API key, shown in a mock Echo Base console",
+      steps: [
+        "On Settings › API keys, every key has an owner, what it can do, an expiry and when it was last used. A key that never expires is flagged.",
+        "Create key asks for a name, an owner and an expiry, set to 90 days by default within the org's 1-year maximum.",
+        "Only People · read is on to start, each scope in plain words. She adds People · write. Full access needs an owner's approval.",
+        "The secret is shown once, with a clear warning. She copies it, and Copied is announced.",
+        "The key is listed as New, with Last used: Never, and can be rotated."
+      ]
+    },
+    "Webhooks": {
+      src: "media/integrations-api/webhooks.mp4",
+      poster: "media/integrations-api/webhooks.jpg",
+      label: "Webhooks, shown in a mock Echo Base console",
+      steps: [
+        "Settings › Webhooks lists each endpoint with its events and status. A failing one says Retrying, rather than being switched off quietly.",
+        "She adds an endpoint. An http:// address is refused, and she fixes it to https:// in place.",
+        "She picks only the two events this system needs. There's no all-events option, so nothing is sent by accident.",
+        "A signing secret is created for the system to check every request.",
+        "Saving sends a test: 200 OK in 142 ms. The history shows each delivery and its attempts, the retry policy is spelled out, and she can pause the endpoint."
       ]
     }
   }
