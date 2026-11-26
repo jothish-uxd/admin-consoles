@@ -910,5 +910,55 @@ window.VIDEOS = {
         "The rule is listed first, and the 214 items are being removed from search, caches and AI answers, in about 10 minutes."
       ]
     }
+  },
+  "notifications": {
+    "Alert center": {
+      src: "media/notifications/alert-center.mp4",
+      poster: "media/notifications/alert-center.jpg",
+      label: "Alert center, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens the alerts bell in the top bar. Alerts are listed by severity, written as words: Critical first, then High.",
+        "The critical one says what happened and what to do: the sign-in certificate for Holonet ID expires in 2 days, and no one can sign in without it. The fix is one click away.",
+        "She assigns it to herself. It stays in the list as Acknowledged and assigned, rather than disappearing.",
+        "Three failed sign-ins from a new country are grouped into one alert. She opens it to see each attempt.",
+        "A new alert arrives and is announced politely, without moving her focus."
+      ]
+    },
+    "Banners": {
+      src: "media/notifications/banners.mp4",
+      poster: "media/notifications/banners.jpg",
+      label: "Banners, shown in a mock Echo Base console",
+      steps: [
+        "On Settings › Announcements › Banners, the admin sees that only one banner shows at a time. If two overlap, the later one waits instead of stacking.",
+        "She starts a banner and picks Maintenance. The template asks what's happening, what it means for people and what they should do.",
+        "It runs Saturday 02:00 to 04:00 UTC, with the end time stated in the banner.",
+        "A preview shows how it will look at the top of every page: text and an icon, not colour alone, and it doesn't move. Maintenance banners can be dismissed; incident banners stay until they end.",
+        "She schedules it, and it's listed with when it shows and who sees it."
+      ]
+    },
+    "Notification rules": {
+      src: "media/notifications/notification-rules.mp4",
+      poster: "media/notifications/notification-rules.jpg",
+      label: "Notification rules, shown in a mock Echo Base console",
+      steps: [
+        "Settings › Notifications lists each event, explained in a line, with who gets it and how.",
+        "Sign-in certificate expiring is marked Required: no one can turn it off, because missing it takes sign-in down for everyone.",
+        "The admin opens Source sync failing and sends it to the 3 content admins who can fix it, instead of all 12 admins.",
+        "She adds chat (#content-ops) and groups repeats into one message an hour.",
+        "She sends a test, which reaches 3 people and the channel, then saves. The table shows the new routing."
+      ]
+    },
+    "Announcements": {
+      src: "media/notifications/announcements.mp4",
+      poster: "media/notifications/announcements.jpg",
+      label: "Announcements, shown in a mock Echo Base console",
+      steps: [
+        "Settings › Announcements lists each message with who got it and how many have seen or acknowledged it. Org-wide ones need a second admin's approval.",
+        "The admin writes a clear title: Holonet Drive is now in search.",
+        "No one is chosen by default. She picks Fleet, 82 people, rather than everyone.",
+        "She previews it as Fleet will see it, at the top of Home, in plain language.",
+        "She schedules it for Monday at 09:00 in each person's time zone, and it's listed with its audience."
+      ]
+    }
   }
 };

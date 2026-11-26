@@ -656,6 +656,99 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "notifications": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Alert center", "Notification rules"], "One or two admins and the events that matter. A clear list of alerts, and rules for who gets what."],
+        ["Thousands", ["Banners", "Announcements"], "Admins with different jobs, and many people to reach. Banners for org-wide states, and announcements sent to the right groups."],
+        ["Hundreds of thousands", [], "Routing by role and region, delivery to chat and incident tools, escalation for unacknowledged alerts, and announcements in many languages."]
+      ],
+      principles: [
+        "Notify only when someone needs to act or know, and say what to do.",
+        "Route to the people who can act, not to everyone.",
+        "Critical security notices can't be turned off, and repeats are grouped instead of sent one by one."
+      ]
+    },
+    intro: "Notifications are how the console reaches admins and the people they manage when they aren't looking. Too few, and an expiring certificate takes down sign-in. Too many, and every alert is ignored. The work is routing each message to the people who can act, through channels they watch, without becoming noise.",
+    patterns: {
+      "Alert center": {
+        payoff: "From the start: even one admin needs one place for things to act on.",
+        tradeoff: "An alert list makes problems visible, but showing every event turns it into noise. Alert only on what needs action, rank by severity in words, and keep each alert until it's resolved.",
+        use: [
+          "Admins must act on failures, expirations and security events.",
+          "Some alerts are far more urgent than others.",
+          "Several admins share the work and need to see who has what."
+        ],
+        avoid: [
+          "Nothing needs acting on. A log or report will do.",
+          "Alerts go straight to an incident tool the team already watches. Link to it.",
+          "The events are routine. Put them in a digest instead."
+        ],
+        alternatives: [
+          ["Email digest", "When nothing is urgent and a daily summary is enough."],
+          ["Incident tool", "When on-call teams already work there."],
+          ["Banners", "When everyone, not just admins, needs to know."]
+        ]
+      },
+      "Banners": {
+        payoff: "At thousands, when maintenance or an incident affects many people at once.",
+        tradeoff: "A banner reaches everyone on every page, but it takes space from everyone too. Use it for what affects many people, say what to do and when it ends, and never stack them.",
+        use: [
+          "Planned maintenance or an outage affects many people.",
+          "Everyone needs to take an action, such as accepting a new policy.",
+          "The message has a clear start and end."
+        ],
+        avoid: [
+          "Only a few people are affected. Notify them directly.",
+          "It's news or marketing. Use an announcement.",
+          "Several messages would compete. Show one, and queue the rest."
+        ],
+        alternatives: [
+          ["Announcements", "When the message is news rather than a state of the console."],
+          ["Status page", "When people outside the console need it too."],
+          ["Alert center", "When only admins need to act."]
+        ]
+      },
+      "Notification rules": {
+        payoff: "From the start: deciding who gets what is what keeps alerts from becoming noise.",
+        tradeoff: "Letting people choose their notifications keeps noise down, but critical notices can then be missed. Route by role, let people pick channels, and keep critical security notices required.",
+        use: [
+          "Different admins are responsible for different things.",
+          "People watch different channels: email, chat, the console.",
+          "Some events repeat often and need grouping."
+        ],
+        avoid: [
+          "There's one admin and a handful of events.",
+          "The identity or incident tool already routes alerts. Configure it there.",
+          "Rules would let critical notices be switched off. Don't allow it."
+        ],
+        alternatives: [
+          ["Personal preferences", "When people should tune their own channels within org rules."],
+          ["Digests", "When frequent events can wait for a summary."],
+          ["Escalation", "When an unacknowledged alert should go to someone else."]
+        ]
+      },
+      "Announcements": {
+        payoff: "At thousands, when admins need to tell many people about changes that affect them.",
+        tradeoff: "Announcements reach people where they work, but sending everything to everyone trains them to ignore it. Choose the audience deliberately, preview it, and require approval for org-wide messages.",
+        use: [
+          "A policy, tool or process changes for a group of people.",
+          "Admins need to know who has seen or acknowledged it.",
+          "The message should arrive at a set time."
+        ],
+        avoid: [
+          "It's a routine update. Put it in release notes.",
+          "It affects everyone right now, such as an outage. Use a banner.",
+          "It needs a conversation, not a broadcast. Talk to the team."
+        ],
+        alternatives: [
+          ["Banners", "When the message is about a state of the console, with an end time."],
+          ["Email", "When people aren't in the console often."],
+          ["Required acknowledgement", "When people must confirm they've read a policy."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [

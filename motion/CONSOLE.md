@@ -252,7 +252,7 @@ People: the person is Lavanya Sienna. As an admin her title fits the scene (Jedi
 
 | Pattern | Section / page |
 |---|---|
-| Alert center | Top bar · alerts |
+| Alert center | Top bar · alerts bell (only in the Notifications & alerts clips so far; the other clips still need it) |
 | Banners | Any page · top of the page |
 | Notification rules | Settings / Notifications |
 | Announcements | Settings / Announcements |

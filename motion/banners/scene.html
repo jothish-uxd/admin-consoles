@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Banners · motion scene</title>
+<!--
+  Source for media/notifications/banners.mp4. Built by motion/_build/banners.py on _build/announce_page.py,
+  with the top bar's alerts bell from _build/bell.py.
+  Follows the Banners card (data/guidance-platform.js):
+  - for things that affect many people: maintenance, incidents, required actions
+  - what's happening, what it means and what to do, with an end time
+  - a preview of how it will look; text and an icon, not colour alone; it doesn't move
+  - maintenance banners can be dismissed; only one shows at a time, so banners never stack
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+
+.bar2 { margin-top: 14px; display: flex; align-items: center; gap: 10px; height: 32px; font-size: 12.5px; color: var(--soft); }
+.bar2 .sp { flex: 1; }
+.f1 { margin-top: 12px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 11px; border-radius: 999px; border: 1px solid var(--rule-strong); font-size: 12.5px; color: var(--ink); }
+.chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.ta { border: 1.5px solid var(--rule-strong); border-radius: 8px; padding: 9px 11px; font-size: 13px; color: var(--ink); line-height: 1.5; min-height: 60px; box-sizing: border-box; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sel2 { justify-content: space-between; }
+.seg { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 8px; padding: 2px; gap: 2px; }
+.seg span { height: 28px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 6px; font-size: 12.5px; color: var(--soft); }
+.seg span.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+table.st td .ch { color: var(--ink); }
+
+#vB { opacity: 0; }
+#rN { display: none; }
+.bnr { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--rule-strong); background: #f4f4f5; border-radius: 10px; padding: 10px 12px; font-size: 12.5px; color: var(--ink); line-height: 1.45; }
+.bnr svg.i { width: 15px; height: 15px; flex: none; margin-top: 2px; }
+.bnr .w { flex: 1; } .bnr .w b { font-weight: 600; }
+.bnr .x { color: var(--soft); font-size: 13px; }
+.lbl2 { font-size: 12px; color: var(--soft); margin: 14px 0 6px; }
+.flds { display: grid; gap: 8px; }
+.flds .in { height: auto; min-height: 36px; padding: 7px 11px; white-space: normal; line-height: 1.4; }
+.note2 { margin-top: 10px; font-size: 12px; color: var(--soft); display: flex; gap: 6px; align-items: center; }
+
+
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Settings / Announcements"></span>
+      <div class="me"><span class="bell" id="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg" id="bdg">3</span></span>Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Banner scheduled for Sat, Nov 29, 02:00–04:00 UTC</div>
+    </div>
+    <div class="nav" data-at="settings" data-role="admin"></div>
+    <div class="main">
+      <div class="view" id="vA">
+        <div class="hd"><h1>Settings</h1></div>
+        <div class="tabs page"><div>Organization</div><div>Defaults</div><div>Integrations</div><div>API keys</div><div>Webhooks</div><div>Notifications</div><div class="on">Announcements</div></div>
+        <div class="sub2"><span class="sg on" id="sg-ann">Announcements <span class="n" id="n-ann">2</span></span><span class="sg" id="sg-ban">Banners <span class="n" id="n-ban">1</span></span><span class="sp"></span><span class="btn sm pri">New announcement</span></div>
+        <div class="bar2">Messages from admins to the people they manage. Org-wide announcements need a second admin’s approval.</div>
+        <table class="st"><thead><tr><th>Announcement</th><th>Who gets it</th><th>Status</th><th>Reach</th></tr></thead><tbody><tr><td class="nm"><b>Expense policy changes on Dec 1</b></td><td class="ch">Everyone · 1,204</td><td>Sent Nov 3</td><td>96% acknowledged · required</td></tr><tr><td class="nm"><b>Hangar 3 maintenance schedule</b></td><td class="ch">Hangar 3 · 14</td><td>Sent Nov 18</td><td>14 of 14 seen</td></tr></tbody></table>
+      </div>
+      <div class="view" id="vB">
+        <div class="hd"><h1>Settings</h1></div>
+        <div class="tabs page"><div>Organization</div><div>Defaults</div><div>Integrations</div><div>API keys</div><div>Webhooks</div><div>Notifications</div><div class="on">Announcements</div></div>
+        <div class="sub2"><span class="sg" id="sb-ann">Announcements <span class="n" id="nb-ann">2</span></span><span class="sg on" id="sb-ban">Banners <span class="n" id="nb-ban">1</span></span><span class="sp"></span><span class="btn sm pri" id="bNew">New banner</span></div>
+        <div class="bar2">A banner shows at the top of every page. Only one shows at a time: if two overlap, the later one waits.</div>
+        <table class="st"><thead><tr><th>Banner</th><th>Who sees it</th><th>When</th><th>Status</th></tr></thead><tbody><tr id="rN" class="nw"><td class="nm"><b>Console maintenance</b><span>Maintenance · can be dismissed</span></td><td class="ch">Everyone</td><td>Sat, Nov 29, 02:00–04:00 UTC</td><td>Scheduled</td></tr><tr><td class="nm"><b>Sign-in was slow for 40 minutes</b><span>Incident</span></td><td class="ch">Everyone</td><td>Nov 12, 14:10–14:50</td><td>Ended</td></tr></tbody></table>
+      </div>
+
+    </div>
+    <div class="scr" id="scr"></div>
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="bT" style="left:310px; top:68px; width:580px">
+      <h3 id="bT">New banner</h3>
+      <div class="f1"><span class="lbl">Type</span><div class="chips"><span class="chip" id="cM">Maintenance</span><span class="chip">Incident</span><span class="chip">Required action</span></div></div>
+      <div class="f1 flds" id="fl"><div class="in ph" id="f1">What’s happening</div><div class="in ph" id="f2">What it means for people</div><div class="in ph" id="f3">What they should do</div></div>
+      <div class="f1 row2"><div><label class="lbl">When</label><div class="in sel2" id="wh">Choose a start and end<i class="cv"></i></div></div><div><label class="lbl">Who sees it</label><div class="in sel2">Everyone · 1,204<i class="cv"></i></div></div></div>
+      <div class="lbl2">How it will look, at the top of every page</div>
+      <div class="bnr" id="bnr"><svg class="i" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 7.2v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="4.9" r="1" fill="currentColor"/></svg><div class="w" id="bnT"><b>Banner preview</b> appears as you write</div><span class="x" id="bnX" aria-label="Dismiss">✕</span></div>
+      <div class="note2" id="nt">Maintenance banners can be dismissed. Incident banners stay until they end.</div>
+      <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn pri" id="bSch">Schedule</span></div>
+    </section>
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  tabClick: 0.90, toB: 0.95, nClick: 1.75, open: [1.80, 2.10], mClick: 2.75, fill: 2.85, sClick: 4.40,
+  close: [4.50, 4.75], toast: [4.80, 5.55], endCard: [5.55, 6.00], end: 6.5
+};
+
+function build() {
+  const tb = at("sg-ban");
+  $("vB").style.opacity = 1; const nw = at("bNew"); $("vB").style.opacity = 0;
+  $("dlg").style.opacity = 1; const m = at("cM"), sc = at("bSch"); $("dlg").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.65, tb[0], tb[1] + 3], [0.95, tb[0], tb[1] + 3],
+    [1.50, nw[0], nw[1] + 3], [1.80, nw[0], nw[1] + 3], [2.50, m[0], m[1] + 3], [2.80, m[0], m[1] + 3],
+    [3.50, m[0] + 120, m[1] + 260], [4.15, sc[0], sc[1] + 3], [4.45, sc[0], sc[1] + 3], [5.55, sc[0] - 260, sc[1] - 60]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.06], [5.30, 650, 345, 1.06], [5.55, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("crumb").innerHTML = "/ Settings / <b>Announcements</b>";
+  const b = t >= T.toB;
+  $("vA").style.opacity = b ? 0 : 1; $("vB").style.opacity = b ? 1 : 0;
+  $("sg-ban").classList.toggle("prs", t >= T.tabClick - .05 && t < T.toB);
+  $("bNew").classList.toggle("dn", t >= T.nClick - .05 && t < T.open[0] + .15);
+  const o = span(t, ...T.open, easeOut) * (1 - span(t, ...T.close, easeOut));
+  $("dlg").style.opacity = o; $("scr").style.opacity = o; $("dlg").style.transform = `translateY(${8 * (1 - o)}px)`;
+  $("dlg").style.visibility = o > 0 ? "visible" : "hidden";
+  // a template says what, what it means, what to do, and when it ends
+  const m = t >= T.mClick, f = span(t, T.fill, T.fill + .6, x => x);
+  $("cM").classList.toggle("on", m);
+  const F = [["f1", "Echo Base Console maintenance"], ["f2", "Sign-in and search are unavailable for up to 2 hours"], ["f3", "Save your work before 02:00 UTC"]];
+  F.forEach(([id, v], i) => { const on = f > i / 3; $(id).textContent = on ? v : ["What’s happening", "What it means for people", "What they should do"][i]; $(id).className = "in" + (on ? "" : " ph"); });
+  $("wh").firstChild.textContent = f >= 1 ? "Sat, Nov 29 · 02:00–04:00 UTC" : "Choose a start and end";
+  $("bnT").innerHTML = f >= 1 ? "<b>Maintenance Sat, Nov 29, 02:00–04:00 UTC.</b> Sign-in and search are unavailable for up to 2 hours. Save your work before 02:00 UTC." : f > 0 ? "<b>Echo Base Console maintenance.</b>" : "<b>Banner preview</b> appears as you write";
+  $("bSch").classList.toggle("dn", t >= T.sClick - .05 && t < T.close[0]);
+  $("rN").style.display = t >= T.close[0] ? "table-row" : "none";
+  $("nb-ban").textContent = t >= T.close[0] ? "2" : "1";
+  $("toast").style.opacity = span(t, T.toast[0], T.toast[0] + .2) * (1 - span(t, T.toast[1] - .2, T.toast[1]));
+}
+
+function events() { return [["click", T.tabClick], ["click", T.nClick], ["whoosh", T.open[0]], ["click", T.mClick], ["click", T.sClick], ["pop", T.toast[0]]]; }
+
+Motion.scene({
+  // under 5 steps: natural length, within the 10 s cap
+  T, clicks: [T.tabClick, T.nClick, T.mClick, T.sClick], build, render, events,
+  slow: []
+});
+</script>
+</body>
+</html>
