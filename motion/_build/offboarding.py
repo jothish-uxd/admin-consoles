@@ -58,7 +58,7 @@ const T = { tClick: 1.40, prog: [1.50, 4.20], dClick: 4.90, nClick: 5.80, type: 
 
 function build() {
   const tr = at("bTr"), d = at("bDl");
-  $("cf3").style.display = "block"; $("d0").style.display = "none"; const n = at("fN", -60, 0), ok = at("bOk"); $("cf3").style.display = ""; $("d0").style.display = "";
+  $("to").style.display = "none"; $("pr").style.display = "flex"; $("cf3").style.display = "block"; $("d0").style.display = "none"; const n = at("fN", -40, 0), ok = at("bOk"); $("cf3").style.display = ""; $("d0").style.display = ""; $("to").style.display = ""; $("pr").style.display = "";
   const cur = [[0.00, 960, 640], [0.25, 960, 640], [1.05, tr[0], tr[1] + 3], [1.45, tr[0], tr[1] + 3], [4.55, d[0], d[1] + 3], [4.95, d[0], d[1] + 3],
     [5.45, n[0], n[1] + 3], [5.85, n[0], n[1] + 3], [7.15, ok[0], ok[1] + 3], [7.55, ok[0], ok[1] + 3], [9.40, ok[0] + 160, ok[1] + 40]];
   const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.04], [9.15, 650, 345, 1.04], [9.40, 656, 360, 1.04]];

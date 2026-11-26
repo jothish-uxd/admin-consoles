@@ -1472,8 +1472,8 @@ window.VIDEOS = {
       ]
     },
     "User directory": {
-      src: "media/user-management/user-directory.mp4",
-      poster: "media/user-management/user-directory.jpg",
+      src: "media/user-management/user-directory.mp4?r=2",
+      poster: "media/user-management/user-directory.jpg?r=2",
       label: "User directory, shown in a mock Echo Base console",
       steps: [
         "People › Users leads with search, which matches name, email and employee ID as the admin types.",
@@ -1520,8 +1520,8 @@ window.VIDEOS = {
       ]
     },
     "Offboarding": {
-      src: "media/user-management/offboarding.mp4",
-      poster: "media/user-management/offboarding.jpg",
+      src: "media/user-management/offboarding.mp4?r=2",
+      poster: "media/user-management/offboarding.jpg?r=2",
       label: "Offboarding, shown in a mock Echo Base console",
       steps: [
         "Offboard Bren Derlin is a checklist, with the safe steps first and deletion last. A check at the top shows there's no legal hold.",
@@ -1532,8 +1532,8 @@ window.VIDEOS = {
       ]
     },
     "Pending invites": {
-      src: "media/user-management/pending-invites.mp4",
-      poster: "media/user-management/pending-invites.jpg",
+      src: "media/user-management/pending-invites.mp4?r=2",
+      poster: "media/user-management/pending-invites.jpg?r=2",
       label: "Pending invites, shown in a mock Echo Base console",
       steps: [
         "Pending invites lists the 14 people who haven't joined yet: who invited them, the status, when it expires, as a date and days left, and whether it holds a seat.",

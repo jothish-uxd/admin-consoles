@@ -36,7 +36,7 @@ const Q = "EB-22";
 const T = { qClick: 1.00, type: [1.25, 1.75], xClick: 3.30, sClick: 4.20, oClick: 5.00, endCard: [7.20, 7.65], end: 8.15 };
 
 function build() {
-  const q = at("sr", -200, 0);
+  const q = at("sr", -90, 0);
   $("sX").style.display = "grid"; const x = at("sX"); $("sX").style.display = "";
   const st = at("fSt"); $("stm").style.display = "block"; const o = at("oSu", -40, 0); $("stm").style.display = "";
   const cur = [[0.00, 960, 640], [0.25, 960, 640], [0.70, q[0], q[1] + 3], [1.05, q[0], q[1] + 3], [3.00, x[0], x[1] + 3], [3.35, x[0], x[1] + 3],
