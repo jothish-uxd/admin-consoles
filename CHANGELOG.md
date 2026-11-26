@@ -22,6 +22,7 @@
 - **Import & export fixes:** in *CSV import* the dragged file stays under the cursor on one line; in *Field mapping* the "Check this" note wraps inside the table and has a warning icon; in *Validation & errors* each error has an icon beside its red text, and the fixed one a check.
 - **Import & export copy:** the CSV label now sits inside its file icon; the mapping note reads "Samples look like job titles"; errors read "Invalid email domain" and "Email addresses cannot contain spaces"; the export dialog drops the "runs in the background" note, since the file is ready to download there and then.
 - **Integrations & API keys**: clips for all 4 patterns, each at its natural length (14 s), and the new layout: *Integration catalog* (Browse, search, what an app can and can’t reach, who’s asking, who may connect it; saving approves the 14 waiting requests), *App permissions* (apps people authorised, grouped by app; Full access in words; an unused app whose authoriser left, revoked for all 12 and blocked, with a confirmation), *Create API key* (owner, narrowest scope and 90-day expiry by default; the secret shown once with Copy; listed with Last used: Never) and *Webhooks* (http:// refused and fixed; only chosen events; a signing secret; a test sent on save; delivery history and the retry policy). Settings › Integrations, API keys and Webhooks now share the Settings header and tabs, and *Multi-step wizard* is re-made with them.
+- **"What happens in this clip"** names the admin before calling her "she", in every clip.
 
 ## v0.2.2 preview — 2026-11-21
 

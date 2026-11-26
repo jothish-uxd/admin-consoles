@@ -510,7 +510,7 @@ window.VIDEOS = {
       steps: [
         "On AI › Connectors, the Status column reads in words, with the last good call: Holonet Docs is connected, Mission Board is failing and last worked at 09:40.",
         "Fleet Tracker shows 3 people need sign-in, and that they see Reconnect in their AI.",
-        "A banner says Mission Board is failing since 09:40, with 42 failed calls, and that its tools changed since it was approved. She opens Mission Board.",
+        "A banner says Mission Board is failing since 09:40, with 42 failed calls, and that its tools changed since it was approved. The admin opens Mission Board.",
         "Its health panel shows the status, the last successful call, the failed calls and who uses it: 3 groups, 61 people, in chat and agents. Changed since you approved it lists a new Delete board tool, a changed Update card description and a new server address.",
         "She chooses Turn off for everyone. The dialog confirms who it affects (3 groups, 61 people), where (chat and agents, in every app) and how long (open sessions stop within 10 minutes), with Also sign everyone out ticked.",
         "She turns it off for 61 people. The status reads Off for everyone, applies within 10 minutes, and a note says open sessions stop too and what people now see."
@@ -585,7 +585,7 @@ window.VIDEOS = {
       steps: [
         "Settings › Organization starts with routine settings: name, domain, time zone, owner, plan and data region.",
         "Below them, a bordered Irreversible actions section, marked Only owners see this section, has one row per action: reset all public links, transfer ownership, delete sandbox and delete organization. Each says what happens, and each button names its action.",
-        "She chooses Reset public links. It asks for a plain confirmation, with no name to type: 38 public links stop working right away and their owners are told by email. Focus starts on Cancel.",
+        "The admin chooses Reset public links. It asks for a plain confirmation, with no name to type: 38 public links stop working right away and their owners are told by email. Focus starts on Cancel.",
         "She resets them. A message confirms it, and the row now says who reset the links and when.",
         "Pointing at Delete organization shows that it asks for the organization's name first, as Delete sandbox does."
       ]
@@ -611,7 +611,7 @@ window.VIDEOS = {
       steps: [
         "On People › Users, selecting Cal Alder brings up the action bar above the table, where the results line was, so it covers no row.",
         "It shows the count and Clear, then the common actions: Edit, Add to group, Change license and Export. Suspend comes last, set apart by a divider.",
-        "She adds Zev Senesca, then Bren Derlin, who is deactivated. Suspend turns off in the same place; the actions never change order.",
+        "The admin adds Zev Senesca, then Bren Derlin, who is deactivated. Suspend turns off in the same place; the actions never change order.",
         "Pointing at Suspend explains why: Bren Derlin is already deactivated, so unselect them to suspend the other 2."
       ]
     },
@@ -621,7 +621,7 @@ window.VIDEOS = {
       label: "Bulk edit, shown in a mock Echo Base console",
       steps: [
         "All 82 people matching Team: Fleet are selected. Edit… opens a dialog that says who that is, including the 57 not on this page.",
-        "She picks the field first: Groups. Team is off, because it's synced from Holonet HR.",
+        "The admin picks the field first: Groups. Team is off, because it's synced from Holonet HR.",
         "Then the operation, each in plain words: Add to existing, Remove, Replace all or Clear. She chooses Add to existing, which keeps each person's groups.",
         "She picks the group, Hoth Evacuation. The current value is shown honestly as Various: these 82 people are in 14 different groups.",
         "A preview shows 3 of the 82 before and after, with the added group marked. The button says what it does and to how many: Add Hoth Evacuation to 82 people. It runs as a job, logged as one change."
@@ -634,7 +634,7 @@ window.VIDEOS = {
       steps: [
         "In Content › All content, pointing at Supply run notes.md shows a pencil beside the name. Owner and Sharing have none, because changing them has side effects.",
         "The pencil opens the name in place, with the name part selected so the extension stays, and visible Save and Cancel buttons. Enter saves and Esc cancels.",
-        "She types a name with a slash. It's refused before saving, and the field stays open with the reason: names can't include /.",
+        "The admin types a name with a slash. It's refused before saving, and the field stays open with the reason: names can't include /.",
         "She fixes it and presses Enter. The row shows Saving…, then Saved · renamed by you just now, and Last activity reads Just now."
       ]
     },
@@ -644,7 +644,7 @@ window.VIDEOS = {
       label: "Progress & results, shown in a mock Echo Base console",
       steps: [
         "The bulk edit runs as a job above the People list: a labelled progress bar, how many are done and about how long is left.",
-        "The page stays usable while it runs, and the list picks up the change as each person is done. She can leave the page and be notified.",
+        "The page stays usable while it runs, and the list picks up the change as each person is done. The admin can leave the page and be notified.",
         "It finishes as Done with issues, not Done: 79 added, 2 skipped because they were already in the group, and 1 failed because Zev Senesca's account is locked.",
         "Retry failed acts on just that one person. Download list and View in audit log are beside it.",
         "After the retry the job reads Done: 80 added, 2 skipped. The results stay until she dismisses them."
@@ -671,7 +671,7 @@ window.VIDEOS = {
       steps: [
         "Before any groups exist, People › Groups shows a heading, No groups yet, and what groups are for, instead of an empty grid.",
         "There's one primary action, Create group, and the alternative a large org usually wants: Sync from Holonet HR. Importing a CSV and How groups work are links below.",
-        "She syncs from Holonet HR. Progress shows in place of the empty state.",
+        "The admin syncs from Holonet HR. Progress shows in place of the empty state.",
         "The list appears with 6 groups, and a line says where they came from and that they stay in step every hour."
       ]
     },
@@ -707,7 +707,7 @@ window.VIDEOS = {
       label: "Create group, shown in a mock Echo Base console",
       steps: [
         "On People › Groups, New group opens a dialog that asks for the name first.",
-        "She types shield ops, and it's flagged: a group named Shield Ops already exists, with a link to open it. She names hers Shield maintenance.",
+        "The admin types shield ops, and it's flagged: a group named Shield Ops already exists, with a link to open it. She names hers Shield maintenance.",
         "She adds a description and an owner, Toryn Farr. The dialog asks for at least one owner who isn't an org admin, so someone on the team is responsible.",
         "The type is chosen up front: Static by default, with Dynamic and Synced explained in place.",
         "After Create group, the row is marked New at the top of the list, and the message offers Add members and Give access."
@@ -720,7 +720,7 @@ window.VIDEOS = {
       steps: [
         "Hoth Evacuation's page shows what members get above the list: a Console licence, Edit on Evacuation plans and the Shield Ops channel.",
         "Each member shows their role in the group, how they were added (directly, through Shield Ops, or through Fleet) and when and by whom.",
-        "She pastes 3 names. The preview says what they'll get, and notes that Cal Alder already has a Console licence.",
+        "The admin pastes 3 names. The preview says what they'll get, and notes that Cal Alder already has a Console licence.",
         "Adding them announces 3 members added. They appear at the top, and the count goes to 67.",
         "Remove is off for Gen. Rieekan, the only owner, and says why: add another owner first."
       ]
@@ -732,7 +732,7 @@ window.VIDEOS = {
       steps: [
         "All pilots is a dynamic group. Its rule is a structured editor: attribute, operator and value, each labelled.",
         "Where Title contains Pilot matches 52 people, with a preview of who.",
-        "She adds a condition, Location is Echo Base. The live count drops to 38, and says it was 52.",
+        "The admin adds a condition, Location is Echo Base. The live count drops to 38, and says it was 52.",
         "Saving a live rule that removes people asks first: 14 people would leave All pilots and lose its Console + AI licence.",
         "Once saved, the rule reads in plain words, with 38 members and when it was evaluated."
       ]
@@ -745,7 +745,7 @@ window.VIDEOS = {
         "Rebel Fleet's members are split into direct members, nested groups and everyone. The page says it includes 4 nested groups, 180 people in total.",
         "Nested groups show as a tree. Rogue Squadron expands in place to show Red Squadron and Gold Squadron.",
         "Beside it, what access flows down to everyone, nested groups included, and which group Rebel Fleet is part of: All Echo Base.",
-        "She tries to add All Echo Base as a nested group. It's blocked, with the reason: All Echo Base already includes Rebel Fleet, so this would make a loop."
+        "The admin tries to add All Echo Base as a nested group. It's blocked, with the reason: All Echo Base already includes Rebel Fleet, so this would make a loop."
       ]
     },
     "Directory sync": {
@@ -769,7 +769,7 @@ window.VIDEOS = {
       steps: [
         "On People › Users, Invite people opens a menu: Invite by email for a few people, or Import a CSV for many.",
         "The import page shows its four steps, and a template with an example row. Required columns are marked, and columns can be in any order.",
-        "She drops fleet-new-hires.csv in. The encoding and delimiter are detected for her.",
+        "The admin drops fleet-new-hires.csv in. The encoding and delimiter are detected for her.",
         "Before anything changes, a summary: 48 rows found, 41 ready, 4 with problems, 3 people who already exist.",
         "For the existing people she chooses Update them, then continues to map fields. Nothing changes until the last step."
       ]
@@ -779,7 +779,7 @@ window.VIDEOS = {
       poster: "media/import-export/field-mapping.jpg?r=4",
       label: "Field mapping, shown in a mock Echo Base console",
       steps: [
-        "Each column in the file is matched to a field, with sample values beside it so she can check the match.",
+        "Each column in the file is matched to a field, with sample values beside it so the admin can check the match.",
         "Each match says how it was made: by name, by a similar name, or not at all. Badge no. has no matching field, so it isn't imported.",
         "Role was matched to Console role, and it's flagged: the samples look like job titles.",
         "She changes it to Title from the menu, and the row now says Changed by you.",
@@ -792,7 +792,7 @@ window.VIDEOS = {
       label: "Validation and errors, shown in a mock Echo Base console",
       steps: [
         "The review shows how many rows are ready, and groups the problems by type. Errors that block a row are kept apart from warnings that don't.",
-        "Each error says what's wrong, by row, and how to fix it. She fixes an email inline, and the count updates.",
+        "Each error says what's wrong, by row, and how to fix it. The admin fixes an email inline, and the count updates.",
         "A team name that doesn't exist is fixed for both rows at once: Use Hoth Evacuation for 2 rows.",
         "She downloads the one row that still has an error, to fix later, instead of re-uploading the whole file.",
         "She imports the 47 good rows. The result says 44 added, 3 updated and 1 not imported."
@@ -803,7 +803,7 @@ window.VIDEOS = {
       poster: "media/import-export/export.jpg?r=3",
       label: "Export, shown in a mock Echo Base console",
       steps: [
-        "On People › Users, filtered to Team: Fleet, she selects all 82 matching people and chooses Export in the bar. The filter is the export's scope.",
+        "On People › Users, filtered to Team: Fleet, the admin selects all 82 matching people and chooses Export in the bar. The filter is the export's scope.",
         "She picks the fields, and turns off Last active. Sensitive fields such as phone, home address and employee ID are off unless she needs them.",
         "CSV or JSON, each described: one opens in a spreadsheet, the other is for scripts and other tools.",
         "The export runs, with its progress in the dialog.",
@@ -832,7 +832,7 @@ window.VIDEOS = {
         "Connected by people lists the apps people authorised with their own accounts, grouped by app, with what each can do, how many people, who authorised it and when it was last used.",
         "Starmap Notes is marked Full access in words, and flagged as unused for 94 days.",
         "Its detail shows it was first authorised by Bren Derlin, who left in August, and that the app kept working for 12 people.",
-        "She chooses Revoke for all 12 people. The confirmation says what stops and what stays, and she also blocks it so no one can connect it again.",
+        "The admin chooses Revoke for all 12 people. The confirmation says what stops and what stays, and she also blocks it so no one can connect it again.",
         "The row now shows Revoked and blocked, with 0 people, and the change is logged."
       ]
     },
@@ -843,7 +843,7 @@ window.VIDEOS = {
       steps: [
         "On Settings › API keys, every key has an owner, what it can do, an expiry and when it was last used. A key that never expires is flagged.",
         "Create key asks for a name, an owner and an expiry, set to 90 days by default within the org's 1-year maximum.",
-        "Only People · read is on to start, each scope in plain words. She adds People · write. Full access needs an owner's approval.",
+        "Only People · read is on to start, each scope in plain words. The admin adds People · write. Full access needs an owner's approval.",
         "The secret is shown once, with a clear warning. She copies it, and Copied is announced.",
         "The key is listed as New, with Last used: Never, and can be rotated."
       ]
@@ -854,7 +854,7 @@ window.VIDEOS = {
       label: "Webhooks, shown in a mock Echo Base console",
       steps: [
         "Settings › Webhooks lists each endpoint with its events and status. A failing one says Retrying, rather than being switched off quietly.",
-        "She adds an endpoint. An http:// address is refused, and she fixes it to https:// in place.",
+        "The admin adds an endpoint. An http:// address is refused, and she fixes it to https:// in place.",
         "She picks only the two events this system needs. There's no all-events option, so nothing is sent by accident.",
         "A signing secret is created for the system to check every request.",
         "Saving sends a test: 200 OK in 142 ms. The history shows each delivery and its attempts, the retry policy is spelled out, and she can pause the endpoint."
