@@ -165,7 +165,8 @@
       <header class="hero is-home hero-v2">
         <div class="hero-text">
           <h1 class="page-title" tabindex="-1">Patterns for enterprise workflows.</h1>
-          <p class="page-lede">Real-world product screens from established software companies, short clips showing patterns in action, and the design decisions behind them.<br>Explore how enterprise experiences are put together, understand the trade-offs, and get practical guidance for building software that works at scale.<br>Built for designers navigating the complexity of enterprise software.</p>
+          <p class="page-lede">Real-world product screens from established software companies, short clips showing patterns in action, and the design decisions behind them.</p>
+          <p class="page-lede hero-lede-2">Built for designers navigating the complexity of enterprise software.</p>
           <div class="hero-cta"><a class="btn-cta is-primary" href="#categories">Browse patterns</a><a class="btn-cta" href="${catUrl(CATS.find(c => c.slug === "access-requests") || CATS[0])}">See a pattern in action</a></div>
           <ul class="stats" id="stats"></ul>
         </div>
