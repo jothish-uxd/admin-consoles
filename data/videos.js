@@ -1407,5 +1407,55 @@ window.VIDEOS = {
         "The header's button now says Collapse all, and closes them both."
       ]
     }
+  },
+  "usage-analytics": {
+    "Admin home": {
+      src: "media/usage-analytics/admin-home.mp4",
+      poster: "media/usage-analytics/admin-home.jpg",
+      label: "Admin home, shown in a mock Echo Base console",
+      steps: [
+        "Home opens on what needs the admin: 4 items, each saying what it affects and with a button to the fix.",
+        "The Holonet ID certificate expires in 12 days. 3 access requests are waiting. The Coruscant Wiki sync is failing for 13% of items. 130 people haven't enrolled in MFA.",
+        "Below them, three numbers, each with a comparison: 1,092 active this week, up 3%; 3.2 of 5 TB of storage; 1,214 of 1,250 seats. Then shortcuts to common tasks.",
+        "She opens the MFA item's menu and snoozes it for a week.",
+        "It says Snoozed until Dec 3, with Undo, and Needs you drops to 3."
+      ]
+    },
+    "Adoption metrics": {
+      src: "media/usage-analytics/adoption-metrics.mp4",
+      poster: "media/usage-analytics/adoption-metrics.jpg",
+      label: "Adoption metrics, shown in a mock Echo Base console",
+      steps: [
+        "Insights › Adoption asks its question first: are people using Echo Base? 640 today, 1,092 this week and 1,168 of 1,214 this month.",
+        "What active means is written under the numbers: signed in and opened, edited or shared something, counted once per person.",
+        "A 13-week trend by group tells the lines apart by pattern and direct labels, not colour. The admin compares to the previous 90 days.",
+        "She switches to Table for the same numbers. Groups under 5 people aren't shown, so no one can be picked out.",
+        "She opens 46 not active in 30 days, a list with each person's group, when they were last active and their manager, to follow up."
+      ]
+    },
+    "Reports": {
+      src: "media/usage-analytics/reports.mp4",
+      poster: "media/usage-analytics/reports.jpg",
+      label: "Reports, shown in a mock Echo Base console",
+      steps: [
+        "Insights › Reports lists standard reports, each with what it shows, its period and when it was last made.",
+        "The admin schedules Monthly adoption: monthly, on the 1st at 9:00.",
+        "She adds Mon Mothma beside Finance. It goes as PDF and CSV.",
+        "Recipients get a link and sign in to open it, not an attachment, so the data stays in Echo Base. It uses the same definitions as Insights, and the next report says if one changes.",
+        "Saved, the row shows the next run and who gets it. A history keeps the 38 reports made so far."
+      ]
+    },
+    "Recommendations": {
+      src: "media/usage-analytics/recommendations.mp4",
+      poster: "media/usage-analytics/recommendations.jpg",
+      label: "Recommendations, shown in a mock Echo Base console",
+      steps: [
+        "Home › Recommendations come from Echo Base's own data, sorted by impact, and nothing happens until the admin confirms.",
+        "She opens Why am I seeing this? on Reclaim 42 unused licenses: it's based on sign-ins since Aug 28, and 3 people on leave are left out.",
+        "She reviews the 42 and confirms. The confirmation says they keep their files and can ask again.",
+        "The result is announced: 42 licenses back in the pool, $5,040 a year saved, with Undo. The count of recommendations acted on goes up.",
+        "She dismisses another with a reason, We handle it elsewhere, and it says it won't show again."
+      ]
+    }
   }
 };

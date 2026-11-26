@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Adoption metrics · motion scene</title>
+<!--
+  Source for media/usage-analytics/adoption-metrics.mp4. Built by motion/_build/adoption_metrics.py on _build/insights_page.py
+  (Insights › Adoption), with the top bar's alerts bell.
+  Follows the Adoption metrics card (data/guidance-platform.js):
+  - each section asks its question; active by day, week and month, with what active means
+  - a trend by group, lines told apart by pattern and direct labels, not colour; compare to the previous period
+  - the same numbers as a table; small groups hidden for privacy; when it was updated
+  - who isn't active, to follow up
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+
+.hd .sp { flex: 1; } .hd .upd { font-size: 12.5px; color: var(--soft); }
+.btn.dis { color: var(--faint); border-color: var(--rule); background: var(--subtle); }
+.sec { margin-top: 14px; border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 12.5px; color: var(--soft); }
+.sec h3 { margin: 0; font-size: 14px; color: var(--ink); font-weight: 600; }
+.sec .d { margin-top: 2px; }
+.rw { display: flex; align-items: center; gap: 10px; } .rw .sp { flex: 1; }
+table.sx { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+table.sx th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 8px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.sx th.n, table.sx td.n { text-align: right; font-variant-numeric: tabular-nums; }
+table.sx td { height: 42px; padding: 0 8px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+table.sx td b { display: block; color: var(--ink); font-weight: 500; font-size: 13px; }
+.st2 { display: inline-flex; gap: 5px; align-items: center; color: var(--ink); }
+.st2 svg { width: 13px; height: 13px; flex: none; }
+.up { color: #15803d; font-weight: 500; } .dn2 { color: #b91c1c; font-weight: 500; }
+
+.st3 { display: grid; grid-template-columns: repeat(3, 1fr) 1.2fr; gap: 12px; margin-top: 10px; align-items: end; }
+.st3 .v { font-size: 22px; color: var(--ink); font-weight: 650; }
+.st3 .v span { font-size: 12.5px; font-weight: 400; color: var(--soft); }
+.st3 .l { font-size: 12px; color: var(--soft); }
+.st3 a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-size: 13px; justify-self: end; }
+.def { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--rule); }
+.seg { display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 8px; padding: 2px; gap: 2px; }
+.seg span { height: 28px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 6px; font-size: 12.5px; color: var(--soft); }
+.seg span.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.tg { height: 32px; display: inline-flex; align-items: center; gap: 8px; padding: 0 10px; border: 1px solid var(--rule-strong); border-radius: 8px; color: var(--ink); font-size: 12.5px; }
+.tg .sw { width: 28px; height: 16px; border-radius: 999px; background: var(--rule-strong); position: relative; }
+.tg .sw::after { content: ""; position: absolute; left: 2px; top: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; transition: none; }
+.tg.on .sw { background: var(--ink); } .tg.on .sw::after { left: 14px; }
+.ch svg { width: 100%; height: 200px; display: block; margin-top: 8px; }
+.ch text { font-size: 11px; fill: #525252; font-family: inherit; }
+.ch text.lb { fill: #171717; font-weight: 600; font-size: 11.5px; }
+#vT, #pv, #vN { display: none; }
+.priv { margin-top: 8px; font-size: 12px; }
+.bk { margin-top: 14px; font-size: 12.5px; color: var(--soft); }
+.lh { margin-top: 6px; display: flex; align-items: baseline; gap: 10px; }
+.lh h2 { margin: 0; font-size: 17px; color: var(--ink); font-weight: 600; } .lh span { color: var(--soft); font-size: 13px; } .lh .sp { flex: 1; }
+
+
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Insights / Adoption"></span>
+      <div class="me"><span class="bell" id="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg" id="bdg">3</span></span>Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="insights" data-role="admin"></div>
+    <div class="main">
+      <div class="view" id="vO">
+        <div class="hd"><h1>Insights</h1><span class="sp"></span><span class="upd">Updated 2 hours ago</span></div>
+        <div class="tabs page"><div class="on">Adoption</div><div>Reports</div></div>
+        <div class="sec"><h3>Are people using Echo Base?</h3>
+          <div class="st3"><div><div class="l">Today</div><div class="v">640</div></div><div><div class="l">This week</div><div class="v">1,092</div></div><div><div class="l">This month</div><div class="v">1,168 <span>of 1,214</span></div></div><a id="aN">46 not active in 30 days</a></div>
+          <div class="def">Active means signed in and opened, edited or shared something. Counted once per person.</div></div>
+        <div class="sec"><div class="rw"><h3>Which teams, and is it growing?</h3><span class="sp"></span><span class="tg" id="tgC"><span class="sw"></span>Compare to previous 90 days</span>
+          <span class="seg"><span class="on" id="sC">Chart</span><span id="sT">Table</span></span></div>
+          <div class="ch" id="vC" role="img" aria-label="Weekly share active by group over 13 weeks: Fleet 96%, Command 94%, Base Engineering 91%, Intelligence 79%"><svg viewBox="0 0 900 200" preserveAspectRatio="none" aria-hidden="true"><line x1="30" x2="750" y1="178.0" y2="178.0" stroke="#ececec"/><text x="0" y="182.0">70%</text><line x1="30" x2="750" y1="93.0" y2="93.0" stroke="#ececec"/><text x="0" y="97.0">85%</text><line x1="30" x2="750" y1="8.0" y2="8.0" stroke="#ececec"/><text x="0" y="12.0">100%</text><polyline points="30.0,76.0 90.0,70.3 150.0,64.7 210.0,64.7 270.0,59.0 330.0,53.3 390.0,53.3 450.0,47.7 510.0,42.0 570.0,36.3 630.0,36.3 690.0,30.7 750.0,30.7" fill="none" stroke="#171717" stroke-width="2.2" stroke-dasharray=""/><text class="lb" x="758.0" y="34.7">Fleet 96%</text><polyline points="30.0,87.3 90.0,81.7 150.0,81.7 210.0,76.0 270.0,70.3 330.0,70.3 390.0,64.7 450.0,59.0 510.0,53.3 570.0,53.3 630.0,47.7 690.0,47.7 750.0,42.0" fill="none" stroke="#171717" stroke-width="2.2" stroke-dasharray="6 4"/><text class="lb" x="758.0" y="48.7">Command 94%</text><polyline points="30.0,64.7 90.0,59.0 150.0,53.3 210.0,53.3 270.0,53.3 330.0,59.0 390.0,53.3 450.0,53.3 510.0,59.0 570.0,53.3 630.0,59.0 690.0,59.0 750.0,59.0" fill="none" stroke="#171717" stroke-width="2.2" stroke-dasharray="2 3"/><text class="lb" x="758.0" y="63.0">Base Engineering 91%</text><polyline points="30.0,178.0 90.0,172.3 150.0,166.7 210.0,166.7 270.0,161.0 330.0,155.3 390.0,149.7 450.0,149.7 510.0,144.0 570.0,138.3 630.0,132.7 690.0,132.7 750.0,127.0" fill="none" stroke="#171717" stroke-width="2.2" stroke-dasharray="10 3 2 3"/><text class="lb" x="758.0" y="131.0">Intelligence 79%</text><g id="pv"><polyline points="30.0,121.3 90.0,121.3 150.0,115.7 210.0,115.7 270.0,110.0 330.0,110.0 390.0,104.3 450.0,104.3 510.0,98.7 570.0,98.7 630.0,93.0 690.0,93.0 750.0,87.3" fill="none" stroke="#8a8a8a" stroke-width="1.6"/><text x="758.0" y="91.3">All, previous 90 days 86%</text></g><text x="30" y="198">13 weeks ago</text><text x="720.0" y="198">This week</text></svg></div>
+          <div id="vT"><table class="sx"><thead><tr><th style="width:34%">Group</th><th class="n">Active this week</th><th class="n">Share active</th><th class="n">vs previous 90 days</th></tr></thead><tbody><tr><td><b>Fleet</b></td><td class="n">79 of 82</td><td class="n">96%</td><td class="n"><span class="up">▲ 4 pts</span></td></tr><tr><td><b>Command</b></td><td class="n">210 of 224</td><td class="n">94%</td><td class="n"><span class="up">▲ 2 pts</span></td></tr><tr><td><b>Base Engineering</b></td><td class="n">58 of 64</td><td class="n">91%</td><td class="n"><span class="dn2">▼ 1 pts</span></td></tr><tr><td><b>Intelligence</b></td><td class="n">41 of 52</td><td class="n">79%</td><td class="n"><span class="up">▲ 6 pts</span></td></tr></tbody></table></div>
+          <div class="priv">Groups under 5 people aren’t shown, so no one can be picked out.</div></div>
+      </div>
+      <div class="view" id="vN">
+        <div class="hd"><h1>Insights</h1><span class="sp"></span><span class="upd">Updated 2 hours ago</span></div>
+        <div class="tabs page"><div class="on">Adoption</div><div>Reports</div></div>
+        <div class="bk">← Adoption</div>
+        <div class="lh"><h2>Not active in 30 days</h2><span>46 people</span><span class="sp"></span><span class="btn sm">Send a reminder</span></div>
+        <table class="sx"><thead><tr><th style="width:30%">Person</th><th>Group</th><th>Last active</th><th>Manager</th></tr></thead><tbody>
+          <tr><td><b>Zev Senesca</b>Pilot</td><td>Fleet</td><td>61 days ago</td><td>Cal Alder</td></tr>
+          <tr><td><b>Rell Sarno</b>Mechanic</td><td>Base Engineering</td><td>44 days ago</td><td>Dak Ralter</td></tr>
+          <tr><td><b>Ania Vos</b>Navigator</td><td>Intelligence</td><td>38 days ago</td><td>Toryn Farr</td></tr>
+          <tr><td><b>Odo Harl</b>Mechanic</td><td>Base Engineering</td><td>33 days ago</td><td>Dak Ralter</td></tr></tbody></table>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = { cClick: 1.60, tClick: 3.00, nClick: 4.40, toN: 4.45, endCard: [6.40, 6.85], end: 7.35 };
+
+function build() {
+  const c = at("tgC", -60, 0), tb = at("sT");
+  $("vC").style.display = "none"; $("vT").style.display = "block"; const n = at("aN"); $("vC").style.display = ""; $("vT").style.display = "";
+  const cur = [[0.00, 960, 640], [0.25, 960, 640], [1.25, c[0], c[1] + 3], [1.65, c[0], c[1] + 3], [2.65, tb[0], tb[1] + 3], [3.05, tb[0], tb[1] + 3],
+    [4.05, n[0], n[1] + 3], [4.45, n[0], n[1] + 3], [6.40, n[0] - 200, n[1] + 220]];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.04], [6.15, 650, 345, 1.04], [6.40, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  const n = t >= T.toN;
+  $("crumb").innerHTML = n ? "/ Insights / Adoption / <b>Not active</b>" : "/ Insights / <b>Adoption</b>";
+  $("vO").style.display = n ? "none" : "block"; $("vN").style.display = n ? "block" : "none";
+  // compare to the previous period; the same numbers as a chart or a table
+  const c = t >= T.cClick, tb = t >= T.tClick;
+  $("tgC").classList.toggle("on", c); $("pv").style.display = c ? "inline" : "none";
+  $("sC").classList.toggle("on", !tb); $("sT").classList.toggle("on", tb);
+  $("vC").style.display = tb ? "none" : "block"; $("vT").style.display = tb ? "block" : "none";
+}
+
+function events() { return [["click", T.cClick], ["click", T.tClick], ["click", T.nClick]]; }
+
+Motion.scene({
+  // under 5 steps: natural length, within the 10 s cap
+  T, clicks: [T.cClick, T.tClick, T.nClick], build, render, events,
+  duration: 9.8
+});
+</script>
+</body>
+</html>

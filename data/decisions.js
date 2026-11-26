@@ -1459,6 +1459,99 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "usage-analytics": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Admin home"], "A home that leads with what needs doing, with a few counts beside it."],
+        ["Thousands", ["Adoption metrics", "Reports", "Recommendations"], "Adoption by team with clear definitions, scheduled reports for leaders, and suggested actions from the org's own data."],
+        ["Hundreds of thousands", [], "Breakdowns by org unit and region, privacy thresholds on small groups, exports to BI tools, and benchmarks."]
+      ],
+      principles: [
+        "Lead with the question a number answers, and define it in place.",
+        "Respect privacy: totals where individual data isn't needed.",
+        "Every insight links to where something can be changed."
+      ]
+    },
+    intro: "Admin analytics answer whether the product is being used, whether it's worth what it costs, and whether anything needs attention. Executives want adoption numbers; admins want to know who needs help and what to fix. At enterprise size, the numbers must be broken down by department and region, respect privacy, and match what reports and exports say.",
+    patterns: {
+      "Admin home": {
+        payoff: "From the start: admins arrive needing to know what's wrong and what to do first.",
+        tradeoff: "A briefing home saves admins checking every page, but it turns into a cluttered dashboard if everything goes on it. Lead with what needs action and its fix, add a few metrics with comparisons and some shortcuts, and let items be snoozed or dismissed.",
+        use: [
+          "Admins check in daily.",
+          "Problems hide on pages admins rarely visit.",
+          "Several admins share the work."
+        ],
+        avoid: [
+          "Marketing for other features.",
+          "Metrics with no comparison or context.",
+          "Loading every report on the home page."
+        ],
+        alternatives: [
+          ["Alert center", "When the job is triaging many alerts."],
+          ["Insights", "When the question is how things are trending."],
+          ["Notifications", "When admins aren't in the console."]
+        ]
+      },
+      "Adoption metrics": {
+        payoff: "At thousands, when renewals and rollouts depend on showing people use the product.",
+        tradeoff: "Adoption numbers justify spend, but vague definitions and individual tracking cost trust. Ask the question first, define active in place, break down by group with privacy thresholds, and offer the same numbers as a table.",
+        use: [
+          "Leaders ask whether the product is used.",
+          "Rollouts need tracking by team.",
+          "Admins follow up with people who haven't started."
+        ],
+        avoid: [
+          "'Active' would be undefined.",
+          "Individual activity would be shown where totals are enough.",
+          "Series told apart by colour alone."
+        ],
+        alternatives: [
+          ["Reports", "When the numbers go to people outside the console."],
+          ["Admin home", "When one number with a trend is enough."],
+          ["BI export", "When analysts want the raw data."]
+        ]
+      },
+      "Reports": {
+        payoff: "At thousands, when executives, finance and auditors need numbers without signing in to explore.",
+        tradeoff: "Scheduled reports reach people outside the console, but they spread data and can drift from what Insights shows. Use standard, described reports, make them in the background, send links that need sign-in rather than attachments, and keep definitions shared and changes announced.",
+        use: [
+          "People outside the console need regular numbers.",
+          "Finance or auditors ask for the same report each period.",
+          "Results must be reproducible."
+        ],
+        avoid: [
+          "Sensitive data would go out as email attachments.",
+          "Reports would be made on page load.",
+          "Definitions would change without notice."
+        ],
+        alternatives: [
+          ["Insights", "When the reader will explore the numbers themselves."],
+          ["API", "When reports feed another system."],
+          ["Export", "When it's a one-off."]
+        ]
+      },
+      "Recommendations": {
+        payoff: "At thousands, when there's more to tidy than admins have time to find.",
+        tradeoff: "Suggested actions surface savings and risks admins would miss, but they lose trust fast if they're wrong, unexplained or upsells. Say why each appears and what it changes, confirm before acting, announce the result with Undo, and respect dismissals.",
+        use: [
+          "The org's data shows clear, safe improvements.",
+          "Admins don't have time to find them.",
+          "Impact can be put in numbers."
+        ],
+        avoid: [
+          "Upsells dressed up as recommendations.",
+          "Acting without confirmation.",
+          "Showing dismissed ones again."
+        ],
+        alternatives: [
+          ["Admin home", "When it's urgent, not a suggestion."],
+          ["Policies", "When the fix should happen automatically."],
+          ["Reports", "When the finding is for someone else to act on."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [
