@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>No results · motion scene</title>
+<!--
+  Source for media/empty-onboarding/no-results.mp4. Built by motion/_build/no_results.py
+  from asset-library/scene.html, so Content › All content is the same page.
+  Follows the No results card (data/guidance-foundations.js):
+  - a search finds 2 items; adding Sharing: Public link finds none
+  - the message says nothing matched, and shows the search and the filter that caused it
+  - it says how many match without that filter, and offers to remove it in one click
+  - the filter controls stay visible and nothing is cleared automatically
+  - it looks nothing like a first-run empty table
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.meta { margin-top: 4px; font-size: 12.5px; color: var(--soft); position: relative; height: 18px; }
+.meta span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.meta b { color: var(--ink); font-weight: 600; }
+.seg { display: inline-grid; grid-template-columns: auto auto; border: 1px solid var(--rule-strong); border-radius: 8px; overflow: hidden; font-size: 12.5px; }
+.seg div { padding: 6px 12px; color: var(--soft); display: flex; gap: 6px; align-items: center; }
+.seg div + div { border-left: 1px solid var(--rule); }
+.seg div.on { background: var(--ink); color: #fff; font-weight: 500; }
+.seg svg { width: 13px; height: 13px; }
+.btn.sm { height: 30px; font-size: 12px; }
+.sr { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.search { flex: 1; height: 36px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; gap: 8px; align-items: center; padding: 0 12px; font-size: 13px; color: var(--faint); }
+.search svg { width: 14px; height: 14px; color: var(--faint); }
+.flt { height: 36px; display: inline-flex; gap: 6px; align-items: center; padding: 0 12px; border: 1px solid var(--rule-strong); border-radius: 8px; font-size: 12.5px; color: var(--soft); position: relative; white-space: nowrap; }
+.flt b { color: var(--ink); font-weight: 600; }
+.flt.on { border-color: var(--ink); background: var(--ink); color: #fff; }
+.flt.on b { color: #fff; }
+.flt svg { width: 11px; height: 11px; }
+.flt.on .cv { background: #fff; }
+.menu { position: absolute; left: 0; top: 40px; width: 200px; z-index: 5; opacity: 0; }
+.menu div { font-size: 13px; display: flex; justify-content: space-between; }
+.menu div span { color: var(--faint); font-family: "Geist Mono", monospace; font-size: 11px; }
+.menu div.hov { background: var(--hover); }
+.views { margin-top: 10px; display: flex; gap: 6px; align-items: center; font-size: 12.5px; }
+.views .l { color: var(--faint); margin-right: 4px; }
+.view { display: inline-flex; gap: 6px; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; background: var(--hover); color: var(--ink); }
+.view .n { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--faint); }
+.view.on { background: var(--ink); color: #fff; }
+.view.on .n { color: #bdbdbd; }
+.area { position: relative; margin-top: 12px; height: 380px; }
+.area > div { position: absolute; left: 0; right: 0; top: 0; }
+table { font-size: 12.5px; }
+th { padding: 0 10px 8px; font-size: 11.5px; }
+td { padding: 0 10px; height: 50px; }
+.nm { display: flex; gap: 10px; align-items: center; color: var(--ink); font-weight: 500; }
+.ty { width: 26px; height: 30px; border: 1.5px solid var(--rule-strong); border-radius: 4px; display: grid; place-items: end center; padding-bottom: 3px; font-family: "Geist Mono", monospace; font-size: 7.5px; color: var(--soft); flex: none; background: var(--bg); }
+.own .a { color: var(--ink); }
+.own .b { font-size: 11.5px; color: var(--faint); }
+.own .b.off { color: var(--ink); font-weight: 600; }
+.sh { display: inline-flex; gap: 5px; align-items: center; font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--soft); white-space: nowrap; }
+.sh.pub { border-color: var(--ink); background: var(--ink); color: #fff; font-weight: 500; }
+th.ck, td.ck { width: 36px; padding: 0 0 0 10px; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); vertical-align: middle; position: relative; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+td.num { font-family: "Geist Mono", monospace; font-size: 11.5px; color: var(--soft); }
+.cnt { margin-top: 8px; font-size: 12px; color: var(--faint); }
+/* grid */
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.card { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+.card .pv { height: 92px; background: var(--subtle); display: grid; place-items: center; border-bottom: 1px solid var(--rule); }
+.card .pv .ty { width: 40px; height: 48px; font-size: 10px; }
+.card .in { padding: 10px 12px; font-size: 12.5px; line-height: 1.4; }
+.card .in .a { color: var(--ink); font-weight: 600; }
+.card .in .b { color: var(--soft); font-size: 12px; margin: 2px 0 6px; }
+.gnote { margin-top: 10px; font-size: 12px; color: var(--faint); display: flex; gap: 6px; align-items: center; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+/* no results */
+.search.focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); color: var(--ink); }
+.search .q { color: var(--ink); white-space: pre; }
+.search .c { width: 1.5px; height: 17px; background: var(--ink); }
+.search .ph { white-space: nowrap; }
+.nr { display: grid; justify-items: center; text-align: center; padding: 40px 20px 0; font-size: 13.5px; color: var(--soft); line-height: 1.5; }
+.nr h2 { margin: 0; font-size: 17px; color: var(--ink); }
+.nr .ap { margin-top: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center; font-size: 12.5px; }
+.nr .chip2 { display: inline-flex; gap: 6px; align-items: center; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 3px 10px; color: var(--ink); font-size: 12.5px; }
+.nr .chip2 .x { color: var(--faint); }
+.nr .hint { margin-top: 12px; }
+.nr .hint b { color: var(--ink); font-weight: 600; }
+.nr .r { margin-top: 14px; display: flex; gap: 8px; }
+.nr .r .btn { height: 34px; }
+.nr .r .btn.dn { background: #404040; border-color: #404040; }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="tick" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="chev" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="list" viewBox="0 0 16 16"><path d="M3 4h10M3 8h10M3 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="gridi" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="9" y="2.5" width="4.5" height="4.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="2.5" y="9" width="4.5" height="4.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="9" y="9" width="4.5" height="4.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="dl" viewBox="0 0 16 16"><path d="M8 2.5v8M4.5 7.5 8 11l3.5-3.5M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="Content / All content"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+    </div>
+    <div class="nav" data-at="content" data-role="admin"></div>
+    <div class="main">
+      <div class="hd">
+        <h1>Content</h1>
+        <div class="seg"><div id="vList" class="on"><svg><use href="#list"/></svg>List</div><div id="vGrid"><svg><use href="#gridi"/></svg>Grid</div></div>
+        <span class="btn sm" id="expB"><svg width="13" height="13"><use href="#dl"/></svg>Export results</span>
+      </div>
+      <div class="tabs page"><div class="on">All content</div><div>Sharing</div><div>Tags</div><div>Storage</div><div>Trash</div></div>
+      <div class="meta" style="margin-top:14px"><span id="m0"><b>About 2.4M items</b> · index updated 2 min ago</span><span id="m1" style="opacity:0"><b>112 items</b> owned by deactivated people · index updated 2 min ago</span><span id="m2" style="opacity:0"><b>3 items</b> owned by deactivated people, shared by public link</span><span id="mR" style="opacity:0"><b>2 items</b> match “trench plans”</span><span id="mN" style="opacity:0"><b>No items</b> match “trench plans” with Sharing: Public link</span></div>
+      <div class="sr" id="sr">
+        <div class="search" id="sBox"><svg><use href="#srch"/></svg><span class="ph" id="ph">Search name, owner, type or tag</span><span class="q" id="q"></span><span class="c" id="cr"></span></div>
+        <span class="flt">Owner<i class="cv"></i></span>
+        <span class="flt" id="fShare"><span id="fsL">Sharing</span><i class="cv"></i>
+          <div class="menu" id="menu"><div>Internal only<span>1.9M</span></div><div>Specific people<span>410K</span></div><div id="optPub">Public link<span>38</span></div></div></span>
+        <span class="flt">Last modified<i class="cv"></i></span>
+        <span class="flt">Size<i class="cv"></i></span>
+      </div>
+      <div class="views"><span class="l">Saved views</span>
+        <span class="view">Shared publicly <span class="n">38</span></span>
+        <span class="view" id="vwDeact">Owner deactivated <span class="n">112</span></span>
+        <span class="view">Large files <span class="n">2.1K</span></span>
+      </div>
+      <div class="area" id="area">
+        <div id="tA">
+          <table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
+            <tr id="aR1"><td class="ck"><span class="cb" id="aC1"></span></td><td><div class="nm"><span class="ty">PDF</span>Death Star plans.pdf</div></td><td class="own"><div class="a">Jyn Erso</div><div class="b">Rebel Intelligence</div></td><td><span class="sh">Restricted</span></td><td>2 days ago</td><td class="num">48 MB</td></tr>
+            <tr id="aR2"><td class="ck"><span class="cb" id="aC2"></span></td><td><div class="nm"><span class="ty">DWG</span>Echo Base layout.dwg</div></td><td class="own"><div class="a">Base Engineering</div><div class="b">Team</div></td><td><span class="sh">Internal</span></td><td>5 hours ago</td><td class="num">212 MB</td></tr>
+            <tr id="aR3"><td class="ck"><span class="cb" id="aC3"></span></td><td><div class="nm"><span class="ty">PNG</span>Recruitment poster.png</div></td><td class="own"><div class="a">Mon Mothma</div><div class="b">Senate liaison</div></td><td><span class="sh">Public link</span></td><td>3 hours ago</td><td class="num">6 MB</td></tr>
+            <tr id="aR4"><td class="ck"><span class="cb" id="aC4"></span></td><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
+            <tr id="aR5"><td class="ck"><span class="cb" id="aC5"></span></td><td><div class="nm"><span class="ty">MD</span>Supply run notes.md</div></td><td class="own"><div class="a">Cassian Andor</div><div class="b">Intelligence</div></td><td><span class="sh">Specific people</span></td><td>Yesterday</td><td class="num">24 KB</td></tr>
+            <tr id="aR6"><td class="ck"><span class="cb" id="aC6"></span></td><td><div class="nm"><span class="ty">MP4</span>Trench run briefing.mp4</div></td><td class="own"><div class="a">Gen. Dodonna</div><div class="b">Command</div></td><td><span class="sh">Internal</span></td><td>4 days ago</td><td class="num">1.2 GB</td></tr>
+          </tbody></table><div class="cnt">Showing 1–50 of about 2.4M · sorted by last activity</div>
+        </div>
+        <div id="tB" style="opacity:0">
+          <table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
+            <tr id="bR1"><td class="ck"><span class="cb" id="bC1"></span></td><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
+            <tr id="bR2"><td class="ck"><span class="cb" id="bC2"></span></td><td><div class="nm"><span class="ty">PDF</span>Red Squadron roster.pdf</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>63 days ago</td><td class="num">2 MB</td></tr>
+            <tr id="bR3"><td class="ck"><span class="cb" id="bC3"></span></td><td><div class="nm"><span class="ty">DOC</span>Pilot rotation.docx</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh">Internal</span></td><td>70 days ago</td><td class="num">180 KB</td></tr>
+            <tr id="bR4"><td class="ck"><span class="cb" id="bC4"></span></td><td><div class="nm"><span class="ty">MP4</span>X-wing maintenance.mp4</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>45 days ago</td><td class="num">640 MB</td></tr>
+            <tr id="bR5"><td class="ck"><span class="cb" id="bC5"></span></td><td><div class="nm"><span class="ty">PDF</span>Yavin flight plan.pdf</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh">Specific people</span></td><td>52 days ago</td><td class="num">3 MB</td></tr>
+          </tbody></table><div class="cnt">Showing 1–50 of 112 · sorted by last activity</div>
+        </div>
+        <div id="tR" style="opacity:0"><table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th class="num">Size</th></tr></thead><tbody>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">PDF</span>Death Star trench plans.pdf</div></td><td class="own"><div class="a">Gen. Dodonna</div><div class="b">Command</div></td><td><span class="sh">Internal</span></td><td>2 days ago</td><td class="num">8.4 MB</td></tr>
+            <tr><td class="ck"><span class="cb"></span></td><td><div class="nm"><span class="ty">MP4</span>Trench run briefing.mp4</div></td><td class="own"><div class="a">Gen. Dodonna</div><div class="b">Command</div></td><td><span class="sh">Internal</span></td><td>4 days ago</td><td class="num">1.2 GB</td></tr>
+          </tbody></table></div>
+        <div id="nr" class="nr" style="opacity:0" role="status"><h2>No items match “trench plans” with this filter</h2>
+          <div class="ap">Searched for <span class="chip2">“trench plans” <span class="x">✕</span></span> with <span class="chip2">Sharing: Public link <span class="x">✕</span></span></div>
+          <div class="hint"><b>2 items</b> match without the Sharing filter. Neither is shared by public link.</div>
+          <div class="r"><span class="btn pri" id="bRemove">Remove Sharing filter</span><span class="btn">Clear search and filters</span></div></div>
+        <div id="tC" style="opacity:0">
+          <table><thead><tr><th class="ck"><span class="cb"></span></th><th>Name</th><th>Owner</th><th>Sharing</th><th>Last activity</th><th>Size</th></tr></thead><tbody>
+            <tr id="cR1"><td class="ck"><span class="cb" id="cC1"></span></td><td><div class="nm"><span class="ty">XLS</span>Hoth patrol routes.xlsx</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>41 days ago</td><td class="num">1 MB</td></tr>
+            <tr id="cR2"><td class="ck"><span class="cb" id="cC2"></span></td><td><div class="nm"><span class="ty">MP4</span>X-wing maintenance.mp4</div></td><td class="own"><div class="a">Biggs Darklighter</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>45 days ago</td><td class="num">640 MB</td></tr>
+            <tr id="cR3"><td class="ck"><span class="cb" id="cC3"></span></td><td><div class="nm"><span class="ty">PDF</span>Red Squadron roster.pdf</div></td><td class="own"><div class="a">Jek Porkins</div><div class="b off">Deactivated</div></td><td><span class="sh pub">Public link</span></td><td>63 days ago</td><td class="num">2 MB</td></tr>
+          </tbody></table><div class="cnt">3 items</div>
+        </div>
+        <div id="gC" style="opacity:0">
+          <div class="grid">
+            <div class="card"><div class="pv"><span class="ty">XLS</span></div><div class="in"><div class="a">Hoth patrol routes.xlsx</div><div class="b">Biggs Darklighter · deactivated</div><span class="sh pub">Public link</span></div></div>
+            <div class="card"><div class="pv"><span class="ty">MP4</span></div><div class="in"><div class="a">X-wing maintenance.mp4</div><div class="b">Biggs Darklighter · deactivated</div><span class="sh pub">Public link</span></div></div>
+            <div class="card"><div class="pv"><span class="ty">PDF</span></div><div class="in"><div class="a">Red Squadron roster.pdf</div><div class="b">Jek Porkins · deactivated</div><span class="sh pub">Public link</span></div></div>
+          </div>
+          <div class="gnote">Previews off · names and owners shown · turn on previews to see contents</div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const Q = "trench plans";
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  srchClick: 1.20, type: [1.40, 2.20], res: 2.35, shareClick: 3.40, menu: [3.45, 4.15], pubClick: 4.05, none: 4.20,
+  removeClick: 6.10, back: 6.20, endCard: [7.50, 7.95], end: 8.6
+};
+
+function seq(a, b, t, at) { $(a).style.opacity = 1 - span(t, at, at + .12); $(b).style.opacity = span(t, at + .14, at + .3); }
+
+function build() {
+  const s = at("sBox", -160, 0), fs = at("fShare"), ar = at("area");
+  $("menu").style.opacity = 1; const op = at("optPub", -40, 0); $("menu").style.opacity = 0;
+  $("nr").style.opacity = 1; const rm = at("bRemove"); $("nr").style.opacity = 0;
+  const cur = [
+    [0.00, 860, 650], [0.25, 860, 650], [1.05, s[0], s[1] + 3], [1.30, s[0], s[1] + 3], [2.40, s[0] + 120, s[1] + 60],
+    [3.20, fs[0], fs[1] + 3], [3.50, fs[0], fs[1] + 3], [3.85, op[0], op[1] + 3], [4.15, op[0], op[1] + 3],
+    [5.00, op[0] - 80, op[1] + 90], [5.90, rm[0], rm[1] + 3], [6.25, rm[0], rm[1] + 3], [7.50, rm[0] + 40, rm[1] + 80]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00],
+    [0.95, 740, ar[1] - 105, 1.24], [7.25, 740, ar[1] - 105, 1.24],     // one steady view: search, filters, and the results area
+    [7.50, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  ["tB", "tC", "gC", "m1", "m2"].forEach(x => $(x).style.opacity = 0);
+  // search
+  $("sBox").classList.toggle("focus", t >= T.srchClick && t < T.shareClick);
+  const n = Math.round(Q.length * span(t, ...T.type, x => x));
+  const typed = t >= T.type[0];
+  $("ph").style.display = typed ? "none" : ""; $("q").textContent = Q.slice(0, n);
+  $("cr").style.opacity = t >= T.srchClick && t < T.shareClick && (t < T.type[0] || t > T.type[1] ? Math.floor(t * 2.4) % 2 === 0 : true) ? 1 : 0;
+  // Sharing filter
+  const mo = span(t, T.menu[0], T.menu[0] + .15, easeOut) * (1 - span(t, T.menu[1] - .08, T.menu[1]));
+  $("menu").style.opacity = mo; $("menu").style.transform = `translateY(${(1 - mo) * -4}px)`;
+  $("optPub").classList.toggle("hov", t > T.pubClick - .25 && t < T.menu[1]);
+  const pub = t >= T.pubClick && t < T.back;
+  $("fShare").classList.toggle("on", pub);
+  $("fsL").innerHTML = pub ? "Sharing: <b>Public link</b>" : "Sharing";
+  // results area: all content → 2 results → no results → 2 results, one at a time
+  if (t < T.res) { $("tA").style.opacity = 1; $("tR").style.opacity = 0; $("nr").style.opacity = 0; }
+  else if (t < T.none) { $("nr").style.opacity = 0; seq("tA", "tR", t, T.res); }
+  else if (t < T.back) { $("tA").style.opacity = 0; seq("tR", "nr", t, T.none); }
+  else { $("tA").style.opacity = 0; seq("nr", "tR", t, T.back); }
+  // the count line says the same thing
+  const line = t < T.res + .14 ? 0 : t < T.none + .14 ? 1 : t < T.back + .14 ? 2 : 1;
+  ["m0", "mR", "mN"].forEach((id, i) => $(id).style.opacity = line === i ? 1 : 0);
+  $("bRemove").classList.toggle("dn", t >= T.removeClick - .05 && t < T.back);
+}
+
+function events() { return [["click", T.srchClick], ["key", T.type[0]], ["click", T.shareClick], ["click", T.pubClick], ["click", T.removeClick]]; }
+
+Motion.scene({
+  // 5 steps: natural length, within the 15 s cap
+  T, clicks: [T.srchClick, T.shareClick, T.pubClick, T.removeClick], build, render, events,
+  slow: [[4.4, 5.8, 1.8]]
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Empty table · motion scene</title>
+<!--
+  Source for media/empty-onboarding/empty-table.mp4. Built by motion/_build/empty_table.py
+  from create-modal/scene.html, so People › Groups is the same page.
+  Follows the Empty table card (data/guidance-foundations.js):
+  - before any group exists: a heading, what groups are for, and no empty grid
+  - one primary action (Create group) and the alternative a large org wants: sync from HR, or import a CSV
+  - a link to help
+  - syncing shows progress, then the list appears with where the groups came from
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+table.g { margin-top: 14px; font-size: 13px; }
+.g td { height: 48px; }
+.g td:first-child { color: var(--ink); font-weight: 500; }
+.mo { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; color: var(--ink); font-weight: 700; letter-spacing: 1px; position: relative; }
+.g .s { display: block; font-size: 11.5px; color: var(--faint); font-weight: 400; }
+.scrim2 { position: absolute; inset: 52px 0 0 0; background: rgba(0,0,0,.18); opacity: 0; z-index: 30; }
+.dlg { position: absolute; left: 440px; top: 120px; width: 520px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); }
+.dlg .tt { display: flex; align-items: center; }
+.dlg h3 { margin: 0; font-size: 17px; color: var(--ink); flex: 1; }
+.dlg .x { color: var(--faint); font-size: 16px; }
+.dlg .f { margin-top: 14px; }
+.dlg label { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.dlg label span { color: var(--faint); font-weight: 400; }
+.in { height: 38px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 12px; color: var(--ink); font-size: 13.5px; }
+.in.f { border-color: var(--ink); }
+.in.err { border-color: #b91c1c; }
+.in .c { width: 1.5px; height: 18px; background: var(--ink); margin-left: 1px; }
+.in.ph { color: var(--faint); }
+.msg { margin-top: 6px; font-size: 12px; height: 16px; position: relative; }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; font-weight: 500; }
+.msg svg { width: 12px; height: 12px; }
+.own { display: flex; align-items: center; gap: 8px; }
+.dlg .r { margin-top: 18px; display: flex; gap: 8px; align-items: center; }
+.dlg .r .ca { flex: 1; display: flex; gap: 8px; align-items: center; color: var(--ink); }
+.cb0 { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--rule-strong); }
+.dlg .btn { height: 36px; }
+#crB { min-width: 118px; justify-content: center; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+/* empty table */
+.view { position: absolute; inset: 0; }
+.empty { margin-top: 26px; border: 1px dashed var(--rule-strong); border-radius: 14px; padding: 34px 32px; display: grid; justify-items: center; text-align: center; color: var(--soft); font-size: 13.5px; line-height: 1.5; }
+.empty .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--subtle); display: grid; place-items: center; color: var(--ink); margin-bottom: 12px; }
+.empty .ic svg { width: 22px; height: 22px; }
+.empty h2 { margin: 0; font-size: 17px; color: var(--ink); }
+.empty p { margin: 6px 0 0; max-width: 470px; }
+.empty .r { margin-top: 16px; display: flex; gap: 8px; }
+.empty .r .btn { height: 36px; }
+.empty .r .btn.prs { background: var(--hover); }
+.empty .alt { margin-top: 12px; font-size: 12.5px; }
+.empty .alt a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.sync { margin-top: 26px; border: 1px solid var(--rule-strong); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); opacity: 0; display: none; }
+.sync b { color: var(--ink); font-weight: 600; }
+.sync .pb { margin-top: 8px; height: 6px; border-radius: 999px; background: var(--hover); overflow: hidden; }
+.sync .pb i { display: block; height: 100%; width: 100%; background: var(--ink); transform-origin: left center; }
+.syn { margin-top: 14px; font-size: 12.5px; color: var(--soft); opacity: 0; }
+.syn b { color: var(--ink); font-weight: 600; }
+table.g { opacity: 0; }
+table.g td .s2 { display: block; font-size: 11.5px; color: var(--faint); }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="no" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6v4.2M8 11v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="People / Groups"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>6 groups synced from Holonet HR</div>
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>People</h1><span class="btn sm pri" id="newB">New group</span></div>
+        <div class="tabs page"><div>Users</div><div class="on">Groups</div><div>Roles</div></div>
+        <section class="empty" id="empty" aria-labelledby="eH"><span class="ic"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="6" cy="5.5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 13c.4-2.4 2-3.6 4-3.6s3.6 1.2 4 3.6M10.5 3.6a2 2 0 0 1 0 3.8M12 9.6c1 .5 1.7 1.6 2 3.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+          <h2 id="eH">No groups yet</h2>
+          <p>Groups give access, licences and settings to many people at once, such as a whole team or everyone on a project.</p>
+          <div class="r"><span class="btn pri" id="bCreate">Create group</span><span class="btn" id="bSync">Sync from Holonet HR</span></div>
+          <div class="alt">Or <a>import a CSV</a> · <a>How groups work</a></div>
+        </section>
+        <div class="sync" id="sync" role="status"><b id="syT">Syncing groups from Holonet HR…</b><div class="pb"><i id="syI"></i></div></div>
+        <div class="syn" id="syn"><b>6 groups</b> synced from Holonet HR · they stay in step every hour</div>
+        <table class="g" id="tG"><thead><tr><th>Group</th><th>Members</th><th>Owner</th><th>Licenses</th><th style="width:40px"></th></tr></thead><tbody id="tb">
+          <tr style="display:none"><td>Rogue One pilot<span class="s">Pilot members, Dec 2026</span></td><td>0</td><td>Lavanya Sienna</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Rogue Squadron<span class="s">X-wing pilots</span></td><td>12</td><td>Wedge Antilles</td><td>Console + AI</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Hoth Evacuation<span class="s">Evacuation crews, Nov 2026</span></td><td>64</td><td>Gen. Rieekan</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Fleet<span class="s">Transports and escorts</span></td><td>82</td><td>Gen. Rieekan</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Shield Ops<span class="s">Shield generator crew</span></td><td>19</td><td>Toryn Farr</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Intelligence<span class="s">Analysts and slicers</span></td><td>41</td><td>Gen. Madine</td><td>Console</td><td><span class="mo">···</span></td></tr>
+          <tr><td>Security admins<span class="s">Audit and access reviews</span></td><td>6</td><td>Lavanya Sienna</td><td>Console + AI</td><td><span class="mo">···</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  syncClick: 2.70, sync: [2.80, 4.10], rows: [4.15, 4.45], toast: 4.25, toastOut: [6.0, 6.3],
+  endCard: [6.60, 7.05], end: 7.7
+};
+
+function build() {
+  const e = at("empty"), c = at("bCreate"), s = at("bSync");
+  const cur = [
+    [0.00, 960, 640], [0.30, 960, 640], [1.30, c[0], c[1] + 3], [1.90, c[0] + 20, c[1] + 6],
+    [2.50, s[0], s[1] + 3], [2.85, s[0], s[1] + 3], [3.90, s[0] + 120, s[1] + 90], [6.60, s[0] + 124, s[1] + 94]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.35, 640, 360, 1.00],
+    [1.10, e[0], e[1] - 10, 1.22], [6.35, e[0], e[1] - 10, 1.22],     // one steady view: the empty state, then the synced list
+    [6.60, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("bSync").classList.toggle("prs", t >= T.syncClick - .05 && t < T.sync[0] + .2);
+  // one state at a time, in the same place: empty state, then progress, then the list
+  const st = t < T.sync[0] + .12 ? 0 : t < T.rows[0] + .12 ? 1 : 2;
+  $("empty").style.display = st === 0 ? "" : "none";
+  $("empty").style.opacity = 1 - span(t, T.sync[0], T.sync[0] + .12);
+  $("sync").style.display = st === 1 ? "block" : "none";
+  $("sync").style.opacity = span(t, T.sync[0] + .14, T.sync[0] + .28) * (1 - span(t, T.rows[0], T.rows[0] + .12));
+  $("tG").style.display = st === 2 ? "" : "none"; $("syn").style.display = st === 2 ? "" : "none";
+  const p = span(t, T.sync[0] + .2, T.sync[1], x => x);
+  $("syI").style.transform = `scaleX(${.08 + .92 * p})`;
+  $("syT").textContent = `Syncing groups from Holonet HR… ${Math.round(6 * p)} of 6`;
+  const ro = span(t, T.rows[0] + .14, T.rows[1]);
+  $("tG").style.opacity = ro; $("syn").style.opacity = ro;
+  const to = span(t, T.toast, T.toast + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to;
+  $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() { return [["click", T.syncClick], ["chime", T.rows[0]], ["pop", T.toast]]; }
+
+Motion.scene({
+  // 3 steps: natural length, within the 10 s cap
+  T, clicks: [T.syncClick], build, render, events,
+  slow: [[1.1, 2.4, 1.5], [4.5, 6.0, 1.3]]
+});
+</script>
+</body>
+</html>

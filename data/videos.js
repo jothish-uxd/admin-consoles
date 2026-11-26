@@ -650,5 +650,54 @@ window.VIDEOS = {
         "After the retry the job reads Done: 80 added, 2 skipped. The results stay until she dismisses them."
       ]
     }
+  },
+  "empty-onboarding": {
+    "Setup checklist": {
+      src: "media/empty-onboarding/setup-checklist.mp4",
+      poster: "media/empty-onboarding/setup-checklist.jpg",
+      label: "Setup checklist, shown in a mock Echo Base console",
+      steps: [
+        "Home's first run shows a checklist to set up Echo Base, with progress in words and as a bar: 2 of 6 done. The rest of the console works meanwhile.",
+        "Tasks already done were detected on their own: the domain is verified and 412 people are synced from Holonet HR.",
+        "The admin skips the optional task, Invite another admin. It stays in the list, crossed out, with Undo skip.",
+        "She assigns Set sharing limits to Toryn Farr, who is sent a link.",
+        "When Toryn finishes single sign-on, it ticks off as done by her, and progress moves to 3 of 6. Start on Create groups goes to where that task is done."
+      ]
+    },
+    "Empty table": {
+      src: "media/empty-onboarding/empty-table.mp4",
+      poster: "media/empty-onboarding/empty-table.jpg",
+      label: "Empty table, shown in a mock Echo Base console",
+      steps: [
+        "Before any groups exist, People › Groups shows a heading, No groups yet, and what groups are for, instead of an empty grid.",
+        "There's one primary action, Create group, and the alternative a large org usually wants: Sync from Holonet HR. Importing a CSV and How groups work are links below.",
+        "She syncs from Holonet HR. Progress shows in place of the empty state.",
+        "The list appears with 6 groups, and a line says where they came from and that they stay in step every hour."
+      ]
+    },
+    "No results": {
+      src: "media/empty-onboarding/no-results.mp4",
+      poster: "media/empty-onboarding/no-results.jpg",
+      label: "No results, shown in a mock Echo Base console",
+      steps: [
+        "In Content › All content, a search for trench plans finds 2 items.",
+        "Adding the filter Sharing: Public link finds none. The filter stays visible and highlighted.",
+        "The message says no items match trench plans with this filter, and shows both the search and the filter as chips.",
+        "It says 2 items match without the Sharing filter, and that neither is shared by public link. Nothing is cleared automatically.",
+        "Remove Sharing filter is one click, and the 2 results come back. It looks nothing like a first-run empty table."
+      ]
+    },
+    "Permission empty state": {
+      src: "media/empty-onboarding/permission-empty-state.mp4",
+      poster: "media/empty-onboarding/permission-empty-state.jpg",
+      label: "Permission empty state, shown in a mock Echo Base console",
+      steps: [
+        "Wes Janson, a member, opens a link to Audit log that an admin shared with him. His rail only shows Workspace.",
+        "The page says it's about access, not missing data: You don't have access to Audit log. It's for Security admins, and his role is Member.",
+        "It says who can give access and how long it usually takes. Nothing about the page's contents is shown.",
+        "Request access asks in place: Request sent to Lavanya Sienna, and he'll get an email when she answers.",
+        "Below, What you can see instead points to his own sign-ins and devices in My access, and navigation keeps working."
+      ]
+    }
   }
 };

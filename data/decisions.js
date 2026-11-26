@@ -2,6 +2,100 @@
    goes wrong when built. One entry per category; a category without one has no Decisions tab.
    Shape: { intro, patterns: { "<pattern name>": { tradeoff, use: [], avoid: [], alternatives: [[name, when]], mistakes: [] } } } */
 window.DECISIONS = Object.assign(window.DECISIONS || {}, {
+  "empty-onboarding": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Empty table", "No results"], "A short welcome and a clear first action. Empty lists explain themselves, and searches that find nothing say why."],
+        ["Thousands", ["Setup checklist", "Permission empty state"], "Setup is shared across several admins and tracked. Roles and scoped admins mean people regularly reach pages they can’t see."],
+        ["Hundreds of thousands", [], "The same patterns, for onboarding run as a project: stages, integrations, migration and rollout by region, coordinated across teams."]
+      ],
+      principles: [
+        "Every empty state explains why it’s empty and what to do next.",
+        "Distinguish ‘nothing yet’, ‘nothing matches’ and ‘you can’t see this’. They need different words and different actions.",
+        "Don’t hide what the product can do behind an empty state."
+      ]
+    },
+    intro: "Empty states trade guidance for clutter. Saying more helps people who are lost, and gets in the way of people who aren’t. The right amount depends on why the page is empty.",
+    patterns: {
+      "Setup checklist": {
+        payoff: "At thousands, when setup takes days and is shared between several admins.",
+        tradeoff: "A checklist turns setup into progress people can see, but it competes with the real work on Home and can feel like nagging. Make it easy to share, skip and hide.",
+        use: [
+          "Setup has several steps that make the product work for the org: domain, sign-in, people, groups, policies.",
+          "Setup spans days and more than one admin.",
+          "Some steps can be detected as done automatically.",
+          "People keep asking ‘what’s left to do?’"
+        ],
+        avoid: [
+          "Setup is one step. A clear first action on the empty page is enough.",
+          "The list would mostly be upsells or feature tours.",
+          "Tasks can’t be checked automatically, so the list would always be out of date."
+        ],
+        alternatives: [
+          ["One first action", "When there’s a single thing to do first, such as adding people. Put it on the empty page."],
+          ["Guided setup wizard", "When steps must happen in order and in one sitting."],
+          ["Onboarding project page", "When setup is a project across teams and regions. Stages, owners and dates, outside Home."]
+        ]
+      },
+      "Empty table": {
+        payoff: "From the start: every list is empty before its first item.",
+        tradeoff: "An empty state can teach what the page is for, but too much explanation and too many actions bury the one that matters. One heading, one sentence, one primary action.",
+        use: [
+          "A list has nothing in it yet, and people don’t know what will appear there.",
+          "There’s a clear first action, and alternatives such as import or sync.",
+          "Large orgs usually bring data in rather than creating it by hand."
+        ],
+        avoid: [
+          "Data is still syncing. Say it’s on its way, not that there’s nothing.",
+          "The empty state would show a grid with no rows and no explanation.",
+          "The list is empty because of a filter. That’s No results, not an empty table."
+        ],
+        alternatives: [
+          ["Sample data", "When seeing examples helps more than reading. Show labelled examples people can remove."],
+          ["Sync in progress", "When data is on its way. Show progress and when it should arrive."],
+          ["Hide the page until there’s data", "When the page only makes sense with data, and another page leads to it."]
+        ]
+      },
+      "No results": {
+        payoff: "From the start, wherever there’s search or filters.",
+        tradeoff: "Explaining why nothing matched helps people recover, but suggestions can be wrong. Show exactly what was applied, and make undoing it one click.",
+        use: [
+          "Searches and filters can combine to match nothing.",
+          "People don’t notice which filter is narrowing the results.",
+          "Results without one filter can be counted cheaply."
+        ],
+        avoid: [
+          "The page is empty because nothing exists yet. Use the empty table message instead.",
+          "Results are limited by what the admin may see. Say that, not ‘no results’.",
+          "Suggestions would guess wildly at what was meant."
+        ],
+        alternatives: [
+          ["Relax the filter automatically", "When it’s always safe. Show close matches, clearly labelled as such."],
+          ["Global search", "When the item may live elsewhere. Offer to search the whole console."],
+          ["Saved views", "When people keep building the same filters. Save the view so the mistake doesn’t repeat."]
+        ]
+      },
+      "Permission empty state": {
+        payoff: "At thousands, when roles and scoped admins mean people regularly follow links to pages they can’t see.",
+        tradeoff: "Explaining what someone can’t see helps them get access, but saying too much about the hidden page can leak what’s on it. Name the page and who can help, nothing more.",
+        use: [
+          "Links to admin pages are shared with people who may not have access.",
+          "Roles limit what different admins can see.",
+          "There’s a request process, and someone to approve it."
+        ],
+        avoid: [
+          "The page’s very existence is sensitive. Show a plain not-found instead.",
+          "There’s nobody who could grant access. Say who to contact rather than offering a request that goes nowhere.",
+          "The person should never have reached the link. Fix the link instead of explaining it."
+        ],
+        alternatives: [
+          ["Request access in place", "When there’s an approval flow. One button, with who it goes to."],
+          ["Not found", "When revealing that the page exists is itself a risk."],
+          ["Read-only view", "When people may see but not change it. Show the page with controls disabled and the reason."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [
