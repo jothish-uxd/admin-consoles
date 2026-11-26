@@ -168,7 +168,6 @@
           <p class="page-lede">Real-world product screens from established software companies, short clips showing patterns in action, and the design decisions behind them.</p>
           <p class="page-lede hero-lede-2">Built for designers navigating the complexity of enterprise software.</p>
           <div class="hero-cta"><a class="btn-cta is-primary" href="#categories">Browse patterns</a><a class="btn-cta" href="${catUrl(CATS.find(c => c.slug === "access-requests") || CATS[0])}">See a pattern in action</a></div>
-          <ul class="stats" id="stats"></ul>
         </div>
         <a class="hero-visual" href="${catUrl(CATS.find(c => c.slug === "access-requests") || CATS[0])}#p-approval-queue" aria-label="Watch the Approval queue clip">
           <div class="hv-frame"><img src="media/access-requests/approval-queue.jpg" alt="" width="1280" height="720"><span class="hv-play"><svg viewBox="0 0 16 16"><path d="M5 3.5v9l7.5-4.5z" fill="currentColor"/></svg></span></div>
@@ -177,6 +176,7 @@
             <div class="hv-card"><b>How to build it</b><span>Do and avoid, accessibility, and how it holds up at scale</span></div>
           </div>
         </a>
+        <ul class="stats" id="stats"></ul>
       </header>
       <div class="toolbar">
         <div class="chips" id="chips" role="group" aria-label="Filter by group"></div>
