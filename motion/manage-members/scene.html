@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manage members · motion scene</title>
+<!--
+  Source for media/groups-teams/manage-members.mp4. Built by motion/_build/manage_members.py on _build/shell.py and _build/group_page.py.
+  Follows the Manage members card (data/guidance-people.js):
+  - what the group grants sits above the members, so the impact of adding someone is clear
+  - members show their role in the group, how they were added (directly or through Shield Ops and Fleet) and by whom
+  - she pastes 3 names; the preview says what they'll get, then "3 members added" is announced
+  - Remove is off for the only owner, with the reason
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.view { position: absolute; inset: 0; padding: 22px 32px; }
+.back { font-size: 12.5px; color: var(--soft); }
+.gh { margin-top: 6px; display: flex; align-items: center; gap: 10px; }
+.gh h1 { margin: 0; }
+.bdg { font-size: 11.5px; font-weight: 600; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 9px; color: var(--ink); }
+.gsub { margin-top: 3px; font-size: 13px; color: var(--soft); }
+.tabs.page { margin-top: 14px; }
+.acc { margin-top: 14px; border: 1px solid var(--rule); border-radius: 12px; padding: 10px 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12.5px; color: var(--soft); }
+.acc b { color: var(--ink); font-weight: 600; }
+.acc .ch { border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); font-size: 12px; background: var(--bg); }
+table.m { margin-top: 10px; font-size: 13px; }
+.m th { padding: 0 10px 8px; }
+.m td { height: 46px; padding: 0 10px; }
+.pp { display: flex; gap: 10px; align-items: center; color: var(--ink); font-weight: 500; }
+.pp .av { width: 26px; height: 26px; font-size: 10px; }
+.m .how { font-size: 12.5px; }
+.m .how b { color: var(--ink); font-weight: 500; }
+.cnt { margin-top: 8px; font-size: 12px; color: var(--faint); }
+
+.tb { margin-top: 12px; display: flex; gap: 8px; align-items: center; }
+.tb .srch2 { flex: 1; height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; color: var(--faint); }
+.tb .btn { height: 34px; }
+.tb .btn.dn { background: #404040; border-color: #404040; }
+.addp { margin-top: 10px; border: 1px solid var(--ink); border-radius: 12px; padding: 12px 14px; font-size: 12.5px; color: var(--soft); display: none; }
+.addp label { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.addp .ta { min-height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; padding: 8px 10px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; color: var(--ink); font-size: 13px; white-space: pre; }
+.addp .ta.f { border-color: var(--ink); }
+.addp .ta .c { width: 1.5px; height: 17px; background: var(--ink); }
+.addp .ta .ch { display: inline-flex; gap: 5px; align-items: center; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px 2px 3px; font-size: 12.5px; }
+.addp .ta .ch .av { width: 20px; height: 20px; font-size: 8.5px; }
+.addp .pv { margin-top: 8px; }
+.addp .pv b { color: var(--ink); font-weight: 600; }
+.addp .r { margin-top: 10px; display: flex; gap: 8px; }
+.addp .btn { height: 32px; font-size: 12.5px; }
+.addp .btn.dn { background: #404040; border-color: #404040; }
+.rm { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; color: var(--ink); border: 1px solid transparent; position: relative; }
+.rm svg { width: 13px; height: 13px; }
+.rm.off { color: #a3a3a3; }
+.rm.hv { border-color: var(--rule-strong); }
+.tip { position: absolute; right: 0; top: 34px; width: 220px; background: var(--ink); color: #fff; font-size: 11.5px; line-height: 1.4; border-radius: 6px; padding: 6px 9px; opacity: 0; z-index: 6; text-align: left; white-space: normal; }
+tr.new td { background: var(--subtle); }
+.st2 { font-size: 12.5px; color: var(--ink); }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="People / Groups / Hoth Evacuation"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="back">← Groups</div>
+        <div class="gh"><h1>Hoth Evacuation</h1><span class="bdg">Static</span></div>
+        <div class="gsub">Evacuation crews, Nov 2026 · owned by Gen. Rieekan</div>
+        <div class="tabs page"><div class="on">Members</div><div>Access</div><div>Settings</div><div>History</div></div>
+        <div class="acc" id="acc0"><b>Members get</b><span class="ch">Console licence</span><span class="ch">Edit · Evacuation plans</span><span class="ch">Shield Ops channel</span></div>
+        <div class="tb"><div class="srch2">Search 64 members</div><span class="btn pri" id="bAdd">Add people</span></div>
+        <div class="addp" id="addp"><label>Paste names or emails</label><div class="ta" id="ta"><span id="taV"></span><span class="c" id="cr"></span></div>
+          <div class="pv" id="pv" style="opacity:0"><b>3 people</b> will get a Console licence, Edit · Evacuation plans and the Shield Ops channel. Cal Alder already has a Console licence.</div>
+          <div class="r"><span class="btn pri" id="bGo">Add 3 people</span><span class="btn">Cancel</span></div></div>
+        <table class="m" id="tM"><thead><tr><th>Name</th><th>Role in group</th><th>How added</th><th>Added</th><th style="width:40px"></th></tr></thead><tbody>
+            <tr class="new" id="n-ca" style="display:none"><td><div class="pp"><span class="av">CA</span>Cal Alder</div></td><td>Member</td><td class="how">Directly</td><td>Just now · Lavanya Sienna</td><td><span class="rm"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></td></tr>
+            <tr class="new" id="n-jg" style="display:none"><td><div class="pp"><span class="av">JG</span>Jes Gistang</div></td><td>Member</td><td class="how">Directly</td><td>Just now · Lavanya Sienna</td><td><span class="rm"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></td></tr>
+            <tr class="new" id="n-vf" style="display:none"><td><div class="pp"><span class="av">VF</span>Ved Foslo</div></td><td>Member</td><td class="how">Directly</td><td>Just now · Lavanya Sienna</td><td><span class="rm"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></td></tr>
+            <tr id="m-rk"><td><div class="pp"><span class="av">GR</span>Gen. Rieekan</div></td><td>Owner</td><td class="how">Directly</td><td>Nov 2 · Lavanya Sienna</td><td><span class="rm off" id="x-rk" aria-disabled="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="tip" id="tip">Can’t remove the only owner. Add another owner first.</span></span></td></tr>
+            <tr id="m-tf"><td><div class="pp"><span class="av">TF</span>Toryn Farr</div></td><td>Member</td><td class="how"><b>Through Shield Ops</b></td><td>Nov 2 · group added</td><td><span class="rm" id="x-tf" aria-disabled="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></td></tr>
+            <tr id="m-hk"><td><div class="pp"><span class="av">HK</span>Hobbie Klivian</div></td><td>Member</td><td class="how"><b>Through Fleet</b></td><td>Nov 2 · group added</td><td><span class="rm" id="x-hk" aria-disabled="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></td></tr>
+            <tr id="m-wj"><td><div class="pp"><span class="av">WJ</span>Wes Janson</div></td><td>Member</td><td class="how">Directly</td><td>Nov 3 · Gen. Rieekan</td><td><span class="rm" id="x-wj" aria-disabled="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></td></tr>
+            <tr id="m-zs"><td><div class="pp"><span class="av">ZS</span>Zev Senesca</div></td><td>Member</td><td class="how">Directly</td><td>Nov 3 · Gen. Rieekan</td><td><span class="rm" id="x-zs" aria-disabled="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></td></tr>
+          </tbody></table>
+        <div class="cnt" id="cnt"><span class="st2" id="st2" role="status"></span><span id="cntT">64 members · 12 added directly, 52 through 2 groups</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const PASTE = "Cal Alder, Jes Gistang, Ved Foslo";
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  addClick: 1.20, open: 1.30, taClick: 1.90, paste: 2.10, chips: 2.45, goClick: 4.30, added: 4.40, tip: [5.60, 6.70],
+  endCard: [7.10, 7.55], end: 8.2
+};
+
+function build() {
+  const a = at("bAdd");
+  ["ca", "jg", "vf"].forEach(i => $("n-" + i).style.display = ""); const x = at("x-rk"); ["ca", "jg", "vf"].forEach(i => $("n-" + i).style.display = "none");
+  $("addp").style.display = "block"; const ta = at("ta", -200, 0), g = at("bGo"); $("addp").style.display = "none";
+  const cur = [
+    [0.00, 960, 640], [0.30, 960, 640], [1.00, a[0], a[1] + 3], [1.30, a[0], a[1] + 3], [1.75, ta[0], ta[1] + 3], [2.00, ta[0], ta[1] + 3],
+    [3.00, ta[0] + 200, ta[1] + 70], [4.10, g[0], g[1] + 3], [4.45, g[0], g[1] + 3], [5.40, x[0], x[1] + 3], [6.80, x[0] + 2, x[1] + 4], [7.10, x[0] - 60, x[1] + 60]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00],
+    [0.90, 740, 300, 1.20], [4.55, 740, 300, 1.20],     // access, and adding three people
+    [5.00, 740, 390, 1.20], [6.85, 740, 390, 1.20],     // the members, with the three on top
+    [7.10, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  const open = t >= T.open && t < T.added;
+  $("addp").style.display = open ? "block" : "none";
+  $("bAdd").classList.toggle("dn", t >= T.addClick - .05 && t < T.open + .2);
+  $("ta").classList.toggle("f", t >= T.taClick);
+  const chips = t >= T.chips;
+  $("taV").innerHTML = chips ? '<span class="ch"><span class="av">CA</span>Cal Alder</span><span class="ch"><span class="av">JG</span>Jes Gistang</span><span class="ch"><span class="av">VF</span>Ved Foslo</span>' : t >= T.paste ? PASTE : "";
+  $("cr").style.opacity = t >= T.taClick && Math.floor(t * 2.4) % 2 === 0 ? 1 : 0;
+  $("pv").style.opacity = span(t, T.chips + .1, T.chips + .3);
+  $("bGo").classList.toggle("dn", t >= T.goClick - .25);
+  // added: the three appear at the top, and the count and status change
+  const added = t >= T.added;
+  ["ca", "jg", "vf"].forEach(i => $("n-" + i).style.display = added ? "" : "none");
+  $("st2").textContent = added ? "3 members added · " : "";
+  document.querySelector(".srch2").textContent = added ? "Search 67 members" : "Search 64 members";
+  $("cntT").textContent = added ? "67 members · 15 added directly, 52 through 2 groups" : "64 members · 12 added directly, 52 through 2 groups";
+  // the only owner can't be removed, and it says why
+  const tp = span(t, T.tip[0], T.tip[0] + .15) * (1 - span(t, T.tip[1], T.tip[1] + .15));
+  $("tip").style.opacity = tp; $("x-rk").classList.toggle("hv", tp > 0);
+}
+
+function events() { return [["click", T.addClick], ["click", T.taClick], ["key", T.paste], ["click", T.goClick], ["pop", T.added]]; }
+
+Motion.scene({
+  // 5 steps: natural length, within the 15 s cap
+  T, clicks: [T.addClick, T.taClick, T.goClick], build, render, events,
+  slow: [[2.5, 4.0, 1.7], [4.5, 5.3, 1.3], [5.6, 6.6, 1.5]]
+});
+</script>
+</body>
+</html>

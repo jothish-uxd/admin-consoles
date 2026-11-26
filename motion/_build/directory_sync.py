@@ -1,0 +1,122 @@
+import sys; sys.path.insert(0, __file__.rsplit("/", 1)[0])
+from shell import make
+CSS = r"""
+.view { position: absolute; inset: 0; padding: 22px 32px; }
+.hd { display: flex; align-items: center; justify-content: space-between; }
+.sub { margin-top: 12px; display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 10px; padding: 3px; gap: 3px; }
+.sub span { font-size: 13px; padding: 6px 12px; border-radius: 7px; color: var(--ink); }
+.sub span.on { background: var(--ink); color: #fff; font-weight: 500; }
+.src { margin-top: 14px; border: 1px solid var(--rule-strong); border-radius: 12px; padding: 12px 16px; display: flex; gap: 16px; align-items: center; font-size: 12.5px; color: var(--soft); }
+.src .nm { font-size: 14px; color: var(--ink); font-weight: 600; }
+.src .ok { display: inline-flex; gap: 5px; align-items: center; color: var(--ink); font-weight: 500; }
+.src .ok i { width: 16px; height: 16px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; }
+.src .ok i svg { width: 9px; height: 9px; }
+.src .grow { flex: 1; }
+.src .ln { position: relative; height: 30px; }
+.src .ln > span:first-child { position: absolute; left: 0; top: 6px; white-space: nowrap; }
+.src .btn { height: 32px; font-size: 12.5px; }
+.src .btn.dn { background: #404040; border-color: #404040; color: #fff; }
+.src .pb { position: absolute; left: 0; top: 26px; width: 220px; height: 4px; border-radius: 999px; background: var(--hover); overflow: hidden; display: none; }
+.src .pb i { display: block; height: 100%; width: 100%; background: var(--ink); transform-origin: left center; }
+.err { margin-top: 10px; border: 1px solid #b45309; border-radius: 12px; padding: 10px 16px; font-size: 12.5px; color: var(--soft); }
+.err h4 { margin: 0 0 6px; font-size: 13px; color: var(--ink); }
+.err .it { display: flex; gap: 10px; padding: 5px 0; }
+.err .it b { color: var(--ink); font-weight: 600; width: 120px; flex: none; }
+.err .it span { flex: 1; }
+.err a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+table.s { margin-top: 12px; font-size: 13px; }
+.s th { padding: 0 10px 8px; }
+.s td { height: 44px; padding: 0 10px; }
+.s td b { font-weight: 500; color: var(--ink); }
+.s .sy { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 8px; color: var(--ink); white-space: nowrap; }
+.s tr.hv td { background: var(--subtle); }
+.pnl { position: absolute; top: 52px; right: 0; bottom: 0; width: 380px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -16px 0 40px rgba(0,0,0,.08); padding: 20px 22px; font-size: 12.5px; color: var(--soft); transform: translateX(100%); z-index: 20; }
+.pnl .tt { display: flex; align-items: center; gap: 8px; }
+.pnl h3 { margin: 0; font-size: 17px; color: var(--ink); flex: 1; }
+.pnl .x { width: 30px; height: 30px; border-radius: 7px; display: grid; place-items: center; color: var(--ink); font-size: 15px; }
+.pnl .x.prs { background: var(--hover); }
+.pnl .lk { margin-top: 12px; border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; color: var(--ink); background: var(--subtle); }
+.pnl .lk a { text-decoration: underline; text-underline-offset: 3px; }
+.pnl .kv { margin-top: 14px; grid-template-columns: 1fr; }
+.pnl .ro { color: #737373; font-size: 11.5px; margin-left: 6px; }
+"""
+MAIN = '''      <div class="view">
+        <div class="hd"><h1>People</h1></div>
+        <div class="tabs page"><div>Users</div><div class="on">Groups</div><div>Roles</div></div>
+        <div class="sub" role="group" aria-label="Groups"><span>All groups</span><span class="on">Directory sync</span></div>
+        <div class="src" id="src"><div><div class="nm">Holonet ID · SCIM</div>Syncing 38 of 52 groups, chosen by you</div>
+          <span class="ok" id="ok"><i><svg><use href="#ok"/></svg></i><span id="okT">Healthy</span></span>
+          <div class="grow ln" aria-live="polite"><span id="lnT">Last sync 4 min ago · 23 changes</span><span class="pb" id="pb"><i id="pbI"></i></span></div>
+          <span class="btn">Choose groups</span><span class="btn" id="bSync">Sync now</span></div>
+        <div class="err" id="err"><h4>2 groups didn’t sync</h4>
+          <div class="it"><b>Shield Ops</b><span>Its owner, Toryn Farr, isn’t in Holonet ID, so the group has no owner. Add her there, then sync again.</span><a>Open in Holonet ID ↗</a></div>
+          <div class="it"><b>Hangar crews</b><span>A group created here already uses this name. Rename one of them.</span><a>See both</a></div></div>
+        <table class="s"><thead><tr><th>Group</th><th>Source</th><th>Members</th><th>Last change</th></tr></thead><tbody>
+          <tr id="rF"><td><b>Fleet</b></td><td><span class="sy">Synced from Holonet ID</span></td><td id="fN">82</td><td id="fC">Yesterday · 1 joined</td></tr>
+          <tr><td><b>Rogue Squadron</b></td><td><span class="sy">Synced from Holonet ID</span></td><td>12</td><td>3 days ago</td></tr>
+          <tr><td><b>Intelligence</b></td><td><span class="sy">Synced from Holonet ID</span></td><td id="iN">41</td><td id="iC">4 days ago</td></tr>
+          <tr><td><b>Security admins</b></td><td><span class="sy">Synced from Holonet ID</span></td><td>6</td><td>Last week</td></tr>
+        </tbody></table>
+      </div>'''
+EXTRA = '''    <aside class="pnl" id="pnl" aria-labelledby="pT"><div class="tt"><h3 id="pT">Fleet</h3><span class="x" id="bX" aria-label="Close">✕</span></div>
+      <div class="lk">Managed in Holonet ID. Change it there. <a>Open in Holonet ID ↗</a></div>
+      <dl class="kv"><div><dt>Name<span class="ro">read-only</span></dt><dd>Fleet</dd></div><div><dt>Owners<span class="ro">read-only</span></dt><dd>Gen. Rieekan</dd></div><div><dt>Members<span class="ro">read-only</span></dt><dd>82 people</dd></div><div><dt>Used for</dt><dd>Console licence · Hoth Evacuation · Rebel Fleet</dd></div></dl>
+    </aside>'''
+TOAST = '      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Synced · 3 changes</div>'
+SCRIPT = r"""const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  rowClick: 1.60, pnl: [1.70, 2.00], xClick: 4.10, pnlOut: [4.20, 4.45], syncClick: 5.20, sync: [5.30, 6.40], toast: 6.45, toastOut: [7.8, 8.1],
+  endCard: [7.90, 8.35], end: 9.0
+};
+
+function build() {
+  const r = at("rF", -200, 0), sy = at("bSync"), x = at("bX"), v = at("src");
+  const cur = [
+    [0.00, 960, 640], [0.30, 960, 640], [1.40, r[0], r[1] + 3], [1.70, r[0], r[1] + 3], [2.60, x[0] - 160, x[1] + 120],
+    [3.90, x[0], x[1] + 3], [4.20, x[0], x[1] + 3], [5.00, sy[0], sy[1] + 3], [5.30, sy[0], sy[1] + 3], [6.70, sy[0] - 140, sy[1] + 120], [7.90, sy[0] - 138, sy[1] + 122]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00],
+    [0.90, 740, 320, 1.16], [1.75, 740, 320, 1.16],     // source health, errors, synced groups
+    [2.20, 880, 300, 1.20], [4.20, 880, 300, 1.20],     // the read-only group
+    [4.70, 740, 300, 1.16], [7.65, 740, 300, 1.16],     // sync now
+    [7.90, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("rF").classList.toggle("hv", t >= T.rowClick - .3 && t < T.pnlOut[1]);
+  const po = span(t, ...T.pnl, easeOut) * (1 - span(t, ...T.pnlOut));
+  $("pnl").style.transform = `translateX(${(1 - po) * 100}%)`;
+  $("bX").classList.toggle("prs", t >= T.xClick - .05 && t < T.pnlOut[0] + .1);
+  // sync now: progress in place of the status line, then what changed
+  const running = t >= T.sync[0] && t < T.sync[1], done = t >= T.sync[1];
+  $("pb").style.display = running ? "block" : "none";
+  $("lnT").style.top = running ? "0px" : "6px";
+  $("pbI").style.transform = `scaleX(${.05 + .95 * span(t, ...T.sync, x => x)})`;
+  $("lnT").textContent = running ? `Syncing… ${Math.round(38 * span(t, ...T.sync, x => x))} of 38 groups` : done ? "Synced just now · 3 changes" : "Last sync 4 min ago · 23 changes";
+  $("bSync").classList.toggle("dn", t >= T.syncClick - .05 && t < T.sync[0] + .1);
+  $("fN").textContent = done ? "84" : "82"; $("fC").textContent = done ? "Just now · 2 joined" : "Yesterday · 1 joined";
+  $("iN").textContent = done ? "40" : "41"; $("iC").textContent = done ? "Just now · 1 left" : "4 days ago";
+  const to = span(t, T.toast, T.toast + .25, easeOut) * (1 - span(t, ...T.toastOut));
+  $("toast").style.opacity = to;
+  $("toast").style.transform = `translateX(-50%) translateY(${(1 - to) * -8}px)`;
+}
+
+function events() { return [["click", T.rowClick], ["whoosh", T.pnl[0]], ["click", T.xClick], ["click", T.syncClick], ["chime", T.sync[1]], ["pop", T.toast]]; }
+
+Motion.scene({
+  // 5 steps: natural length, within the 15 s cap
+  T, clicks: [T.rowClick, T.xClick, T.syncClick], build, render, events,
+  slow: [[0.9, 1.5, 1.5], [2.2, 3.8, 1.7], [6.5, 7.5, 1.4]]
+});"""
+COMMENT = """  Source for media/groups-teams/directory-sync.mp4. Built by motion/_build/directory_sync.py on _build/shell.py.
+  Follows the Directory sync card (data/guidance-people.js):
+  - the source, Holonet ID over SCIM, with health in text and an icon, last sync and changes, and which groups it syncs
+  - 2 groups that didn't sync, each with what failed, why and what to do, linking to the source
+  - synced groups are badged, and read-only here: "Managed in Holonet ID. Change it there."
+  - Sync now shows progress, then what changed, in place"""
+make("directory-sync", "Directory sync", COMMENT, CSS, "People / Groups / Directory sync", "people", MAIN, SCRIPT, extra=EXTRA, toast=TOAST)

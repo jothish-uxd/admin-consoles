@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic groups · motion scene</title>
+<!--
+  Source for media/groups-teams/dynamic-groups.mp4. Built by motion/_build/dynamic_groups.py on _build/shell.py and _build/group_page.py.
+  Follows the Dynamic groups card (data/guidance-people.js):
+  - the rule is a structured editor: attribute, operator, value, labelled
+  - adding a condition updates the live count and preview: 52 people, then 38
+  - saving a live rule that removes people shows the before and after, and asks to confirm
+  - once saved, the rule reads in plain words with when it was evaluated
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.view { position: absolute; inset: 0; padding: 22px 32px; }
+.back { font-size: 12.5px; color: var(--soft); }
+.gh { margin-top: 6px; display: flex; align-items: center; gap: 10px; }
+.gh h1 { margin: 0; }
+.bdg { font-size: 11.5px; font-weight: 600; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 9px; color: var(--ink); }
+.gsub { margin-top: 3px; font-size: 13px; color: var(--soft); }
+.tabs.page { margin-top: 14px; }
+.acc { margin-top: 14px; border: 1px solid var(--rule); border-radius: 12px; padding: 10px 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12.5px; color: var(--soft); }
+.acc b { color: var(--ink); font-weight: 600; }
+.acc .ch { border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); font-size: 12px; background: var(--bg); }
+table.m { margin-top: 10px; font-size: 13px; }
+.m th { padding: 0 10px 8px; }
+.m td { height: 46px; padding: 0 10px; }
+.pp { display: flex; gap: 10px; align-items: center; color: var(--ink); font-weight: 500; }
+.pp .av { width: 26px; height: 26px; font-size: 10px; }
+.m .how { font-size: 12.5px; }
+.m .how b { color: var(--ink); font-weight: 500; }
+.cnt { margin-top: 8px; font-size: 12px; color: var(--faint); }
+
+.rule { margin-top: 14px; border: 1px solid var(--rule-strong); border-radius: 12px; padding: 14px 16px; width: 880px; font-size: 13px; color: var(--soft); }
+.rule .lead { color: var(--ink); }
+.cond { margin-top: 10px; display: grid; grid-template-columns: 54px 200px 160px 240px 30px; gap: 8px; align-items: center; }
+.cond .j { font-size: 12.5px; color: var(--soft); text-align: right; }
+.sel3 { height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; color: var(--ink); font-size: 13px; white-space: pre; }
+.sel3.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.sel3 .c { width: 1.5px; height: 16px; background: var(--ink); }
+.cond .x { color: var(--faint); text-align: center; }
+.addc { margin-top: 10px; font-size: 12.5px; color: var(--ink); display: inline-flex; gap: 6px; align-items: center; border: 1px dashed var(--rule-strong); border-radius: 8px; padding: 6px 10px; }
+.addc.prs { background: var(--hover); }
+.match { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rule); display: flex; gap: 14px; align-items: center; }
+.match .n { font-size: 14px; color: var(--ink); position: relative; width: 190px; height: 20px; }
+.match .n span { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.match .n b { font-weight: 600; }
+.match .who { display: flex; gap: 4px; align-items: center; font-size: 12.5px; }
+.match .who .av { width: 24px; height: 24px; font-size: 9px; }
+.delta { margin-top: 12px; border: 1px solid #b45309; border-radius: 10px; padding: 10px 12px; color: var(--ink); display: none; gap: 12px; align-items: center; }
+.delta .t { flex: 1; font-size: 12.5px; color: var(--soft); }
+.delta .t b { color: var(--ink); font-weight: 600; }
+.rule .r { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
+.rule .r .ev { flex: 1; font-size: 12px; }
+.btn.dn { background: #404040; border-color: #404040; }
+.saved { margin-top: 14px; border: 1px solid var(--rule); border-radius: 12px; padding: 12px 16px; width: 880px; display: none; font-size: 13px; color: var(--soft); }
+.saved b { color: var(--ink); }
+.saved .rd { margin-top: 4px; font-size: 14.5px; color: var(--ink); }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="People / Groups / All pilots"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="back">← Groups</div>
+        <div class="gh"><h1>All pilots</h1><span class="bdg">Dynamic</span></div>
+        <div class="gsub">Everyone who flies · owned by Wedge Antilles</div>
+        <div class="tabs page"><div>Members</div><div class="on">Rule</div><div>Access</div><div>History</div></div>
+        <section class="rule" id="rule" aria-labelledby="rH">
+          <div class="lead" id="rH">Members are everyone who matches <b>all</b> of these conditions</div>
+          <div class="cond"><span class="j">Where</span><span class="sel3">Title<i class="cv"></i></span><span class="sel3">contains<i class="cv"></i></span><span class="sel3">Pilot</span><span class="x">✕</span></div>
+          <div class="cond" id="c2" style="display:none"><span class="j">and</span><span class="sel3">Location<i class="cv"></i></span><span class="sel3">is<i class="cv"></i></span><span class="sel3" id="v2"><span id="v2T"></span><span class="c" id="cr"></span></span><span class="x">✕</span></div>
+          <span class="addc" id="bAddC">+ Add condition</span>
+          <div class="match" aria-live="polite"><span class="n"><span id="mN"><b>52 people</b> match</span></span>
+            <span class="who"><span class="av">HK</span><span class="av">ZS</span><span class="av">JG</span><span class="av">WA</span><span class="av">DR</span><span id="more">and 47 more</span></span></div>
+          <div class="delta" id="delta"><span class="t"><b>14 people would leave All pilots</b> and lose its Console + AI licence. Nobody joins.</span><span class="btn">Review the 14</span></div>
+          <div class="r"><span class="ev">Last evaluated 3 min ago · 52 members</span><span class="btn">Cancel</span><span class="btn pri" id="bSave">Save rule</span></div>
+        </section>
+        <section class="saved" id="saved" role="status"><b>Rule saved.</b> Members update now and whenever someone’s title or location changes.
+          <div class="rd">Title contains <b>Pilot</b> and Location is <b>Echo Base</b> · 38 members · evaluated just now</div></section>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const V = "Echo Base";
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  addClick: 1.30, row: 1.40, vClick: 2.00, type: [2.15, 2.75], count: 2.85, saveClick: 4.20, delta: 4.30, confirmClick: 5.80, saved: 5.90,
+  endCard: [7.40, 7.85], end: 8.5
+};
+
+function build() {
+  const a = at("bAddC"), r = at("rule");
+  $("c2").style.display = ""; const v = at("v2", -60, 0); $("c2").style.display = "none";
+  $("c2").style.display = ""; const s1 = at("bSave"); $("delta").style.display = "flex"; const s2 = at("bSave"); $("c2").style.display = "none"; $("delta").style.display = "none";
+  const cur = [
+    [0.00, 960, 640], [0.30, 960, 640], [1.10, a[0], a[1] + 3], [1.40, a[0], a[1] + 3], [1.85, v[0], v[1] + 3], [2.10, v[0], v[1] + 3],
+    [3.00, v[0] + 120, v[1] + 60], [4.00, s1[0], s1[1] + 3], [4.30, s1[0], s1[1] + 3], [5.60, s2[0], s2[1] + 3], [5.95, s2[0], s2[1] + 3],
+    [6.80, s2[0] - 160, s2[1] + 40], [7.40, s2[0] - 158, s2[1] + 42]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00],
+    [0.90, r[0], r[1] + 10, 1.18], [7.15, r[0], r[1] + 10, 1.18],     // one steady view: the rule, its matches, the save
+    [7.40, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("bAddC").classList.toggle("prs", t >= T.addClick - .05 && t < T.row + .2);
+  $("c2").style.display = t >= T.row ? "" : "none";
+  $("v2").classList.toggle("f", t >= T.vClick && t < T.saveClick);
+  $("v2T").textContent = V.slice(0, Math.round(V.length * span(t, ...T.type, x => x)));
+  $("cr").style.opacity = t >= T.vClick && t < T.saveClick && Math.floor(t * 2.4) % 2 === 0 ? 1 : 0;
+  // the count follows the rule as it's edited
+  const narrowed = t >= T.count;
+  $("mN").innerHTML = narrowed ? "<b>38 people</b> match · was 52" : "<b>52 people</b> match";
+  $("more").textContent = narrowed ? "and 33 more" : "and 47 more";
+  // saving a live rule that removes people asks first, with the before and after
+  const confirming = t >= T.delta && t < T.saved;
+  $("delta").style.display = confirming ? "flex" : "none";
+  $("bSave").textContent = confirming ? "Save · 14 leave" : "Save rule";
+  $("bSave").classList.toggle("dn", (t >= T.saveClick - .25 && t < T.delta) || (t >= T.confirmClick - .25 && t < T.saved));
+  const saved = t >= T.saved;
+  $("rule").style.display = saved ? "none" : ""; $("saved").style.display = saved ? "block" : "none";
+}
+
+function events() { return [["click", T.addClick], ["click", T.vClick], ["key", T.type[0]], ["click", T.saveClick], ["click", T.confirmClick], ["pop", T.saved]]; }
+
+Motion.scene({
+  // 5+ steps: natural length, within the 15 s cap
+  T, clicks: [T.addClick, T.vClick, T.saveClick, T.confirmClick], build, render, events,
+  slow: [[2.9, 3.9, 1.5], [4.4, 5.5, 1.7], [6.0, 7.2, 1.4]]
+});
+</script>
+</body>
+</html>

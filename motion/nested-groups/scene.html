@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Nested groups · motion scene</title>
+<!--
+  Source for media/groups-teams/nested-groups.mp4. Built by motion/_build/nested_groups.py on _build/shell.py and _build/group_page.py.
+  Follows the Nested groups card (data/guidance-people.js):
+  - direct members, nested groups and everyone are separate views, with "Includes 4 nested groups, 180 people in total" in words
+  - a nested group expands in place, as a tree
+  - what access flows down, and which group this one is part of
+  - adding All Echo Base is blocked as a loop, with the reason
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.view { position: absolute; inset: 0; padding: 22px 32px; }
+.back { font-size: 12.5px; color: var(--soft); }
+.gh { margin-top: 6px; display: flex; align-items: center; gap: 10px; }
+.gh h1 { margin: 0; }
+.bdg { font-size: 11.5px; font-weight: 600; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 9px; color: var(--ink); }
+.gsub { margin-top: 3px; font-size: 13px; color: var(--soft); }
+.tabs.page { margin-top: 14px; }
+.acc { margin-top: 14px; border: 1px solid var(--rule); border-radius: 12px; padding: 10px 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 12.5px; color: var(--soft); }
+.acc b { color: var(--ink); font-weight: 600; }
+.acc .ch { border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); font-size: 12px; background: var(--bg); }
+table.m { margin-top: 10px; font-size: 13px; }
+.m th { padding: 0 10px 8px; }
+.m td { height: 46px; padding: 0 10px; }
+.pp { display: flex; gap: 10px; align-items: center; color: var(--ink); font-weight: 500; }
+.pp .av { width: 26px; height: 26px; font-size: 10px; }
+.m .how { font-size: 12.5px; }
+.m .how b { color: var(--ink); font-weight: 500; }
+.cnt { margin-top: 8px; font-size: 12px; color: var(--faint); }
+
+.seg { margin-top: 14px; display: inline-flex; border: 1px solid var(--rule-strong); border-radius: 10px; padding: 3px; gap: 3px; }
+.seg span { font-size: 13px; padding: 6px 12px; border-radius: 7px; color: var(--ink); }
+.seg span.on { background: var(--ink); color: #fff; font-weight: 500; }
+.seg span i { font-style: normal; font-family: "Geist Mono", monospace; font-size: 11.5px; margin-left: 4px; opacity: .75; }
+.cols { margin-top: 12px; display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+.sum { font-size: 13.5px; color: var(--ink); }
+.tree { margin-top: 10px; border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+.tree .nd { display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 14px; border-bottom: 1px solid var(--rule); font-size: 13px; color: var(--ink); }
+.tree .nd:last-child { border-bottom: 0; }
+.tree .nd .tw { width: 18px; height: 18px; display: grid; place-items: center; color: var(--soft); transition: none; }
+.tree .nd .tw svg { width: 10px; height: 10px; }
+.tree .nd b { font-weight: 500; flex: 1; }
+.tree .nd .n { font-size: 12.5px; color: var(--soft); }
+.tree .nd.l2 { padding-left: 46px; background: var(--subtle); }
+.tree .nd.hv { background: var(--hover); }
+.side { font-size: 12.5px; color: var(--soft); }
+.side .bx { border: 1px solid var(--rule); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+.side .bx h4 { margin: 0 0 6px; font-size: 13px; color: var(--ink); }
+.side .ch { display: inline-block; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); font-size: 12px; margin: 0 4px 4px 0; }
+.addg { margin-top: 10px; z-index: 7; display: flex; gap: 8px; align-items: center; position: relative; }
+.addg .btn { height: 32px; font-size: 12.5px; }
+.addg .btn.prs { background: var(--hover); }
+.addg .in2 { width: 260px; height: 32px; border: 1.5px solid var(--ink); border-radius: 8px; display: none; align-items: center; padding: 0 10px; font-size: 13px; color: var(--ink); white-space: pre; box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.addg .in2 .c { width: 1.5px; height: 16px; background: var(--ink); }
+.addg .menu { position: absolute; left: 0; top: 38px; width: 420px; z-index: 6; opacity: 0; }
+.addg .menu .blk { color: #737373; display: block; }
+.addg .menu .blk b { color: var(--soft); font-weight: 500; }
+.addg .menu .why { display: block; font-size: 12px; color: #92400e; margin-top: 2px; white-space: normal; }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="People / Groups / Rebel Fleet"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="back">← Groups</div>
+        <div class="gh"><h1>Rebel Fleet</h1><span class="bdg">Static</span></div>
+        <div class="gsub">Everyone who serves with the fleet · owned by Gen. Rieekan</div>
+        <div class="tabs page"><div class="on">Members</div><div>Access</div><div>Settings</div><div>History</div></div>
+        <div class="seg" role="group" aria-label="Show"><span>Direct members<i>12</i></span><span class="on">Nested groups<i>4</i></span><span>Everyone<i>180</i></span></div>
+        <div class="cols">
+          <div>
+            <div class="sum" id="sum">Includes 4 nested groups, <b>180 people</b> in total.</div>
+            <div class="addg"><span class="btn" id="bAddG">Add a group</span><span class="in2" id="in2"><span id="q"></span><span class="c" id="cr"></span></span>
+              <div class="menu" id="menu"><div class="blk" id="miA"><b>All Echo Base</b> · 412 people<span class="why">Can’t add: All Echo Base already includes Rebel Fleet, so this would make a loop.</span></div><div>All Echo Base contractors<span class="s"></span></div></div></div>
+            <div class="tree" role="tree" aria-label="Nested groups">
+              <div class="nd" role="treeitem" aria-level="1"><span class="tw"><svg viewBox="0 0 10 10"><path d="M3 1.5L7 5 3 8.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Fleet</b><span class="n">82 people</span></div>
+              <div class="nd" role="treeitem" aria-level="1" aria-expanded="false" id="ndR"><span class="tw" id="twR"><svg viewBox="0 0 10 10"><path d="M3 1.5L7 5 3 8.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Rogue Squadron</b><span class="n">12 people · 2 nested groups</span></div>
+              <div class="nd l2" role="treeitem" aria-level="2" id="ndR1" style="display:none"><span class="tw"></span><b>Red Squadron</b><span class="n">7 people</span></div>
+              <div class="nd l2" role="treeitem" aria-level="2" id="ndR2" style="display:none"><span class="tw"></span><b>Gold Squadron</b><span class="n">5 people</span></div>
+              <div class="nd" role="treeitem" aria-level="1"><span class="tw"><svg viewBox="0 0 10 10"><path d="M3 1.5L7 5 3 8.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Shield Ops</b><span class="n">19 people</span></div>
+              <div class="nd" role="treeitem" aria-level="1"><span class="tw"><svg viewBox="0 0 10 10"><path d="M3 1.5L7 5 3 8.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><b>Hangar crews</b><span class="n">55 people</span></div>
+            </div>
+          </div>
+          <div class="side">
+            <div class="bx"><h4>Access that flows down</h4>Everyone here, including nested groups, gets:<div style="margin-top:6px"><span class="ch">Console licence</span><span class="ch">View · Fleet briefings</span></div></div>
+            <div class="bx"><h4>Rebel Fleet is part of</h4><span class="ch">All Echo Base · 412 people</span><div style="margin-top:4px">So it also gets what All Echo Base gives.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const Q = "All Echo";
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  expClick: 1.50, addClick: 3.30, type: [3.55, 4.05], menu: [4.15, 6.40],
+  endCard: [6.80, 7.25], end: 7.9
+};
+
+function build() {
+  const r = at("twR"), cols = at("sum");
+  $("ndR1").style.display = ""; $("ndR2").style.display = ""; const a = at("bAddG"); $("ndR1").style.display = "none"; $("ndR2").style.display = "none";
+  const cur = [
+    [0.00, 960, 640], [0.30, 960, 640], [1.30, r[0], r[1] + 2], [1.60, r[0], r[1] + 2], [2.60, r[0] + 220, r[1] + 40],
+    [3.10, a[0], a[1] + 3], [3.40, a[0], a[1] + 3], [4.30, a[0] + 150, a[1] + 40], [6.80, a[0] + 152, a[1] + 42]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00],
+    [0.90, 740, 330, 1.18], [6.55, 740, 330, 1.18],     // one steady view: the tree, what flows down, and the add
+    [6.80, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  const open = t >= T.expClick;
+  $("ndR1").style.display = open ? "" : "none"; $("ndR2").style.display = open ? "" : "none";
+  $("twR").style.transform = open ? "rotate(90deg)" : "";
+  $("ndR").setAttribute("aria-expanded", String(open));
+  $("ndR").classList.toggle("hv", t >= T.expClick - .3 && t < T.expClick + .5);
+  const adding = t >= T.addClick;
+  $("bAddG").style.display = adding ? "none" : "";
+  $("in2").style.display = adding ? "flex" : "none";
+  $("q").textContent = Q.slice(0, Math.round(Q.length * span(t, ...T.type, x => x)));
+  $("cr").style.opacity = adding && Math.floor(t * 2.4) % 2 === 0 ? 1 : 0;
+  const mo = span(t, T.menu[0], T.menu[0] + .15, easeOut) * (1 - span(t, T.menu[1] - .08, T.menu[1]));
+  $("menu").style.opacity = mo;
+}
+
+function events() { return [["click", T.expClick], ["click", T.addClick], ["key", T.type[0]]]; }
+
+Motion.scene({
+  // natural length, within the 15 s cap
+  T, clicks: [T.expClick, T.addClick], build, render, events,
+  slow: [[1.7, 3.0, 1.6], [4.3, 6.3, 1.8]]
+});
+</script>
+</body>
+</html>

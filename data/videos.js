@@ -699,5 +699,66 @@ window.VIDEOS = {
         "Below, What you can see instead points to his own sign-ins and devices in My access, and navigation keeps working."
       ]
     }
+  },
+  "groups-teams": {
+    "Create group": {
+      src: "media/groups-teams/create-group.mp4",
+      poster: "media/groups-teams/create-group.jpg",
+      label: "Create group, shown in a mock Echo Base console",
+      steps: [
+        "On People › Groups, New group opens a dialog that asks for the name first.",
+        "She types shield ops, and it's flagged: a group named Shield Ops already exists, with a link to open it. She names hers Shield maintenance.",
+        "She adds a description and an owner, Toryn Farr. The dialog asks for at least one owner who isn't an org admin, so someone on the team is responsible.",
+        "The type is chosen up front: Static by default, with Dynamic and Synced explained in place.",
+        "After Create group, the row is marked New at the top of the list, and the message offers Add members and Give access."
+      ]
+    },
+    "Manage members": {
+      src: "media/groups-teams/manage-members.mp4",
+      poster: "media/groups-teams/manage-members.jpg",
+      label: "Manage members, shown in a mock Echo Base console",
+      steps: [
+        "Hoth Evacuation's page shows what members get above the list: a Console licence, Edit on Evacuation plans and the Shield Ops channel.",
+        "Each member shows their role in the group, how they were added (directly, through Shield Ops, or through Fleet) and when and by whom.",
+        "She pastes 3 names. The preview says what they'll get, and notes that Cal Alder already has a Console licence.",
+        "Adding them announces 3 members added. They appear at the top, and the count goes to 67.",
+        "Remove is off for Gen. Rieekan, the only owner, and says why: add another owner first."
+      ]
+    },
+    "Dynamic groups": {
+      src: "media/groups-teams/dynamic-groups.mp4",
+      poster: "media/groups-teams/dynamic-groups.jpg",
+      label: "Dynamic groups, shown in a mock Echo Base console",
+      steps: [
+        "All pilots is a dynamic group. Its rule is a structured editor: attribute, operator and value, each labelled.",
+        "Where Title contains Pilot matches 52 people, with a preview of who.",
+        "She adds a condition, Location is Echo Base. The live count drops to 38, and says it was 52.",
+        "Saving a live rule that removes people asks first: 14 people would leave All pilots and lose its Console + AI licence.",
+        "Once saved, the rule reads in plain words, with 38 members and when it was evaluated."
+      ]
+    },
+    "Nested groups": {
+      src: "media/groups-teams/nested-groups.mp4",
+      poster: "media/groups-teams/nested-groups.jpg",
+      label: "Nested groups, shown in a mock Echo Base console",
+      steps: [
+        "Rebel Fleet's members are split into direct members, nested groups and everyone. The page says it includes 4 nested groups, 180 people in total.",
+        "Nested groups show as a tree. Rogue Squadron expands in place to show Red Squadron and Gold Squadron.",
+        "Beside it, what access flows down to everyone, nested groups included, and which group Rebel Fleet is part of: All Echo Base.",
+        "She tries to add All Echo Base as a nested group. It's blocked, with the reason: All Echo Base already includes Rebel Fleet, so this would make a loop."
+      ]
+    },
+    "Directory sync": {
+      src: "media/groups-teams/directory-sync.mp4",
+      poster: "media/groups-teams/directory-sync.jpg",
+      label: "Directory sync, shown in a mock Echo Base console",
+      steps: [
+        "Directory sync shows the source, Holonet ID over SCIM: healthy, in text and an icon, with the last sync, how many changes and which groups it syncs.",
+        "2 groups didn't sync. Each says what failed, why, and what to do, with a link to the source.",
+        "Synced groups are badged. Opening Fleet shows its details as read-only: Managed in Holonet ID. Change it there.",
+        "Sync now shows progress in place of the status line.",
+        "It finishes with Synced just now · 3 changes, and the rows show who joined and left."
+      ]
+    }
   }
 };
