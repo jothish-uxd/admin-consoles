@@ -17,8 +17,9 @@ table.mp { margin-top: 8px; font-size: 13px; table-layout: fixed; width: 100%; }
 .fs .menu .s2 { display: block; font-size: 11.5px; color: var(--soft); }
 .hm { font-size: 12.5px; color: var(--soft); }
 .hm b { color: var(--ink); font-weight: 500; }
-.hm.w { color: #92400e; display: inline-flex; gap: 6px; align-items: flex-start; line-height: 1.35; }
-.hm.w svg { width: 13px; height: 13px; flex: none; margin-top: 1.5px; }
+.hm.w { color: #92400e; }
+.hm .wi { display: flex; gap: 6px; align-items: center; }
+.hm .wi svg { width: 13px; height: 13px; flex: none; }
 tr.hl td { background: var(--subtle); }
 .sv .btn { height: 34px; }
 .sv { margin-top: 12px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--ink); }
@@ -31,7 +32,7 @@ ROWS = [
   ("nm", "Full name", "Cal Alder · Jes Gistang", "Name", "<b>Matched by name</b>", ""),
   ("em", "E-mail", "cal@echobase.rebellion", "Email", "Matched by a similar name", ""),
   ("sq", "Squad", "Fleet · Hoth evac", "Team", "Matched by a similar name", ""),
-  ("rl", "Role", "Pilot · Mechanic · Gunner", "Console role", '<svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles', "warn"),
+  ("rl", "Role", "Pilot · Mechanic · Gunner", "Console role", '<span class="wi"><svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles</span>', "warn"),
   ("bs", "Boss", "Wedge Antilles", "Manager", "Matched by a similar name", ""),
   ("bg", "Badge no.", "4471 · 4472", "Don’t import", "No matching field", "dim"),
 ]
@@ -80,7 +81,7 @@ function render(t) {
   $("f-rl").className = "fs" + (fixed ? "" : " warn") + (t >= T.fClick - .05 && t < T.menu[1] ? " prs" : "");
   $("fv-rl").textContent = fixed ? "Title" : "Console role";
   $("h-rl").className = "hm" + (fixed ? "" : " w");
-  $("h-rl").innerHTML = fixed ? "<b>Changed by you</b>" : '<svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles';
+  $("h-rl").innerHTML = fixed ? "<b>Changed by you</b>" : '<span class="wi"><svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles</span>';
   $("r-rl").classList.toggle("hl", t >= 1.4 && t < T.pick + 1.0);
   $("cbS").classList.toggle("on", t >= T.sClick);
   $("bCont").classList.toggle("dn2", t >= T.contClick - .05);

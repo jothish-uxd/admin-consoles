@@ -52,8 +52,9 @@ table.mp { margin-top: 8px; font-size: 13px; table-layout: fixed; width: 100%; }
 .fs .menu .s2 { display: block; font-size: 11.5px; color: var(--soft); }
 .hm { font-size: 12.5px; color: var(--soft); }
 .hm b { color: var(--ink); font-weight: 500; }
-.hm.w { color: #92400e; display: inline-flex; gap: 6px; align-items: flex-start; line-height: 1.35; }
-.hm.w svg { width: 13px; height: 13px; flex: none; margin-top: 1.5px; }
+.hm.w { color: #92400e; }
+.hm .wi { display: flex; gap: 6px; align-items: center; }
+.hm .wi svg { width: 13px; height: 13px; flex: none; }
 tr.hl td { background: var(--subtle); }
 .sv .btn { height: 34px; }
 .sv { margin-top: 12px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--ink); }
@@ -88,7 +89,7 @@ tr.hl td { background: var(--subtle); }
             <tr id="r-nm"><td class="col">Full name</td><td class="smp">Cal Alder · Jes Gistang</td><td><span class="fs " id="f-nm"><span id="fv-nm">Name</span><i class="cv"></i></span></td><td class="hm" id="h-nm"><b>Matched by name</b></td></tr>
             <tr id="r-em"><td class="col">E-mail</td><td class="smp">cal@echobase.rebellion</td><td><span class="fs " id="f-em"><span id="fv-em">Email</span><i class="cv"></i></span></td><td class="hm" id="h-em">Matched by a similar name</td></tr>
             <tr id="r-sq"><td class="col">Squad</td><td class="smp">Fleet · Hoth evac</td><td><span class="fs " id="f-sq"><span id="fv-sq">Team</span><i class="cv"></i></span></td><td class="hm" id="h-sq">Matched by a similar name</td></tr>
-            <tr id="r-rl"><td class="col">Role</td><td class="smp">Pilot · Mechanic · Gunner</td><td><span class="fs warn" id="f-rl"><span id="fv-rl">Console role</span><i class="cv"></i><div class="menu" id="menu"><div id="miT">Title<span class="s2">Job title, such as Pilot</span></div><div>Console role<span class="s2">Permissions in the console</span></div><div>Don’t import</div></div></span></td><td class="hm w" id="h-rl"><svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles</td></tr>
+            <tr id="r-rl"><td class="col">Role</td><td class="smp">Pilot · Mechanic · Gunner</td><td><span class="fs warn" id="f-rl"><span id="fv-rl">Console role</span><i class="cv"></i><div class="menu" id="menu"><div id="miT">Title<span class="s2">Job title, such as Pilot</span></div><div>Console role<span class="s2">Permissions in the console</span></div><div>Don’t import</div></div></span></td><td class="hm w" id="h-rl"><span class="wi"><svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles</span></td></tr>
             <tr id="r-bs"><td class="col">Boss</td><td class="smp">Wedge Antilles</td><td><span class="fs " id="f-bs"><span id="fv-bs">Manager</span><i class="cv"></i></span></td><td class="hm" id="h-bs">Matched by a similar name</td></tr>
             <tr id="r-bg"><td class="col">Badge no.</td><td class="smp">4471 · 4472</td><td><span class="fs dim" id="f-bg"><span id="fv-bg">Don’t import</span><i class="cv"></i></span></td><td class="hm" id="h-bg">No matching field</td></tr>
             </tbody></table>
@@ -134,7 +135,7 @@ function render(t) {
   $("f-rl").className = "fs" + (fixed ? "" : " warn") + (t >= T.fClick - .05 && t < T.menu[1] ? " prs" : "");
   $("fv-rl").textContent = fixed ? "Title" : "Console role";
   $("h-rl").className = "hm" + (fixed ? "" : " w");
-  $("h-rl").innerHTML = fixed ? "<b>Changed by you</b>" : '<svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles';
+  $("h-rl").innerHTML = fixed ? "<b>Changed by you</b>" : '<span class="wi"><svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles</span>';
   $("r-rl").classList.toggle("hl", t >= 1.4 && t < T.pick + 1.0);
   $("cbS").classList.toggle("on", t >= T.sClick);
   $("bCont").classList.toggle("dn2", t >= T.contClick - .05);

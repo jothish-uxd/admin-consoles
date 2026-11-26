@@ -775,8 +775,8 @@ window.VIDEOS = {
       ]
     },
     "Field mapping": {
-      src: "media/import-export/field-mapping.mp4?r=3",
-      poster: "media/import-export/field-mapping.jpg?r=3",
+      src: "media/import-export/field-mapping.mp4?r=4",
+      poster: "media/import-export/field-mapping.jpg?r=4",
       label: "Field mapping, shown in a mock Echo Base console",
       steps: [
         "Each column in the file is matched to a field, with sample values beside it so she can check the match.",
