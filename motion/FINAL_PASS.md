@@ -10,6 +10,7 @@ Run once, before merging `v3-videos` into `main`. Every item is a console-wide c
 - [ ] **Eyebrow headers.** Find every eyebrow (the small label above a heading, such as "Pattern 2 of 4" or a tier's "01") across the site and the clips, and remove the ones that only repeat what the heading or the page already says.
 - [ ] **Compliance › Policies list.** *Create from template* shows an older, simpler list. Rebuild its list view from `_build/compliance_page.py` so it matches the Policies & rules clips.
 - [ ] **Global search in the top bar.** Only *Global admin search* has Search Echo Base ⌘K in the top bar (added in `_build/global_search.py`, before the bell). Move it into the shared top bar (`shell.py`, `content_page.py` and the hand-made scenes) so every clip has it, and check it doesn't collide with crumbs, toasts or camera framing.
+- [ ] **People tabs.** The Security & identity clips show People with Users, Groups, Roles, Sign-in & security and Devices (`_build/security_page.py`). Give the same five tabs to the earlier People clips: `users_page.py`, `roles_page.py`, the Groups clips and the hand-made People scenes.
 - [ ] Add anything else that drifts between now and then here.
 
 ## Then

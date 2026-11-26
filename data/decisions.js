@@ -1216,6 +1216,137 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "security-identity": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["MFA enforcement"], "Passwords with a second factor, and one admin who turns things on."],
+        ["Thousands", ["SSO setup", "Session management", "Domain verification", "Device management"], "Sign-in moves to the identity provider, domains are verified, sessions vary by group, and lost devices need dealing with fast."],
+        ["Hundreds of thousands", ["IP allowlists"], "Conditional access by network and device, tested in monitor only before it's enforced."]
+      ],
+      principles: [
+        "Never let a change lock out every admin. Keep a break-glass path, and test before enforcing.",
+        "Say the effect before saving: who it affects and when, in numbers.",
+        "Roll out in stages: one group, then everyone."
+      ]
+    },
+    intro: "Security settings are org-wide switches with org-wide consequences. A wrong SSO connection or allowlist can lock out every person, including the admin who made it. At enterprise size, identity is owned by a separate team with its own provider, and these screens are where the two meet. The design job is safe rollout, plain status and a way back.",
+    patterns: {
+      "SSO setup": {
+        payoff: "At thousands, when people sign in with the company's identity provider, not a password per app.",
+        tradeoff: "SSO puts sign-in in one place, but a broken connection can lock out everyone at once. Walk through it in steps with values to copy, test before enforcing, enforce for a group first, and keep a break-glass path for owners.",
+        use: [
+          "The organization has an identity provider.",
+          "Security or compliance requires central sign-in.",
+          "People join and leave often, and access should follow."
+        ],
+        avoid: [
+          "The org is small and has no identity provider. Passwords with MFA are enough.",
+          "No one can test it before it's enforced.",
+          "Every admin would be enforced with no break-glass account."
+        ],
+        alternatives: [
+          ["Password and MFA", "When there's no identity provider."],
+          ["Directory sync", "When accounts should be created and removed, not only signed in."],
+          ["Several connections", "When subsidiaries or regions have their own provider."]
+        ]
+      },
+      "MFA enforcement": {
+        payoff: "From the start: a second factor stops most account takeovers.",
+        tradeoff: "Requiring MFA protects accounts, but switched on at once it locks out everyone who isn't enrolled. Show enrolment first, give a grace period with reminders, allow a range of factors, and list exemptions with reasons.",
+        use: [
+          "Accounts reach sensitive data.",
+          "Compliance requires a second factor.",
+          "Some people aren't enrolled yet."
+        ],
+        avoid: [
+          "The identity provider already enforces MFA. Show its status instead.",
+          "Text messages would be the only factor.",
+          "Exemptions can't be listed and reviewed."
+        ],
+        alternatives: [
+          ["Enforce in the identity provider", "When SSO is required for everyone."],
+          ["Admins first", "When the rest of the org isn't ready."],
+          ["Passkeys", "When people can use them instead of codes."]
+        ]
+      },
+      "Session management": {
+        payoff: "At thousands, when session length varies by group and incidents need people signed out now.",
+        tradeoff: "Short sessions limit damage, but interrupt work and lose drafts. Set sensible lengths, warn before signing out, keep drafts, and let admins end a person's sessions everywhere, including their API tokens.",
+        use: [
+          "Security wants a limit on how long access lasts.",
+          "Admins respond to lost devices or compromised accounts.",
+          "Different groups need different rules."
+        ],
+        avoid: [
+          "The identity provider controls session length. Reflect it.",
+          "Timeouts would be so short people lose work.",
+          "Ending sessions wouldn't revoke tokens too."
+        ],
+        alternatives: [
+          ["Session rules by role", "When admins need stricter limits."],
+          ["Sign out a group", "When an incident affects many people."],
+          ["Device management", "When the problem is a device, not a session."]
+        ]
+      },
+      "Domain verification": {
+        payoff: "At thousands, when SSO and new accounts depend on proving the org owns its domains.",
+        tradeoff: "Verifying a domain unlocks SSO and claims new accounts on it, but the step happens in a DNS console the admin may not control. Give the exact record with Copy, let it be sent to whoever manages DNS, keep checking, and refuse public email domains.",
+        use: [
+          "SSO or new accounts should follow the company's domain.",
+          "The org owns several domains.",
+          "Someone else manages DNS."
+        ],
+        avoid: [
+          "People sign up with personal addresses only.",
+          "The domain is a public email provider.",
+          "No one can add a DNS record."
+        ],
+        alternatives: [
+          ["Invite by email", "When there's no domain to verify."],
+          ["Bulk add", "When the org owns hundreds of domains."],
+          ["Domain mapped to a provider", "When each domain uses its own SSO connection."]
+        ]
+      },
+      "Device management": {
+        payoff: "At thousands, when org data is on laptops and phones, some of them personal.",
+        tradeoff: "Device rules keep data on trusted devices, but they reach into people's own phones. Show status in words, say what to fix, keep remove and wipe separate with what each leaves alone, and say what admins can and can't see.",
+        use: [
+          "Org data is on laptops and phones.",
+          "Devices get lost or fall behind on updates.",
+          "Compliance requires screen lock or encryption."
+        ],
+        avoid: [
+          "A device management system already does it. Reflect its status.",
+          "Wiping would erase personal data. Wipe only org data.",
+          "People aren't told why they're blocked."
+        ],
+        alternatives: [
+          ["Device management system", "When IT manages the fleet elsewhere."],
+          ["Session sign-out", "When the device is fine and only access must end."],
+          ["Compliance report", "When the question is trends by group or platform."]
+        ]
+      },
+      "IP allowlists": {
+        payoff: "At hundreds of thousands, when regulated teams must only sign in from known networks.",
+        tradeoff: "An allowlist is a blunt control: one typo can lock out the whole org, including the admin. Show her own IP and whether she'd be blocked, check each range as it's typed, say what it applies to, and run it in monitor only first.",
+        use: [
+          "Regulations require sign-in from known networks.",
+          "Offices and VPNs have fixed ranges.",
+          "Admins can test in monitor only before enforcing."
+        ],
+        avoid: [
+          "People work from anywhere. Use device rules instead.",
+          "No one can say which ranges are right.",
+          "It can't be tested before it's enforced."
+        ],
+        alternatives: [
+          ["Device rules", "When trusted devices matter more than networks."],
+          ["Conditional access", "When the identity provider decides by network and device."],
+          ["Monitor only", "When the list needs proving first."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [

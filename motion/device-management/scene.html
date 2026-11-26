@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Device management · motion scene</title>
+<!--
+  Source for media/security-identity/device-management.mp4. Built by motion/_build/device_management.py on _build/security_page.py
+  (People › Devices), with the top bar's alerts bell.
+  Follows the Device management card (data/guidance-people.js):
+  - devices with person, OS, status in words and an icon (never colour alone), and last seen; requirements in plain terms
+  - filter to what needs attention; each says what to fix
+  - remove and wipe as separate actions, each saying what it does and leaves; wiping asks again
+  - what admins can and can't see on a device
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+
+.hd .sp { flex: 1; }
+.sub2 { margin-top: 14px; }
+.sec { margin-top: 14px; border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 12.5px; color: var(--soft); }
+.sec h3 { margin: 0; font-size: 14px; color: var(--ink); font-weight: 600; }
+.sec .d { margin-top: 2px; }
+.rw { display: flex; align-items: center; gap: 10px; }
+.rw .sp { flex: 1; }
+.stat { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--ink); }
+.stat svg { width: 15px; height: 15px; flex: none; }
+.ok2 { color: #15803d; } .wn2 { color: #b45309; } .bd2 { color: #b91c1c; }
+.btn.dis { color: var(--faint); border-color: var(--rule); background: var(--subtle); }
+.btn.pri.dis { background: var(--subtle); color: var(--faint); border-color: var(--rule); }
+.cpy { height: 30px; font-size: 12px; display: inline-flex; gap: 6px; align-items: center; }
+.cpy svg { width: 13px; height: 13px; }
+table.sx { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+table.sx th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 8px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.sx td { height: 44px; padding: 0 8px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+table.sx td b { display: block; color: var(--ink); font-weight: 500; font-size: 13px; }
+table.sx tr.sel td { background: var(--subtle); }
+.st2 { display: inline-flex; gap: 5px; align-items: center; color: var(--ink); }
+.st2 svg { width: 13px; height: 13px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+
+.dsum { margin-top: 14px; display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--soft); }
+.dsum b { color: var(--ink); font-weight: 600; }
+.dsum .sp { flex: 1; }
+.chips { display: inline-flex; gap: 6px; }
+.chips span { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--ink); font-size: 12.5px; }
+.chips span.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.chips span i { font-style: normal; font-family: "Geist Mono", monospace; font-size: 11px; opacity: .75; }
+.req { margin-top: 10px; font-size: 12.5px; color: var(--soft); }
+.req b { color: var(--ink); font-weight: 500; }
+#tN { display: none; }
+.drw .two2 { margin-top: 12px; }
+.drw .acard { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 12px; margin-top: 10px; }
+.drw .acard b { color: var(--ink); font-size: 13px; font-weight: 600; display: block; }
+.drw .acard .btn { margin-top: 8px; height: 32px; }
+.drw .acard.dan .btn { color: #b91c1c; border-color: #b91c1c; }
+.drw .acard.dan .btn.pri2 { background: #b91c1c; color: #fff; }
+.drw .kv2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin-top: 12px; }
+.drw .kv2 span { display: block; color: var(--soft); font-size: 11.5px; }
+.drw .kv2 div { color: var(--ink); }
+.drw .cf { display: none; margin-top: 8px; color: var(--ink); line-height: 1.45; }
+.drw .vis { margin-top: 12px; font-size: 12px; background: var(--subtle); border-radius: 8px; padding: 8px 10px; color: var(--ink); line-height: 1.45; }
+.drw .vis span { color: var(--soft); }
+.drw .sent { display: none; margin-top: 8px; align-items: center; gap: 6px; color: var(--ink); }
+.drw .sent svg { width: 14px; height: 14px; }
+
+
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="People / Devices"></span>
+      <div class="me"><span class="bell" id="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg" id="bdg">3</span></span>Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>People</h1><span class="sp"></span><span class="btn sm pri">Invite people</span></div>
+        <div class="tabs page"><div>Users</div><div>Groups</div><div>Roles</div><div>Sign-in &amp; security</div><div class="on">Devices</div></div>
+        <div class="dsum"><span><b>312 devices</b> · 296 compliant · 16 need attention</span><span class="sp"></span>
+          <span class="chips"><span class="on" id="cA">All <i>312</i></span><span id="cN">Needs attention <i>16</i></span></span></div>
+        <div class="req">Requirements: <b>screen lock, OS no more than 1 version behind, disk encryption</b> · managed in Holonet MDM</div>
+        <table class="sx" id="tA"><thead><tr><th style="width:24%">Device</th><th style="width:20%">Person</th><th>Status</th><th style="width:14%">Last seen</th></tr></thead><tbody><tr><td><b>MacBook Pro</b>macOS 15.1</td><td>Cal Alder</td><td><span class="st2"><svg aria-hidden="true" class="ok2" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Compliant</span></td><td>Now</td></tr><tr><td><b>iPhone 15</b>iOS 18.1</td><td>Wedge Antilles</td><td><span class="st2"><svg aria-hidden="true" class="ok2" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Compliant</span></td><td>10 min ago</td></tr><tr><td><b>MacBook Pro</b>macOS 13.6</td><td>Hobbie Klivian</td><td><span class="st2"><svg aria-hidden="true" class="wn2"><use href="#warn"/></svg>Needs OS update</span></td><td>2 hours ago</td></tr><tr><td><b>ThinkPad X1</b>Windows 11</td><td>Dak Ralter</td><td><span class="st2"><svg aria-hidden="true" class="ok2" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Compliant</span></td><td>1 hour ago</td></tr><tr><td><b>iPhone 15</b>iOS 18.1</td><td>Hobbie Klivian</td><td><span class="st2"><svg aria-hidden="true" class="bd2"><use href="#err"/></svg>Reported lost</span></td><td>3 hours ago</td></tr></tbody></table>
+        <table class="sx" id="tN"><thead><tr><th style="width:24%">Device</th><th style="width:20%">Person</th><th>Status</th><th style="width:14%">Last seen</th></tr></thead><tbody><tr><td><b>MacBook Pro</b>macOS 13.6</td><td>Hobbie Klivian</td><td><span class="st2"><svg aria-hidden="true" class="wn2"><use href="#warn"/></svg>Needs OS update: macOS 15 or later</span></td><td>2 hours ago</td></tr><tr><td><b>iPhone 13</b>iOS 16.7</td><td>Wes Janson</td><td><span class="st2"><svg aria-hidden="true" class="wn2"><use href="#warn"/></svg>No screen lock</span></td><td>Yesterday</td></tr><tr id="rL"><td><b>iPhone 15</b>iOS 18.1</td><td>Hobbie Klivian</td><td><span class="st2"><svg aria-hidden="true" class="bd2"><use href="#err"/></svg>Reported lost by Hobbie today</span></td><td>3 hours ago</td></tr></tbody></table>
+      </div>
+
+    </div>
+    <aside class="drw" id="drw" role="dialog" aria-labelledby="dT">
+      <div class="tt"><div><b id="dT">Hobbie’s iPhone 15</b>Reported lost by Hobbie today, 9:12</div><span class="x" aria-label="Close">✕</span></div>
+      <div class="kv2"><div><span>Person</span>Hobbie Klivian</div><div><span>OS</span>iOS 18.1</div><div><span>Last seen</span>3 hours ago, Hoth</div><div><span>Managed</span>Echo app only</div></div>
+      <div class="acard"><b>Remove from Echo Base</b>Signs it out and stops it signing in again. Leaves everything on the phone as it is.<br><span class="btn">Remove</span></div>
+      <div class="acard dan" id="aW"><b>Wipe Echo Base data</b>Erases Echo Base files, mail and accounts from the phone. Doesn’t touch personal photos, messages or apps.<br>
+        <span class="btn" id="bW">Wipe Echo Base data</span>
+        <div class="cf" id="cf">This can’t be undone. Hobbie keeps the phone and his personal data.<br><span class="btn pri2" id="bWc">Wipe Echo Base data from this iPhone</span></div>
+        <div class="sent" id="sent" role="status"><svg aria-hidden="true" class="ok2" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Wipe sent. It runs when the phone next connects.</div></div>
+      <div class="vis">What admins see: device type, OS, compliance and last seen. <span>Not photos, messages, browsing or personal apps.</span></div>
+    </aside>
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = { nClick: 1.00, rClick: 2.30, open: [2.35, 2.65], wClick: 3.90, cfClick: 5.10, sent: 5.20, endCard: [6.80, 7.25], end: 7.75 };
+
+function build() {
+  const n = at("cN");
+  $("tA").style.display = "none"; $("tN").style.display = "table"; const r = at("rL", -200, 0);
+  $("tA").style.display = ""; $("tN").style.display = "";
+  $("drw").style.transform = "none"; $("drw").style.visibility = "visible";
+  const w = at("bW"); $("cf").style.display = "block"; const c = at("bWc"); $("cf").style.display = "";
+  $("drw").style.transform = ""; $("drw").style.visibility = "";
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.70, n[0], n[1] + 3], [1.05, n[0], n[1] + 3], [2.00, r[0], r[1] + 3], [2.35, r[0], r[1] + 3],
+    [3.60, w[0], w[1] + 3], [3.95, w[0], w[1] + 3], [4.80, c[0], c[1] + 3], [5.15, c[0], c[1] + 3], [6.80, c[0] - 40, c[1] + 70]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.04], [6.55, 650, 345, 1.04], [6.80, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("crumb").innerHTML = "/ People / <b>Devices</b>";
+  // status in words and an icon; filter to the ones that need attention
+  const n = t >= T.nClick;
+  $("cA").classList.toggle("on", !n); $("cN").classList.toggle("on", n);
+  $("tA").style.display = n ? "none" : "table"; $("tN").style.display = n ? "table" : "none";
+  $("rL").classList.toggle("sel", t >= T.rClick - .25);
+  const o = span(t, ...T.open, easeOut);
+  $("drw").style.transform = `translateX(${440 * (1 - o)}px)`; $("drw").style.visibility = o > 0 ? "visible" : "hidden";
+  // remove and wipe are separate; wiping says what it erases and what it leaves, then asks again
+  const w = t >= T.wClick, s = t >= T.sent;
+  $("bW").style.display = w ? "none" : ""; $("cf").style.display = w && !s ? "block" : "none"; $("sent").style.display = s ? "flex" : "none";
+  $("bWc").style.filter = t >= T.cfClick - .05 && t < T.sent ? "brightness(.85)" : "";
+}
+
+function events() { return [["click", T.nClick], ["click", T.rClick], ["whoosh", T.open[0]], ["click", T.wClick], ["click", T.cfClick]]; }
+
+Motion.scene({
+  // under 5 steps: natural length, within the 10 s cap
+  T, clicks: [T.nClick, T.rClick, T.wClick, T.cfClick], build, render, events, duration: 9.8
+});
+</script>
+</body>
+</html>

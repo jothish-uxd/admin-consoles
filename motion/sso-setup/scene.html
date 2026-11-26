@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SSO setup · motion scene</title>
+<!--
+  Source for media/security-identity/sso-setup.mp4. Built by motion/_build/sso_setup.py on _build/security_page.py
+  (People › Sign-in & security), with the top bar's alerts bell.
+  Follows the SSO setup card (data/guidance-people.js):
+  - steps: provider, connect, map attributes, test, enforce
+  - every value to copy has Copy, announced, with what the identity provider calls it; metadata by URL or file
+  - the certificate's expiry is shown, with a warning before it
+  - a test sign-in before Enforce; enforce for a group first; a break-glass path for owners
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+
+.hd .sp { flex: 1; }
+.sub2 { margin-top: 14px; }
+.sec { margin-top: 14px; border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 12.5px; color: var(--soft); }
+.sec h3 { margin: 0; font-size: 14px; color: var(--ink); font-weight: 600; }
+.sec .d { margin-top: 2px; }
+.rw { display: flex; align-items: center; gap: 10px; }
+.rw .sp { flex: 1; }
+.stat { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--ink); }
+.stat svg { width: 15px; height: 15px; flex: none; }
+.ok2 { color: #15803d; } .wn2 { color: #b45309; } .bd2 { color: #b91c1c; }
+.btn.dis { color: var(--faint); border-color: var(--rule); background: var(--subtle); }
+.btn.pri.dis { background: var(--subtle); color: var(--faint); border-color: var(--rule); }
+.cpy { height: 30px; font-size: 12px; display: inline-flex; gap: 6px; align-items: center; }
+.cpy svg { width: 13px; height: 13px; }
+table.sx { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+table.sx th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 8px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.sx td { height: 44px; padding: 0 8px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+table.sx td b { display: block; color: var(--ink); font-weight: 500; font-size: 13px; }
+table.sx tr.sel td { background: var(--subtle); }
+.st2 { display: inline-flex; gap: 5px; align-items: center; color: var(--ink); }
+.st2 svg { width: 13px; height: 13px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+
+.stp { margin-top: 14px; display: flex; gap: 6px; align-items: center; font-size: 12.5px; }
+.stp span { display: inline-flex; gap: 6px; align-items: center; color: var(--soft); }
+.stp span i { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--rule-strong); display: grid; place-items: center; font-style: normal; font-size: 11px; color: var(--ink); box-sizing: border-box; }
+.stp span.on { color: var(--ink); font-weight: 600; } .stp span.on i { border-color: var(--ink); background: var(--ink); color: #fff; }
+.stp span.dn2 i { border-color: var(--ink); color: var(--ink); }
+.stp .ln { flex: 0 0 22px; height: 1px; background: var(--rule-strong); }
+.vw { display: none; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+.two .sec { margin-top: 0; }
+.kvx { margin-top: 10px; }
+.kvx .in { flex: 1; min-width: 0; overflow: hidden; }
+.kvx .rw { gap: 8px; }
+.cp2 { font-size: 11.5px; color: var(--ink); margin-left: 6px; }
+.rd { margin-top: 10px; border-top: 1px solid var(--rule); padding-top: 8px; display: none; }
+.rd div { padding: 2px 0; } .rd b { color: var(--ink); font-weight: 500; }
+.nx { margin-top: 12px; display: flex; gap: 8px; } .nx .sp { flex: 1; } .nx .btn { height: 34px; }
+.res2 { display: none; margin-top: 12px; }
+.res2 table { margin-top: 6px; }
+.opt { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-top: 1px solid var(--rule); }
+.opt:first-of-type { border-top: 0; }
+.opt b { color: var(--ink); font-weight: 500; display: block; font-size: 13px; }
+.rb { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--rule-strong); box-sizing: border-box; flex: none; margin-top: 2px; }
+.rb.on { border: 4.5px solid var(--ink); }
+.bg { margin-top: 10px; display: flex; gap: 8px; align-items: flex-start; background: var(--subtle); border-radius: 8px; padding: 8px 10px; color: var(--ink); }
+.bg svg { width: 15px; height: 15px; flex: none; margin-top: 1px; }
+
+
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="People / Sign-in & security"></span>
+      <div class="me"><span class="bell" id="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg" id="bdg">3</span></span>Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>SSO is required for Fleet · 214 people at their next sign-in</div>
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>People</h1><span class="sp"></span><span class="btn sm pri">Invite people</span></div>
+        <div class="tabs page"><div>Users</div><div>Groups</div><div>Roles</div><div class="on">Sign-in &amp; security</div><div>Devices</div></div>
+        <div class="sub2"><span class="sg on" id="sg-sso">Single sign-on</span><span class="sg" id="sg-mfa">MFA</span><span class="sg" id="sg-ses">Sessions</span><span class="sg" id="sg-dom">Domains</span><span class="sg" id="sg-net">Network</span><span class="sp"></span></div>
+      <div class="vw" id="v2">
+        <div class="stp"><span class="dn2"><i>✓</i>Provider · Holonet ID</span><span class="ln"></span><span class="on"><i>2</i>Connect</span><span class="ln"></span><span class=""><i>3</i>Map attributes</span><span class="ln"></span><span class=""><i>4</i>Test</span><span class="ln"></span><span class=""><i>5</i>Enforce</span></div>
+        <div class="two">
+          <div class="sec"><h3>Give these to Holonet ID</h3><div class="d">Paste them into the app’s SAML settings there.</div>
+            <div class="kvx"><span class="lbl">ACS URL <span>· Holonet calls it Single sign-on URL</span></span><div class="rw"><span class="in mono">https://echobase.console/saml/acs</span><span class="btn sm cpy" id="bCp"><svg aria-hidden="true"><use href="#copy"/></svg>Copy</span></div><div class="msg"><span id="cpd" style="display:none" role="status"><svg aria-hidden="true" class="ok2" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Copied</span></div></div>
+            <div class="kvx" style="margin-top:2px"><span class="lbl">Entity ID <span>· Audience URI</span></span><div class="rw"><span class="in mono">echobase.console</span><span class="btn sm cpy"><svg aria-hidden="true"><use href="#copy"/></svg>Copy</span></div></div></div>
+          <div class="sec"><h3>From Holonet ID</h3><div class="d">Its metadata URL, or upload the file.</div>
+            <div class="kvx"><label class="lbl" for="mU">Metadata URL</label><div class="in mono" id="mU"><span id="mUv"></span><span class="c" id="mUc"></span></div></div>
+            <div class="rd" id="rd" role="status"><div><b>Read from the metadata</b></div><div>Sign-in URL: id.holonet.org/sso/saml</div><div>Certificate: valid until <b>Mar 14, 2027</b>. We’ll warn you 30 days before.</div></div></div>
+        </div>
+        <div class="nx"><span class="btn">Back</span><span class="sp"></span><span class="btn pri dis" id="bN2">Next</span></div>
+      </div>
+      <div class="vw" id="v4">
+        <div class="stp"><span class="dn2"><i>✓</i>Provider · Holonet ID</span><span class="ln"></span><span class="dn2"><i>✓</i>Connect</span><span class="ln"></span><span class="dn2"><i>✓</i>Map attributes</span><span class="ln"></span><span class="on"><i>4</i>Test</span><span class="ln"></span><span class=""><i>5</i>Enforce</span></div>
+        <div class="sec"><div class="rw"><div><h3>Test sign-in</h3><div class="d">Sign in through Holonet ID as yourself. Nobody else is affected.</div></div><span class="sp"></span><span class="btn pri" id="bTs">Test sign-in</span></div>
+          <div class="res2" id="res2" role="status"><div class="stat"><svg aria-hidden="true" class="ok2" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Signed in as <b>Lavanya Sienna</b>. Attributes received and matched:</span></div>
+            <table class="sx"><thead><tr><th>Echo Base</th><th>From Holonet ID</th><th>Value</th></tr></thead><tbody>
+            <tr><td>Email</td><td class="mono">user.email</td><td>lavanya@echobase.org</td></tr><tr><td>Name</td><td class="mono">user.displayName</td><td>Lavanya Sienna</td></tr><tr><td>Groups</td><td class="mono">user.groups</td><td>Echo Base admins</td></tr></tbody></table></div></div>
+        <div class="nx"><span class="btn">Back</span><span class="sp"></span><span class="btn pri dis" id="bN4">Next</span></div>
+      </div>
+      <div class="vw" id="v5">
+        <div class="stp"><span class="dn2"><i>✓</i>Provider · Holonet ID</span><span class="ln"></span><span class="dn2"><i>✓</i>Connect</span><span class="ln"></span><span class="dn2"><i>✓</i>Map attributes</span><span class="ln"></span><span class="dn2"><i>✓</i>Test</span><span class="ln"></span><span class="on"><i>5</i>Enforce</span></div>
+        <div class="sec"><h3>Who must use SSO</h3>
+          <div class="opt" id="oF" style="margin-top:8px"><span class="rb on"></span><div><b>Fleet first</b>214 people. Everyone else keeps signing in as now.</div></div>
+          <div class="opt"><span class="rb"></span><div><b>Everyone in Echo Base</b>1,214 people. Try a group first.</div></div>
+          <div class="bg"><svg aria-hidden="true" class="wn2"><use href="#warn"/></svg><span><b>Break-glass:</b> Mon Mothma and you, the 2 owners, keep password sign-in, so a broken connection can’t lock every admin out.</span></div></div>
+        <div class="nx"><span class="btn">Back</span><span class="sp"></span><span class="btn pri" id="bEn">Enforce for Fleet</span></div>
+      </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const URL = "https://id.holonet.org/metadata/echo";
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  cpClick: 1.20, mClick: 2.30, paste: 2.75, n2Click: 3.80, to4: 3.85, tsClick: 4.85, res: 5.25, n4Click: 6.55, to5: 6.60,
+  enClick: 7.90, toast: [8.00, 9.40], endCard: [9.60, 10.05], end: 10.55
+};
+
+function build() {
+  const one = v => ["v2", "v4", "v5"].forEach(x => $(x).style.display = x === v ? "block" : "none");
+  $("rd").style.display = "block"; $("res2").style.display = "block";
+  one("v2"); const cp = at("bCp"), m = at("mU", -60, 0), n2 = at("bN2");
+  one("v4"); const ts = at("bTs"), n4 = at("bN4");
+  one("v5"); const en = at("bEn");
+  ["v2", "v4", "v5", "rd", "res2"].forEach(v => $(v).style.display = "");
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.90, cp[0], cp[1] + 3], [1.25, cp[0], cp[1] + 3], [2.00, m[0], m[1] + 3], [2.35, m[0], m[1] + 3],
+    [3.50, n2[0], n2[1] + 3], [3.85, n2[0], n2[1] + 3], [4.55, ts[0], ts[1] + 3], [4.90, ts[0], ts[1] + 3],
+    [6.25, n4[0], n4[1] + 3], [6.60, n4[0], n4[1] + 3], [7.60, en[0], en[1] + 3], [7.95, en[0], en[1] + 3], [9.60, en[0] - 120, en[1] + 60]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.04], [9.35, 650, 345, 1.04], [9.60, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("crumb").innerHTML = "/ People / <b>Sign-in &amp; security</b>";
+  // one step at a time, hard cuts
+  const v = t < T.to4 ? "v2" : t < T.to5 ? "v4" : "v5";
+  ["v2", "v4", "v5"].forEach(x => $(x).style.display = x === v ? "block" : "none");
+  // copy, announced; paste the metadata URL, and what was read from it
+  $("cpd").style.display = t >= T.cpClick && t < T.cpClick + 1.6 ? "" : "none";
+  $("bCp").classList.toggle("dn", t >= T.cpClick - .05 && t < T.cpClick + .1);
+  const p = t >= T.paste;
+  $("mUv").textContent = p ? URL : ""; $("mU").className = "in mono" + (t >= T.mClick && t < T.n2Click ? " f" : "");
+  $("mUc").style.opacity = t >= T.mClick && t < T.n2Click && Math.floor(t * 2.4) % 2 === 0 ? 1 : 0;
+  $("rd").style.display = t >= T.paste + .25 ? "block" : "none";
+  $("bN2").className = "btn pri" + (t < T.paste + .25 ? " dis" : "") + (t >= T.n2Click - .05 && t < T.to4 ? " dn" : "");
+  // the test comes first; Enforce waits for it
+  $("res2").style.display = t >= T.res ? "block" : "none";
+  $("bTs").classList.toggle("dn", t >= T.tsClick - .05 && t < T.tsClick + .1);
+  $("bN4").className = "btn pri" + (t < T.res ? " dis" : "") + (t >= T.n4Click - .05 && t < T.to5 ? " dn" : "");
+  $("bEn").classList.toggle("dn", t >= T.enClick - .05 && t < T.enClick + .1);
+  $("toast").style.opacity = span(t, T.toast[0], T.toast[0] + .2) * (1 - span(t, T.toast[1] - .2, T.toast[1]));
+}
+
+function events() { return [["click", T.cpClick], ["click", T.mClick], ["key", T.paste], ["click", T.n2Click], ["click", T.tsClick], ["click", T.n4Click], ["click", T.enClick], ["pop", T.toast[0]]]; }
+
+Motion.scene({
+  // 5+ steps: natural length, within the 15 s cap
+  T, clicks: [T.cpClick, T.mClick, T.n2Click, T.tsClick, T.n4Click, T.enClick], build, render, events, duration: 14.5
+});
+</script>
+</body>
+</html>

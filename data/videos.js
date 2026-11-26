@@ -1221,5 +1221,79 @@ window.VIDEOS = {
         "She lands on Fleet's own page. A note in the search says the shortcut can be changed or turned off."
       ]
     }
+  },
+  "security-identity": {
+    "SSO setup": {
+      src: "media/security-identity/sso-setup.mp4",
+      poster: "media/security-identity/sso-setup.jpg",
+      label: "SSO setup, shown in a mock Echo Base console",
+      steps: [
+        "The admin is setting up single sign-on with Holonet ID. The steps read Provider, Connect, Map attributes, Test and Enforce.",
+        "On Connect, she copies Echo Base's ACS URL. Each value says what Holonet ID calls it, and Copied is announced.",
+        "She pastes Holonet ID's metadata URL. What was read from it shows straight away, including when the certificate expires and that she'll be warned 30 days before.",
+        "She runs a test sign-in as herself. It shows the attributes received and how they matched. Enforce stays off until the test passes.",
+        "She enforces SSO for Fleet first, not everyone. The 2 owners keep password sign-in, so a broken connection can't lock every admin out."
+      ]
+    },
+    "MFA enforcement": {
+      src: "media/security-identity/mfa-enforcement.mp4",
+      poster: "media/security-identity/mfa-enforcement.jpg",
+      label: "MFA enforcement, shown in a mock Echo Base console",
+      steps: [
+        "People › Sign-in & security › MFA shows enrolment first: 1,084 of 1,214 people, with 130 not yet enrolled.",
+        "Admins already need MFA now. The admin sets everyone else to After 14 days, with reminders on days 1, 7 and 13.",
+        "She allows passkeys too. Text message is only a fallback.",
+        "Two exemptions are listed with their reasons, who made them, and when they were last reviewed.",
+        "Before she saves, the effect is said in words: from Dec 10, the 130 people not enrolled must enrol at their next sign-in."
+      ]
+    },
+    "Session management": {
+      src: "media/security-identity/session-management.mp4",
+      poster: "media/security-identity/session-management.jpg",
+      label: "Session management, shown in a mock Echo Base console",
+      steps: [
+        "Session rules come first: 12-hour sessions, sign-out after 30 minutes without activity, and a warning 2 minutes ahead. Drafts are kept either way.",
+        "The admin looks up Hobbie Klivian. His 3 sessions show the device, a place she can read with its IP, when he signed in, and when he was last active.",
+        "A session from Yavin 4 is marked New place, in words.",
+        "She chooses Sign out everywhere. Before it happens, it says his sessions end, his drafts are kept, and his 2 API tokens are revoked too.",
+        "She confirms. The list now says there are no active sessions, signed out everywhere just now."
+      ]
+    },
+    "Domain verification": {
+      src: "media/security-identity/domain-verification.mp4",
+      poster: "media/security-identity/domain-verification.jpg",
+      label: "Domain verification, shown in a mock Echo Base console",
+      steps: [
+        "Each domain shows its status in words, when it was last checked, and what it's used for.",
+        "The admin adds a domain. gmail.com is refused as she types: it's a public email domain, and only domains Echo Base owns can be verified.",
+        "She types yavin4.org instead and gets the TXT record to add, with its type, name and value, each with Copy.",
+        "Send instructions passes it to whoever manages that DNS.",
+        "Check now hasn't found it yet. It says DNS can take up to 48 hours, and that it checks every hour and will tell her. The domain is listed as Pending."
+      ]
+    },
+    "Device management": {
+      src: "media/security-identity/device-management.mp4",
+      poster: "media/security-identity/device-management.jpg",
+      label: "Device management, shown in a mock Echo Base console",
+      steps: [
+        "People › Devices shows 312 devices: 296 compliant and 16 needing attention, with the requirements in plain terms.",
+        "The admin filters to Needs attention. Each status is in words with an icon, such as Needs OS update: macOS 15 or later.",
+        "She opens Hobbie's iPhone, which he reported lost today.",
+        "Remove from Echo Base and Wipe Echo Base data are separate, each saying what it does and what it leaves alone. A note says what admins can and can't see on a device.",
+        "She chooses Wipe Echo Base data, and confirms again. The wipe is sent and runs when the phone next connects."
+      ]
+    },
+    "IP allowlists": {
+      src: "media/security-identity/ip-allowlists.mp4",
+      poster: "media/security-identity/ip-allowlists.jpg",
+      label: "IP allowlists, shown in a mock Echo Base console",
+      steps: [
+        "People › Sign-in & security › Network shows the admin's own IP and the range that covers it, so she knows saving won't block her.",
+        "She adds a range labelled Hoth outpost.",
+        "She types 198.51.100.0/33. The row says /33 isn't valid and to use /0 to /32.",
+        "She changes it to /24, and the row says it covers 256 addresses. The list applies to web, API and mobile apps.",
+        "It's in Monitor only, which blocks nothing and logs what would have been blocked: 14 sign-ins in the last 7 days. She saves."
+      ]
+    }
   }
 };
