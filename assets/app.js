@@ -201,10 +201,10 @@
     const status = $("#results-status");
 
     function card(c) {
-      const count = c.screens.length ? plural(c.screens.length, "screen") : plural(c.patterns.length, "pattern");
+      const count = plural(c.patterns.length, "pattern");
       return `<li><a class="gallery-item" href="${catUrl(c)}">
         <span class="gallery-thumb" aria-hidden="true">${window.drawWireframe(c.thumb)}</span>
-        <span class="gallery-head"><strong>${esc(c.name)}</strong><span class="status-tag${c.screens.length ? " is-live" : ""}">${count}</span></span>
+        <span class="gallery-head"><strong>${esc(c.name)}</strong><span class="status-tag is-live">${count}</span></span>
         <p>${esc(c.summary)}</p>
       </a></li>`;
     }
