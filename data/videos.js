@@ -1457,5 +1457,67 @@ window.VIDEOS = {
         "She dismisses another with a reason, We handle it elsewhere, and it says it won't show again."
       ]
     }
+  },
+  "user-management": {
+    "Invite / add user": {
+      src: "media/user-management/invite-user.mp4",
+      poster: "media/user-management/invite-user.jpg",
+      label: "Invite / add user, shown in a mock Echo Base console",
+      steps: [
+        "From People › Users, the admin opens Invite people and pastes three email addresses. Each becomes a chip and is checked on its own.",
+        "biggs@echobase.org is already in Echo Base, with a link to open his account or remove it. han@smuggler.io isn't on a verified domain, so he'll join as a guest.",
+        "Role and group have visible defaults. Before she sends, it says each person uses a seat when they accept, with 36 left, and that the invite expires in 7 days.",
+        "She removes Biggs, and the button becomes Send 2 invites.",
+        "Invitations sent to 2 people is announced, with the next likely steps: invite more, add them to a group, or view pending invites."
+      ]
+    },
+    "User directory": {
+      src: "media/user-management/user-directory.mp4",
+      poster: "media/user-management/user-directory.jpg",
+      label: "User directory, shown in a mock Echo Base console",
+      steps: [
+        "People › Users leads with search, which matches name, email and employee ID as the admin types.",
+        "She types EB-22. Ved Foslo matches, and the row shows the match in his employee ID.",
+        "The count says 1 of 82 people, out of the whole directory, and is announced.",
+        "She clears the search and opens Status. Each status has a count.",
+        "She picks Suspended: 3 of 82. Each row says Suspended in words with an icon, with when and why."
+      ]
+    },
+    "User detail": {
+      src: "media/user-management/user-detail.mp4",
+      poster: "media/user-management/user-detail.jpg",
+      label: "User detail, shown in a mock Echo Base console",
+      steps: [
+        "Zev Senesca's page puts his identity and status at the top: Active, his email and that it comes from Holonet ID. Reset sign-in and Edit come first, Suspend is set apart.",
+        "Access says where each piece comes from: Member directly, Editor through Fleet content.",
+        "The admin opens Through Fleet content. It explains the group gives Editor to its 18 members and who added Zev, with links to the group and to remove him from it.",
+        "Security is in words: MFA not enrolled, 1 device, last sign-in 61 days ago from Hoth.",
+        "She sends him a reminder to enrol, and it says MFA is required from Dec 10. Activity links to his audit log."
+      ]
+    },
+    "Edit profile": {
+      src: "media/user-management/edit-profile.mp4",
+      poster: "media/user-management/edit-profile.jpg",
+      label: "Edit profile, shown in a mock Echo Base console",
+      steps: [
+        "On Zev's page, the admin chooses Edit. A side panel opens, and his page stays in view.",
+        "Name and email are locked: they're managed by Holonet ID, with a link to change them there. It also says his email is his sign-in name.",
+        "She changes his title from Pilot to Flight lead. The panel says there's 1 unsaved change.",
+        "She saves explicitly. Nothing changes until then.",
+        "His page shows Flight lead, with Edited by you just now, was Pilot, and Undo."
+      ]
+    },
+    "Suspend / deactivate": {
+      src: "media/user-management/suspend-user.mp4",
+      poster: "media/user-management/suspend-user.jpg",
+      label: "Suspend / deactivate, shown in a mock Echo Base console",
+      steps: [
+        "On Zev's page, the admin chooses Suspend, which is set apart from the routine actions.",
+        "Before she commits, it says what happens: he can't sign in, his session ends now and his 2 API tokens are revoked.",
+        "It also says what's kept: his files, shared links and groups keep working, and his license stays until she frees it. She can reactivate him in one step.",
+        "A reason is required, shown on his page and in the audit log. She enters Extended leave.",
+        "His page now says Suspended by you, today, with the reason and a single Reactivate button. Security shows he's signed out and his tokens are revoked."
+      ]
+    }
   }
 };

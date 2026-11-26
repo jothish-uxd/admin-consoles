@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Suspend / deactivate · motion scene</title>
+<!--
+  Source for media/user-management/suspend-user.mp4. Built by motion/_build/suspend_user.py on _build/user_page.py
+  (People › Users › Zev Senesca), with the top bar's alerts bell.
+  Follows the Suspend / deactivate card (data/guidance.js):
+  - what suspending does, in plain words, before she commits: sign-in blocked, sessions ended and tokens revoked;
+    files and links kept; the license kept until freed
+  - a reason, required, shown on his page and in the audit log
+  - who suspended him, when and why, on his page; reactivating is one step
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+
+.bk { margin-top: 2px; font-size: 12.5px; color: var(--soft); }
+.ph { margin-top: 8px; display: flex; align-items: center; gap: 14px; }
+.ph .av3 { width: 48px; height: 48px; border-radius: 50%; background: var(--hover); color: var(--ink); display: grid; place-items: center; font-weight: 650; font-size: 16px; flex: none; }
+.ph h1 { margin: 0; font-size: 22px; }
+.ph .sub { margin-top: 2px; font-size: 12.5px; color: var(--soft); }
+.ph .sp { flex: 1; }
+.ph .btn { height: 34px; }
+.ph .gap2 { width: 14px; }
+.btn.red { color: #b91c1c; border-color: #fca5a5; }
+.pill2 { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 9px; color: var(--ink); margin-left: 8px; vertical-align: 3px; }
+.pill2 i { width: 7px; height: 7px; border-radius: 50%; background: #15803d; }
+.pill2.sus i { background: none; border: 1.5px solid #92400e; width: 5px; height: 5px; }
+.pill2.sus { color: #92400e; border-color: #b45309; }
+.ban2 { display: none; margin-top: 12px; align-items: center; gap: 10px; border: 1px solid #b45309; background: #fffbeb; border-radius: 10px; padding: 9px 12px; color: var(--ink); font-size: 12.5px; }
+.ban2 .sp { flex: 1; } .ban2 .btn { height: 30px; } .ban2 svg { width: 15px; height: 15px; flex: none; }
+.snav { margin-top: 14px; display: flex; gap: 18px; border-bottom: 1px solid var(--rule); font-size: 13px; color: var(--soft); }
+.snav span { padding: 0 0 8px; } .snav span.on { color: var(--ink); font-weight: 500; border-bottom: 2px solid var(--ink); margin-bottom: -1px; }
+.g2 { display: grid; grid-template-columns: 1.15fr 1fr; gap: 14px; align-items: start; }
+.sec { margin-top: 14px; border: 1px solid var(--rule); border-radius: 12px; padding: 12px 16px; font-size: 12.5px; color: var(--soft); position: relative; }
+.sec h3 { margin: 0 0 6px; font-size: 14px; color: var(--ink); font-weight: 600; display: flex; align-items: center; }
+.sec h3 a { margin-left: auto; font-size: 12.5px; font-weight: 400; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.kvg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+.kvg .k { font-size: 12px; color: var(--soft); }
+.kvg .v { color: var(--ink); font-size: 13px; margin-top: 1px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.kvg .v svg { width: 14px; height: 14px; flex: none; }
+.src { font-size: 11.5px; color: var(--soft); }
+.srcl { font-size: 11.5px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.acc .ar { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; padding: 7px 0; border-top: 1px solid var(--rule); }
+.acc .ar:first-of-type { border-top: 0; }
+.acc .ar .k { font-size: 12px; display: block; } .acc .ar b { color: var(--ink); font-weight: 500; font-size: 13px; display: block; margin-top: 1px; }
+.ev div { padding: 5px 0; border-top: 1px solid var(--rule); color: var(--ink); }
+.ev div:first-of-type { border-top: 0; } .ev div span { color: var(--soft); margin-left: 6px; }
+.edl { margin-top: 8px; font-size: 12px; }
+.edl a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; margin-left: 6px; }
+
+.dlg .ef { margin-top: 10px; }
+.dlg .ef div { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.dlg .ef svg { width: 14px; height: 14px; flex: none; margin-top: 2px; }
+.dlg .f1 { margin-top: 14px; }
+.btn.pri.dis { background: var(--subtle); color: var(--faint); border-color: var(--rule); }
+.btn.redp { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+
+
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="People / Users / Zev Senesca"></span>
+      <div class="me"><span class="bell" id="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg" id="bdg">3</span></span>Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Zev Senesca is suspended · signed out everywhere</div>
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="bk">← Users</div>
+        <div class="ph"><span class="av3">ZS</span><div><h1>Zev Senesca<span class="pill2" id="stP"><i></i><span id="stT">Active</span></span></h1>
+          <div class="sub">Pilot · Fleet · zev@echobase.org · <span class="src">from Holonet ID</span></div></div><span class="sp"></span>
+          <span class="btn" id="bRs">Reset sign-in</span><span class="btn" id="bEd">Edit</span><span class="btn pri" id="bRa" style="display:none">Reactivate</span><span class="gap2"></span><span class="btn red" id="bSu">Suspend…</span></div>
+        <div class="ban2" id="ban2" role="status"><svg aria-hidden="true" style="color:#b45309"><use href="#warn"/></svg><span><b>Suspended by you, today</b> · Extended leave. He can’t sign in; his files and links still work.</span><span class="sp"></span><span class="btn" id="bRa2">Reactivate</span></div>
+        <div class="snav"><span class="on">Overview</span><span>Access</span><span>Security</span><span>Activity</span></div>
+        <div class="g2"><div>
+          <div class="sec acc"><h3>Access<a>Check access</a></h3>
+            <div class="ar"><div><span class="k">Role</span><b>Member</b></div><span class="src">Directly</span></div>
+            <div class="ar"><div><span class="k">Role</span><b>Editor</b></div><span class="srcl" id="sFc">Through Fleet content</span></div>
+            <div class="ar"><div><span class="k">Groups</span><b>Fleet, Fleet content</b></div><span class="src">2 of 2</span></div>
+            <div class="ar"><div><span class="k">License</span><b>Console</b></div><span class="src">Since Mar 2025</span></div></div>
+          <div class="sec"><h3>Profile</h3><div class="kvg">
+            <div><div class="k">Name</div><div class="v">Zev Senesca <svg aria-hidden="true" viewBox="0 0 16 16" style="color:var(--soft)"><rect x="3.5" y="7" width="9" height="6.5" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div></div><div><div class="k">Email</div><div class="v">zev@echobase.org <svg aria-hidden="true" viewBox="0 0 16 16" style="color:var(--soft)"><rect x="3.5" y="7" width="9" height="6.5" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div></div>
+            <div><div class="k">Title</div><div class="v" id="pT">Pilot</div></div><div><div class="k">Manager</div><div class="v">Cal Alder</div></div></div>
+            <div class="edl" id="edl">Last edited by Cal Alder, Mar 2025</div></div>
+        </div><div>
+          <div class="sec" id="secS"><h3>Security</h3><div class="kvg">
+            <div><div class="k">MFA</div><div class="v" id="vMfa"><svg aria-hidden="true" style="color:#b45309"><use href="#warn"/></svg>Not enrolled</div></div><div><div class="k">Last sign-in</div><div class="v">61 days ago, from Hoth</div></div>
+            <div><div class="k">Devices</div><div class="v">1 · iPhone 15</div></div><div><div class="k">Sessions and tokens</div><div class="v" id="vSes">1 session · 2 API tokens</div></div></div></div>
+          <div class="sec ev"><h3>Activity<a>Open his audit log</a></h3><div>Signed in from Hoth<span>61 days ago</span></div><div>Shared Patrol rota.xlsx<span>62 days ago</span></div><div>Added to Fleet content by Cal Alder<span>Mar 2025</span></div></div>
+        </div></div>
+      </div>
+
+    </div>
+    <div class="scr" id="scr"></div>
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:400px; top:90px; width:520px">
+      <h3 id="dT">Suspend Zev Senesca?</h3>
+      <div class="ef"><div><svg aria-hidden="true" viewBox="0 0 16 16" style="color:var(--ink)"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.6 5.6l4.8 4.8M10.4 5.6l-4.8 4.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>He can’t sign in. His 1 session ends now and his 2 API tokens are revoked.</span></div>
+        <div><svg aria-hidden="true" viewBox="0 0 16 16" style="color:#15803d"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>His files, shared links and group memberships keep working.</span></div>
+        <div><svg aria-hidden="true" style="color:#b45309"><use href="#warn"/></svg><span>His license stays assigned until you free it.</span></div>
+        <div><svg aria-hidden="true" viewBox="0 0 16 16" style="color:#15803d"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>You can reactivate him any time, in one step.</span></div></div>
+      <div class="f1"><label class="lbl" for="fR">Reason <span>· required, shown on his page and in the audit log</span></label><div class="in" id="fR"><span id="fRv"></span><span class="c" id="fRc"></span></div></div>
+      <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn pri dis" id="bOk">Suspend Zev</span></div>
+    </section>
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const WHY = "Extended leave";
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = { sClick: 1.10, open: [1.15, 1.40], rClick: 3.30, type: [3.45, 4.15], okClick: 5.00, close: [5.05, 5.25], toast: [5.30, 6.70], endCard: [7.10, 7.55], end: 8.05 };
+
+function build() {
+  const s = at("bSu");
+  $("dlg").style.opacity = 1; const r = at("fR", -80, 0), ok = at("bOk"); $("dlg").style.opacity = 0;
+  const cur = [[0.00, 960, 640], [0.25, 960, 640], [0.75, s[0], s[1] + 3], [1.15, s[0], s[1] + 3], [2.95, r[0], r[1] + 3], [3.35, r[0], r[1] + 3],
+    [4.65, ok[0], ok[1] + 3], [5.05, ok[0], ok[1] + 3], [7.10, 560, 300]];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.04], [6.85, 650, 345, 1.04], [7.10, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("bSu").classList.toggle("dn", t >= T.sClick - .05 && t < T.open[0] + .1);
+  const o = span(t, ...T.open, easeOut) * (1 - span(t, ...T.close, easeOut));
+  $("dlg").style.opacity = o; $("scr").style.opacity = o; $("dlg").style.visibility = o > 0 ? "visible" : "hidden";
+  $("dlg").style.transform = `translateY(${8 * (1 - o)}px)`;
+  // what suspending does, said first; a reason is required
+  const n = Math.round(WHY.length * span(t, ...T.type, x => x));
+  $("fRv").textContent = WHY.slice(0, n);
+  const on = t >= T.rClick && t < T.okClick;
+  $("fR").className = "in" + (on ? " f" : ""); $("fRc").style.opacity = on && (t < T.type[1] + .05 || Math.floor(t * 2.4) % 2 === 0) ? 1 : 0;
+  $("bOk").className = "btn " + (n < 3 ? "pri dis" : "redp") + (t >= T.okClick - .05 && t < T.close[0] ? " dn" : "");
+  // suspended: who, when and why on his page, and one step back
+  const d = t >= T.close[0];
+  $("stP").classList.toggle("sus", d); $("stT").textContent = d ? "Suspended" : "Active";
+  $("ban2").style.display = d ? "flex" : "none";
+  ["bRs", "bEd", "bSu"].forEach(i => $(i).style.display = d ? "none" : "");
+  $("vSes").textContent = d ? "Signed out · 2 tokens revoked" : "1 session · 2 API tokens";
+  $("toast").style.opacity = span(t, T.toast[0], T.toast[0] + .2) * (1 - span(t, T.toast[1] - .2, T.toast[1]));
+}
+
+function events() { return [["click", T.sClick], ["whoosh", T.open[0]], ["click", T.rClick], ["key", T.type[0]], ["click", T.okClick], ["pop", T.toast[0]]]; }
+
+Motion.scene({
+  // under 5 steps: natural length, within the 10 s cap
+  T, clicks: [T.sClick, T.rClick, T.okClick], build, render, events, duration: 9.8
+});
+</script>
+</body>
+</html>

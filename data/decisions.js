@@ -1552,6 +1552,194 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "user-management": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Invite / add user", "User directory", "User detail", "Edit profile", "Suspend / deactivate"], "Admins add people by hand and know every name. A list, a person's page and a way to remove access are enough."],
+        ["Thousands", ["Offboarding", "Pending invites", "Bulk add users", "Auto-join by domain"], "Search replaces scrolling. People arrive in batches and by domain, invites need watching, and leavers' content needs a new owner."],
+        ["Hundreds of thousands", [], "People arrive through SCIM or HR sync, not the UI. Admins are scoped to regions, every change is a background job, and every action has an audit trail."]
+      ],
+      principles: [
+        "Name the source of every field. Synced values are read-only here, with a link to where they change.",
+        "Make the safe, reversible action the easy one: suspend before delete, trash before forever.",
+        "Anything done to one person will be needed for 5,000. Bulk is the normal path."
+      ]
+    },
+    intro: "A directory that works for 40 people breaks quietly at 4,000 and loudly at 400,000. Most people in an enterprise directory were never typed in by an admin: they arrive from an identity provider or HR system. Design for the admin who manages exceptions, not the one who adds people one by one.",
+    patterns: {
+      "Invite / add user": {
+        payoff: "From the start: someone has to bring people in, even when most arrive by sync later.",
+        tradeoff: "Inviting by hand gives admins control, but at scale it's the exception path. Ask for the minimum, take several emails at once and check each, say what it costs in seats and when it expires, and keep import and sync one click away.",
+        use: [
+          "Contractors, guests and exceptions join outside sync.",
+          "Small orgs add people by hand.",
+          "Admins invite a few people at a time."
+        ],
+        avoid: [
+          "Everyone arrives through directory sync. Show the sync instead.",
+          "The form asks for every profile field.",
+          "Seats would be used without saying so."
+        ],
+        alternatives: [
+          ["Bulk add users", "When there are dozens or more."],
+          ["Auto-join by domain", "When anyone on the company domain should get in."],
+          ["Directory sync", "When an identity provider is the source of truth."]
+        ]
+      },
+      "User directory": {
+        payoff: "From the start: the directory is where admins begin almost every task.",
+        tradeoff: "A searchable directory answers who's here and what's wrong, but at scale it has to run on the server and respect each admin's scope. Lead with search across name, email and ID, show status in words, and keep counts true to the whole directory.",
+        use: [
+          "Admins look people up by name, email or ID.",
+          "Status problems need finding: suspended, locked, invited.",
+          "Several admins share the work."
+        ],
+        avoid: [
+          "Infinite scroll for a list people audit.",
+          "Counts that only reflect the loaded page.",
+          "Status shown by colour alone."
+        ],
+        alternatives: [
+          ["Global admin search", "When the admin starts from anywhere in the console."],
+          ["Saved views", "When the same filtered list is checked often."],
+          ["Groups", "When people are managed by team, not one by one."]
+        ]
+      },
+      "User detail": {
+        payoff: "At thousands, when 'why can or can't this person do this?' becomes the most common question.",
+        tradeoff: "One page per person brings access, security and activity together, but it gets long and slow when people belong to hundreds of groups. Group it by what admins act on, say where each piece of access comes from, and link out rather than copying everything in.",
+        use: [
+          "Admins troubleshoot one person's access.",
+          "Access comes from roles, groups and policies.",
+          "Support asks what happened to an account."
+        ],
+        avoid: [
+          "A person's access is spread over five pages.",
+          "Raw IDs as the main labels.",
+          "Destructive actions next to routine ones."
+        ],
+        alternatives: [
+          ["Effective permissions", "When the question is one capability."],
+          ["Audit log", "When the question is what happened, and when."],
+          ["Detail panel", "When admins need a glance from the list."]
+        ]
+      },
+      "Edit profile": {
+        payoff: "From the start, and more carefully once fields are synced from an identity provider or HR.",
+        tradeoff: "Editing in place is quick, but a synced field changed here is overwritten by the next sync. Lock synced fields with their source and a link there, use an explicit Save for anything about sign-in, and show who changed what, with Undo.",
+        use: [
+          "Some profile fields are owned by the console.",
+          "Admins fix titles, managers or locations.",
+          "Changes need a visible record."
+        ],
+        avoid: [
+          "The field is synced. Link to the source instead.",
+          "Autosaving identity fields.",
+          "Losing unsaved edits on navigation."
+        ],
+        alternatives: [
+          ["Edit in the source system", "When the identity provider or HR owns the field."],
+          ["Bulk edit", "When the same change applies to many people."],
+          ["Self-service profile", "When people can fix their own details."]
+        ]
+      },
+      "Suspend / deactivate": {
+        payoff: "From the start: access must be removable quickly and safely.",
+        tradeoff: "Suspending is reversible and fast, but it leaves seats used and content in place. Say exactly what it does before committing, end sessions and revoke tokens, require a reason, and make reactivating one step. Keep deletion a separate, rarer path.",
+        use: [
+          "Someone leaves, goes on leave or is investigated.",
+          "Access must stop now, without losing their work.",
+          "The decision may be reversed."
+        ],
+        avoid: [
+          "Deletion would be the easiest removal.",
+          "Sessions and tokens would stay active.",
+          "Nobody could tell who suspended someone, or why."
+        ],
+        alternatives: [
+          ["Offboarding", "When the person has left for good."],
+          ["Sign out everywhere", "When access should continue but sessions end."],
+          ["Remove a role", "When only part of their access should go."]
+        ]
+      },
+      "Offboarding": {
+        payoff: "At thousands, when people leave every week and what they owned outlives them.",
+        tradeoff: "A guided offboarding protects data, but it's slower than one button. Transfer ownership first, say what's deleted, kept or transferred with counts, keep a restore window, check legal hold, and run large transfers as jobs.",
+        use: [
+          "People leave and own files, links, keys or admin roles.",
+          "HR triggers departures.",
+          "Retention or legal hold applies."
+        ],
+        avoid: [
+          "Content deleted by default when access is removed.",
+          "Legal hold hidden until deletion fails.",
+          "Calling it done before transfers finish."
+        ],
+        alternatives: [
+          ["Suspend", "When the person might come back."],
+          ["Automated offboarding", "When HR sync triggers it."],
+          ["Transfer ownership", "When only their content needs a new owner."]
+        ]
+      },
+      "Pending invites": {
+        payoff: "At thousands, when invite waves leave people in limbo and seats tied up.",
+        tradeoff: "Treating invites as first-class rows shows who hasn't joined and why, but adds another list to watch. Show sent, expiry, inviter and status, let admins resend, copy or revoke, and say whether an invite holds a seat.",
+        use: [
+          "Admins invite people regularly.",
+          "Invites expire or bounce.",
+          "Pending invites hold seats."
+        ],
+        avoid: [
+          "Invites expiring silently.",
+          "Pending people counted as active.",
+          "Reminders the admin can't control."
+        ],
+        alternatives: [
+          ["Auto-join by domain", "When people should join without an invite."],
+          ["Bulk resend", "When many invites expired at once."],
+          ["Directory sync", "When accounts are created for people, not invited."]
+        ]
+      },
+      "Bulk add users": {
+        payoff: "At thousands, when people arrive in batches and spreadsheets are the format.",
+        tradeoff: "Importing a file adds hundreds at once, but messy data is the real work. Give a template, check everything before creating anyone, point to each error by row with a fix, let admins choose what happens to duplicates, and run large files as jobs.",
+        use: [
+          "New teams, schools or acquisitions arrive at once.",
+          "There's no directory sync yet.",
+          "Data comes from HR as a spreadsheet."
+        ],
+        avoid: [
+          "Creating half the users, then failing.",
+          "Requiring a fixed column order.",
+          "Re-uploading the whole file to fix one row."
+        ],
+        alternatives: [
+          ["Directory sync", "When an identity provider holds the people."],
+          ["Invite several", "When it's a handful of emails."],
+          ["API", "When another system creates the accounts."]
+        ]
+      },
+      "Auto-join by domain": {
+        payoff: "At thousands, when adoption matters more than inviting each person.",
+        tradeoff: "Letting anyone on a verified domain join speeds adoption, but trades away control over who gets in. Require DNS verification, let admins choose join, request or block, keep the default role low and visible, and tell joiners which org they're entering.",
+        use: [
+          "The org owns its email domain.",
+          "Adoption should spread without admin work.",
+          "Most people on the domain should have access."
+        ],
+        avoid: [
+          "Public email domains.",
+          "Auto-joined people getting admin rights or paid seats silently.",
+          "A domain that isn't verified."
+        ],
+        alternatives: [
+          ["Request to join", "When an admin should approve each person."],
+          ["Invite / add user", "When access is by invitation only."],
+          ["Directory sync", "When accounts should follow the identity provider."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [
