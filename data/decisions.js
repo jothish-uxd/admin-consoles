@@ -1123,6 +1123,99 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "search-filtering": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Filter bar"], "A search box and a few filters up front, with active filters said in text and Clear all."],
+        ["Thousands", ["Saved views", "Global admin search"], "Admins repeat the same checks, so filters are saved and shared as views. One search in the top bar jumps to any person, group, role or setting."],
+        ["Hundreds of thousands", ["Advanced query"], "Experts combine, exclude and range across many fields, with a builder and a query language that are the same query."]
+      ],
+      principles: [
+        "Say what's filtered, in text, and make it one click to undo.",
+        "Counts follow the filters and are announced, so an empty list is never a surprise.",
+        "Simple filters for most admins, a query for experts, and both are the same query."
+      ]
+    },
+    intro: "At enterprise size, nobody browses. Admins arrive with a name, an ID, an error or a question, and search and filters decide whether they find the one item among millions in seconds or give up and file a ticket. The design job is to keep the common filters close, make precise queries possible without making them necessary, save the checks people repeat, and let admins jump anywhere they're allowed to go.",
+    patterns: {
+      "Filter bar": {
+        payoff: "From the start: once a list is longer than a screen, admins narrow it by owner, status or date.",
+        tradeoff: "Filters up front are fast to reach, but every one takes space and attention. Keep the few common ones visible, put the rest behind Advanced, say active filters in text with a ✕, and show counts that follow the other filters.",
+        use: [
+          "Lists are longer than a screen.",
+          "Admins check the same few facets again and again.",
+          "Results need to be narrowed without writing a query."
+        ],
+        avoid: [
+          "The list is short enough to scan. A search box is enough.",
+          "Filters would only repeat the columns' sort.",
+          "Admins need complex conditions every time. Offer Advanced first."
+        ],
+        alternatives: [
+          ["Search box", "When names and IDs are what admins know."],
+          ["Saved views", "When the same filters are set again and again."],
+          ["Advanced query", "When conditions combine or exclude."]
+        ]
+      },
+      "Advanced query": {
+        payoff: "At hundreds of thousands, when experts combine, exclude and range across many fields.",
+        tradeoff: "A query language is precise and quick for experts, but closed to everyone else. Offer a builder and the same query as text, check it as it's typed with errors that say where, and sum it up in a sentence.",
+        use: [
+          "Conditions combine with AND, OR and NOT.",
+          "Experts run the same precise checks often.",
+          "Queries need to be shared, saved or audited."
+        ],
+        avoid: [
+          "Simple filters cover nearly every case.",
+          "No one will learn the syntax. The builder alone is enough.",
+          "Queries are so heavy they'd time out. Run them as a report."
+        ],
+        alternatives: [
+          ["Filter bar", "When one or two facets are enough."],
+          ["Saved views", "When a complex query is set up once and reused."],
+          ["Reports", "When the query is a scheduled, heavy job."]
+        ]
+      },
+      "Saved views": {
+        payoff: "At thousands, when admins repeat the same checks and teams share them.",
+        tradeoff: "Saved views turn repeated work into one click, but shared ones can change under people and pile up. Save filters, sort and columns together, say who can use and change each, show who changed it, and mark the active one.",
+        use: [
+          "Admins set the same filters again and again.",
+          "Teams share standard checks.",
+          "Admins want a list to open the same way every time."
+        ],
+        avoid: [
+          "Filters are rarely repeated.",
+          "Views would just be bookmarks. Put the filters in the link.",
+          "No one owns the shared views. They'll go stale."
+        ],
+        alternatives: [
+          ["Link with filters", "When a view is shared once, not kept."],
+          ["Quick filters", "When a few checks matter to everyone."],
+          ["Org-wide views", "When admins all need the same standard checks."]
+        ]
+      },
+      "Global admin search": {
+        payoff: "At thousands, when the console has more pages, people and settings than anyone can browse.",
+        tradeoff: "One search box is the fastest way anywhere, but it can show more than someone may see and hide how the console is organised. Search people, groups, roles, settings and pages, group results by type with context, filter by permission, and keep navigation as the other way.",
+        use: [
+          "Admins arrive knowing a name, an ID or a setting.",
+          "The console has many sections and pages.",
+          "Experienced admins want to move by keyboard."
+        ],
+        avoid: [
+          "The console has a few pages. The navigation is enough.",
+          "Results can't be filtered by permission.",
+          "The shortcut would be a single key that can't be turned off."
+        ],
+        alternatives: [
+          ["Search settings", "When the question is only about settings."],
+          ["Section search", "When admins search within one list."],
+          ["Navigation", "When people browse and learn the console."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [

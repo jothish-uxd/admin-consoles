@@ -1171,5 +1171,55 @@ window.VIDEOS = {
         "But External sharing is Off, locked by Rebel Alliance, and locked settings win. Each step links to where it can be changed."
       ]
     }
+  },
+  "search-filtering": {
+    "Filter bar": {
+      src: "media/search-filtering/filter-bar.mp4",
+      poster: "media/search-filtering/filter-bar.jpg",
+      label: "Filter bar, shown in a mock Echo Base console",
+      steps: [
+        "Content › All content has its common filters up front: Owner, Sharing, Last modified, Size and Advanced.",
+        "The admin opens Owner. With 4,812 owners, the list has its own search, and every value has a count.",
+        "She types deac and picks Deactivated people. The filter now reads Owner: Deactivated, with a ✕, and the count, 112 items, is announced.",
+        "She opens Sharing. Its counts now follow the Owner filter, and Public link brings it to 3 items.",
+        "She removes the Owner filter with its ✕, leaving 38 items shared by public link, then uses Clear all to get back to everything."
+      ]
+    },
+    "Advanced query": {
+      src: "media/search-filtering/advanced-query.mp4",
+      poster: "media/search-filtering/advanced-query.jpg",
+      label: "Advanced query, shown in a mock Echo Base console",
+      steps: [
+        "Beside the simple filters, the admin opens Advanced. A builder joins conditions with AND: type is PDF or DOC, last activity more than 90 days ago, tag is not Legal hold.",
+        "A sentence below says what it finds, in plain words.",
+        "She switches to Query. The same query is there as text, with the fields it understands listed.",
+        "She adds sise:>10MB. The error names the unknown field and its position, and offers Use size.",
+        "She takes the fix and switches back to Builder: the size condition is there too. She applies it, and it shows as Advanced: 4 conditions, with 214 items."
+      ]
+    },
+    "Saved views": {
+      src: "media/search-filtering/saved-views.mp4",
+      poster: "media/search-filtering/saved-views.jpg",
+      label: "Saved views, shown in a mock Echo Base console",
+      steps: [
+        "With Owner: Deactivated and Sharing: Public link set, the admin clicks Save view.",
+        "She names it Stale public links. The dialog lists what's saved together: both filters, the sort, the 6 columns and the list layout.",
+        "She shares it with Content admins, and only she can change it. She also makes it the view Content opens with.",
+        "Saved, it's the active view, marked Shared, and its name is announced.",
+        "Hovering Owner deactivated, another shared view, shows who shared it, and who changed it, when and how."
+      ]
+    },
+    "Global admin search": {
+      src: "media/search-filtering/global-admin-search.mp4",
+      poster: "media/search-filtering/global-admin-search.jpg",
+      label: "Global admin search, shown in a mock Echo Base console",
+      steps: [
+        "From People › Roles, the admin clicks Search Echo Base in the top bar. ⌘K opens it too.",
+        "It opens on her recent items.",
+        "She types fleet. Results are grouped as People, Groups, Roles and Settings, each with enough context to choose, and only what she can access.",
+        "She moves down to the Fleet group with the arrow keys, and opens it with Enter.",
+        "She lands on Fleet's own page. A note in the search says the shortcut can be changed or turned off."
+      ]
+    }
   }
 };
