@@ -1,0 +1,100 @@
+import sys; sys.path.insert(0, __file__.rsplit("/", 1)[0])
+from shell import make
+from import_page import CSS as ICSS, head
+CSS = ICSS + r"""
+.view { position: absolute; inset: 0; padding: 20px 32px; }
+table.mp { margin-top: 8px; font-size: 13px; table-layout: fixed; width: 100%; }
+.mp th { padding: 0 10px 8px; }
+.mp td { height: 40px; padding: 0 10px; }
+.mp td.col { color: var(--ink); font-weight: 500; font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.mp td.smp { color: var(--soft); font-size: 12.5px; }
+.fs { position: relative; width: 190px; height: 30px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; color: var(--ink); font-size: 13px; }
+.fs.warn { border-color: #b45309; }
+.fs.dim { color: var(--soft); }
+.fs.prs { background: var(--hover); }
+.fs .menu { position: absolute; left: -1px; top: 36px; width: 240px; z-index: 6; opacity: 0; }
+.fs .menu .s2 { display: block; font-size: 11.5px; color: var(--soft); }
+.hm { font-size: 12.5px; color: var(--soft); }
+.hm b { color: var(--ink); font-weight: 500; }
+.hm.w { color: #92400e; }
+tr.hl td { background: var(--subtle); }
+.sv .btn { height: 34px; }
+.sv { margin-top: 12px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--ink); }
+.sv .cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; position: relative; }
+.sv .cb.on { background: var(--ink); border-color: var(--ink); }
+.sv .cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.sv span.d { color: var(--soft); font-size: 12.5px; }
+"""
+ROWS = [
+  ("nm", "Full name", "Cal Alder · Jes Gistang", "Name", "<b>Matched by name</b>", ""),
+  ("em", "E-mail", "cal@echobase.rebellion", "Email", "Matched by a similar name", ""),
+  ("sq", "Squad", "Fleet · Hoth evac", "Team", "Matched by a similar name", ""),
+  ("rl", "Role", "Pilot · Mechanic · Gunner", "Console role", "Check this: the samples look like job titles", "warn"),
+  ("bs", "Boss", "Wedge Antilles", "Manager", "Matched by a similar name", ""),
+  ("bg", "Badge no.", "4471 · 4472", "Don’t import", "No matching field", "dim"),
+]
+def row(i, c, smp, f, how, cls):
+    menu = '<div class="menu" id="menu"><div id="miT">Title<span class="s2">Job title, such as Pilot</span></div><div>Console role<span class="s2">Permissions in the console</span></div><div>Don’t import</div></div>' if i == "rl" else ""
+    return f'            <tr id="r-{i}"><td class="col">{c}</td><td class="smp">{smp}</td><td><span class="fs {cls}" id="f-{i}"><span id="fv-{i}">{f}</span><i class="cv"></i>{menu}</span></td><td class="hm{" w" if cls == "warn" else ""}" id="h-{i}">{how}</td></tr>'
+rows = "\n".join(row(*r) for r in ROWS)
+MAIN = f'''      <div class="view imp" id="vImp">
+{head(2)}          <div class="card"><h3>Match the file’s columns to fields</h3>Matches are filled in for you. Check them against the sample values before going on.
+            <table class="mp"><colgroup><col style="width:190px"><col style="width:200px"><col style="width:220px"><col></colgroup><thead><tr><th>Column in fleet-new-hires.csv</th><th>Sample values</th><th>Field</th><th>How it was matched</th></tr></thead><tbody>
+{rows}
+            </tbody></table>
+            <div class="sv"><span class="cb" id="cbS"></span>Save this mapping as <b>Holonet HR new hires</b><span class="d">· for the next file with these columns</span><span style="flex:1"></span><span class="btn">Back</span><span class="btn pri" id="bCont">Continue to review</span></div>
+          </div>
+      </div>'''
+SCRIPT = r"""const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  fClick: 2.40, menu: [2.45, 3.25], pick: 3.15, sClick: 4.40, contClick: 5.50,
+  endCard: [6.40, 6.85], end: 7.5
+};
+
+function build() {
+  const f = at("f-rl"), s = at("cbS"), c = at("bCont"), v = at("vImp");
+  $("menu").style.opacity = 1; const mt = at("miT", -60, 0); $("menu").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.30, 960, 640], [1.30, f[0] + 200, f[1] - 60], [2.20, f[0], f[1] + 3], [2.50, f[0], f[1] + 3],
+    [2.95, mt[0], mt[1] + 3], [3.25, mt[0], mt[1] + 3], [4.20, s[0], s[1] + 2], [4.50, s[0], s[1] + 2],
+    [5.30, c[0], c[1] + 3], [5.60, c[0], c[1] + 3], [6.40, c[0] - 80, c[1] + 60]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00],
+    [0.90, v[0], v[1] + 40, 1.14], [6.15, v[0], v[1] + 40, 1.14],     // one steady view: every match and its samples
+    [6.40, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  // the Role column was matched to the console role, but its samples are job titles
+  const fixed = t >= T.pick + .05;
+  const mo = span(t, T.menu[0], T.menu[0] + .15, easeOut) * (1 - span(t, T.menu[1] - .08, T.menu[1]));
+  $("menu").style.opacity = mo;
+  $("miT").classList.toggle("hov", t > T.pick - .25 && t < T.menu[1]);
+  $("f-rl").className = "fs" + (fixed ? "" : " warn") + (t >= T.fClick - .05 && t < T.menu[1] ? " prs" : "");
+  $("fv-rl").textContent = fixed ? "Title" : "Console role";
+  $("h-rl").className = "hm" + (fixed ? "" : " w");
+  $("h-rl").innerHTML = fixed ? "<b>Changed by you</b>" : "Check this: the samples look like job titles";
+  $("r-rl").classList.toggle("hl", t >= 1.4 && t < T.pick + 1.0);
+  $("cbS").classList.toggle("on", t >= T.sClick);
+  $("bCont").classList.toggle("dn2", t >= T.contClick - .05);
+}
+
+function events() { return [["click", T.fClick], ["click", T.pick], ["click", T.sClick], ["click", T.contClick]]; }
+
+Motion.scene({
+  // natural length, within the 15 s cap
+  T, clicks: [T.fClick, T.pick, T.sClick, T.contClick], build, render, events,
+  slow: [[1.0, 2.2, 1.6], [3.3, 4.2, 1.4]]
+});"""
+COMMENT = """  Source for media/import-export/field-mapping.mp4. Built by motion/_build/field_mapping.py on _build/shell.py and _build/import_page.py.
+  Follows the Field mapping card (data/guidance-actions.js):
+  - every column is matched for her, shown for review with sample values and how it was matched
+  - Role was matched to the console role, but its samples are job titles: flagged, and she changes it to Title
+  - a column with no field is set to Don't import, not dropped silently
+  - she saves the mapping for the next file with the same columns"""
+make("field-mapping", "Field mapping", COMMENT, CSS, "People / Users / Import", "people", MAIN, SCRIPT)

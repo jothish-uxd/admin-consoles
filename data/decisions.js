@@ -208,6 +208,99 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "import-export": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["CSV import", "Export"], "A file now and then, for onboarding a team or answering a question. A template and a clear summary are enough."],
+        ["Thousands", ["Field mapping", "Validation & errors"], "Files come from HR and other systems, with their own column names and their own mistakes. Mapping and fixing become most of the work."],
+        ["Hundreds of thousands", [], "Imports run as jobs with history and rollback, and the API or sync replaces most files. Exports are scheduled, scoped and audited."]
+      ],
+      principles: [
+        "Check everything before changing anything. Nothing is written until the last step, and the summary says what will happen.",
+        "Make imports safe to run twice. Match existing records and ask what to do with them, so a retry never creates duplicates.",
+        "Treat every export as data leaving the org. Scope it, leave sensitive fields off by default, deliver a link that expires, and log it."
+      ]
+    },
+    intro: "Import and export move data in bulk, so mistakes are bulk mistakes too. The work is in the checks around the file: what it will change on the way in, and who can see it on the way out.",
+    patterns: {
+      "CSV import": {
+        payoff: "From the start, as soon as people arrive in batches rather than one at a time.",
+        tradeoff: "A file adds dozens of people in one go, but it also adds dozens of mistakes in one go. Summarise before writing, and decide up front what happens to people who already exist.",
+        use: [
+          "People or records arrive in batches, such as a new team or a term's students.",
+          "The data already lives in a spreadsheet or another system's export.",
+          "Admins are comfortable with spreadsheets but not with APIs."
+        ],
+        avoid: [
+          "There are only a few. A form or invite by email is quicker.",
+          "The data changes every day. Sync from the source instead of re-importing.",
+          "The source has an API or connector. Connect it once."
+        ],
+        alternatives: [
+          ["Invite by email", "When there are only a few people."],
+          ["Directory sync", "When the identity provider or HR system is the source."],
+          ["API", "When another system will send changes on its own."]
+        ]
+      },
+      "Field mapping": {
+        payoff: "At thousands, when files come from systems that don't use your column names.",
+        tradeoff: "Automatic matching saves time on every file, but a confident wrong match is worse than none. Show sample values and how each match was made, and flag the doubtful ones.",
+        use: [
+          "Files come from other systems, with their own column names.",
+          "The same kind of file arrives again and again. Save the mapping.",
+          "Some columns shouldn't be imported at all."
+        ],
+        avoid: [
+          "Every file comes from your own template. The columns already match.",
+          "There are only two or three columns. Mapping adds a step for nothing.",
+          "The source is connected. Map once in the connector settings."
+        ],
+        alternatives: [
+          ["Strict template", "When you control the file and can reject anything else."],
+          ["Saved mapping", "When the same source sends the same columns each time."],
+          ["Connector field settings", "When the data comes through an integration."]
+        ]
+      },
+      "Validation & errors": {
+        payoff: "At thousands, when one bad row shouldn't stop the other 47.",
+        tradeoff: "Importing the good rows and keeping the bad ones keeps work moving, but it leaves a partial result to finish later. Say exactly what was and wasn't imported, and hand back the rows that failed.",
+        use: [
+          "Files are large enough that some rows will always be wrong.",
+          "Admins can fix most problems in place without going back to the source.",
+          "Some problems block a row and others don't."
+        ],
+        avoid: [
+          "Every row depends on every other. Reject the whole file and say why.",
+          "The file is tiny. A single clear error message is enough.",
+          "Fixes need data only the source has. Send the errors back instead of editing here."
+        ],
+        alternatives: [
+          ["All-or-nothing import", "When a partial result would be worse than none."],
+          ["Error file download", "When fixes have to happen in the source spreadsheet."],
+          ["Dry run", "When admins want the report before committing to anything."]
+        ]
+      },
+      "Export": {
+        payoff: "From the start: admins always need to answer questions with the data outside the console.",
+        tradeoff: "Exports let admins work with data anywhere, but every file is data that has left the org. Scope it from the current view, leave sensitive fields off, and deliver a link that expires instead of an attachment.",
+        use: [
+          "Admins need the data in a spreadsheet, report or another tool.",
+          "The current filter already describes what they need.",
+          "Audit, finance or compliance ask for a snapshot."
+        ],
+        avoid: [
+          "The need is ongoing. Schedule it or stream it to the other system.",
+          "The answer is a number. Show a report in the console instead.",
+          "The data is too sensitive to leave. Give viewing access instead."
+        ],
+        alternatives: [
+          ["Scheduled export", "When the same file is needed every week."],
+          ["Report in the console", "When the question has an answer that can be shown here."],
+          ["API or streaming", "When another system needs the data continuously."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [

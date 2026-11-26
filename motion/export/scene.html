@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Export · motion scene</title>
+<!--
+  Source for media/import-export/export.mp4. Built by motion/_build/export.py on motion/_build/users_page.py,
+  so People › Users is the same page as in the other clips.
+  Follows the Export card (data/guidance-actions.js):
+  - scope comes from the current filter: select all 82 matching Team: Fleet, then Export in the bar
+  - fields to include; sensitive ones (phone, home address, employee ID) off by default
+  - CSV or JSON, each described
+  - runs as a job; a link that expires in 7 days, not an attachment; only you can open it; logged
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.fr { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
+.srch { flex: 1; height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; gap: 8px; align-items: center; padding: 0 12px; font-size: 13px; color: var(--faint); }
+.srch svg { width: 14px; height: 14px; }
+.fb { height: 34px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border: 1px solid var(--rule-strong); border-radius: 8px; font-size: 12.5px; color: var(--ink); white-space: nowrap; }
+.fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
+.fb .x { color: var(--faint); }
+.slot { position: relative; height: 46px; margin-top: 10px; }
+.slot .mt { position: absolute; left: 0; top: 11px; font-size: 12.5px; color: var(--soft); white-space: nowrap; }
+.slot .mt b { color: var(--ink); font-weight: 600; }
+.bar { position: absolute; left: 0; right: 0; top: 0; height: 38px; background: var(--ink); color: #fff; border-radius: 8px; display: flex; align-items: center; gap: 4px; padding: 0 5px 0 12px; font-size: 12.5px; opacity: 0; z-index: 3; }
+.bar > * { flex: none; }
+.bar .n { font-weight: 600; white-space: nowrap; margin-right: 6px; }
+.bar .sp { flex: 1 1 auto; }
+.bar a { color: #fff; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; margin: 0 4px; }
+.bar .sp { flex: 1; }
+.bar .btn { height: 28px; font-size: 12px; padding: 0 8px; white-space: nowrap; background: transparent; color: #fff; border-color: #737373; position: relative; }
+.bar .btn.clr { border-color: transparent; color: #d4d4d4; }
+.bar .btn.off { color: #a3a3a3; border-color: #525252; }
+.bar .div { width: 1px; height: 18px; background: #525252; margin: 0 4px; }
+table.u { font-size: 13px; }
+.u th { padding: 0 10px 8px; }
+.u td { height: 50px; padding: 0 10px; }
+.u th.ck, .u td.ck { width: 34px; padding: 0 0 0 10px; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); vertical-align: middle; position: relative; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.cb.part { background: var(--ink); border-color: var(--ink); }
+.cb.part::after { content: ""; position: absolute; left: 3px; top: 6px; width: 7px; height: 2px; background: #fff; }
+.pp { display: flex; gap: 10px; align-items: center; color: var(--ink); font-weight: 500; }
+.pp .av { width: 28px; height: 28px; font-size: 10.5px; }
+.pp .s { display: block; font-size: 11.5px; color: var(--faint); font-weight: 400; }
+.u td.dea { color: var(--ink); font-weight: 600; }
+tr.sel td { background: var(--subtle); }
+.cnt { margin-top: 8px; font-size: 12px; color: var(--faint); }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.hd .btn.sm + .btn.sm { margin-left: 8px; }
+.hd .btn.sec { background: var(--bg); color: var(--ink); border-color: var(--rule-strong); }
+.hd .btn.sec.dn { background: var(--hover); color: var(--ink); border-color: var(--rule-strong); }
+.scrim { position: absolute; inset: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 20; border-radius: inherit; }
+.dlg { position: absolute; left: 330px; top: 84px; width: 540px; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 16px 20px; z-index: 21; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h2 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .lb { margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--ink); }
+.dlg .lb span { font-weight: 400; color: var(--soft); }
+.dlg .ops { margin-top: 5px; display: flex; gap: 8px; }
+.op { display: flex; gap: 8px; align-items: flex-start; border: 1px solid var(--rule); border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--soft); flex: 1; }
+.op b { display: block; color: var(--ink); font-weight: 500; font-size: 12.5px; }
+.op .rd { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--rule-strong); flex: none; margin-top: 2px; position: relative; box-sizing: border-box; }
+.op.on { border-color: var(--ink); }
+.op.on .rd { border-color: var(--ink); }
+.op.on .rd::after { content: ""; position: absolute; inset: 2px; border-radius: 50%; background: var(--ink); }
+.flds { margin-top: 5px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px 10px; }
+.flds div { display: flex; gap: 7px; align-items: center; color: var(--ink); height: 22px; }
+.flds.sen div { color: var(--soft); }
+.dlg .ft { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .nt { flex: 1; font-size: 12px; }
+.dlg .ft .btn { height: 32px; font-size: 12.5px; white-space: nowrap; flex: none; }
+.job { display: none; margin-top: 12px; }
+.job .pb { margin-top: 8px; height: 6px; border-radius: 999px; background: var(--hover); overflow: hidden; }
+.job .pb i { display: block; height: 100%; width: 100%; background: var(--ink); transform-origin: left center; }
+.file { margin-top: 10px; display: flex; gap: 10px; align-items: center; border: 1px solid var(--rule-strong); border-radius: 10px; padding: 10px 12px; }
+.file .ty { display: inline-grid; place-items: end center; width: 22px; height: 28px; border: 1.2px solid var(--rule-strong); border-radius: 3px; font-family: "Geist Mono", monospace; font-size: 6.5px; padding-bottom: 2px; box-sizing: border-box; flex: none; }
+.file .w { flex: 1; } .file .w b { display: block; color: var(--ink); font-weight: 500; font-size: 13px; }
+.file .btn { height: 32px; font-size: 12.5px; }
+.kv { margin-top: 10px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.kv div { font-size: 12px; } .kv b { display: block; font-size: 11.5px; color: var(--soft); font-weight: 500; }
+.kv span { color: var(--ink); }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="no" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.6v4.2M8 11v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" data-path="People / Users"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="people" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>People</h1><span class="btn sm pri">Invite people</span></div>
+        <div class="tabs page"><div class="on">Users</div><div>Groups</div><div>Roles</div></div>
+        <div class="fr"><div class="srch"><svg><use href="#srch"/></svg>Search people</div><span class="fb on">Team: Fleet <span class="x">✕</span></span><span class="fb">License<i class="cv"></i></span><span class="fb">Status<i class="cv"></i></span></div>
+        <div class="slot" id="slot"><div class="mt" id="mt"><b>82 people</b> match Team: Fleet · sorted by name</div>
+          <div class="bar" id="bar" role="region" aria-label="Selected people"><span class="n" id="bN">1 selected</span><a id="bAll">Select all 82 matching</a><span class="btn clr" id="bClr">Clear</span><span class="sp"></span>
+            <span class="btn" id="bEdit">Edit…</span><span class="btn" id="bGrp">Add to group</span><span class="btn" id="bLic">Change license</span><span class="btn" id="bExp">Export</span><span class="div"></span><span class="btn" id="bSus">Suspend</span></div></div>
+        <table class="u" id="tU"><thead><tr><th class="ck"><span class="cb" id="cAll"></span></th><th>Person</th><th>Team</th><th>Groups</th><th>License</th><th>Last active</th></tr></thead><tbody>
+          <tr id="r-hobbie"><td class="ck"><span class="cb" id="c-hobbie"></span></td><td><div class="pp"><span class="av">HK</span><div>Hobbie Klivian<span class="s">Pilot</span></div></div></td><td>Fleet</td><td id="g-hobbie">Fleet, Rogue Squadron</td><td>Console</td><td>Yesterday</td></tr>
+          <tr id="r-cal"><td class="ck"><span class="cb" id="c-cal"></span></td><td><div class="pp"><span class="av">CA</span><div>Cal Alder<span class="s">Patrol lead</span></div></div></td><td>Fleet</td><td id="g-cal">Fleet</td><td>Console</td><td>3 days ago</td></tr>
+          <tr id="r-zev"><td class="ck"><span class="cb" id="c-zev"></span></td><td><div class="pp"><span class="av">ZS</span><div>Zev Senesca<span class="s">Pilot</span></div></div></td><td>Fleet</td><td id="g-zev">Fleet</td><td>Console</td><td>61 days ago</td></tr>
+          <tr id="r-wes"><td class="ck"><span class="cb" id="c-wes"></span></td><td><div class="pp"><span class="av">WJ</span><div>Wes Janson<span class="s">Gunner</span></div></div></td><td>Fleet</td><td id="g-wes">Fleet, Shield Ops</td><td>Console + AI</td><td>Today</td></tr>
+          <tr id="r-bren"><td class="ck"><span class="cb" id="c-bren"></span></td><td><div class="pp"><span class="av">BD</span><div>Bren Derlin<span class="s">Security officer</span></div></div></td><td>Fleet</td><td id="g-bren">Fleet</td><td>Console</td><td class="dea">Deactivated</td></tr>
+          <tr id="r-jes"><td class="ck"><span class="cb" id="c-jes"></span></td><td><div class="pp"><span class="av">JG</span><div>Jes Gistang<span class="s">Pilot</span></div></div></td><td>Fleet</td><td id="g-jes">Fleet</td><td>Console</td><td>2 days ago</td></tr>
+          <tr id="r-ved"><td class="ck"><span class="cb" id="c-ved"></span></td><td><div class="pp"><span class="av">VF</span><div>Ved Foslo<span class="s">Mechanic</span></div></div></td><td>Fleet</td><td id="g-ved">Fleet, Hangar 3</td><td>Console</td><td>Today</td></tr>
+        </tbody></table><div class="cnt" id="cnt">Showing 1–25 of 82</div>
+      </div>
+    </div>
+    <div class="scrim" id="scrim"></div>
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dH"><h2 id="dH">Export people</h2><div id="form"><div style="margin-top:3px">From People › Users, as it’s filtered now.</div><div class="lb">Who</div><div class="ops"><div class="op on"><span class="rd"></span><div><b>82 selected</b>everyone matching Team: Fleet</div></div><div class="op"><span class="rd"></span><div><b>Everyone</b>all 1,204 people</div></div></div><div class="lb">Fields</div><div class="flds"><div><span class="cb on"></span>Name</div><div><span class="cb on"></span>Email</div><div><span class="cb on"></span>Team</div><div><span class="cb on"></span>Title</div><div><span class="cb on"></span>Groups</div><div><span class="cb on"></span>License</div><div><span class="cb on" id="fLast"></span>Last active</div></div><div class="lb">Sensitive fields <span>· off unless you need them</span></div><div class="flds sen"><div><span class="cb"></span>Phone</div><div><span class="cb"></span>Home address</div><div><span class="cb"></span>Employee ID</div></div><div class="lb">Format</div><div class="ops"><div class="op on"><span class="rd"></span><div><b>CSV</b>Opens in a spreadsheet</div></div><div class="op"><span class="rd"></span><div><b>JSON</b>For scripts and other tools</div></div></div><div class="ft"><span class="nt">Runs in the background. You get a link, not an attachment.</span><span class="btn">Cancel</span><span class="btn pri" id="bStart">Export 82 people</span></div></div><div class="job" id="job" role="status"><b id="jT" style="color:var(--ink)">Exporting 82 people…</b><div id="jS">You can close this. We’ll let you know when it’s ready.</div><div class="pb" id="pb"><i id="pbI"></i></div><div id="rdy" style="display:none"><div class="file"><span class="ty">CSV</span><div class="w"><b>fleet-people.csv</b>82 rows · 6 fields · no sensitive fields</div><span class="btn pri" id="bDl">Download</span></div><div class="kv"><div><b>Link expires</b><span>in 7 days · Dec 3</span></div><div><b>Who can open it</b><span>Only you</span></div><div><b>Logged</b><span>In the audit log</span></div></div><div class="ft"><span class="nt"></span><span class="btn">Done</span></div></div></div></section>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const IDS = ["hobbie", "cal", "zev", "wes", "bren", "jes", "ved"];
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  cAll: 0.95, allClick: 1.65, expClick: 2.35, open: [2.40, 2.70], lastClick: 3.55, startClick: 4.30, run: [4.40, 5.10], dlClick: 5.80,
+  endCard: [6.40, 6.85], end: 7.2
+};
+
+function build() {
+  const h = at("cAll");
+  $("bar").style.opacity = 1; $("bAll").style.display = ""; const b = at("bAll", 0, 0); const ex = at("bExp"); $("bar").style.opacity = 0;
+  $("dlg").style.opacity = 1; const l = at("fLast", -38, 0), st = at("bStart"), dg = at("dlg");
+  $("form").style.display = "none"; $("job").style.display = "block"; $("rdy").style.display = "block"; const dl = at("bDl");
+  $("form").style.display = ""; $("job").style.display = ""; $("rdy").style.display = "none"; $("dlg").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.70, h[0], h[1] + 3], [1.00, h[0], h[1] + 3], [1.40, b[0], b[1] + 3], [1.70, b[0], b[1] + 3],
+    [2.10, ex[0], ex[1] + 3], [2.40, ex[0], ex[1] + 3],
+    [3.30, l[0], l[1] + 3], [3.60, l[0], l[1] + 3], [4.05, st[0], st[1] + 3], [4.35, st[0], st[1] + 3],
+    [5.55, dl[0], dl[1] + 3], [5.85, dl[0], dl[1] + 3], [6.40, dl[0] - 60, dl[1] + 50]
+  ];
+  const cam = [
+    [0.00, 640, 360, 1.00], [0.25, 640, 360, 1.00],
+    [0.60, 724, 340, 1.15], [2.45, 724, 340, 1.15],       // the bar and the rows, as in Selection model
+    [2.85, dg[0], 330, 1.08], [6.15, dg[0], 330, 1.08],   // the dialog, whole, start to finish
+    [6.40, 656, 360, 1.04]
+  ];
+  return { cam, cur };
+}
+
+function render(t) {
+  // select everyone the filter matches: the export's scope
+  const n = t >= T.allClick ? 82 : t >= T.cAll ? 25 : 0;
+  IDS.forEach(id => { $("c-" + id).classList.toggle("on", n > 0); $("r-" + id).classList.toggle("sel", n > 0); });
+  $("cAll").className = "cb" + (n > 0 ? " on" : "");
+  const bo = span(t, T.cAll, T.cAll + .15);
+  $("bar").style.opacity = bo; $("mt").style.opacity = 1 - bo;
+  $("bN").textContent = n === 82 ? "All 82 matching Team: Fleet selected" : "25 on this page selected";
+  $("bAll").style.display = n === 25 ? "" : "none";
+  $("bAll").style.opacity = t >= T.allClick - .25 && n === 25 ? .7 : 1;
+  $("bExp").classList.toggle("dn", t >= T.expClick - .05 && t < T.open[0] + .2);
+  const o = span(t, ...T.open, easeOut);
+  $("scrim").style.opacity = o; $("dlg").style.opacity = o;
+  $("dlg").style.transform = `translateY(${8 * (1 - o)}px)`;
+  $("fLast").className = "cb" + (t >= T.lastClick ? "" : " on");
+  $("bStart").textContent = "Export 82 people";
+  $("bStart").classList.toggle("dn", t >= T.startClick - .05 && t < T.run[0]);
+  // one state at a time: the form, then the job
+  const run = t >= T.run[0], done = t >= T.run[1];
+  $("form").style.display = run ? "none" : ""; $("job").style.display = run ? "block" : "none";
+  $("pb").style.display = done ? "none" : "block"; $("rdy").style.display = done ? "block" : "none";
+  $("pbI").style.transform = `scaleX(${.05 + .95 * span(t, ...T.run, x => x)})`;
+  $("jT").textContent = done ? "Your export is ready" : "Exporting 82 people…";
+  $("jS").textContent = done ? "We also sent you a notification with this link." : "You can close this. We’ll let you know when it’s ready.";
+  $("bDl").classList.toggle("dn", t >= T.dlClick - .05 && t < T.dlClick + .3);
+  $("bDl").textContent = t >= T.dlClick + .05 ? "Downloaded" : "Download";
+}
+
+function events() { return [["click", T.cAll], ["click", T.allClick], ["click", T.expClick], ["whoosh", T.open[0]], ["click", T.lastClick], ["click", T.startClick], ["chime", T.run[1]], ["click", T.dlClick]]; }
+
+Motion.scene({
+  // 5+ steps: natural length, within the 15 s cap
+  T, clicks: [T.cAll, T.allClick, T.expClick, T.lastClick, T.startClick, T.dlClick], build, render, events,
+  slow: [[2.9, 3.3, 1.3]]
+});
+</script>
+</body>
+</html>

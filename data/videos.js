@@ -760,5 +760,55 @@ window.VIDEOS = {
         "It finishes with Synced just now · 3 changes, and the rows show who joined and left."
       ]
     }
+  },
+  "import-export": {
+    "CSV import": {
+      src: "media/import-export/csv-import.mp4",
+      poster: "media/import-export/csv-import.jpg",
+      label: "CSV import, shown in a mock Echo Base console",
+      steps: [
+        "On People › Users, Invite people opens a menu: Invite by email for a few people, or Import a CSV for many.",
+        "The import page shows its four steps, and a template with an example row. Required columns are marked, and columns can be in any order.",
+        "She drops fleet-new-hires.csv in. The encoding and delimiter are detected for her.",
+        "Before anything changes, a summary: 48 rows found, 41 ready, 4 with problems, 3 people who already exist.",
+        "For the existing people she chooses Update them, then continues to map fields. Nothing changes until the last step."
+      ]
+    },
+    "Field mapping": {
+      src: "media/import-export/field-mapping.mp4",
+      poster: "media/import-export/field-mapping.jpg",
+      label: "Field mapping, shown in a mock Echo Base console",
+      steps: [
+        "Each column in the file is matched to a field, with sample values beside it so she can check the match.",
+        "Each match says how it was made: by name, by a similar name, or not at all. Badge no. has no matching field, so it isn't imported.",
+        "Role was matched to Console role, and it's flagged: the samples look like job titles.",
+        "She changes it to Title from the menu, and the row now says Changed by you.",
+        "She saves the mapping as Holonet HR new hires for the next file with these columns, then continues to review."
+      ]
+    },
+    "Validation & errors": {
+      src: "media/import-export/validation-errors.mp4",
+      poster: "media/import-export/validation-errors.jpg",
+      label: "Validation and errors, shown in a mock Echo Base console",
+      steps: [
+        "The review shows how many rows are ready, and groups the problems by type. Errors that block a row are kept apart from warnings that don't.",
+        "Each error says what's wrong, by row, and how to fix it. She fixes an email inline, and the count updates.",
+        "A team name that doesn't exist is fixed for both rows at once: Use Hoth Evacuation for 2 rows.",
+        "She downloads the one row that still has an error, to fix later, instead of re-uploading the whole file.",
+        "She imports the 47 good rows. The result says 44 added, 3 updated and 1 not imported."
+      ]
+    },
+    "Export": {
+      src: "media/import-export/export.mp4",
+      poster: "media/import-export/export.jpg",
+      label: "Export, shown in a mock Echo Base console",
+      steps: [
+        "On People › Users, filtered to Team: Fleet, she selects all 82 matching people and chooses Export in the bar. The filter is the export's scope.",
+        "She picks the fields, and turns off Last active. Sensitive fields such as phone, home address and employee ID are off unless she needs them.",
+        "CSV or JSON, each described: one opens in a spreadsheet, the other is for scripts and other tools.",
+        "The export runs in the background. She can close the dialog and be notified.",
+        "When it's ready she gets a link, not an attachment. It expires in 7 days, only she can open it, and the export is in the audit log."
+      ]
+    }
   }
 };

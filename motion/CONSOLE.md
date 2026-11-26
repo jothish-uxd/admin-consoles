@@ -161,7 +161,7 @@ People: the person is Lavanya Sienna. As an admin her title fits the scene (Jedi
 | CSV import | People / Users · Import |
 | Field mapping | People / Users · Import |
 | Validation & errors | People / Users · Import |
-| Export | Compliance / Audit log · Export |
+| Export | People / Users · Export |
 
 ## Governance & compliance
 
