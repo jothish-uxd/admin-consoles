@@ -6,6 +6,7 @@ Run once, before merging `v3-videos` into `main`. Every item is a console-wide c
 
 - [ ] **Alerts bell in every clip.** Only the Notifications & alerts clips (and new clips from then on) have it. Add it to the shared builders (`shell.py`, `users_page.py`, `content_page.py`, `settings_page.py`, `sources_page.py`, the rest) and to the hand-made scenes with `_build/bell.py`, then check each clip for anything near the top right it could collide with: toasts, menus, cursor paths, camera framing.
 - [ ] **End card says Enterprise Library.** Change the credit line in `shared/motion.js` from "Patterns for Enterprise Admin Consoles" (one place).
+- [ ] **Search settings beside the Settings title.** New Settings clips have it (`settings_page.head(..., search=True)`); make it the default and rebuild the earlier Settings clips: Type to confirm, Danger zone, the Integrations & API keys clips, Multi-step wizard, and the Notifications & alerts clips on Settings.
 - [ ] Add anything else that drifts between now and then here.
 
 ## Then

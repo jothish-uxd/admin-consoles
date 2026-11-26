@@ -960,5 +960,67 @@ window.VIDEOS = {
         "She schedules it for Monday at 09:00 in each person's time zone, and it's listed with its audience."
       ]
     }
+  },
+  "settings": {
+    "Settings navigation": {
+      src: "media/org-settings/settings-navigation.mp4",
+      poster: "media/org-settings/settings-navigation.jpg",
+      label: "Settings navigation, shown in a mock Echo Base console",
+      steps: [
+        "Every Settings page has the same tabs in the same order, and Search settings beside the title.",
+        "The admin searches for “session”. It finds individual settings, not just pages, each with where it lives and its current value.",
+        "A setting she can't change is marked View only.",
+        "She picks Session timeout. It jumps to the setting itself on Defaults, highlighted.",
+        "Every setting has its own link. She copies it to share."
+      ]
+    },
+    "Org profile": {
+      src: "media/org-settings/org-profile.mp4",
+      poster: "media/org-settings/org-profile.jpg",
+      label: "Org profile, shown in a mock Echo Base console",
+      steps: [
+        "On Settings › Organization, the admin edits the profile in place, with Save and Cancel, without a support ticket.",
+        "The logo upload says what it needs before she starts: SVG or PNG, at least 256 × 256 px, readable on light and dark.",
+        "She drops in the new logo. A preview shows the sign-in page as people will see it, in light and dark.",
+        "The org ID, for support and the API, copies in one click.",
+        "Saving says what changes: the new logo shows on sign-in pages and emails from now on."
+      ]
+    },
+    "Defaults": {
+      src: "media/org-settings/defaults.mp4",
+      poster: "media/org-settings/defaults.jpg",
+      label: "Defaults, shown in a mock Echo Base console",
+      steps: [
+        "Settings › Defaults shows each default with what it does, its value and the product default. Labels sit above their values.",
+        "Each says who it applies to: files created from now on, or everyone at their next sign-in. A locked one names who can change it.",
+        "The admin tightens Sharing for new files to Only people added.",
+        "Before saving, it says the effect: the 48,200 existing files keep their sharing, and Hangar 3 still overrides it. Reset to product default is beside it.",
+        "Nothing applies until she saves. Saving is confirmed and logged."
+      ]
+    },
+    "Save patterns": {
+      src: "media/org-settings/save-patterns.mp4",
+      poster: "media/org-settings/save-patterns.jpg",
+      label: "Save patterns, shown in a mock Echo Base console",
+      steps: [
+        "Defaults uses one save model: changes wait for the save bar. The admin changes session timeout and resets sharing to the product default.",
+        "The save bar sits under the tabs, so it never covers the control she's using, and says there are 2 unsaved changes.",
+        "She clicks another tab. A warning says which 2 changes would be lost, with Keep editing and Discard and leave.",
+        "She keeps editing and saves.",
+        "The bar shows Saving…, then Saved once the server confirms, and it's announced."
+      ]
+    },
+    "Inherited settings": {
+      src: "media/org-settings/inherited-settings.mp4",
+      poster: "media/org-settings/inherited-settings.jpg",
+      label: "Inherited settings, shown in a mock Echo Base console",
+      steps: [
+        "The admin switches Defaults from the whole org to the Hangar 3 group.",
+        "Each value says where it comes from, in words: Set here, Inherited from Echo Base, or Locked by Rebel Alliance.",
+        "The locked one is disabled and names who can change it: Rebel Alliance admins, such as Mon Mothma.",
+        "She overrides Session timeout for Hangar 3 to 8 hours. Echo Base's 12 hours stays in view, and it says Hangar 3 stops following Echo Base for this until it's reset.",
+        "Reset to inherited is beside it. She saves, and the change is logged."
+      ]
+    }
   }
 };

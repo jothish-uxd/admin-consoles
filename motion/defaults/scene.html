@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Defaults · motion scene</title>
+<!--
+  Source for media/org-settings/defaults.mp4. Built by motion/_build/defaults_clip.py on _build/defaults_page.py,
+  with Search settings beside the title and the top bar's alerts bell.
+  Follows the Defaults card (data/guidance-platform.js):
+  - each default with its value, what it does, the product default and who it applies to
+  - where groups override it; a reset to the product default
+  - changing it says the effect first: new files only, existing files keep their sharing
+  - nothing applies until it's saved; saved and logged
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+
+.btn.sm { height: 32px; font-size: 12.5px; }
+.sec { margin-top: 16px; width: 860px; border: 1px solid var(--rule); border-radius: 12px; padding: 14px 18px 16px; }
+.sec h2 { margin: 0; font-size: 14px; color: var(--ink); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.sec h2 .sp { flex: 1; }
+.sec .kv { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 12px; }
+.dz { margin-top: 18px; width: 860px; border: 1.5px solid #b91c1c; border-radius: 12px; overflow: hidden; }
+.dz .h { padding: 12px 18px; display: flex; align-items: baseline; gap: 10px; border-bottom: 1px solid var(--rule); }
+.dz .h b { font-size: 14px; color: #b91c1c; font-weight: 600; }
+.dz .h span { font-size: 12px; color: var(--soft); }
+.dz .row { display: flex; align-items: center; gap: 24px; padding: 12px 18px; border-bottom: 1px solid var(--rule); }
+.dz .row:last-child { border-bottom: 0; }
+.dz .row .tx { flex: 1; font-size: 12.5px; color: var(--soft); line-height: 1.45; }
+.dz .row .tx b { display: block; font-size: 13.5px; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+.dz .row .btn { width: 168px; flex: none; }
+.btn.dgr { color: #b91c1c; border-color: #b91c1c; font-weight: 500; }
+
+.scope { margin-top: 14px; display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--soft); height: 32px; position: relative; }
+.scope .in { height: 32px; width: 250px; justify-content: space-between; }
+.scope .sp { flex: 1; }
+.svb { margin-top: 12px; height: 44px; border-radius: 10px; background: var(--ink); color: #fff; display: flex; align-items: center; gap: 10px; padding: 0 8px 0 16px; font-size: 13px; opacity: 0; }
+.svb .sp { flex: 1; }
+.svb .btn { height: 30px; font-size: 12.5px; background: transparent; color: #fff; border-color: rgba(255,255,255,.35); }
+.svb .btn.pri { background: #fff; color: var(--ink); border-color: #fff; }
+.svb .btn.pri.dn { background: #d4d4d4; border-color: #d4d4d4; }
+.dgrid { margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.set { border: 1px solid var(--rule); border-radius: 12px; padding: 12px 14px; font-size: 12.5px; color: var(--soft); position: relative; }
+.set.hl { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.set .grp { font: 500 11px "Geist Mono", monospace; letter-spacing: .04em; text-transform: uppercase; color: var(--soft); }
+.set b.n { display: block; margin-top: 4px; color: var(--ink); font-size: 13.5px; font-weight: 600; }
+.set .ds { margin-top: 2px; line-height: 1.4; }
+.set .ctl { margin-top: 8px; display: flex; gap: 8px; align-items: center; position: relative; }
+.set .ctl .in { width: 200px; height: 34px; justify-content: space-between; }
+.set .ctl .in.lk { background: var(--subtle); color: var(--soft); border-style: dashed; }
+.set .ctl .lnk { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-size: 12px; white-space: nowrap; }
+.set .mt { margin-top: 7px; font-size: 12px; line-height: 1.45; }
+.set .mt b { color: var(--ink); font-weight: 500; }
+.src { display: inline-flex; gap: 5px; align-items: center; font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 8px; color: var(--ink); white-space: nowrap; }
+.src svg { width: 11px; height: 11px; }
+.src.set2 { background: var(--ink); color: #fff; border-color: var(--ink); }
+.set .menu { position: absolute; left: 0; top: 38px; width: 200px; z-index: 8; opacity: 0; }
+.set .menu .s2 { display: block; font-size: 11.5px; color: var(--soft); }
+
+
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Settings / Defaults"></span>
+      <div class="me"><span class="bell" id="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg" id="bdg">3</span></span>Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Saved · new files are shared with only the people added · logged</div>
+    </div>
+    <div class="nav" data-at="settings" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>Settings</h1><span class="ss" id="ss"><svg aria-hidden="true"><use href="#srch"/></svg><span id="ssT">Search settings</span><span class="c" id="ssC"></span><span class="kb">⌘K</span></span></div>
+        <div class="tabs page"><div>Organization</div><div class="on">Defaults</div><div>Integrations</div><div>API keys</div><div>Webhooks</div><div>Notifications</div><div>Announcements</div></div>
+        <div class="scope">Showing defaults for<span class="in sel2" id="scp"><span id="scpT">Echo Base · whole org</span><i class="cv"></i></span><span class="sp"></span>Values come from: product default, Echo Base, or a group</div>
+        <div class="svb" id="svb" role="status" aria-live="polite"><span id="svT">2 unsaved changes</span><span class="sp"></span><span class="btn" id="bDis">Discard</span><span class="btn pri" id="bSave">Save changes</span></div>
+        <div class="dgrid"><div class="set" id="dSh"><span class="grp">Sharing</span><b class="n">Sharing for new files</b><div class="ds">Who can open a file when someone creates it.</div><div class="ctl"><span class="in" id="dSh-v"><span id="dSh-t">Team</span><i class="cv"></i></span><span class="lnk" id="dSh-r">Reset to product default</span><div class="menu" id="mSh"><div>Only the owner<span class="s2">Product default</span></div><div id="oPa">Only people added<span class="s2">The owner chooses who</span></div><div>Team<span class="s2">Current</span></div><div>Anyone at Echo Base</div></div></div><div class="mt" id="dSh-m">Product default: Only the owner · <b>applies to files created from now on</b> · Hangar 3 overrides this</div></div><div class="set" id="dEx"><span class="grp">Sharing</span><b class="n">External sharing</b><div class="ds">Whether files can be shared outside Echo Base.</div><div class="ctl"><span class="in lk" id="dEx-v"><span id="dEx-t">Off</span></span><span class="src"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Locked</span></div><div class="mt" id="dEx-m">Set by Rebel Alliance, the parent org · Mon Mothma can change it</div></div><div class="set" id="dSt"><span class="grp">Sign-in & sessions</span><b class="n">Session timeout</b><div class="ds">How long people stay signed in without activity.</div><div class="ctl"><span class="in" id="dSt-v"><span id="dSt-t">12 hours</span><i class="cv"></i></span></div><div class="mt" id="dSt-m">Product default: 24 hours · <b>applies to everyone</b> at their next sign-in</div></div><div class="set" id="dAi"><span class="grp">AI</span><b class="n">AI features for new people</b><div class="ds">Whether people added from now on start with AI features.</div><div class="ctl"><span class="in" id="dAi-v"><span id="dAi-t">Off</span><i class="cv"></i></span></div><div class="mt" id="dAi-m">Product default: Off · applies to people added from now on</div></div></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  oClick: 1.00, menu: [1.05, 2.15], pick: 2.05, svClick: 4.20, saving: [4.25, 4.75], toast: [4.80, 6.00], endCard: [6.10, 6.55], end: 7.05
+};
+
+function build() {
+  const v = at("dSh-v", -60, 0);
+  $("mSh").style.opacity = 1; const p = at("oPa", -60, 0); $("mSh").style.opacity = 0;
+  $("svb").style.opacity = 1; const sv = at("bSave"); $("svb").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.75, v[0], v[1] + 3], [1.05, v[0], v[1] + 3], [1.80, p[0], p[1] + 3], [2.10, p[0], p[1] + 3],
+    [2.80, p[0] + 80, p[1] + 60], [3.95, sv[0], sv[1] + 3], [4.25, sv[0], sv[1] + 3], [6.10, sv[0] - 240, sv[1] + 200]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 330, 1.06], [5.85, 650, 330, 1.06], [6.10, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("crumb").innerHTML = "/ Settings / <b>Defaults</b>";
+  $("mSh").style.opacity = span(t, T.menu[0], T.menu[0] + .12) * (1 - span(t, T.menu[1] - .08, T.menu[1]));
+  $("oPa").classList.toggle("hov", t >= T.pick - .25);
+  $("dSh-v").className = "in" + (t >= T.oClick && t < T.menu[1] ? " f" : "");
+  const ch = t >= T.pick + .05, saved = t >= T.saving[1];
+  $("dSh-t").textContent = ch ? "Only people added" : "Team";
+  // the effect is said before saving: new files only, existing ones keep their sharing, and Hangar 3 still overrides it
+  $("dSh-m").innerHTML = ch ? "Product default: Only the owner · <b>applies to files created from now on.</b> The 48,200 existing files keep their sharing · Hangar 3 overrides this"
+                            : "Product default: Only the owner · <b>applies to files created from now on</b> · Hangar 3 overrides this";
+  $("dSh").classList.toggle("hl", ch && !saved);
+  // one save model on this page: the save bar, then Saving…, then Saved once confirmed
+  $("svb").style.opacity = ch && t < T.toast[0] ? 1 : 0;
+  $("svT").textContent = t >= T.saving[0] ? "Saving…" : "1 unsaved change";
+  $("bSave").classList.toggle("dn", t >= T.svClick - .05 && t < T.saving[1]);
+  $("toast").style.opacity = span(t, T.toast[0], T.toast[0] + .2) * (1 - span(t, T.toast[1] - .2, T.toast[1]));
+}
+
+function events() { return [["click", T.oClick], ["click", T.pick], ["click", T.svClick], ["pop", T.toast[0]]]; }
+
+Motion.scene({
+  // under 5 steps: natural length, within the 10 s cap
+  T, clicks: [T.oClick, T.pick, T.svClick], build, render, events,
+  slow: [[2.3, 3.7, 1.3]]
+});
+</script>
+</body>
+</html>

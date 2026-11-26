@@ -69,6 +69,11 @@ table.st tr.nw td { background: var(--subtle); }
 .flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
 .flag svg { width: 12px; height: 12px; flex: none; }
 .mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
 """
 
 ICONS = ('<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol>'
@@ -77,9 +82,12 @@ ICONS = ('<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="
          '<symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>'
          '<symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>')
 
-def head(on):
+SEARCH = '<span class="ss" id="ss"><svg aria-hidden="true"><use href="#srch"/></svg><span id="ssT">Search settings</span><span class="c" id="ssC"></span><span class="kb">⌘K</span></span>'
+
+def head(on, search=False):
+    """search=True adds Search settings beside the title: new Settings clips have it; earlier ones get it in the final pass (FINAL_PASS.md)."""
     tabs = "".join(f'<div{" class=\"on\"" if t == on else ""}>{t}</div>' for t in TABS)
-    return f'        <div class="hd"><h1>Settings</h1></div>\n        <div class="tabs page">{tabs}</div>\n'
+    return f'        <div class="hd"><h1>Settings</h1>{SEARCH if search else ""}</div>\n        <div class="tabs page">{tabs}</div>\n'
 
 def int_sub(on, right=""):
     subs = [("connected", "Connected", "4"), ("browse", "Browse", ""), ("people", "Connected by people", "23")]

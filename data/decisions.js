@@ -749,6 +749,118 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "settings": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Org profile", "Defaults", "Save patterns"], "One settings area with a few sections. Clear values, an explanation next to each, and one way of saving."],
+        ["Thousands", ["Settings navigation", "Inherited settings"], "Settings span many pages and some vary by group. Search finds individual settings, and every value says where it comes from."],
+        ["Hundreds of thousands", [], "Settings inherit through parent orgs, are locked by policy, change through review, and are managed as configuration by automation."]
+      ],
+      principles: [
+        "Make every setting findable by search, with its own link.",
+        "Show where each value comes from: the product default, set here, inherited, or locked.",
+        "Explain the effect next to the setting, and use one save model on each page."
+      ]
+    },
+    intro: "Org settings start as one page and become a hundred. Each is a decision that applies to everyone unless something overrides it. The design job is findability and clarity: where the setting is, what it's set to, who set it, and whether it actually applies here.",
+    patterns: {
+      "Settings navigation": {
+        payoff: "At thousands, when settings span many pages and admins come looking for one thing.",
+        tradeoff: "Tabs are simple to scan, but they don't scale to a hundred settings. Keep the tabs in one order, and add search that finds individual settings and jumps to them.",
+        use: [
+          "Settings span several pages.",
+          "Admins search for one setting, not a page.",
+          "Settings need to be shared by link in tickets and docs."
+        ],
+        avoid: [
+          "There are a dozen settings on one page.",
+          "Settings would be nested more than two levels deep. Flatten them first.",
+          "The same setting appears in two places. Pick one."
+        ],
+        alternatives: [
+          ["Single settings page", "When everything fits on one page with sections."],
+          ["Left nav by area", "When there are many areas, each with several pages."],
+          ["Command palette", "When settings should be findable from anywhere in the console."]
+        ]
+      },
+      "Org profile": {
+        payoff: "From the start: the name and logo are the org's identity in the product.",
+        tradeoff: "Editing in place is quick, but the profile shows on sign-in pages and emails, sometimes to people outside the org. Say what each change affects, and preview it before saving.",
+        use: [
+          "The org's name and logo show to its people.",
+          "Support and integrations need the org ID.",
+          "Branding should look right in light and dark."
+        ],
+        avoid: [
+          "The org has no branding of its own.",
+          "Profile details come from a parent org. Show them read-only, with who can change them.",
+          "Changes need legal review, such as the registered name. Route them to a request."
+        ],
+        alternatives: [
+          ["Read-only profile", "When a parent org or the vendor manages it."],
+          ["Branding settings", "When colours and themes go beyond a logo."],
+          ["Sub-org profiles", "When regions or brands each need their own."]
+        ]
+      },
+      "Defaults": {
+        payoff: "From the start: defaults decide how most people experience the product.",
+        tradeoff: "Strong defaults keep most people safe without any effort, but changing one can quietly affect everyone. Say who it applies to, show the overrides, and keep a reset to the product default.",
+        use: [
+          "Most people will never change a setting themselves.",
+          "Groups need different values from the org.",
+          "Admins need to know what the product default was."
+        ],
+        avoid: [
+          "Each person sets the value for themselves. Use a personal preference.",
+          "Only one value is ever sensible. Don't make it a setting.",
+          "A default would be insecure. Ship the secure one."
+        ],
+        alternatives: [
+          ["Personal preferences", "When each person should choose."],
+          ["Policies", "When a value must be enforced, not just defaulted."],
+          ["Inherited settings", "When values flow down from a parent org or group."]
+        ]
+      },
+      "Save patterns": {
+        payoff: "From the start: admins need to know whether a change has taken effect.",
+        tradeoff: "Instant save is quick, but risky settings shouldn't change on a click. Pick one model per page: a save bar for settings that matter, instant save with a visible state for low-risk toggles.",
+        use: [
+          "A page has several related settings that should change together.",
+          "Some settings are risky enough to need a deliberate save.",
+          "Admins might leave the page with changes."
+        ],
+        avoid: [
+          "A single low-risk toggle. Save it instantly, with a saved state.",
+          "Every change needs a second admin's review. Use a change request.",
+          "The setting is applied by API or configuration file."
+        ],
+        alternatives: [
+          ["Instant save", "When each change is small, safe and reversible."],
+          ["Change request", "When sensitive settings need review before they apply."],
+          ["Configuration as code", "When settings are managed by automation."]
+        ]
+      },
+      "Inherited settings": {
+        payoff: "At thousands, when groups or child orgs need different values from the top.",
+        tradeoff: "Inheritance lets one change reach everyone, but it hides why a value is what it is. Say where each value comes from, keep the inherited value beside an override, and offer a reset.",
+        use: [
+          "Settings are set at the top and flow down to groups or child orgs.",
+          "Some values are locked by a parent org.",
+          "Groups are allowed to override some settings."
+        ],
+        avoid: [
+          "There's one org and no groups with their own settings.",
+          "Overrides would make the parent setting meaningless. Make it a group setting instead.",
+          "No one can explain why a setting is locked. Unlock it or document it."
+        ],
+        alternatives: [
+          ["Policies", "When values must be enforced everywhere, with no overrides."],
+          ["Group settings", "When each group owns the value entirely."],
+          ["Drift report", "When admins need to see where children differ from the parent."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [
