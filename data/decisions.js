@@ -487,6 +487,175 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "mcp-connectors": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Approving connectors", "Sign-in & credentials"], "A few connectors from the catalog, reviewed before anyone uses them. Each person signs in with their own account."],
+        ["Thousands", ["Choosing tools", "Who gets each connector", "Allowed connectors", "AI activity record", "Health & revoking"], "Approved connectors only, write tools behind approval, given out by group, every tool call logged, and one switch to turn a connector off."],
+        ["Hundreds of thousands", ["Data leaving the org"], "The approved list enforced on every app and coding tool, sign-in through the identity provider, egress controls, and tool calls in the audit stream."]
+      ],
+      principles: [
+        "Nothing connects until an admin has reviewed it. Approving a connector is a security review, not a toggle.",
+        "The AI never has more access than the person it acts for. Read tools first; write and delete tools are opt-in and confirmed.",
+        "Every tool call is recorded, and turning a connector off takes effect everywhere, at once."
+      ]
+    },
+    intro: "MCP connectors let an AI assistant reach into other systems and act there: read a ticket, send an email, change a record. The AI decides when to call a tool, a connector can come from anyone with a server URL, and one connector can carry dozens of tools that read, write and delete. The admin decides which connectors exist, which tools the AI may use, whose account they act as, who gets them, what leaves the org, and how to see and stop what they do.",
+    patterns: {
+      "Approving connectors": {
+        payoff: "From the start: the first connector is already code someone else wrote, running against the org's data.",
+        tradeoff: "A review step slows people down, but publishing a connector the moment its URL is entered lets an unknown server act on the org's data. Connect, test and look at the tools first, then publish as a separate step.",
+        use: [
+          "People want the AI to reach other systems through connectors.",
+          "Connectors come from a catalog, partners or custom server URLs.",
+          "Someone needs to be accountable for what's connected."
+        ],
+        avoid: [
+          "The AI has no tools and only answers from what's indexed.",
+          "Only built-in, vendor-maintained connectors exist and can't be added to. A simple on and off is enough.",
+          "No one can review connectors. Don't allow custom ones at all."
+        ],
+        alternatives: [
+          ["Approved catalog only", "When custom servers aren't needed."],
+          ["Request access flow", "When people should ask for a connector with a reason."],
+          ["Integration catalog", "When the connection is an ordinary integration, not one an AI calls."]
+        ]
+      },
+      "Choosing tools": {
+        payoff: "At thousands, when connectors carry dozens of tools and some of them write or delete.",
+        tradeoff: "Setting each tool is more work than approving the whole connector, but the risk is in the verbs: reading a calendar and deleting one come from the same server. Group tools by read, write and delete, and hold new tools until reviewed.",
+        use: [
+          "Connectors expose tools that write, send or delete.",
+          "Some tools should need a person's approval before the AI runs them.",
+          "Servers add tools over time."
+        ],
+        avoid: [
+          "Every connector is read-only.",
+          "There are only one or two tools, all low risk.",
+          "Admins can't judge the tools. Block write tools by default instead."
+        ],
+        alternatives: [
+          ["Read-only connectors", "When the AI only needs to look things up."],
+          ["Rules by tool type", "When the same rule applies across connectors, such as no delete tools."],
+          ["Confirm every write", "When people, not admins, should decide each time."]
+        ]
+      },
+      "Sign-in & credentials": {
+        payoff: "From the start: whose account a connector uses decides what the AI can reach.",
+        tradeoff: "One org connection is easier to set up, but it gives everyone the same access and hides who did what. Per-person sign-in keeps the AI to what each person can already see.",
+        use: [
+          "A connector needs to act as someone in another system.",
+          "People have different access in that system.",
+          "Actions need to be traceable to a person."
+        ],
+        avoid: [
+          "The tool is a service with no per-person data, such as a weather or currency API.",
+          "The identity provider already signs people in to the connector. Use that.",
+          "A shared admin account would be the only option. Don't connect it."
+        ],
+        alternatives: [
+          ["Org-managed sign-in", "When the identity provider can grant access on first login."],
+          ["Shared least-privilege account", "When the tool is service-style and reads only shared data."],
+          ["Service account", "When an agent needs its own identity and audit trail."]
+        ]
+      },
+      "Who gets each connector": {
+        payoff: "At thousands, when teams need different connectors and most should be piloted first.",
+        tradeoff: "Giving a connector to everyone is one click, but finance doesn't need the code repo and engineering doesn't need payroll. Give connectors to groups, with exceptions shown, and widen after a pilot.",
+        use: [
+          "Different teams need different connectors.",
+          "New connectors should be piloted with one team.",
+          "Access should follow group membership."
+        ],
+        avoid: [
+          "Everyone needs the same few connectors.",
+          "The connector reaches nothing sensitive.",
+          "Groups aren't kept up to date. Fix groups first."
+        ],
+        alternatives: [
+          ["Everyone in the org", "When the connector is low risk and useful to all."],
+          ["Request access", "When people should ask for it with a reason."],
+          ["Per-tool access by group", "When most get read-only and one team gets write."]
+        ]
+      },
+      "Allowed connectors": {
+        payoff: "At thousands, when people can add any server URL in their own AI apps and tools.",
+        tradeoff: "Allowing any server lets people try new tools, but a rogue server can read prompts and data and change its tools after approval. Allow approved connectors only, and enforce it on every app, desktop and coding tool.",
+        use: [
+          "People use AI in several apps, desktop tools and coding tools.",
+          "Custom servers can be added by URL.",
+          "Security needs one list of what's allowed."
+        ],
+        avoid: [
+          "Only the console's own AI exists, with built-in connectors.",
+          "The org deliberately allows experimentation in a sandbox with no real data.",
+          "The list can't be enforced on the clients people use. Say so instead of implying it is."
+        ],
+        alternatives: [
+          ["Sandbox for any server", "When people should try servers away from real data."],
+          ["Block list", "When most are fine and a few are known to be bad."],
+          ["Approving connectors", "When the list grows through reviewed requests."]
+        ]
+      },
+      "Data leaving the org": {
+        payoff: "At hundreds of thousands, when connectors send prompts and data to many outside services.",
+        tradeoff: "Showing every flow is more to read, but a connector that answers a question can send that question, and the files behind it, to another company. Say in plain words what goes out, to where, and block what can't leave.",
+        use: [
+          "Connectors call services outside the org.",
+          "Some data is regulated or confidential.",
+          "Compliance needs to know where data goes."
+        ],
+        avoid: [
+          "Every connector runs inside the org's own network.",
+          "The data involved is public.",
+          "Egress can't be controlled technically. Don't promise it can."
+        ],
+        alternatives: [
+          ["Content exclusions", "When some content should never reach the AI at all."],
+          ["Data usage controls", "When the question is what AI providers may keep or train on."],
+          ["Self-hosted connectors", "When data must stay inside the network."]
+        ]
+      },
+      "AI activity record": {
+        payoff: "At thousands, when the AI acts in other systems on people's behalf every day.",
+        tradeoff: "Logging every tool call adds storage and review work, but without it no one can say what the AI did, for whom, or why a record changed. Record the person, AI client, connector, tool and result.",
+        use: [
+          "The AI can change records or send messages.",
+          "Security or compliance needs to investigate what happened.",
+          "Admins need to see which connectors and tools are actually used."
+        ],
+        avoid: [
+          "The AI only reads, and nothing it does needs tracing.",
+          "The audit log already captures tool calls in full. Link to it.",
+          "Logs would capture sensitive content no one may keep. Log the call, not the content."
+        ],
+        alternatives: [
+          ["Audit log", "When tool calls can sit with every other logged event."],
+          ["Streaming to a SIEM", "When security monitors activity elsewhere."],
+          ["Usage report", "When the question is which tools are used, not who did what."]
+        ]
+      },
+      "Health & revoking": {
+        payoff: "At thousands, when a broken or compromised connector affects many people at once.",
+        tradeoff: "A single off switch is blunt, but a failing sign-in or a suspect server needs stopping everywhere at once, not app by app. Show health plainly, and say what turning it off does before it happens.",
+        use: [
+          "Connectors fail when sign-ins expire or servers change.",
+          "A connector may need stopping urgently.",
+          "People need to know when a connector stops working for them."
+        ],
+        avoid: [
+          "There's one connector used by a few people.",
+          "The vendor manages health and revocation for you. Show their status.",
+          "Turning it off wouldn't actually reach every client. Say so."
+        ],
+        alternatives: [
+          ["Pause a connector", "When it should stop briefly, with settings kept."],
+          ["Revoke one person", "When only one person's access is the problem."],
+          ["Alerts on events", "When admins should hear about failures as they happen."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [
