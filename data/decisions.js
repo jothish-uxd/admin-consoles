@@ -1965,16 +1965,28 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
 
   // Written for Storage & quotas, which shares its guidance with Asset management. Not shown until that category gets its overview.
   "storage-quotas": {
-    draft: true,
+    overview: {
+      sizes: [
+        ["Tens of people", ["Storage overview", "Trash & recovery"], "One storage bar, a warning before it fills, and trash with a clear deadline."],
+        ["Thousands", ["Per-user quotas", "Largest items"], "Quotas by person and group, the biggest consumers found fast, and regular, safe cleanup."],
+        ["Hundreds of thousands", [], "Storage by department and cost centre, growth forecasts, cleanup driven by retention, and chargeback for finance."]
+      ],
+      principles: [
+        "Show usage, limit and trend together, in text first.",
+        "A full quota never loses data. Uploads stop with a reason; existing files are untouched.",
+        "Cleanup goes through trash and retention, never straight to permanent deletion."
+      ]
+    },
+    intro: "Storage is a shared pool with a price. Admins need to know how full it is, who is using it, how fast it's growing and what can safely be removed. At scale the questions shift from whether there's space left to where the spend goes and what policy lets them clean up.",
     patterns: {
       "Storage overview": {
         payoff: "At thousands, when storage is shared by many people and running out would stop work.",
-        tradeoff: "A detailed breakdown helps admins free space and plan purchases, but it also shows who stores what. Show it by type and group first, and by person only when needed.",
+        tradeoff: "A detailed breakdown helps admins free space and plan purchases, but it also shows who stores what. Lead with used, limit and trend in text, break down by type and group first, and by person only when needed.",
         use: [
           "Storage is a shared, paid pool that can run out.",
           "Admins need to forecast when to buy more.",
-          "A few people, groups or file types use most of the space.",
-          "Trash, old versions and shared drives count toward the limit."
+          "A few groups or file types use most of the space.",
+          "Trash, old versions and backups count toward the limit."
         ],
         avoid: [
           "Storage is effectively unlimited. Show the number and stop there.",
@@ -1983,33 +1995,69 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
         ],
         alternatives: [
           ["Plan usage meter", "When storage is part of the plan and rarely an issue. One number on the billing page."],
-          ["Alerts at thresholds", "When admins only need to know when it matters. Warn at 80% and 95%."],
-          ["Cleanup suggestions", "When space is the problem. List large, old and duplicate files with owners, and ask owners to act."]
+          ["Largest items", "When the question is what to clean up, not how full it is."],
+          ["Chargeback report", "When finance needs storage by cost centre."]
         ]
       },
       "Per-user quotas": {
-        payoff: "At hundreds of thousands, when one shared pool has to be spread fairly across many people.",
-        tradeoff: "Quotas stop a few people using everything, but each limit someone hits interrupts their work, and overrides pile up. Set defaults that fit most people, and make overrides visible and temporary.",
+        payoff: "At thousands, when a few heavy users would otherwise fill a shared pool.",
+        tradeoff: "Quotas share space fairly, but a limit hit mid-task stops work. Set a default that fits most people, override by group with an end date, say what happens at the limit, and let people ask for more with a reason.",
         use: [
-          "A few people use far more than everyone else.",
-          "The storage pool is fixed and expensive to grow.",
-          "Departments are charged for their share.",
-          "Admins need overrides for people with real needs, such as video teams."
+          "Storage is shared and a few people use most of it.",
+          "Teams have very different needs.",
+          "People need a way to ask for more."
         ],
         avoid: [
-          "The pool is large and usage is even. Quotas only add support tickets.",
-          "Hitting a quota would block access to existing files.",
-          "There’s no easy way for people to ask for more."
+          "Space is plentiful. Quotas only add friction.",
+          "Being over would block access to existing files.",
+          "Overrides would never end or be reviewed."
         ],
         alternatives: [
-          ["Group quotas", "When teams share a budget. Limit the group, and let them manage within it."],
-          ["Alerts without limits", "When the aim is awareness. Tell heavy users and their managers, and don’t block anyone."],
-          ["Archive tiers", "When old content takes the space. Move it to cheaper storage automatically."]
+          ["Group quotas", "When teams, not people, decide how space is used."],
+          ["Storage overview", "When watching the pool is enough."],
+          ["Cleanup by policy", "When retention rules can free space instead."]
+        ]
+      },
+      "Largest items": {
+        payoff: "At thousands, when most of the space is in a few places and cleanup needs context.",
+        tradeoff: "A list of the biggest items finds space fast, but big doesn't mean safe to delete. Show owner, owner status and last activity, skip anything under hold, offer safe actions with the space they free, and send deletions to trash.",
+        use: [
+          "Storage is tight and needs freeing.",
+          "Owners have left and their content remains.",
+          "Admins clean up regularly."
+        ],
+        avoid: [
+          "Retention policies already clean up. Show them instead.",
+          "There'd be no legal hold or retention check before deletion.",
+          "Shared items would be counted twice."
+        ],
+        alternatives: [
+          ["Ask the owner", "When people should decide what to remove."],
+          ["Archive", "When content should be kept, but out of the way."],
+          ["Retention policy", "When cleanup should happen automatically."]
+        ]
+      },
+      "Trash & recovery": {
+        payoff: "From the start: anything that can be deleted needs a way back.",
+        tradeoff: "Trash makes deletion reversible, but it takes space and can hide a mass deletion. Say when each item is deleted forever, flag unusual deletions, restore in bulk by person and time, and keep Empty trash away from Restore.",
+        use: [
+          "People and admins delete content.",
+          "Accounts can be compromised or misused.",
+          "Deleted content counts toward storage."
+        ],
+        avoid: [
+          "Deletion is already permanent by law. Say so before deleting.",
+          "Trash can't be searched across the org.",
+          "Empty trash sits next to Restore."
+        ],
+        alternatives: [
+          ["Version history", "When the question is an earlier version, not a deleted item."],
+          ["Retention policy", "When how long trash keeps things is set by regulation."],
+          ["Backups", "When recovery is beyond the trash window."]
         ]
       }
     }
   },
-
   "audit-logs": {
     overview: {
       sizes: [

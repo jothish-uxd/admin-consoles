@@ -1295,5 +1295,55 @@ window.VIDEOS = {
         "It's in Monitor only, which blocks nothing and logs what would have been blocked: 14 sign-ins in the last 7 days. She saves."
       ]
     }
+  },
+  "storage-quotas": {
+    "Storage overview": {
+      src: "media/storage-quotas/storage-overview.mp4",
+      poster: "media/storage-quotas/storage-overview.jpg",
+      label: "Storage overview, shown in a mock Echo Base console",
+      steps: [
+        "Content › Storage opens on the numbers, in text: 3.2 TB of 5 TB used, growing 4% a month, full around Oct 2027 at this rate.",
+        "A bar breaks the 5 TB down by type, each part labelled: files, old versions, trash, backups and what's free. Trash and old versions count, and it says so.",
+        "Alerts go out at 80%, 90% and 95%, by email and in the console. Below, the last 12 months and the forecast reach the limit.",
+        "The admin switches to By group. Base Engineering uses the most, at 1.1 TB.",
+        "She opens it and sees what's in it, biggest first, including its old versions and trash."
+      ]
+    },
+    "Per-user quotas": {
+      src: "media/storage-quotas/per-user-quotas.mp4",
+      poster: "media/storage-quotas/per-user-quotas.jpg",
+      label: "Per-user quotas, shown in a mock Echo Base console",
+      steps: [
+        "The default quota is 50 GB per person. Over it, uploads stop with a message saying why, and files stay and can still be opened and shared.",
+        "Overrides list who they're for, who set them and when they end. One with no end date is flagged for review.",
+        "People near or over their quota are listed in numbers.",
+        "Wes Janson asks for 100 GB, with his reason. The admin sets it to end in 90 days rather than until she removes it.",
+        "She approves it. It's listed as an override that ends Feb 24, 2027, and Wes is told."
+      ]
+    },
+    "Largest items": {
+      src: "media/storage-quotas/largest-items.mp4",
+      poster: "media/storage-quotas/largest-items.jpg",
+      label: "Largest items, shown in a mock Echo Base console",
+      steps: [
+        "Largest items is a report from the background, sorted by size, with the sort shown. Shared files are counted once, for their owner.",
+        "The admin filters to Owner deactivated. Each item shows its owner, that they've left, and its last activity.",
+        "She selects all. One item is under legal hold, so it's locked and left out. The bar says the 3 others free 22.6 GB once deleted forever.",
+        "The actions are safe ones: ask their manager, move to archive, or move to trash.",
+        "She moves them to trash. The confirmation says they're deleted forever on Dec 26 unless restored, and that the item on hold was left out."
+      ]
+    },
+    "Trash & recovery": {
+      src: "media/storage-quotas/trash-recovery.mp4",
+      poster: "media/storage-quotas/trash-recovery.jpg",
+      label: "Trash & recovery, shown in a mock Echo Base console",
+      steps: [
+        "Content › Trash can be searched across all of Echo Base. Items stay 30 days, and the 310 GB in trash counts toward storage.",
+        "A banner flags something unusual: 1,204 items deleted from Biggs Darklighter's account in 40 minutes.",
+        "The admin reviews them, filtered to that person and time window. Each shows where it was, who deleted it and when, and when it's deleted forever, as a date and the days left.",
+        "She selects all 1,204 and restores them. Items go back where they were, and a deleted folder is restored first so its items can go back in it.",
+        "The restore runs in the background with progress. Empty trash is kept well away from Restore, at the top of the page."
+      ]
+    }
   }
 };
