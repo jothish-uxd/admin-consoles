@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Retention policies · motion scene</title>
+<!--
+  Source for media/policies/retention-policies.mp4. Built by motion/_build/retention_policies.py on _build/compliance_page.py,
+  with the top bar's alerts bell.
+  Follows the Retention policies card (data/guidance-governance.js):
+  - each policy by what it covers, with a period in plain words, an end action, how much it covers and what's due soon
+  - holds win over retention, said on the page
+  - shortening a period says how much becomes deletable at once, and what stays on hold
+  - Review first lets owners confirm before deletion; a review before saving anything that deletes
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+
+.hd .btn { margin-left: 8px; }
+.hd .sp { flex: 1; }
+.fr2 { margin-top: 14px; display: flex; gap: 8px; align-items: center; position: relative; }
+.fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border: 1px solid var(--rule-strong); border-radius: 8px; font-size: 12.5px; color: var(--ink); white-space: nowrap; }
+.fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
+.fr2 .nt { margin-left: auto; font-size: 12px; color: var(--soft); }
+table.pl { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+table.pl th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 8px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.pl td { height: 48px; padding: 0 8px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.pl td.pr { font-family: "Geist Mono", monospace; color: var(--ink); width: 26px; }
+table.pl td.nm b { display: block; color: var(--ink); font-weight: 500; font-size: 13px; }
+table.pl td.nm span { font-size: 11.5px; }
+table.pl tr.sel td { background: var(--subtle); }
+table.pl tr.mv td { background: #f4f4f5; }
+.stt { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--ink); }
+.stt i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.stt.en i { background: var(--ink); }
+.stt.si i { border: 2px solid var(--ink); width: 6px; height: 6px; }
+.stt.dr i { border: 1.5px dashed var(--soft); width: 7px; height: 7px; }
+.stt.off { color: var(--soft); } .stt.off i { background: var(--rule-strong); }
+.mm { color: var(--ink); }
+.rm2 { color: var(--soft); font-size: 15px; letter-spacing: 1px; text-align: right; }
+
+.note3 { margin-top: 12px; font-size: 12.5px; color: var(--soft); display: flex; gap: 8px; align-items: center; }
+.note3 b { color: var(--ink); font-weight: 500; }
+.note3 svg { width: 14px; height: 14px; }
+.drw .f1 { margin-top: 12px; position: relative; }
+.drw .in { height: 36px; justify-content: space-between; }
+.drw .menu { position: absolute; left: 0; top: 64px; width: 100%; z-index: 9; opacity: 0; }
+.opt { margin-top: 6px; border: 1px solid var(--rule); border-radius: 9px; padding: 7px 11px; display: flex; gap: 9px; font-size: 12px; color: var(--soft); }
+.opt b { display: block; color: var(--ink); font-weight: 500; font-size: 12.5px; }
+.opt .rd { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--rule-strong); flex: none; margin-top: 2px; position: relative; box-sizing: border-box; }
+.opt.on { border-color: var(--ink); } .opt.on .rd { border-color: var(--ink); }
+.opt.on .rd::after { content: ""; position: absolute; inset: 2px; border-radius: 50%; background: var(--ink); }
+.wb { margin-top: 10px; border: 1px solid #b45309; background: #fffbeb; border-radius: 10px; padding: 9px 12px; color: #78350f; display: flex; gap: 8px; font-size: 12.5px; line-height: 1.45; opacity: 0; }
+.wb svg { width: 14px; height: 14px; flex: none; margin-top: 2px; color: #b45309; }
+.drw .ft { margin-top: 14px; display: flex; gap: 8px; } .drw .ft .sp { flex: 1; } .drw .ft .btn { height: 34px; }
+.btn.dgrf { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+.btn.dgrf.dn { background: #7f1d1d; border-color: #7f1d1d; }
+
+
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Compliance / Retention"></span>
+      <div class="me"><span class="bell" id="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg" id="bdg">3</span></span>Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Chat messages: kept for 1 year, then reviewed by owners · logged</div>
+    </div>
+    <div class="nav" data-at="compliance" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>Retention</h1><span class="sp"></span><span class="btn sm pri">New retention policy</span></div>
+        <div class="note3"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span><b>Legal holds win.</b> Content on hold is kept until the hold is released, whatever these policies say, and people can’t delete it either.</span></div>
+        <table class="st"><thead><tr><th>Policy</th><th>Keep for</th><th>Then</th><th>Covers</th><th>Due in 30 days</th></tr></thead><tbody>
+          <tr id="rM"><td class="nm"><b>Mission logs</b><span>Holonet Drive › Fleet manuals</span></td><td style="color:var(--ink)">7 years after last change</td><td>Delete</td><td>412,000 items</td><td>1,180</td></tr><tr id="rC"><td class="nm"><b>Chat messages</b><span>HoloComms channels</span></td><td style="color:var(--ink)"><span id="rCk">2 years after they’re sent</span></td><td><span id="rCt">Delete</span></td><td>1.9M items</td><td><span id="rCd">4,200</span></td></tr><tr id="rH"><td class="nm"><b>HR records</b><span>HR folders</span></td><td style="color:var(--ink)">7 years after someone leaves</td><td>Review first</td><td>8,400 items</td><td>12</td></tr></tbody></table>
+      </div>
+    </div>
+    <aside class="drw" id="drw" role="dialog" aria-labelledby="dT">
+      <div class="tt"><div><b id="dT">Chat messages</b>HoloComms channels · 1.9M items</div><span class="x" aria-label="Close">✕</span></div>
+      <div class="f1"><label class="lbl">Keep for</label><span class="in" id="kp"><span id="kpT">2 years after they’re sent</span><i class="cv"></i></span>
+        <div class="menu" id="kMenu"><div id="o1">1 year after they’re sent</div><div>2 years after they’re sent<span style="display:block;font-size:11.5px;color:var(--soft)">Current</span></div><div>7 years after they’re sent</div></div></div>
+      <div class="wb" id="wb" role="status"><svg aria-hidden="true"><use href="#warn"/></svg><span><b>84,300 messages become eligible for deletion right away.</b> 2,140 of them are on legal hold and will be kept.</span></div>
+      <div class="f1"><span class="lbl">Then</span>
+        <div class="opt" id="oD"><span class="rd"></span><div><b>Delete</b>Deleted automatically, and recorded</div></div>
+        <div class="opt" id="oR"><span class="rd"></span><div><b>Review first</b>Owners confirm before anything is deleted</div></div></div>
+      <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn pri" id="bSv">Save</span></div>
+    </aside>
+    <div class="scr" id="scr"></div>
+    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="cT" style="left:300px; top:170px; width:520px">
+      <h3 id="cT">Shorten Chat messages to 1 year?</h3>
+      <div style="margin-top:6px; line-height:1.45">84,300 messages become eligible for deletion. With Review first, their owners confirm before any of them is deleted, and the 2,140 on legal hold are kept.</div>
+      <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn dgrf" id="bCf">Shorten to 1 year</span></div>
+    </section>
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  rClick: 0.95, open: [1.00, 1.30], kClick: 2.20, kmenu: [2.25, 3.05], pick: 2.95, warn: 3.10, rvClick: 4.30, svClick: 5.20,
+  dlg: [5.25, 5.50], cfClick: 6.40, close: [6.45, 6.70], toast: [6.75, 7.60], endCard: [7.60, 8.05], end: 8.55
+};
+
+function build() {
+  const r = at("rC", -300, 0);
+  $("drw").style.transform = "none"; $("drw").style.visibility = "visible";
+  const k = at("kp", -100, 0); $("kMenu").style.opacity = 1; const o1 = at("o1", -100, 0); $("kMenu").style.opacity = 0;
+  $("wb").style.opacity = 1; const rv = at("oR", -120, 0), sv = at("bSv"); $("wb").style.opacity = 0;
+  $("drw").style.transform = ""; $("drw").style.visibility = "";
+  $("dlg").style.opacity = 1; const cf = at("bCf"); $("dlg").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.70, r[0], r[1] + 3], [1.00, r[0], r[1] + 3],
+    [1.95, k[0], k[1] + 3], [2.25, k[0], k[1] + 3], [2.70, o1[0], o1[1] + 3], [3.00, o1[0], o1[1] + 3],
+    [4.05, rv[0], rv[1] + 3], [4.35, rv[0], rv[1] + 3], [4.95, sv[0], sv[1] + 3], [5.25, sv[0], sv[1] + 3],
+    [6.15, cf[0], cf[1] + 3], [6.45, cf[0], cf[1] + 3], [7.60, cf[0] - 260, cf[1] + 80]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.04], [7.35, 650, 345, 1.04], [7.60, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("crumb").innerHTML = "/ Compliance / <b>Retention</b>";
+  $("rC").classList.toggle("sel", t >= T.rClick - .05 && t < T.close[1]);
+  const o = span(t, ...T.open, easeOut) * (1 - span(t, T.dlg[0], T.dlg[0] + .15));
+  $("drw").style.transform = `translateX(${440 * (1 - o)}px)`; $("drw").style.visibility = o > 0 ? "visible" : "hidden";
+  $("kMenu").style.opacity = span(t, T.kmenu[0], T.kmenu[0] + .12) * (1 - span(t, T.kmenu[1] - .08, T.kmenu[1]));
+  $("o1").classList.toggle("hov", t >= T.pick - .25);
+  $("kp").className = "in" + (t >= T.kClick && t < T.kmenu[1] ? " f" : "");
+  const one = t >= T.pick + .05, rv = t >= T.rvClick;
+  $("kpT").textContent = one ? "1 year after they’re sent" : "2 years after they’re sent";
+  // shortening says how much becomes deletable at once, before saving
+  $("wb").style.opacity = span(t, T.warn, T.warn + .25);
+  $("oD").classList.toggle("on", !rv); $("oR").classList.toggle("on", rv);
+  $("bSv").classList.toggle("dn", t >= T.svClick - .05 && t < T.dlg[0]);
+  // a review before anything that will delete content
+  const d = span(t, T.dlg[0] + .1, T.dlg[1], easeOut) * (1 - span(t, ...T.close));
+  $("dlg").style.opacity = d; $("scr").style.opacity = d; $("dlg").style.visibility = d > 0 ? "visible" : "hidden";
+  $("bCf").classList.toggle("dn", t >= T.cfClick - .05 && t < T.close[0]);
+  const done = t >= T.close[0];
+  $("rCk").textContent = done ? "1 year after it’s sent" : "2 years after they’re sent";
+  $("rCt").textContent = done ? "Review first" : "Delete";
+  $("rCd").textContent = done ? "84,300 to review" : "4,200";
+  $("toast").style.opacity = span(t, T.toast[0], T.toast[0] + .2) * (1 - span(t, T.toast[1] - .2, T.toast[1]));
+}
+
+function events() { return [["click", T.rClick], ["whoosh", T.open[0]], ["click", T.kClick], ["click", T.pick], ["pop", T.warn], ["click", T.rvClick], ["click", T.svClick], ["click", T.cfClick], ["pop", T.toast[0]]]; }
+
+Motion.scene({
+  // 5+ steps: natural length, within the 15 s cap
+  T, clicks: [T.rClick, T.kClick, T.pick, T.rvClick, T.svClick, T.cfClick], build, render, events,
+  slow: [[3.2, 3.9, 1.25]]
+});
+</script>
+</body>
+</html>

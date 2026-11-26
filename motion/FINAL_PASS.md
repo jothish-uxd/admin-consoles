@@ -8,6 +8,7 @@ Run once, before merging `v3-videos` into `main`. Every item is a console-wide c
 - [ ] **End card says Enterprise Library.** Change the credit line in `shared/motion.js` from "Patterns for Enterprise Admin Consoles" (one place).
 - [ ] **Search settings beside the Settings title.** New Settings clips have it (`settings_page.head(..., search=True)`); make it the default and rebuild the earlier Settings clips: Type to confirm, Danger zone, the Integrations & API keys clips, Multi-step wizard, and the Notifications & alerts clips on Settings.
 - [ ] **Eyebrow headers.** Find every eyebrow (the small label above a heading, such as "Pattern 2 of 4" or a tier's "01") across the site and the clips, and remove the ones that only repeat what the heading or the page already says.
+- [ ] **Compliance › Policies list.** *Create from template* shows an older, simpler list. Rebuild its list view from `_build/compliance_page.py` so it matches the Policies & rules clips.
 - [ ] Add anything else that drifts between now and then here.
 
 ## Then

@@ -861,6 +861,137 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "policies": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Policy list", "Retention policies"], "A few rules with sensible defaults, in one list. Retention keeps what must be kept and deletes the rest."],
+        ["Thousands", ["Policy builder", "Scope & targeting", "Simulate / test", "Legal hold"], "Policies target groups and content, and conflict. Admins build them in plain words, check who they reach, and simulate before enforcing. Legal asks for holds."],
+        ["Hundreds of thousands", [], "Hundreds of policies across regions and regulations, changed through review, simulated against real data, and reported to auditors as evidence."]
+      ],
+      principles: [
+        "Simulate before enforcing. Show who and what a policy would affect before it affects anyone.",
+        "Make precedence explicit. When policies conflict, say which one wins and why.",
+        "Holds beat retention, and retention beats deletion. Nothing silently overrides a hold."
+      ]
+    },
+    intro: "Policies are rules that act on their own, across everyone, every day. A retention rule deletes content nobody looked at; a sharing rule blocks someone mid-deal; a hold keeps data a lawyer will need in two years. The design job is to make their effect predictable before they're switched on, explainable while they run, and traceable afterwards.",
+    patterns: {
+      "Policy list": {
+        payoff: "From the start: even a few rules need one place that says what's in effect.",
+        tradeoff: "On and off switches are quick to scan, but they hide scope, status and whether a rule does anything. Show each policy's status in words, its scope, its recent matches and its priority.",
+        use: [
+          "More than a couple of rules are in effect.",
+          "Rules can conflict, so their order matters.",
+          "Auditors ask what's in effect and whether it's working."
+        ],
+        avoid: [
+          "There are two or three settings, not policies. Keep them on the settings page.",
+          "Rules never conflict. Priority adds nothing.",
+          "Another tool already manages the policies. Link to it."
+        ],
+        alternatives: [
+          ["Settings page", "When there are only a few on and off controls."],
+          ["Grouped by regulation", "When compliance teams manage hundreds of policies."],
+          ["Policy health report", "When the question is which policies misbehave."]
+        ]
+      },
+      "Policy builder": {
+        payoff: "At thousands, when compliance specialists, not engineers, write the rules.",
+        tradeoff: "A structured builder is slower than writing rule syntax, but it's readable by anyone who must check the rule. Build it as When, To and Do, with a sentence that says what it means, and catch conflicts while editing.",
+        use: [
+          "People who write policies aren't engineers.",
+          "The same few kinds of policy come up again and again.",
+          "Policies can overlap with ones already in effect."
+        ],
+        avoid: [
+          "Policies are managed as code and reviewed in version control.",
+          "There's only one kind of rule. A form is enough.",
+          "The rule can't be explained in a sentence. Split it."
+        ],
+        alternatives: [
+          ["Templates", "When most policies are variations of a few."],
+          ["Policy as code", "When engineers review rules in version control."],
+          ["Settings toggles", "When a rule has no conditions."]
+        ]
+      },
+      "Retention policies": {
+        payoff: "From the start: regulations say both how long to keep things and when to delete them.",
+        tradeoff: "Automatic deletion keeps storage and risk down, but its mistakes are permanent. Say how much becomes deletable before a change, keep what's on hold, and let owners review before deletion where it matters.",
+        use: [
+          "Regulations require keeping some content for a set time.",
+          "Old content is a risk or a cost.",
+          "Different kinds of content need different periods."
+        ],
+        avoid: [
+          "Nothing must be kept or deleted by rule.",
+          "Deletion would remove content under legal hold. Holds win.",
+          "No one knows the right period. Ask legal before automating it."
+        ],
+        alternatives: [
+          ["Review first", "When owners should confirm before anything is deleted."],
+          ["Archive instead", "When content should leave everyday use but stay available."],
+          ["Legal hold", "When content must be kept for a matter, whatever retention says."]
+        ]
+      },
+      "Legal hold": {
+        payoff: "At thousands, when legal teams need content preserved for a matter.",
+        tradeoff: "A hold keeps everything relevant, but it overrides retention and blocks deletion everywhere. Organise holds by matter, show what's preserved and who's acknowledged, and make releasing one a deliberate step.",
+        use: [
+          "Legal matters require preserving content.",
+          "Custodians must be notified and acknowledge the hold.",
+          "Retention and offboarding must not remove held content."
+        ],
+        avoid: [
+          "The org never has legal matters needing preservation.",
+          "An eDiscovery tool already manages holds. Link to it.",
+          "The aim is keeping content longer in general. Use retention."
+        ],
+        alternatives: [
+          ["Retention policy", "When the need is a fixed keeping period, not a matter."],
+          ["eDiscovery tool", "When legal works there already."],
+          ["Preserve on offboarding", "When the only need is to keep a leaver's content."]
+        ]
+      },
+      "Scope & targeting": {
+        payoff: "At thousands, when policies apply to some groups and not others.",
+        tradeoff: "Scoping by group is flexible, but the inputs don't show the result. Start with no one, show includes and exceptions together, count who's in scope, and let admins check one person.",
+        use: [
+          "A policy should apply to some people or content, not all.",
+          "Exceptions are needed, such as contractors.",
+          "Admins need to prove who a policy covers."
+        ],
+        avoid: [
+          "The policy truly applies to everyone, such as a security baseline.",
+          "Groups aren't kept up to date. Fix them first.",
+          "Scope would be so complex no one can explain it. Split the policy."
+        ],
+        alternatives: [
+          ["Everyone, with exceptions", "When a policy is a baseline for all."],
+          ["Attribute-based scope", "When department or location defines who's covered."],
+          ["Separate policies", "When groups need genuinely different rules."]
+        ]
+      },
+      "Simulate / test": {
+        payoff: "At thousands, when one wrong rule can block or delete at scale.",
+        tradeoff: "Simulating takes time before a policy can act, but it turns a risky switch into a report someone can review. Run against real data, compare with what was expected, show samples, and attach the results when enforcing.",
+        use: [
+          "A policy blocks, deletes or notifies at scale.",
+          "The scope is broad or new.",
+          "Changes need approval with evidence."
+        ],
+        avoid: [
+          "The policy only adds a label and changes nothing.",
+          "There's no real data to run against yet.",
+          "The effect is instant and easy to undo. Enforce and watch."
+        ],
+        alternatives: [
+          ["Pilot on one group", "When real effects on a small group are acceptable."],
+          ["Audit mode", "When the policy should log matches for a while without acting."],
+          ["Review with samples", "When a quick sample check is enough."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [

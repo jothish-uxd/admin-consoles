@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Simulate / test · motion scene</title>
+<!--
+  Source for media/policies/simulate-test.mp4. Built by motion/_build/simulate_test.py on _build/compliance_page.py,
+  with the top bar's alerts bell.
+  Follows the Simulate / test card (data/guidance-governance.js):
+  - runs against real data as a job; nothing changes and no one is notified
+  - the headline result compared with what she expected, and sample matches in a table
+  - enforced in one step, with the simulation attached to the change
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+
+.hd .btn { margin-left: 8px; }
+.hd .sp { flex: 1; }
+.fr2 { margin-top: 14px; display: flex; gap: 8px; align-items: center; position: relative; }
+.fb { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border: 1px solid var(--rule-strong); border-radius: 8px; font-size: 12.5px; color: var(--ink); white-space: nowrap; }
+.fb.on { border-color: var(--ink); background: var(--subtle); font-weight: 500; }
+.fr2 .nt { margin-left: auto; font-size: 12px; color: var(--soft); }
+table.pl { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+table.pl th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 8px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.pl td { height: 48px; padding: 0 8px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.pl td.pr { font-family: "Geist Mono", monospace; color: var(--ink); width: 26px; }
+table.pl td.nm b { display: block; color: var(--ink); font-weight: 500; font-size: 13px; }
+table.pl td.nm span { font-size: 11.5px; }
+table.pl tr.sel td { background: var(--subtle); }
+table.pl tr.mv td { background: #f4f4f5; }
+.stt { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--ink); }
+.stt i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.stt.en i { background: var(--ink); }
+.stt.si i { border: 2px solid var(--ink); width: 6px; height: 6px; }
+.stt.dr i { border: 1.5px dashed var(--soft); width: 7px; height: 7px; }
+.stt.off { color: var(--soft); } .stt.off i { background: var(--rule-strong); }
+.mm { color: var(--ink); }
+.rm2 { color: var(--soft); font-size: 15px; letter-spacing: 1px; text-align: right; }
+
+.st3 { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 2px 10px; margin-left: 10px; }
+.st3 i { width: 6px; height: 6px; border-radius: 50%; border: 2px solid var(--ink); }
+.st3.en { background: var(--ink); color: #fff; } .st3.en i { background: #fff; border-color: #fff; }
+.subh { margin-top: 4px; font-size: 12.5px; color: var(--soft); }
+#pS { opacity: 0; }
+.runbar { margin-top: 12px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--rule-strong); border-radius: 12px; padding: 10px 14px; font-size: 12.5px; color: var(--soft); }
+.runbar .sp { flex: 1; } .runbar .btn { height: 32px; font-size: 12.5px; }
+.runbar b { color: var(--ink); font-weight: 600; }
+.pbar { width: 160px; height: 6px; border-radius: 999px; background: var(--hover); overflow: hidden; }
+.pbar i { display: block; height: 100%; width: 100%; background: var(--ink); transform-origin: left; }
+#rs { display: none; }
+.hl2 { margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hl2 > div { border: 1px solid var(--rule); border-radius: 12px; padding: 10px 14px; font-size: 12.5px; color: var(--soft); }
+.hl2 b.n { display: block; font-size: 22px; color: var(--ink); font-weight: 600; letter-spacing: -.02em; }
+.hl2 .wn { border-color: #b45309; background: #fffbeb; color: #78350f; }
+.hl2 .wn b.n { color: #78350f; }
+.hl2 .wn svg { width: 13px; height: 13px; vertical-align: -2px; margin-right: 4px; color: #b45309; }
+table.st.sm td { height: 36px; }
+.safe { margin-top: 8px; font-size: 12px; color: var(--ink); display: flex; gap: 6px; align-items: center; }
+.safe svg { width: 12px; height: 12px; }
+.btn.dgrf { background: #171717; border-color: #171717; color: #fff; }
+
+
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Compliance / Policies"></span>
+      <div class="me"><span class="bell" id="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg" id="bdg">3</span></span>Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Enforced, with today’s simulation attached · logged</div>
+    </div>
+    <div class="nav" data-at="compliance" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>External links expire</h1><span class="st3" id="st"><i></i><span id="stT">Simulating</span></span><span class="sp"></span><span class="btn sm">Edit</span></div>
+        <div class="subh">Sharing · links to files expire after 30 days · Toryn Farr · 86 people, 29,800 files in scope</div>
+        <div class="sub2"><span class="sg">Rule</span><span class="sg">Scope</span><span class="sg" id="tSim">Simulation</span><span class="sg">History</span><span class="sp"></span></div>
+        <div id="pR" style="margin-top:12px;font-size:12.5px;color:var(--soft)">The rule: a link to a file stops working 30 days after it’s made, unless its owner renews it.</div>
+        <div id="pS">
+          <div class="runbar" aria-live="polite"><span id="rb">Runs against real data. <b>Nothing changes and no one is notified.</b></span><span class="sp"></span><span id="rbR"><span class="btn pri" id="bRun">Run simulation</span></span></div>
+          <div id="rs">
+            <div class="hl2"><div><b class="n">1,980 links</b>would expire, on 1,240 files of 64 people</div>
+              <div class="wn"><b class="n">About 4×</b><svg aria-hidden="true"><use href="#warn"/></svg>what you expected (about 500). Most are Hangar 3’s maintenance links.</div></div>
+            <div class="safe"><svg aria-hidden="true"><use href="#ok"/></svg>Nothing was changed, and no one was notified. <span style="flex:1"></span><span class="btn sm">Edit scope</span><span id="enW"><span class="btn sm pri" id="bEnf">Enforce with these results</span></span></div>
+            <table class="st sm"><thead><tr><th>Sample file</th><th>Owner</th><th>Link made</th><th>Would happen</th></tr></thead><tbody>
+              <tr><td class="nm"><b>Hangar 3 maintenance schedule.pdf</b></td><td>Ved Foslo</td><td>41 days ago</td><td style="color:var(--ink)">Link expires</td></tr><tr><td class="nm"><b>Fleet roster Q3.xlsx</b></td><td>Cal Alder</td><td>94 days ago</td><td style="color:var(--ink)">Link expires</td></tr><tr><td class="nm"><b>Partner briefing.pptx</b></td><td>Wes Janson</td><td>120 days ago</td><td style="color:var(--ink)">2 links expire</td></tr><tr><td class="nm"><b>X-wing preflight checklist.pdf</b></td><td>Hobbie Klivian</td><td>33 days ago</td><td style="color:var(--ink)">Link expires</td></tr></tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scr" id="scr"></div>
+    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="cT" style="left:320px; top:170px; width:520px">
+      <h3 id="cT">Enforce External links expire?</h3>
+      <div style="margin-top:6px; line-height:1.45">1,980 links will stop working over the next day, and their 64 owners are told. Today’s simulation is attached to this change for review.</div>
+      <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn dgrf" id="bCf">Enforce</span></div>
+    </section>
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  sClick: 0.95, toS: 1.00, rClick: 2.00, job: [2.05, 3.15], eClick: 5.20, dlg: [5.25, 5.50], cfClick: 6.30, close: [6.35, 6.60],
+  toast: [6.65, 7.45], endCard: [7.45, 7.90], end: 8.4
+};
+
+function build() {
+  const s = at("tSim");
+  $("pS").style.opacity = 1; const r = at("bRun"); $("rs").style.display = "block"; const e = at("bEnf"); $("rs").style.display = ""; $("pS").style.opacity = 0;
+  $("dlg").style.opacity = 1; const c = at("bCf"); $("dlg").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.70, s[0], s[1] + 3], [1.00, s[0], s[1] + 3], [1.75, r[0], r[1] + 3], [2.05, r[0], r[1] + 3],
+    [3.40, r[0] - 260, r[1] + 120], [4.95, e[0], e[1] + 3], [5.25, e[0], e[1] + 3], [6.05, c[0], c[1] + 3], [6.35, c[0], c[1] + 3], [7.45, c[0] - 260, c[1] + 80]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 330, 1.06], [7.20, 650, 330, 1.06], [7.45, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("crumb").innerHTML = "/ Compliance / Policies / <b>External links expire</b>";
+  const s = t >= T.toS;
+  $("tSim").classList.toggle("on", s); $("pR").style.display = s ? "none" : ""; $("pS").style.opacity = s ? 1 : 0;
+  // a job against real data, that changes nothing
+  const run = t >= T.job[0], done = t >= T.job[1], p = span(t, ...T.job, x => x);
+  $("rbR").innerHTML = done ? '<span style="color:var(--ink)">Finished just now · 2 min</span>' : run ? `<span class="pbar"><i style="transform:scaleX(${.04 + .96 * p})"></i></span>` : `<span class="btn pri${t >= T.rClick - .05 ? " dn" : ""}" id="bRun">Run simulation</span>`;
+  $("rb").innerHTML = done ? "<b>Simulation finished.</b> 1,980 links would expire." : run ? `Checking ${Math.round(29800 * p).toLocaleString("en-US")} of 29,800 files…` : "Runs against real data. <b>Nothing changes and no one is notified.</b>";
+  $("rs").style.display = done ? "block" : "none";
+  // enforce in one step, with the results attached
+  const d = span(t, T.dlg[0] + .1, T.dlg[1], easeOut) * (1 - span(t, ...T.close));
+  $("dlg").style.opacity = d; $("scr").style.opacity = d; $("dlg").style.visibility = d > 0 ? "visible" : "hidden";
+  $("bCf").classList.toggle("dn", t >= T.cfClick - .05 && t < T.close[0]);
+  const en = t >= T.close[0];
+  $("enW").innerHTML = en ? '<span style="color:var(--ink)">Enforced just now, with these results</span>' : `<span class="btn sm pri${t >= T.eClick - .05 && t < T.dlg[0] + .1 ? " dn" : ""}" id="bEnf">Enforce with these results</span>`;
+  $("st").className = "st3" + (en ? " en" : ""); $("stT").textContent = en ? "Enforced" : "Simulating";
+  $("toast").style.opacity = span(t, T.toast[0], T.toast[0] + .2) * (1 - span(t, T.toast[1] - .2, T.toast[1]));
+}
+
+function events() { return [["click", T.sClick], ["click", T.rClick], ["chime", T.job[1]], ["click", T.eClick], ["click", T.cfClick], ["pop", T.toast[0]]]; }
+
+Motion.scene({
+  // under 5 steps: natural length, within the 10 s cap
+  T, clicks: [T.sClick, T.rClick, T.eClick, T.cfClick], build, render, events,
+  slow: [[3.2, 4.4, 1.15]]
+});
+</script>
+</body>
+</html>

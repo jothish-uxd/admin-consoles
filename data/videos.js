@@ -1022,5 +1022,79 @@ window.VIDEOS = {
         "Reset to inherited is beside it. She saves, and the change is logged."
       ]
     }
+  },
+  "policies": {
+    "Policy list": {
+      src: "media/policies/policy-list.mp4",
+      poster: "media/policies/policy-list.jpg",
+      label: "Policy list, shown in a mock Echo Base console",
+      steps: [
+        "Compliance › Policies lists each policy in priority order, with its type, its status in words, who it applies to, what it did in the last 7 days and when it last changed.",
+        "Block .exe uploads is flagged: it hasn't matched anything in 120 days. Drafts and policies that are off stay in the same list.",
+        "The admin moves Contractor access up with Move up in its menu, not only by dragging.",
+        "The new priority is announced: Contractor access is now priority 3, above External links expire.",
+        "She filters by type. The priority numbers stay as they are, so the order still means something."
+      ]
+    },
+    "Policy builder": {
+      src: "media/policies/policy-builder.mp4",
+      poster: "media/policies/policy-builder.jpg",
+      label: "Policy builder, shown in a mock Echo Base console",
+      steps: [
+        "The admin starts a new policy from the template Block external sharing of labelled content.",
+        "The builder reads as When, To and Do, with a labelled field for each part. No rule syntax is needed.",
+        "She picks the Restricted label and adds Tell the file's owner. A plain-language sentence updates as she goes.",
+        "A conflict shows while she edits: Death Star plans · restricted already blocks this and wins at priority 1.",
+        "Enforce stays off until the policy has been simulated, so she saves it as a draft."
+      ]
+    },
+    "Retention policies": {
+      src: "media/policies/retention-policies.mp4",
+      poster: "media/policies/retention-policies.jpg",
+      label: "Retention policies, shown in a mock Echo Base console",
+      steps: [
+        "Compliance › Retention lists each policy by what it covers, how long it keeps it, what happens then, and what's due in the next 30 days.",
+        "The page says legal holds win: held content is kept whatever these policies say.",
+        "The admin shortens Chat messages from 2 years to 1. Before saving, it says 84,300 messages become deletable at once, and 2,140 on legal hold will be kept.",
+        "She picks Review first, so owners confirm before anything is deleted.",
+        "A review comes before saving a change that will delete content. She confirms, and the row shows 84,300 to review."
+      ]
+    },
+    "Legal hold": {
+      src: "media/policies/legal-hold.mp4",
+      poster: "media/policies/legal-hold.jpg",
+      label: "Legal hold, shown in a mock Echo Base console",
+      steps: [
+        "Compliance › Legal holds lists holds by matter. A released one says who released it.",
+        "The admin opens Scarif inquiry: its sources, dates, keywords and what's preserved, and that held content can't be deleted by anyone, by retention or when someone leaves.",
+        "Custodians are listed in a table, with the hold notice's acknowledgement in its own column.",
+        "She adds Bodhi Rook. His mailbox and drive are preserved as a job, then the count is confirmed, and his notice reads Not yet.",
+        "Releasing the hold is a separate, deliberate step."
+      ]
+    },
+    "Scope & targeting": {
+      src: "media/policies/scope-targeting.mp4",
+      poster: "media/policies/scope-targeting.jpg",
+      label: "Scope & targeting, shown in a mock Echo Base console",
+      steps: [
+        "No one is in scope by default. The admin opens Applies to on the policy External links expire.",
+        "She adds Fleet and Hangar 3 from one list. Everyone is marked as too broad for this policy.",
+        "Except is in the same view. She adds Contractors, and it says how many of them were included.",
+        "The result shows, not just the inputs: 86 people and 29,800 files, updated as the scope changes.",
+        "She checks Wes Janson: in scope through Fleet, with no exception applying, and 412 of his files covered."
+      ]
+    },
+    "Simulate / test": {
+      src: "media/policies/simulate-test.mp4",
+      poster: "media/policies/simulate-test.jpg",
+      label: "Simulate / test, shown in a mock Echo Base console",
+      steps: [
+        "On the policy's Simulation tab, the admin runs a simulation. It runs against real data, and nothing changes and no one is notified.",
+        "It runs as a job through 29,800 files.",
+        "The result: 1,980 links would expire, about 4× the 500 she expected, mostly Hangar 3's maintenance links.",
+        "Sample matches are listed in a table, and it confirms nothing was changed.",
+        "She enforces with these results. The confirmation says what will happen, and the simulation is attached to the change."
+      ]
+    }
   }
 };
