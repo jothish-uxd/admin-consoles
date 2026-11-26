@@ -31,7 +31,7 @@ ROWS = [
   ("nm", "Full name", "Cal Alder · Jes Gistang", "Name", "<b>Matched by name</b>", ""),
   ("em", "E-mail", "cal@echobase.rebellion", "Email", "Matched by a similar name", ""),
   ("sq", "Squad", "Fleet · Hoth evac", "Team", "Matched by a similar name", ""),
-  ("rl", "Role", "Pilot · Mechanic · Gunner", "Console role", '<svg aria-hidden="true"><use href="#warn"/></svg>Check this: samples look like job titles', "warn"),
+  ("rl", "Role", "Pilot · Mechanic · Gunner", "Console role", '<svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles', "warn"),
   ("bs", "Boss", "Wedge Antilles", "Manager", "Matched by a similar name", ""),
   ("bg", "Badge no.", "4471 · 4472", "Don’t import", "No matching field", "dim"),
 ]
@@ -80,7 +80,7 @@ function render(t) {
   $("f-rl").className = "fs" + (fixed ? "" : " warn") + (t >= T.fClick - .05 && t < T.menu[1] ? " prs" : "");
   $("fv-rl").textContent = fixed ? "Title" : "Console role";
   $("h-rl").className = "hm" + (fixed ? "" : " w");
-  $("h-rl").innerHTML = fixed ? "<b>Changed by you</b>" : '<svg aria-hidden="true"><use href="#warn"/></svg>Check this: samples look like job titles';
+  $("h-rl").innerHTML = fixed ? "<b>Changed by you</b>" : '<svg aria-hidden="true"><use href="#warn"/></svg>Samples look like job titles';
   $("r-rl").classList.toggle("hl", t >= 1.4 && t < T.pick + 1.0);
   $("cbS").classList.toggle("on", t >= T.sClick);
   $("bCont").classList.toggle("dn2", t >= T.contClick - .05);

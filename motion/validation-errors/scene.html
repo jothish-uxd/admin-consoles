@@ -98,8 +98,8 @@
           <div class="sm" aria-live="polite"><span id="smT"><b>41 of 48 rows</b> are ready · 4 have errors · 2 warnings</span></div>
           <section class="grp er" aria-labelledby="eH"><h3 id="eH"><span class="k">Errors</span>These rows can’t be imported until they’re fixed</h3>
             <div class="it" style="display:block"><div class="w"><b>Email isn’t a valid address</b> · 2 rows</div>
-              <div class="rw"><span class="rn">Row 12</span><span class="ed" id="e12"><span id="e12v">jes@echobase</span><span class="c" id="cr"></span></span><span class="why" id="w12"><svg aria-hidden="true"><use href="#err"/></svg>Missing the part after the dot</span></div>
-              <div class="rw"><span class="rn">Row 30</span><span class="ed">ved foslo@echobase.rebellion</span><span class="why"><svg aria-hidden="true"><use href="#err"/></svg>Has a space in it</span></div></div>
+              <div class="rw"><span class="rn">Row 12</span><span class="ed" id="e12"><span id="e12v">jes@echobase</span><span class="c" id="cr"></span></span><span class="why" id="w12"><svg aria-hidden="true"><use href="#err"/></svg>Invalid email domain</span></div>
+              <div class="rw"><span class="rn">Row 30</span><span class="ed">ved foslo@echobase.rebellion</span><span class="why"><svg aria-hidden="true"><use href="#err"/></svg>Email addresses cannot contain spaces</span></div></div>
             <div class="it"><div class="w"><b>Team doesn’t exist: “Hoth evac”</b> · rows 7 and 19 · Did you mean <b>Hoth Evacuation</b>?</div><span id="tA"><span class="btn" id="bTeam">Use Hoth Evacuation for 2 rows</span></span></div>
           </section>
           <section class="grp wn" aria-labelledby="wH"><h3 id="wH"><span class="k">Warnings</span>These rows will be imported</h3>
@@ -149,7 +149,7 @@ function render(t) {
   $("e12v").textContent = BAD + add.slice(0, n);
   $("cr").style.opacity = ed && Math.floor(t * 2.4) % 2 === 0 ? 1 : 0;
   const e12 = t >= T.type[1];
-  $("w12").className = "why" + (e12 ? " okk" : ""); $("w12").innerHTML = e12 ? '<svg aria-hidden="true"><use href="#ok"/></svg>Fixed' : '<svg aria-hidden="true"><use href="#err"/></svg>Missing the part after the dot';
+  $("w12").className = "why" + (e12 ? " okk" : ""); $("w12").innerHTML = e12 ? '<svg aria-hidden="true"><use href="#ok"/></svg>Fixed' : '<svg aria-hidden="true"><use href="#err"/></svg>Invalid email domain';
   // fix a whole group at once
   const team = t >= T.teamClick + .05;
   $("tA").innerHTML = team ? '<span class="ok"><svg><use href="#ok"/></svg>Fixed for 2 rows</span>' : `<span class="btn${t >= T.teamClick - .05 ? " dn" : ""}" id="bTeam">Use Hoth Evacuation for 2 rows</span>`;

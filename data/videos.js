@@ -763,8 +763,8 @@ window.VIDEOS = {
   },
   "import-export": {
     "CSV import": {
-      src: "media/import-export/csv-import.mp4?r=2",
-      poster: "media/import-export/csv-import.jpg?r=2",
+      src: "media/import-export/csv-import.mp4?r=3",
+      poster: "media/import-export/csv-import.jpg?r=3",
       label: "CSV import, shown in a mock Echo Base console",
       steps: [
         "On People › Users, Invite people opens a menu: Invite by email for a few people, or Import a CSV for many.",
@@ -775,8 +775,8 @@ window.VIDEOS = {
       ]
     },
     "Field mapping": {
-      src: "media/import-export/field-mapping.mp4?r=2",
-      poster: "media/import-export/field-mapping.jpg?r=2",
+      src: "media/import-export/field-mapping.mp4?r=3",
+      poster: "media/import-export/field-mapping.jpg?r=3",
       label: "Field mapping, shown in a mock Echo Base console",
       steps: [
         "Each column in the file is matched to a field, with sample values beside it so she can check the match.",
@@ -787,8 +787,8 @@ window.VIDEOS = {
       ]
     },
     "Validation & errors": {
-      src: "media/import-export/validation-errors.mp4?r=2",
-      poster: "media/import-export/validation-errors.jpg?r=2",
+      src: "media/import-export/validation-errors.mp4?r=3",
+      poster: "media/import-export/validation-errors.jpg?r=3",
       label: "Validation and errors, shown in a mock Echo Base console",
       steps: [
         "The review shows how many rows are ready, and groups the problems by type. Errors that block a row are kept apart from warnings that don't.",
@@ -799,15 +799,15 @@ window.VIDEOS = {
       ]
     },
     "Export": {
-      src: "media/import-export/export.mp4",
-      poster: "media/import-export/export.jpg",
+      src: "media/import-export/export.mp4?r=3",
+      poster: "media/import-export/export.jpg?r=3",
       label: "Export, shown in a mock Echo Base console",
       steps: [
         "On People › Users, filtered to Team: Fleet, she selects all 82 matching people and chooses Export in the bar. The filter is the export's scope.",
         "She picks the fields, and turns off Last active. Sensitive fields such as phone, home address and employee ID are off unless she needs them.",
         "CSV or JSON, each described: one opens in a spreadsheet, the other is for scripts and other tools.",
-        "The export runs in the background. She can close the dialog and be notified.",
-        "When it's ready she gets a link, not an attachment. It expires in 7 days, only she can open it, and the export is in the audit log."
+        "The export runs, with its progress in the dialog.",
+        "When it's ready she downloads it right there, and the same link is sent as a notification. It expires in 7 days, only she can open it, and the export is in the audit log."
       ]
     }
   }

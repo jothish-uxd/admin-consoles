@@ -21,6 +21,7 @@ CSS = ICSS + r"""
 .drop .fl { display: none; gap: 10px; align-items: center; color: var(--ink); }
 
 .drop .fl span { color: var(--soft); font-size: 12.5px; }
+.drop .fl .ty { font-size: 6.5px; color: var(--soft); }
 .fly { position: absolute; white-space: nowrap; height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; background: var(--bg); box-shadow: 0 10px 30px rgba(0,0,0,.15); display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 12px; color: var(--ink); opacity: 0; z-index: 30; }
 .sumr { margin-top: 10px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; opacity: 0; }
 .sumr div { border: 1px solid var(--rule); border-radius: 10px; padding: 8px 10px; font-size: 12px; color: var(--soft); }
