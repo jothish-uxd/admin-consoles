@@ -164,9 +164,8 @@
     $("#content").innerHTML = `
       <header class="hero is-home hero-v2">
         <div class="hero-text">
-          <p class="hero-eyebrow">For designers of enterprise software</p>
           <h1 class="page-title" tabindex="-1">Patterns for enterprise workflows.</h1>
-          <p class="page-lede">Real screens, short clips and the decisions behind them, for the software that runs organisations: admin consoles, access, compliance, content and AI. Grouped by the job someone is doing, not by product.</p>
+          <p class="page-lede">Real screens, short clips and the decisions behind them, for the software that runs organisations: admin consoles, access, compliance, content and AI.<br>Built for designers of enterprise software, and grouped by the job someone is doing.</p>
           <div class="hero-cta"><a class="btn-cta is-primary" href="#categories">Browse patterns</a><a class="btn-cta" href="${catUrl(CATS.find(c => c.slug === "access-requests") || CATS[0])}">See a pattern in action</a></div>
           <ul class="stats" id="stats"></ul>
         </div>
