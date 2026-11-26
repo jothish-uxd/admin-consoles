@@ -285,12 +285,9 @@ kbd, .kbd {
 
 /* ---------- Home: category gallery (shared hairlines, no floating cards) ---------- */
 .group-section { margin-top: 64px; }
-.group-head {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-  margin: 0 0 16px;
-}
+.group-head { margin: 0 0 16px; }
 .group-head h2 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -.025em; }
-.group-head p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.group-head p { margin: 4px 0 0; color: var(--ink-soft); font-size: 14px; max-width: 62ch; }
 
 .gallery {
   list-style: none; margin: 0; padding: 0;
