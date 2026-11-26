@@ -1345,5 +1345,67 @@ window.VIDEOS = {
         "The restore runs in the background with progress. Empty trash is kept well away from Restore, at the top of the page."
       ]
     }
+  },
+  "tables-grids": {
+    "Column management": {
+      src: "media/tables-grids/column-management.mp4",
+      poster: "media/tables-grids/column-management.jpg",
+      label: "Column management, shown in a mock Echo Base console",
+      steps: [
+        "On People › Users, the admin opens Columns. Each column has a checkbox to show it and ↑ ↓ buttons to move it, so dragging isn't the only way.",
+        "Person is always shown. It identifies each row, so it can't be hidden.",
+        "She turns on MFA, and the column appears in the table straight away.",
+        "She moves MFA up with ↑ so it sits next to Person, and the table follows.",
+        "She hides Groups. Her columns are saved for her, with Reset to default if she wants the original set back."
+      ]
+    },
+    "Sorting & pagination": {
+      src: "media/tables-grids/sorting-pagination.mp4",
+      poster: "media/tables-grids/sorting-pagination.jpg",
+      label: "Sorting & pagination, shown in a mock Echo Base console",
+      steps: [
+        "The table is sorted by name, A to Z, and says so. The pager shows 1–25 of 82, Page 1 of 4.",
+        "The admin sorts by Last active. The header shows ↓ newest first, the change is announced, and all 82 people are sorted, not just this page.",
+        "She goes to the next page: 26–50 of 82, Page 2 of 4.",
+        "She changes the page size to 50 rows, which is kept for next time. The range becomes 1–50, Page 1 of 2.",
+        "Copy link copies the view with its sort and page size, so it opens the same way for someone else."
+      ]
+    },
+    "Row actions": {
+      src: "media/tables-grids/row-actions.mp4",
+      poster: "media/tables-grids/row-actions.jpg",
+      label: "Row actions, shown in a mock Echo Base console",
+      steps: [
+        "Every row has a ⋯ that's always visible, not only on hover. The admin does this by keyboard, and the keys are shown under the window.",
+        "Tab moves the focus ring from one row's ⋯ to the next.",
+        "Enter opens Actions for Zev Senesca. The menu is named for the row.",
+        "The most common action is first. Change license is disabled and says why: Billing admins only. Suspend is last, set apart.",
+        "She arrows down to Reset sign-in and presses Enter. Zev is emailed a link."
+      ]
+    },
+    "Density": {
+      src: "media/tables-grids/density.mp4",
+      poster: "media/tables-grids/density.jpg",
+      label: "Density, shown in a mock Echo Base console",
+      steps: [
+        "The Users table is Comfortable, with room to read and click.",
+        "The admin opens Density. Each choice says what it does.",
+        "She picks Compact: more rows, with the same text size and targets.",
+        "Rows get tighter and more people fit on screen. Job titles move beside names, the text stays 13 px and the ⋯ stays a 28 px target.",
+        "Her choice is saved for her, on every table."
+      ]
+    },
+    "Expandable rows": {
+      src: "media/tables-grids/expandable-rows.mp4",
+      poster: "media/tables-grids/expandable-rows.jpg",
+      label: "Expandable rows, shown in a mock Echo Base console",
+      steps: [
+        "Each row starts with an expand button, separate from opening the person.",
+        "The admin expands Zev Senesca. The detail sits right under his row: when he last signed in and from where, MFA, his device, and how long he's been in Fleet.",
+        "Open profile links to the full page for more.",
+        "She expands Bren Derlin too, since several rows can be open at once.",
+        "The header's button now says Collapse all, and closes them both."
+      ]
+    }
   }
 };

@@ -11,6 +11,7 @@ Run once, before merging `v3-videos` into `main`. Every item is a console-wide c
 - [ ] **Compliance › Policies list.** *Create from template* shows an older, simpler list. Rebuild its list view from `_build/compliance_page.py` so it matches the Policies & rules clips.
 - [ ] **Global search in the top bar.** Only *Global admin search* has Search Echo Base ⌘K in the top bar (added in `_build/global_search.py`, before the bell). Move it into the shared top bar (`shell.py`, `content_page.py` and the hand-made scenes) so every clip has it, and check it doesn't collide with crumbs, toasts or camera framing.
 - [ ] **People tabs.** The Security & identity clips show People with Users, Groups, Roles, Sign-in & security and Devices (`_build/security_page.py`). Give the same five tabs to the earlier People clips: `users_page.py`, `roles_page.py`, the Groups clips and the hand-made People scenes.
+- [ ] **Users table toolbar.** The Tables & data grids clips show People › Users with Columns and Density buttons, a pager beside the count, sortable headers, and an expand button and ⋯ on each row (`_build/tables_page.py`). Give the Edit & bulk actions clips (`users_page.py`: Selection model, Contextual action bar, Bulk edit, Progress & results) the same table.
 - [ ] Add anything else that drifts between now and then here.
 
 ## Then

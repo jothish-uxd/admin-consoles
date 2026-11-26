@@ -1347,6 +1347,118 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "tables-grids": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Sorting & pagination", "Row actions"], "A simple table, sorted from its headers, with an action menu on each row."],
+        ["Thousands", ["Column management", "Density", "Expandable rows"], "Admins shape the table to their job: which columns, how dense, and detail without leaving the list."],
+        ["Hundreds of thousands", [], "Everything runs on the server: sort, filter, count and export. Column sets differ by role, and counts may be estimates, labelled as such."]
+      ],
+      principles: [
+        "Sort, filter, page and count on the server. The browser shows a window, not the dataset.",
+        "Keep the column that identifies each row fixed and visible.",
+        "Everything works by keyboard, not only on hover or by drag."
+      ]
+    },
+    intro: "Tables are where admins spend most of their time. Users, groups, devices, logs, invoices: nearly every admin object ends up in one. A table that's fine with 50 rows becomes the bottleneck at 50,000, and at enterprise size most tables are windows onto server-side queries rather than lists held in the browser. The design job is to keep tables fast, scannable and actionable whatever the row count, and for every way people read them.",
+    patterns: {
+      "Column management": {
+        payoff: "At thousands, when different admins need different columns from the same table.",
+        tradeoff: "Letting admins choose columns fits each task, but every choice is one more thing to remember and support. Default to the columns the common task needs, let the rest be shown, hidden and reordered without drag, and keep the identifying column fixed.",
+        use: [
+          "Admins with different jobs use the same table.",
+          "There are more fields than fit on screen.",
+          "People want the table to open the same way each time."
+        ],
+        avoid: [
+          "There are only a few columns. Show them all.",
+          "The table is read once, not worked in.",
+          "Choices can't be saved per admin."
+        ],
+        alternatives: [
+          ["Saved views", "When a column set goes with filters and sort."],
+          ["Role defaults", "When each role needs a known set."],
+          ["Detail panel", "When extra fields are needed for one row, not all."]
+        ]
+      },
+      "Sorting & pagination": {
+        payoff: "From the start: any list longer than a screen needs an order and a way through it.",
+        tradeoff: "Server-side sorting and pages keep huge tables fast, but exact counts and deep pages get expensive. Sort the whole set from the headers, show the range and total, keep page size and sort in the link, and label counts that are estimates.",
+        use: [
+          "Lists are longer than a screen.",
+          "Admins look for the newest, oldest, biggest or worst.",
+          "Views get shared."
+        ],
+        avoid: [
+          "The list is short. Show it all.",
+          "Infinite scroll for tables people audit or manage.",
+          "Sorting only the page that's showing."
+        ],
+        alternatives: [
+          ["Search and filters", "When admins know what they're looking for."],
+          ["Load more", "When the list is a feed, not a table to manage."],
+          ["Export", "When the whole set is needed elsewhere."]
+        ]
+      },
+      "Row actions": {
+        payoff: "From the start: admins act on one item at a time far more often than in bulk.",
+        tradeoff: "Actions on each row save opening every item, but they're easy to miss or trigger by mistake. Put one always-visible ⋯ per row, named with the row, reachable by keyboard, with the common action first and destructive ones last and apart.",
+        use: [
+          "Admins act on single items often.",
+          "The same few actions apply to most rows.",
+          "Opening each item would be slow."
+        ],
+        avoid: [
+          "Actions only on hover.",
+          "Many icon-only buttons in each row.",
+          "A row click that triggers an action."
+        ],
+        alternatives: [
+          ["Bulk actions", "When the same action applies to many rows."],
+          ["Detail page", "When an action needs context first."],
+          ["Inline edit", "When the action is changing one value."]
+        ]
+      },
+      "Density": {
+        payoff: "At thousands, when power users scan long tables all day.",
+        tradeoff: "Compact rows show more at once, and comfortable rows are easier to read and click. Offer both, keep text size and targets the same in compact, and remember the choice per admin across tables.",
+        use: [
+          "Admins scan long tables.",
+          "Some people prefer more space, others more rows.",
+          "Tables are used on small screens and large ones."
+        ],
+        avoid: [
+          "Compact would shrink text or targets.",
+          "Key values would be truncated with no way to see them.",
+          "Density would differ table to table."
+        ],
+        alternatives: [
+          ["Column management", "When the problem is too many columns, not row height."],
+          ["Saved views", "When density goes with a set of filters."],
+          ["Detail panel", "When rows are tall because of detail."]
+        ]
+      },
+      "Expandable rows": {
+        payoff: "At thousands, when admins need a few details on many rows without leaving the list.",
+        tradeoff: "Expanding a row shows detail in place, but it pushes the rest of the table down and gets messy when nested. Use a button at the start of the row, show a few details indented under it, let several be open, and link to the full page.",
+        use: [
+          "A few details decide what to do next.",
+          "Admins compare details across several rows.",
+          "Leaving the list would lose their place."
+        ],
+        avoid: [
+          "The detail is rich. Give it its own page.",
+          "Rows would nest several levels deep.",
+          "The whole row expands and also opens a page."
+        ],
+        alternatives: [
+          ["Detail panel", "When one row's detail is needed at a time."],
+          ["Extra columns", "When the detail is one or two values for every row."],
+          ["Detail page", "When the detail is long or editable."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [
