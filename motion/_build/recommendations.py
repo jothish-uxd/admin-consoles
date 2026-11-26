@@ -8,12 +8,13 @@ CSS = r"""
 .rc .ac2 { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
 .rc .ac2 .sp { flex: 1; } .rc .ac2 .btn { height: 30px; }
 .rc a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-.rc .why { display: none; margin-top: 8px; background: var(--subtle); border-radius: 8px; padding: 8px 10px; color: var(--ink); line-height: 1.45; }
+.rc .wl { display: inline-block; margin-top: 6px; font-size: 12.5px; }
+.rc .why { display: none; margin-top: 6px; background: var(--subtle); border-radius: 8px; padding: 8px 10px; color: var(--ink); line-height: 1.45; }
 .rc .cf2 { display: none; margin-top: 10px; border-top: 1px solid var(--rule); padding-top: 10px; color: var(--ink); }
 .rc .cf2 .ac2 { margin-top: 8px; }
 .rc .dn3 { display: none; align-items: center; gap: 8px; color: var(--ink); font-size: 13px; }
 .rc .dn3 a { margin-left: 6px; }
-.dmn { position: absolute; left: 96px; top: 76px; width: 230px; z-index: 20; display: none; }
+.dmn { position: absolute; left: 96px; bottom: 50px; width: 230px; z-index: 20; display: none; }
 .dmn .hh { font-size: 11.5px; color: var(--soft); padding: 4px 10px; }
 .dmn .it { color: var(--ink); }
 .top2 { margin-top: 14px; display: flex; align-items: center; color: var(--soft); font-size: 12.5px; }
@@ -22,14 +23,15 @@ CSS = r"""
 MAIN = f'''      <div class="view">
 {home_head("rec", 3)}        <div class="top2"><span>From Echo Base’s own data, sorted by impact. Nothing happens until you confirm.</span><span class="sp"></span><span id="act">Acted on this quarter: 7</span></div>
         <div class="rc" id="c1"><div id="c1b"><h3>Reclaim 42 unused licenses</h3><div class="d">42 people haven’t signed in for 90 days. <span class="im">Saves $5,040 a year.</span></div>
+          <a class="wl" id="aWhy" aria-expanded="false" aria-controls="why">Why am I seeing this?</a>
           <div class="why" id="why">Based on sign-ins from Aug 28 to today. 3 people on leave are left out. Licenses go back to the pool; their files and access to them stay.</div>
-          <div class="ac2" id="c1a"><span class="btn pri" id="bRv">Review 42 people</span><span class="btn">Dismiss</span><span class="sp"></span><a id="aWhy">Why am I seeing this?</a></div>
+          <div class="ac2" id="c1a"><span class="btn pri" id="bRv">Review 42 people</span><span class="btn">Dismiss</span></div>
           <div class="cf2" id="cf"><b>Remove licenses from 42 people?</b> They keep their files and can ask for a license again.<div class="ac2"><span class="btn">Cancel</span><span class="btn pri" id="bOk">Remove 42 licenses</span></div></div></div>
           <div class="dn3" id="d1" role="status">{OK}<span>42 licenses are back in the pool. $5,040 a year saved.</span><a>Undo</a></div></div>
         <div class="rc"><h3>Require MFA for admins now</h3><div class="d">2 of 14 admins haven’t enrolled. Admin accounts are the most targeted. <span class="im">Closes 2 risky accounts.</span></div>
-          <div class="ac2"><span class="btn pri">Review 2 admins</span><span class="btn">Dismiss</span><span class="sp"></span><a>Why am I seeing this?</a></div></div>
+          <a class="wl">Why am I seeing this?</a><div class="ac2"><span class="btn pri">Review 2 admins</span><span class="btn">Dismiss</span></div></div>
         <div class="rc" id="c3"><div id="c3b"><h3>Turn off public links older than a year</h3><div class="d">38 files still have a public link made more than a year ago. <span class="im">Closes 38 links.</span></div>
-          <div class="ac2"><span class="btn pri">Review 38 links</span><span class="btn" id="bDm">Dismiss</span><span class="sp"></span><a>Why am I seeing this?</a></div>
+          <a class="wl">Why am I seeing this?</a><div class="ac2"><span class="btn pri">Review 38 links</span><span class="btn" id="bDm">Dismiss</span></div>
           <div class="menu dmn" id="dmn"><div class="hh">Why dismiss it?</div><div class="it">Not relevant to us</div><div class="it" id="oEl">We handle it elsewhere</div><div class="it">Remind me in a month</div></div></div>
           <div class="dn3" id="d3" role="status"><span>Dismissed: you handle it elsewhere. It won’t show again.</span><a>Undo</a></div></div>
       </div>
@@ -53,7 +55,7 @@ function build() {
 function render(t) {
   $("crumb").innerHTML = "/ Home / <b>Recommendations</b>";
   // why it's showing, then a confirm that says what changes
-  $("why").style.display = t >= T.wClick ? "block" : "none";
+  $("why").style.display = t >= T.wClick ? "block" : "none"; $("aWhy").setAttribute("aria-expanded", t >= T.wClick);
   const cf = t >= T.rClick && t < T.d1, d1 = t >= T.d1;
   $("c1a").style.display = cf ? "none" : "flex"; $("cf").style.display = cf ? "block" : "none";
   $("c1b").style.display = d1 ? "none" : ""; $("d1").style.display = d1 ? "flex" : "none";

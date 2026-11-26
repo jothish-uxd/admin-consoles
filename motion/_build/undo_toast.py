@@ -6,7 +6,7 @@ tr.hov td { background: var(--subtle); }
 .ra { position: absolute; width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center; color: var(--ink); background: var(--bg); border: 1px solid var(--rule-strong); opacity: 0; z-index: 3; }
 .ra svg { width: 15px; height: 15px; }
 .tip { position: absolute; background: var(--ink); color: #fff; font-size: 11.5px; border-radius: 6px; padding: 4px 8px; white-space: nowrap; opacity: 0; z-index: 4; }
-.ut { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 12px; padding: 0 8px 0 14px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; overflow: hidden; }
+.ut { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 12px; padding: 0 8px 0 14px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; overflow: hidden; }
 .ut .msg { position: relative; width: 330px; height: 18px; }
 .ut .msg span { position: absolute; left: 0; top: 0; }
 .ut .sec { color: #bdbdbd; font-size: 12px; width: 52px; text-align: right; font-family: "Geist Mono", monospace; }

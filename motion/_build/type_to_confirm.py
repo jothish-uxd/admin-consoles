@@ -23,7 +23,7 @@ CSS = r"""
 .btn.off { background: #f5f5f5; color: #737373; border-color: var(--rule); }
 .btn.dgr.dn { background: #b91c1c; color: #fff; }
 .dz .row .btn.wait { color: #737373; border-color: var(--rule); }
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 """
 TOAST = """      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Deleting Echo Base Sandbox · owners are notified</div>"""

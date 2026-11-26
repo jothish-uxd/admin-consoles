@@ -13,7 +13,7 @@ CSS = r"""
 .btn.dgr.dn { background: #b91c1c; color: #fff; }
 .dz .row.hl { background: #fef2f2; }
 .tip { position: absolute; background: var(--ink); color: #fff; font-size: 11.5px; border-radius: 6px; padding: 5px 9px; white-space: nowrap; opacity: 0; z-index: 25; }
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 """
 TOAST = """      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>38 public links reset · owners are told by email</div>"""

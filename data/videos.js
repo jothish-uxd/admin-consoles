@@ -1434,8 +1434,8 @@ window.VIDEOS = {
       ]
     },
     "Reports": {
-      src: "media/usage-analytics/reports.mp4",
-      poster: "media/usage-analytics/reports.jpg",
+      src: "media/usage-analytics/reports.mp4?r=2",
+      poster: "media/usage-analytics/reports.jpg?r=2",
       label: "Reports, shown in a mock Echo Base console",
       steps: [
         "Insights › Reports lists standard reports, each with what it shows, its period and when it was last made.",
@@ -1446,12 +1446,12 @@ window.VIDEOS = {
       ]
     },
     "Recommendations": {
-      src: "media/usage-analytics/recommendations.mp4",
-      poster: "media/usage-analytics/recommendations.jpg",
+      src: "media/usage-analytics/recommendations.mp4?r=2",
+      poster: "media/usage-analytics/recommendations.jpg?r=2",
       label: "Recommendations, shown in a mock Echo Base console",
       steps: [
         "Home › Recommendations come from Echo Base's own data, sorted by impact, and nothing happens until the admin confirms.",
-        "She opens Why am I seeing this? on Reclaim 42 unused licenses: it's based on sign-ins since Aug 28, and 3 people on leave are left out.",
+        "She opens Why am I seeing this? under Reclaim 42 unused licenses, and the reason opens right below the link: it's based on sign-ins since Aug 28, and 3 people on leave are left out.",
         "She reviews the 42 and confirms. The confirmation says they keep their files and can ask again.",
         "The result is announced: 42 licenses back in the pool, $5,040 a year saved, with Undo. The count of recommendations acted on goes up.",
         "She dismisses another with a reason, We handle it elsewhere, and it says it won't show again."

@@ -35,7 +35,7 @@ CSS = r"""
 .dlg .btn { height: 36px; }
 .btn.dn { background: #404040; border-color: #404040; }
 .btn.off2 { background: #f5f5f5; color: #737373; border-color: var(--rule); }
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 """
 TOAST = """      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Adding Hoth Evacuation to 82 people · progress is above the list</div>"""

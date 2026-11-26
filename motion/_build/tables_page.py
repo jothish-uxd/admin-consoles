@@ -16,7 +16,7 @@ MFA = {"hobbie": "Enrolled", "cal": "Enrolled", "zev": "Not enrolled", "wes": "E
 DET = {"zev": "Last signed in 61 days ago, from Hoth · MFA not enrolled · 1 device · in Fleet since Mar 2025",
        "bren": "Deactivated Nov 18 by Cal Alder · files moved to Cal Alder · license freed"}
 CSS = r"""
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 .main { overflow: hidden; }
 .fr .gap { width: 6px; }
