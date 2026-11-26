@@ -30,8 +30,11 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
 .win .bar i { width: 13px; height: 13px; border-radius: 50%; background: #e5e5e5; }
 .win .bar .url { margin-left: 18px; height: 32px; border-radius: 8px; background: #f2f2f2; padding: 0 16px; display: flex; align-items: center; font: 15px "Geist Mono", monospace; color: #666; }
 .win .vp { position: absolute; left: 0; right: 0; top: 54px; bottom: 0; overflow: hidden; }
-.win .vp .pg { position: absolute; left: 0; top: 0; width: 2128px; transform-origin: 0 0; }
-.win .vp .pg img.shot { display: block; width: 2128px; }
+.win .vp .pg { position: absolute; left: 0; top: 0; width: 1440px; transform-origin: 0 0; }
+.win .vp .pg img.shot { display: block; width: 1440px; }
+.hd2 { position: absolute; left: 0; top: 0; opacity: 0; }
+#sm .wm { display: flex; align-items: center; gap: 18px; font-size: 30px; font-weight: 600; letter-spacing: -.03em; height: 30px; }
+#sm .wm svg { width: 34px; height: 34px; }
 .win .vp .pg img.clip { position: absolute; }
 /* end card */
 #s6 { text-align: center; }
@@ -59,59 +62,46 @@ html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; backgro
   <div class="ws"><span id="w1">Permissions.</span><span id="w2">Scale.</span><span id="w3">Compliance.</span><span id="w4" class="s">AI.</span></div>
 </section>
 
-<!-- 2 · meet it -->
-<section class="sc" id="s2">
-  <div class="cap" id="c2"><div class="wm"><svg><use href="#gl"/></svg>Enterprise Library</div><div class="hl">A pattern library for enterprise software.</div></div>
-  <div class="win" id="w2win"><div class="bar"><i></i><i></i><i></i><span class="url">enterprise-library</span></div>
-    <div class="vp"><div class="pg" id="p2"><img class="shot" src="assets/home.jpg"></div></div></div>
-</section>
-
-<!-- 3 · by size -->
-<section class="sc" id="s3">
-  <div class="cap" id="c3"><div class="eb">Know what you need</div><div class="hl">Which patterns matter at your size.</div></div>
-  <div class="win" id="w3win"><div class="bar"><i></i><i></i><i></i><span class="url">enterprise-library / knowledge-and-content-sources</span></div>
-    <div class="vp"><div class="pg" id="p3"><img class="shot" src="assets/cat.jpg"></div></div></div>
-</section>
-
-<!-- 4 · see it work -->
-<section class="sc" id="s4">
-  <div class="cap" id="c4"><div class="eb">See it work</div><div class="hl">Every pattern, shown in a short clip.</div></div>
-  <div class="win" id="w4win"><div class="bar"><i></i><i></i><i></i><span class="url">enterprise-library / sync-status</span></div>
-    <div class="vp"><div class="pg" id="p4"><img class="shot" src="assets/pat.jpg"><img class="clip" id="clip" src="assets/clip/f001.jpg"></div></div></div>
-</section>
-
-<!-- 5 · decide and build -->
-<section class="sc" id="s5">
-  <div class="cap" id="c5"><div class="eb">Decide, then build</div><div class="hl">The trade-offs, and how to build it right.</div></div>
-  <div class="win" id="w5win"><div class="bar"><i></i><i></i><i></i><span class="url">enterprise-library / sync-status</span></div>
-    <div class="vp"><div class="pg" id="p5"><img class="shot" src="assets/pat.jpg"></div></div></div>
+<!-- 2–5 · one window, one page: the camera moves to each topic -->
+<section class="sc" id="sm">
+  <div class="cap"><div class="hd2" id="h2"><div class="wm"><svg><use href="#gl"/></svg>Enterprise Library</div><div class="hl">A pattern library for enterprise software.</div></div>
+    <div class="hd2" id="h3"><div class="eb">Know what you need</div><div class="hl">Which patterns matter at your size.</div></div>
+    <div class="hd2" id="h4"><div class="eb">See it work</div><div class="hl">Every pattern, shown in a short clip.</div></div>
+    <div class="hd2" id="h5"><div class="eb">Decide, then build</div><div class="hl">The trade-offs, and how to build it right.</div></div></div>
+  <div class="win" id="win"><div class="bar"><i></i><i></i><i></i><span class="url" id="url">enterprise-library / knowledge-and-content-sources</span></div>
+    <div class="vp"><div class="pg" id="pg"><img class="shot" src="assets/pat.jpg"><img class="clip" id="clip" src="assets/clip/f001.jpg"></div></div></div>
 </section>
 
 <!-- 6 · end card -->
 <section class="sc" id="s6">
   <div class="wm" id="e1"><svg><use href="#gl"/></svg>Enterprise Library</div>
   <div class="tg" id="e2">Built for designers navigating the complexity of enterprise software.</div>
-  <div class="st" id="e3"><div><b>124</b><span>patterns</span></div><div><b>71</b><span>pattern clips</span></div><div><b>310</b><span>real product screens</span></div></div>
+  <div class="st" id="e3"><div><b>125</b><span>patterns</span></div><div><b>300+</b><span>real product screens</span></div></div>
   <div class="by" id="e4">Jothish John · © 2026</div>
 </section>
 
 <script>
 /* ---------- the cut (seconds) ---------- */
-const S = { s1: [0.0, 3.0], s2: [3.0, 5.8], s3: [5.8, 9.6], s4: [9.6, 13.9], s5: [13.9, 17.0], s6: [17.0, 20.0] };
+const S = { s1: [0.0, 3.0], sm: [3.0, 17.0], s6: [17.0, 20.0] };
+const H = [["h2", 3.0, 5.8], ["h3", 5.8, 9.6], ["h4", 9.6, 13.9], ["h5", 13.9, 17.0]];
 const IN = .35, OUT = .25, END = 20.0;
-// capture scale: the pages were captured at 1.5× of 1440 CSS px, shown 1640 px wide
-const X0 = 300, CSS = 1640 / 1110;   // show CSS x 300–1410 (the content, not the sidebar), CSS px → frame px
-// .pg is 1440 CSS px wide at that scale: 2128 frame px
-const VID = { x: 353, y: 1597.08, w: 994, h: 558.25 };   // the clip's player on the pattern page, CSS px
-const CLIPN = 138;
+const C = 1640 / 1110;                                   // CSS px → frame px at zoom 1 (the content column fills the window)
+const VID = { x: 353, y: 1597.08, w: 994, h: 558.25 };   // the clip's player on the page, CSS px
+const CLIPN = 138, CLIP0 = 10.3;
+// camera on the page: [time, left, top, zoom] in CSS px; the page never reloads, the camera moves to each topic
+const CAM = [[3.0, 300, 110, 1.00], [5.9, 300, 110, 1.00], [6.8, 336, 560, 1.06], [9.7, 336, 560, 1.06],
+             [10.5, 330, 1560, 1.07], [13.9, 330, 1560, 1.07], [14.7, 300, 2150, 1.00], [15.5, 300, 2150, 1.00], [16.6, 300, 2730, 1.00], [17.0, 300, 2730, 1.00]];
 
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
-const span = (t, a, b, f = easeIO) => f(clamp((t - a) / (b - a), 0, 1));
 const easeIO = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const easeOut = x => 1 - Math.pow(1 - x, 3);
+const span = (t, a, b, f = easeIO) => f(clamp((t - a) / (b - a), 0, 1));
 const $ = id => document.getElementById(id);
-
-// one scene at a time: each fades out before the next fades in
+function track(K, t) {
+  if (t <= K[0][0]) return K[0].slice(1);
+  for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const [a, ...p] = K[i - 1], [b, ...q] = K[i], f = easeIO((t - a) / (b - a)); return p.map((v, j) => v + (q[j] - v) * f); }
+  return K[K.length - 1].slice(1);
+}
 function vis(t, [a, b], last) {
   const i = span(t, a, a + IN, easeOut), o = last ? 1 : 1 - span(t, b - OUT, b, x => x);
   return t < a || t > b ? 0 : Math.min(i, o);
@@ -120,39 +110,31 @@ function rise(id, t, at, d = .5, dy = 22) {
   const p = span(t, at, at + d, easeOut);
   $(id).style.opacity = p; $(id).style.transform = `translateY(${dy * (1 - p)}px)`;
 }
-function frame(id, t, at) {     // the window rises in after its caption
-  const p = span(t, at, at + .6, easeOut);
-  $(id).style.opacity = p; $(id).style.transform = `translateY(${60 * (1 - p)}px)`;
-}
-function scroll(id, y) { $(id).style.transform = `translate(${-X0 * CSS}px, ${-y}px)`; }
 
 function renderAt(t) {
-  const ks = Object.keys(S);
-  ks.forEach((k, i) => $(k).style.opacity = vis(t, S[k], i === ks.length - 1));
+  Object.keys(S).forEach((k, i, ks) => $(k).style.opacity = vis(t, S[k], i === ks.length - 1));
   // 1 · the problem, word by word
   rise("q1", t, .15, .6);
   ["w1", "w2", "w3", "w4"].forEach((w, i) => rise(w, t, 1.05 + i * .32, .4, 18));
-  // 2 · meet it
-  rise("c2", t, S.s2[0] + .05);
-  frame("w2win", t, S.s2[0] + .3);
-  scroll("p2", (64 + 24 * span(t, S.s2[0] + .6, S.s2[1])) * CSS);
-  // 3 · patterns by size: scroll from the intro to the three columns
-  rise("c3", t, S.s3[0] + .05); frame("w3win", t, S.s3[0] + .3);
-  scroll("p3", (40 + 520 * span(t, S.s3[0] + 1.0, S.s3[0] + 2.6)) * CSS);
-  // 4 · the clip plays inside the pattern page
-  rise("c4", t, S.s4[0] + .05); frame("w4win", t, S.s4[0] + .3);
-  Object.assign($("clip").style, { left: VID.x * CSS + "px", top: VID.y * CSS + "px", width: VID.w * CSS + "px", height: VID.h * CSS + "px" });
-  scroll("p4", (VID.y - 70) * CSS);
-  const fi = clamp(Math.floor((t - (S.s4[0] + .5)) * 30), 0, CLIPN - 1) + 1;
+  // headings: one at a time, the old one leaves before the new one rises
+  H.forEach(([id, a, b], i) => {
+    const p = span(t, a + (i ? .05 : .05), a + .55, easeOut), o = i === H.length - 1 ? 1 : 1 - span(t, b - .25, b, x => x);
+    $(id).style.opacity = t < a || t > b ? 0 : Math.min(p, o); $(id).style.transform = `translateY(${18 * (1 - p)}px)`;
+  });
+  // the window rises once, then stays
+  const w = span(t, S.sm[0] + .3, S.sm[0] + .9, easeOut);
+  $("win").style.opacity = w; $("win").style.transform = `translateY(${60 * (1 - w)}px)`;
+  const [x, y, z] = track(CAM, t), s = C * z;
+  $("pg").style.transform = `scale(${s}) translate(${-x}px, ${-y}px)`;
+  Object.assign($("clip").style, { left: VID.x + "px", top: VID.y + "px", width: VID.w + "px", height: VID.h + "px" });
+  const fi = clamp(Math.floor((t - CLIP0) * 30), 0, CLIPN - 1) + 1;
   $("clip").src = `assets/clip/f${String(fi).padStart(3, "0")}.jpg`;
-  // 5 · should you use it, then how to build it
-  rise("c5", t, S.s5[0] + .05); frame("w5win", t, S.s5[0] + .3);
-  scroll("p5", (2160 + 610 * span(t, S.s5[0] + 1.0, S.s5[0] + 2.4)) * CSS);
+  $("url").textContent = t >= 9.7 ? "enterprise-library / knowledge-and-content-sources / sync-status" : "enterprise-library / knowledge-and-content-sources";
   // 6 · end card
   rise("e1", t, S.s6[0] + .05, .6, 26); rise("e2", t, S.s6[0] + .35); rise("e3", t, S.s6[0] + .65); rise("e4", t, S.s6[0] + 1.0, .5, 10);
 }
 window.DURATION = END;
-window.EVENTS = [["whoosh", 2.95], ["whoosh", 5.75], ["whoosh", 9.55], ["whoosh", 13.85], ["chime", 17.15]];
+window.EVENTS = [["whoosh", 2.95], ["whoosh", 5.9], ["whoosh", 9.7], ["whoosh", 14.0], ["chime", 17.15]];
 window.CLIPN = CLIPN;
 </script>
 </body>
