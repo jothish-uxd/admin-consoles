@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add content source · motion scene</title>
+<!--
+  Source for media/knowledge-content/add-content-source.mp4. Built by motion/_build/add_source.py on _build/sources_page.py,
+  so Content › Sources is the same page as in the other clips.
+  Follows the Add content source card (data/guidance-content.js):
+  - clear steps: source, what to include, review
+  - what the connector needs and why, including what it can't do
+  - selected folders by default, not everything; an estimate of items and time
+  - not searchable until the first permission sync; listed as indexing
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+
+.cnt2 { font-size: 12.5px; color: var(--soft); }
+.st2 { display: inline-flex; gap: 6px; align-items: center; color: var(--ink); white-space: nowrap; }
+.st2 svg { width: 12px; height: 12px; flex: none; }
+.st2.w { color: #92400e; }
+.st2.e { color: #b91c1c; }
+.st2 .s { color: var(--soft); }
+.srcs td .sub { display: block; font-size: 12px; color: var(--soft); }
+
+.stp { display: flex; gap: 8px; align-items: center; margin-top: 10px; font-size: 12px; color: var(--soft); }
+.stp .s { display: inline-flex; gap: 6px; align-items: center; white-space: nowrap; }
+.stp .s .n { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--rule-strong); display: grid; place-items: center; font-size: 10.5px; font-weight: 600; box-sizing: border-box; }
+.stp .s.on { color: var(--ink); font-weight: 600; } .stp .s.on .n { border-color: var(--ink); }
+.stp .s.dn { color: var(--ink); } .stp .s.dn .n { background: var(--ink); border-color: var(--ink); color: #fff; }
+.stp .s.dn .n svg { width: 9px; height: 9px; }
+.stp .ln { flex: 1; height: 1.5px; background: var(--rule); }
+.pane { display: none; margin-top: 12px; }
+.pick { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pk { border: 1px solid var(--rule); border-radius: 10px; padding: 9px 11px; display: flex; gap: 10px; align-items: center; font-size: 12px; }
+.pk b { display: block; color: var(--ink); font-size: 13px; font-weight: 500; }
+.pk.hov { border-color: var(--ink); background: var(--subtle); }
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+.opt { border: 1px solid var(--rule); border-radius: 9px; padding: 8px 11px; display: flex; gap: 9px; font-size: 12px; }
+.opt b { display: block; color: var(--ink); font-weight: 500; font-size: 12.5px; }
+.opt .rd { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--rule-strong); flex: none; margin-top: 2px; position: relative; box-sizing: border-box; }
+.opt.on { border-color: var(--ink); } .opt.on .rd { border-color: var(--ink); }
+.opt.on .rd::after { content: ""; position: absolute; inset: 2px; border-radius: 50%; background: var(--ink); }
+.fl { margin-top: 6px; border: 1px solid var(--rule); border-radius: 10px; }
+.fl > div { display: flex; gap: 10px; align-items: center; height: 32px; padding: 0 11px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--ink); }
+.fl > div:first-child { border-top: 0; }
+.fl .c { margin-left: auto; color: var(--soft); font-size: 12px; }
+.est { margin-top: 8px; font-size: 12.5px; color: var(--soft); }
+.est b { color: var(--ink); font-weight: 600; }
+.lb2 { margin-top: 12px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.lb2:first-child { margin-top: 0; }
+.dlg .kv { grid-template-columns: 1fr 1fr; margin-top: 4px; }
+.idx { display: inline-flex; gap: 6px; align-items: center; color: var(--ink); white-space: nowrap; }
+.idx .s { color: var(--soft); }
+.pbar { width: 60px; height: 5px; border-radius: 999px; background: var(--hover); overflow: hidden; }
+.pbar i { display: block; height: 100%; width: 100%; background: var(--ink); transform-origin: left; }
+#r-new { display: none; }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Content / Sources"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+      <div class="toast" id="toast"><i><svg width="11" height="11"><use href="#ok"/></svg></i>Indexing Holonet Drive · searchable after the first permission sync</div>
+    </div>
+    <div class="nav" data-at="content" data-role="admin"></div>
+    <div class="main">
+      <div class="view">
+        <div class="hd"><h1>Content</h1><span class="btn sm pri" id="bAdd">Add source</span></div>
+        <div class="tabs page"><div>All content</div><div>Sharing</div><div>Tags</div><div>Storage</div><div class="on">Sources</div><div>Trash</div></div>
+        <div class="sub2"><span class="sg on" id="sg-sources">Sources <span class="n">4</span></span><span class="sg" id="sg-excl">Exclusions <span class="n">3</span></span><span class="sp"></span><span class="cnt2">Search and AI only see what’s connected here</span></div>
+        <table class="st srcs"><thead><tr><th>Source</th><th>Items indexed</th><th>Failed</th><th>Last synced</th><th>State</th></tr></thead><tbody><tr id="r-new" class="nw"><td class="nm"><b>Holonet Drive</b><span>Drive · 2 folders</span></td><td id="nI">740</td><td>0</td><td>Not yet</td><td><span class="idx"><span class="pbar"><i id="nB"></i></span><span id="nP">Indexing · 4%</span> <span class="s">· not searchable yet</span></span></td></tr><tr id="r-arch"><td class="nm"><b>Archives</b><span>Built in</span></td><td id="r-arch-i">2.4M</td><td id="r-arch-f">0</td><td id="r-arch-l">Just now</td><td id="r-arch-s"><span class="st2"><svg aria-hidden="true"><use href="#ok"/></svg>Up to date</span></td></tr><tr id="r-wiki"><td class="nm"><b>Coruscant Wiki</b><span>Wiki · 4 spaces</span></td><td id="r-wiki-i">41,220</td><td id="r-wiki-f">6,180</td><td id="r-wiki-l">2 days ago</td><td id="r-wiki-s"><span class="st2 w"><svg aria-hidden="true"><use href="#warn"/></svg>Partly failing <span class="s">· 13% failed</span></span></td></tr><tr id="r-comm"><td class="nm"><b>HoloComms channels</b><span>Chat · 12 channels</span></td><td id="r-comm-i">9,804</td><td id="r-comm-f">0</td><td id="r-comm-l">3 hours ago</td><td id="r-comm-s"><span class="st2 w"><svg aria-hidden="true"><use href="#warn"/></svg>Sign-in expires in 4 days</span></td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="scr" id="scr"></div>
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="aT" style="left:300px; top:50px; width:600px">
+      <h3 id="aT">Add a content source</h3>
+      <div class="stp"><span class="s on" id="st1"><span class="n">1</span>Source</span><span class="ln"></span><span class="s " id="st2"><span class="n">2</span>What to include</span><span class="ln"></span><span class="s " id="st3"><span class="n">3</span>Review</span></div>
+      <div class="pane" id="p1" style="display:block"><div class="pick">
+        <div class="pk" id="pkD"><span class="lg">HD</span><div><b>Holonet Drive</b>Files and folders</div></div>
+        <div class="pk"><span class="lg">TD</span><div><b>Ticket Desk</b>Support tickets</div></div>
+        <div class="pk"><span class="lg">CW</span><div><b>Coruscant Wiki</b>Connected · 4 spaces</div></div>
+        <div class="pk"><span class="lg">HC</span><div><b>HoloComms</b>Connected · 12 channels</div></div></div></div>
+      <div class="pane" id="p2">
+        <div class="lb2">What Holonet Drive needs</div>
+        <div class="can"><svg aria-hidden="true"><use href="#ok"/></svg>Read files and folders you choose</div>
+        <div class="can"><svg aria-hidden="true"><use href="#ok"/></svg>Read who each file is shared with, so results respect it</div>
+        <div class="can no"><svg aria-hidden="true"><use href="#nope"/></svg>Can’t change, move or delete anything</div>
+        <div class="lb2">What to include</div>
+        <div class="opts"><div class="opt on"><span class="rd"></span><div><b>Selected folders</b>Recommended: start narrow</div></div><div class="opt"><span class="rd"></span><div><b>Everything</b>All 1.2M items in the drive</div></div></div>
+        <div class="fl"><div><span class="cb" id="fA"></span>Fleet manuals<span class="c">9,800 items</span></div><div><span class="cb" id="fB"></span>Hangar procedures<span class="c">8,600 items</span></div>
+          <div><span class="cb"></span>HR cases<span class="c">1,240 items</span></div><div><span class="cb"></span>Finance<span class="c">22,100 items</span></div></div>
+        <div class="est" id="est" aria-live="polite">Choose at least one folder</div>
+        <div class="ft"><span class="btn">Back</span><span class="sp"></span><span class="btn pri" id="bCo">Continue</span></div></div>
+      <div class="pane" id="p3">
+        <dl class="kv"><div><dt>Source</dt><dd>Holonet Drive</dd></div><div><dt>Includes</dt><dd>Fleet manuals, Hangar procedures</dd></div>
+          <div><dt>About</dt><dd>18,400 items · first index about 3 hours</dd></div><div><dt>Who can find it</dt><dd>Only people who can open it in Holonet Drive</dd></div>
+          <div class="w"><dt>Searchable</dt><dd>After the first permission sync. Until then, nothing from it shows in search or AI answers.</dd></div></dl>
+        <div class="ft"><span class="btn">Back</span><span class="sp"></span><span class="btn pri" id="bGo">Start indexing</span></div></div>
+    </section>
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  addClick: 0.95, open: [1.00, 1.30], dClick: 2.00, s2: 2.10, aClick: 3.40, bClick: 4.00, coClick: 4.80, s3: 4.90,
+  goClick: 6.10, close: [6.20, 6.45], toast: [6.50, 7.90], run: [6.45, 8.10], endCard: [8.10, 8.55], end: 9.1
+};
+const OKI = '<svg width="9" height="9"><use href="#ok"/></svg>';
+
+function build() {
+  const ad = at("bAdd");
+  $("dlg").style.opacity = 1; const dv = at("pkD", -60, 0);
+  $("p1").style.display = "none"; $("p2").style.display = "block"; const a = at("fA"), b = at("fB"), co = at("bCo");
+  $("p2").style.display = "none"; $("p3").style.display = "block"; const go = at("bGo");
+  $("p3").style.display = ""; $("p1").style.display = "block"; $("dlg").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.75, ad[0], ad[1] + 3], [1.00, ad[0], ad[1] + 3],
+    [1.75, dv[0], dv[1] + 3], [2.05, dv[0], dv[1] + 3], [3.15, a[0], a[1] + 3], [3.45, a[0], a[1] + 3], [3.75, b[0], b[1] + 3], [4.05, b[0], b[1] + 3],
+    [4.55, co[0], co[1] + 3], [4.85, co[0], co[1] + 3], [5.85, go[0], go[1] + 3], [6.15, go[0], go[1] + 3], [8.10, go[0] - 160, go[1] + 80]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.06], [7.85, 650, 345, 1.06], [8.10, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  $("crumb").innerHTML = "/ Content / <b>Sources</b>";
+  $("bAdd").classList.toggle("dn", t >= T.addClick - .05 && t < T.open[0] + .15);
+  const o = span(t, ...T.open, easeOut) * (1 - span(t, ...T.close, easeOut));
+  $("dlg").style.opacity = o; $("scr").style.opacity = o; $("dlg").style.transform = `translateY(${8 * (1 - o)}px)`;
+  $("dlg").style.visibility = o > 0 ? "visible" : "hidden";
+  // one step at a time
+  const step = t >= T.s3 ? 3 : t >= T.s2 ? 2 : 1;
+  [1, 2, 3].forEach(i => { $("p" + i).style.display = i === step ? "block" : "none";
+    const s = $("st" + i); s.className = "s " + (i < step ? "dn" : i === step ? "on" : ""); s.querySelector(".n").innerHTML = i < step ? OKI : i; });
+  $("pkD").classList.toggle("hov", t >= T.dClick - .3 && t < T.s2);
+  const A = t >= T.aClick, B = t >= T.bClick;
+  $("fA").classList.toggle("on", A); $("fB").classList.toggle("on", B);
+  $("est").innerHTML = B ? "<b>About 18,400 items</b> · first index about 3 hours" : A ? "<b>About 9,800 items</b> · first index about 2 hours" : "Choose at least one folder";
+  $("bCo").classList.toggle("dn", t >= T.coClick - .05 && t < T.s3);
+  $("bGo").classList.toggle("dn", t >= T.goClick - .05 && t < T.close[0]);
+  // listed, indexing, and not searchable until permissions have synced
+  $("r-new").style.display = t >= T.close[0] ? "table-row" : "none";
+  $("sg-sources").querySelector(".n").textContent = t >= T.close[0] ? "4" : "3";
+  const p = span(t, ...T.run, x => x), pc = Math.round(4 + 8 * p);
+  $("nB").style.transform = `scaleX(${pc / 100})`; $("nP").textContent = `Indexing · ${pc}%`;
+  $("nI").textContent = (740 + Math.round(1500 * p)).toLocaleString("en-US");
+  $("toast").style.opacity = span(t, T.toast[0], T.toast[0] + .2) * (1 - span(t, T.toast[1] - .2, T.toast[1]));
+}
+
+function events() { return [["click", T.addClick], ["whoosh", T.open[0]], ["click", T.dClick], ["click", T.aClick], ["click", T.bClick], ["click", T.coClick], ["click", T.goClick], ["pop", T.toast[0]]]; }
+
+Motion.scene({
+  // 5+ steps: natural length, within the 15 s cap
+  T, clicks: [T.addClick, T.dClick, T.aClick, T.bClick, T.coClick, T.goClick], build, render, events,
+  slow: [[2.2, 3.0, 1.4]]
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sync status · motion scene</title>
+<!--
+  Source for media/knowledge-content/sync-status.mp4. Built by motion/_build/sync_status.py on _build/sources_page.py,
+  so Content › Sources is the same page as in the other clips.
+  Follows the Sync status card (data/guidance-content.js):
+  - per source: items indexed, failed, last synced in words, state in text and icon; Partly failing, not green
+  - a sign-in that's about to expire is shown before sync breaks
+  - errors grouped by cause, each with what happened and the fix; retry one group
+  - an alert when a source stops syncing or falls behind
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+
+.cnt2 { font-size: 12.5px; color: var(--soft); }
+.st2 { display: inline-flex; gap: 6px; align-items: center; color: var(--ink); white-space: nowrap; }
+.st2 svg { width: 12px; height: 12px; flex: none; }
+.st2.w { color: #92400e; }
+.st2.e { color: #b91c1c; }
+.st2 .s { color: var(--soft); }
+.srcs td .sub { display: block; font-size: 12px; color: var(--soft); }
+
+#vD { opacity: 0; }
+.dh { display: flex; align-items: center; gap: 10px; }
+.dh .w { flex: 1; } .dh .w b { display: block; color: var(--ink); font-size: 18px; font-weight: 600; }
+.dh .w span { font-size: 12.5px; color: var(--soft); }
+.back { font-size: 12.5px; color: var(--soft); margin-bottom: 10px; }
+.kv4 { margin-top: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.kv4 > div { border: 1px solid var(--rule); border-radius: 10px; padding: 9px 12px; font-size: 12px; color: var(--soft); }
+.kv4 dt { font-size: 12px; color: var(--soft); margin-bottom: 3px; }
+.kv4 dd { margin: 0; font-size: 14px; color: var(--ink); font-weight: 600; }
+.kv4 dd span { font-weight: 400; font-size: 12px; color: var(--soft); }
+.cov { margin-top: 6px; height: 5px; border-radius: 999px; background: var(--hover); overflow: hidden; }
+.cov i { display: block; height: 100%; width: 100%; background: var(--ink); transform-origin: left; }
+.h3 { margin-top: 18px; font-size: 13.5px; color: var(--ink); font-weight: 600; }
+.err { margin-top: 8px; border: 1px solid var(--rule-strong); border-radius: 10px; }
+.err > div { display: flex; gap: 14px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--soft); min-height: 58px; box-sizing: border-box; }
+.err > div:first-child { border-top: 0; }
+.err .tx { flex: 1; line-height: 1.45; } .err .tx b { color: var(--ink); font-weight: 600; }
+.err .btn { height: 32px; font-size: 12.5px; white-space: nowrap; }
+.alr { margin-top: 14px; display: flex; gap: 9px; align-items: center; font-size: 12.5px; color: var(--ink); }
+.alr .s { color: var(--soft); }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Content / Sources"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="content" data-role="admin"></div>
+    <div class="main">
+      <div class="view" id="vL">
+        <div class="hd"><h1>Content</h1><span class="btn sm pri">Add source</span></div>
+        <div class="tabs page"><div>All content</div><div>Sharing</div><div>Tags</div><div>Storage</div><div class="on">Sources</div><div>Trash</div></div>
+        <div class="sub2"><span class="sg on" id="sg-sources">Sources <span class="n">4</span></span><span class="sg" id="sg-excl">Exclusions <span class="n">3</span></span><span class="sp"></span><span class="cnt2">Search and AI only see what’s connected here</span></div>
+        <table class="st srcs"><thead><tr><th>Source</th><th>Items indexed</th><th>Failed</th><th>Last synced</th><th>State</th></tr></thead><tbody><tr id="r-arch"><td class="nm"><b>Archives</b><span>Built in</span></td><td id="r-arch-i">2.4M</td><td id="r-arch-f">0</td><td id="r-arch-l">Just now</td><td id="r-arch-s"><span class="st2"><svg aria-hidden="true"><use href="#ok"/></svg>Up to date</span></td></tr><tr id="r-drive"><td class="nm"><b>Holonet Drive</b><span>Drive · 2 folders</span></td><td id="r-drive-i">18,402</td><td id="r-drive-f">0</td><td id="r-drive-l">12 minutes ago</td><td id="r-drive-s"><span class="st2"><svg aria-hidden="true"><use href="#ok"/></svg>Up to date</span></td></tr><tr id="r-wiki"><td class="nm"><b>Coruscant Wiki</b><span>Wiki · 4 spaces</span></td><td id="r-wiki-i">41,220</td><td id="r-wiki-f">6,180</td><td id="r-wiki-l">2 days ago</td><td id="r-wiki-s"><span class="st2 w"><svg aria-hidden="true"><use href="#warn"/></svg>Partly failing <span class="s">· 13% failed</span></span></td></tr><tr id="r-comm"><td class="nm"><b>HoloComms channels</b><span>Chat · 12 channels</span></td><td id="r-comm-i">9,804</td><td id="r-comm-f">0</td><td id="r-comm-l">3 hours ago</td><td id="r-comm-s"><span class="st2 w"><svg aria-hidden="true"><use href="#warn"/></svg>Sign-in expires in 4 days</span></td></tr></tbody></table>
+      </div>
+      <div class="view" id="vD">
+        <div class="back">← Sources</div>
+        <div class="dh"><span class="lg">CW</span><div class="w"><b>Coruscant Wiki</b><span id="dS">Wiki · 4 spaces · Partly failing</span></div><span class="btn sm">Re-sync source</span><span class="btn sm">Settings</span></div>
+        <div class="sub2"><span class="sg on">Overview</span><span class="sg">Permissions</span><span class="sp"></span></div>
+        <dl class="kv4" style="margin:16px 0 0">
+          <div><dt>Last synced</dt><dd id="kL">2 days ago <span>· Tue 09:14</span></dd></div>
+          <div><dt>Coverage</dt><dd id="kC">85% <span>· 41,220 of 47,400</span></dd><div class="cov"><i id="cvI"></i></div></div>
+          <div><dt>Failed</dt><dd id="kF">6,180</dd></div>
+          <div><dt>Sign-in</dt><dd>Service account <span>· renews itself</span></dd></div></dl>
+        <div class="h3">Why items failed</div>
+        <div class="err" aria-live="polite">
+          <div id="e1"><span class="st2 e"><svg aria-hidden="true"><use href="#err"/></svg></span><div class="tx"><b>Permission denied · <span id="e1n">5,900 items</span></b><br><span id="e1t">The connector lost access to 3 spaces on Monday. Mon Mothma gave it back 10 minutes ago.</span></div><span id="e1a"><span class="btn pri" id="bRt">Retry 5,900 items</span></span></div>
+          <div><span class="st2 w"><svg aria-hidden="true"><use href="#warn"/></svg></span><div class="tx"><b>File type not supported · 280 items</b><br>Visio diagrams (.vsdx). They’re still found by name, but not by what’s in them.</div><span class="btn">See the 280</span></div>
+        </div>
+        <div class="alr"><span class="cb" id="cbA"></span>Email me when this source stops syncing or falls a day behind<span class="s">· you and 1 other</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  rowClick: 1.10, toD: [1.15, 1.40], rtClick: 2.90, run: [3.00, 3.90], alClick: 4.70, endCard: [5.60, 6.05], end: 6.6
+};
+
+function build() {
+  const r = at("r-wiki", -300, 0);
+  $("vD").style.opacity = 1; const rt = at("bRt"), al = at("cbA"); $("vD").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.85, r[0], r[1] + 3], [1.15, r[0], r[1] + 3],
+    [2.65, rt[0], rt[1] + 3], [2.95, rt[0], rt[1] + 3], [3.90, rt[0] - 80, rt[1] + 40],
+    [4.45, al[0], al[1] + 3], [4.75, al[0], al[1] + 3], [5.60, al[0] + 120, al[1] + 40]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.06], [5.35, 650, 345, 1.06], [5.60, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  const d = t >= T.toD[0];
+  $("crumb").innerHTML = d ? "/ Content / Sources / <b>Coruscant Wiki</b>" : "/ Content / <b>Sources</b>";
+  $("r-wiki").classList.toggle("sel", t >= T.rowClick - .1 && t < T.toD[0]);
+  $("vL").style.opacity = t >= T.toD[0] ? 0 : 1; $("vD").style.opacity = t >= T.toD[0] ? 1 : 0;
+  // retry the items whose cause is fixed: progress in place, then the numbers move
+  const p = span(t, ...T.run, x => x), done = t >= T.run[1], run = t >= T.run[0];
+  const left = Math.round(5900 * (1 - p));
+  $("bRt") && $("bRt").classList.toggle("dn", t >= T.rtClick - .05 && t < T.run[0]);
+  $("e1a").innerHTML = done ? '<span class="st2"><svg aria-hidden="true"><use href="#ok"/></svg>Fixed</span>' : run ? `<span class="st2 s">Retrying · ${left.toLocaleString("en-US")} left</span>` : `<span class="btn pri${t >= T.rtClick - .05 ? " dn" : ""}" id="bRt">Retry 5,900 items</span>`;
+  $("e1").querySelector(".st2").className = "st2 " + (done ? "" : "e");
+  $("e1").querySelector(".st2").innerHTML = done ? '<svg aria-hidden="true"><use href="#ok"/></svg>' : '<svg aria-hidden="true"><use href="#err"/></svg>';
+  $("e1n").textContent = done ? "5,900 items indexed" : "5,900 items";
+  const idx = 41220 + Math.round(5900 * p), cov = Math.round(100 * idx / 47400);
+  $("kC").innerHTML = `${cov}% <span>· ${idx.toLocaleString("en-US")} of 47,400</span>`;
+  $("cvI").style.transform = `scaleX(${idx / 47400})`;
+  $("kF").textContent = (6180 - Math.round(5900 * p)).toLocaleString("en-US");
+  $("kL").innerHTML = done ? "Just now <span>· 280 skipped</span>" : "2 days ago <span>· Tue 09:14</span>";
+  $("dS").textContent = done ? "Wiki · 4 spaces · Up to date" : "Wiki · 4 spaces · Partly failing";
+  $("cbA").classList.toggle("on", t >= T.alClick);
+}
+
+function events() { return [["click", T.rowClick], ["whoosh", T.toD[0]], ["click", T.rtClick], ["chime", T.run[1]], ["click", T.alClick]]; }
+
+Motion.scene({
+  // under 5 steps: natural length, within the 10 s cap
+  T, clicks: [T.rowClick, T.rtClick, T.alClick], build, render, events,
+  slow: [[1.5, 2.4, 1.2]]
+});
+</script>
+</body>
+</html>

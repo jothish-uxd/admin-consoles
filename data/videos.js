@@ -138,8 +138,8 @@ window.VIDEOS = {
   },
   "asset-management": {
     "Asset library": {
-      src: "media/asset-management/asset-library.mp4",
-      poster: "media/asset-management/asset-library.jpg",
+      src: "media/asset-management/asset-library.mp4?r=2",
+      poster: "media/asset-management/asset-library.jpg?r=2",
       label: "Asset library, shown in a mock Echo Base console",
       steps: [
         "The admin opens All content: one inventory of about 2.4M items, with no folders to dig through, and a note that the search index was updated 2 minutes ago.",
@@ -519,8 +519,8 @@ window.VIDEOS = {
   },
   "destructive-actions": {
     "Delete confirmation": {
-      src: "media/destructive-actions/delete-confirmation.mp4",
-      poster: "media/destructive-actions/delete-confirmation.jpg",
+      src: "media/destructive-actions/delete-confirmation.mp4?r=2",
+      poster: "media/destructive-actions/delete-confirmation.jpg?r=2",
       label: "Delete confirmation, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, the admin opens the Owner deactivated saved view: 112 items owned by people who have left.",
@@ -555,8 +555,8 @@ window.VIDEOS = {
       ]
     },
     "Undo toast": {
-      src: "media/destructive-actions/undo-toast.mp4",
-      poster: "media/destructive-actions/undo-toast.jpg",
+      src: "media/destructive-actions/undo-toast.mp4?r=2",
+      poster: "media/destructive-actions/undo-toast.jpg?r=2",
       label: "Undo toast, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, the admin hovers Supply run notes.md. A Move to Trash button appears at the end of the row.",
@@ -628,8 +628,8 @@ window.VIDEOS = {
       ]
     },
     "Inline edit": {
-      src: "media/edit-bulk-actions/inline-edit.mp4",
-      poster: "media/edit-bulk-actions/inline-edit.jpg",
+      src: "media/edit-bulk-actions/inline-edit.mp4?r=2",
+      poster: "media/edit-bulk-actions/inline-edit.jpg?r=2",
       label: "Inline edit, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, pointing at Supply run notes.md shows a pencil beside the name. Owner and Sharing have none, because changing them has side effects.",
@@ -676,8 +676,8 @@ window.VIDEOS = {
       ]
     },
     "No results": {
-      src: "media/empty-onboarding/no-results.mp4",
-      poster: "media/empty-onboarding/no-results.jpg",
+      src: "media/empty-onboarding/no-results.mp4?r=2",
+      poster: "media/empty-onboarding/no-results.jpg?r=2",
       label: "No results, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, a search for trench plans finds 2 items.",
@@ -858,6 +858,56 @@ window.VIDEOS = {
         "She picks only the two events this system needs. There's no all-events option, so nothing is sent by accident.",
         "A signing secret is created for the system to check every request.",
         "Saving sends a test: 200 OK in 142 ms. The history shows each delivery and its attempts, the retry policy is spelled out, and she can pause the endpoint."
+      ]
+    }
+  },
+  "knowledge-content": {
+    "Add content source": {
+      src: "media/knowledge-content/add-content-source.mp4",
+      poster: "media/knowledge-content/add-content-source.jpg",
+      label: "Add content source, shown in a mock Echo Base console",
+      steps: [
+        "On Content › Sources, the admin chooses Add source and picks Holonet Drive. The steps are in view: source, what to include, review.",
+        "It says what the connector needs and why: read files and who they're shared with, so results respect it. It can't change, move or delete anything.",
+        "Selected folders is the default, not everything. She picks Fleet manuals and Hangar procedures, and the estimate updates: about 18,400 items, about 3 hours.",
+        "The review says who can find it, only people who can open it in Holonet Drive, and that nothing shows in search or AI until the first permission sync.",
+        "She starts indexing. The source is listed with its progress and not searchable yet."
+      ]
+    },
+    "Sync status": {
+      src: "media/knowledge-content/sync-status.mp4",
+      poster: "media/knowledge-content/sync-status.jpg",
+      label: "Sync status, shown in a mock Echo Base console",
+      steps: [
+        "Each source shows items indexed and failed, when it last synced, and its state in words and an icon. Coruscant Wiki is Partly failing, not green, and HoloComms' sign-in expires in 4 days.",
+        "The admin opens Coruscant Wiki: last synced 2 days ago, 87% coverage, 6,180 failed.",
+        "Failures are grouped by cause, each with what happened and the fix. Access to 3 spaces was restored, so she retries those 5,900 items.",
+        "Progress shows in place. Coverage reaches 99%, and the 280 unsupported files are explained, not hidden.",
+        "She turns on an email for when this source stops syncing or falls a day behind."
+      ]
+    },
+    "Source permissions": {
+      src: "media/knowledge-content/source-permissions.mp4",
+      poster: "media/knowledge-content/source-permissions.jpg",
+      label: "Source permissions, shown in a mock Echo Base console",
+      steps: [
+        "The admin opens Holonet Drive and its Permissions tab. Permissions synced 4 minutes ago, and removals arrive first.",
+        "Each Holonet Drive group is shown beside the console group it maps to, with how many people.",
+        "One group isn't mapped, so its 1,120 files are left out until it is, rather than shown to everyone.",
+        "She tests as a person: Hobbie Klivian searching for “hyperdrive”.",
+        "He'd find 2 items, each with the group that lets him. A third matches, but isn't shown, because he can't open it in Holonet Drive."
+      ]
+    },
+    "Content exclusions": {
+      src: "media/knowledge-content/content-exclusions.mp4",
+      poster: "media/knowledge-content/content-exclusions.jpg",
+      label: "Content exclusions, shown in a mock Echo Base console",
+      steps: [
+        "On Content › Sources › Exclusions, each rule shows what it covers, who added it and why. Exclusions work alongside permissions, not instead of them.",
+        "The admin adds a rule. It can exclude by location, file type, sensitivity label, keyword or owner. She keeps Location.",
+        "She picks Crew evaluations in Holonet Drive. A preview says it matches 214 items, all already indexed.",
+        "A reason is required, and shown to other admins: Open HR reviews.",
+        "The rule is listed first, and the 214 items are being removed from search, caches and AI answers, in about 10 minutes."
       ]
     }
   }

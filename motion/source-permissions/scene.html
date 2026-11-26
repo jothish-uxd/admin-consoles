@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Source permissions · motion scene</title>
+<!--
+  Source for media/knowledge-content/source-permissions.mp4. Built by motion/_build/source_permissions.py on _build/sources_page.py,
+  so Content › Sources is the same page as in the other clips.
+  Follows the Source permissions card (data/guidance-content.js):
+  - how source groups map to console groups, in a table with headers; when permissions last synced, removals first
+  - an unmapped group's files are left out until it's mapped, not shown to everyone
+  - test as a person: what Hobbie would find, and what's hidden because he can't open it at the source
+  Built on motion/shared (console.css, motion.js): see motion.js for how a scene is put together.
+  Open this file in a browser and add ?play to watch it live.
+-->
+<link rel="stylesheet" href="../shared/console.css">
+<style>
+.btn.sm { height: 32px; font-size: 12.5px; }
+.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
+
+.btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
+.btn.prs { background: var(--hover); }
+.sub2 { margin-top: 14px; display: flex; align-items: center; gap: 6px; height: 32px; }
+.sub2 .sg { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 7px; font-size: 13px; color: var(--soft); border: 1px solid transparent; white-space: nowrap; }
+.sub2 .sg.on { background: var(--hover); color: var(--ink); font-weight: 500; }
+.sub2 .sg .n { font-size: 11.5px; color: var(--soft); }
+.sub2 .sp { flex: 1; }
+.lg { width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: grid; place-items: center; font: 600 11px "Geist Mono", monospace; color: var(--ink); flex: none; }
+.pill { font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); white-space: nowrap; background: var(--bg); }
+.pill.dk { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pill.warn { border-color: #b45309; color: #92400e; }
+.pill.bad { border-color: #b91c1c; color: #b91c1c; }
+.cards { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ic { border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--soft); }
+.ic.dr { border-color: var(--ink); }
+.ic .t { display: flex; align-items: center; gap: 10px; }
+.ic .t b { color: var(--ink); font-size: 14px; flex: 1; }
+.ic .d { margin-top: 8px; line-height: 1.45; }
+.ic .d b { color: var(--ink); font-weight: 500; }
+.ic .f { margin-top: 10px; display: flex; gap: 8px; align-items: center; }
+.cb { display: inline-block; width: 16px; height: 16px; border: 1.5px solid var(--rule-strong); border-radius: 4px; background: var(--bg); position: relative; flex: none; box-sizing: border-box; }
+.cb.on { background: var(--ink); border-color: var(--ink); }
+.cb.on::after { content: ""; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.in { height: 36px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 11px; color: var(--ink); font-size: 13px; white-space: pre; box-sizing: border-box; background: var(--bg); }
+.in.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
+.in.err { border-color: #b91c1c; }
+.in.ph { color: var(--faint); }
+.in .c { width: 1.5px; height: 17px; background: var(--ink); margin-left: 1px; }
+.in.mono { font-family: "Geist Mono", monospace; font-size: 12.5px; }
+.lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
+.lbl span { color: var(--soft); font-weight: 400; }
+.msg { margin-top: 5px; font-size: 12px; height: 16px; position: relative; color: var(--soft); }
+.msg > span { position: absolute; left: 0; top: 0; display: inline-flex; gap: 5px; align-items: center; white-space: nowrap; }
+.msg .e { color: #b91c1c; }
+.msg svg { width: 13px; height: 13px; flex: none; }
+.dlg { position: absolute; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
+.dlg .ft { margin-top: 16px; display: flex; gap: 8px; align-items: center; }
+.dlg .ft .sp { flex: 1; }
+.dlg .ft .btn { height: 34px; white-space: nowrap; }
+.scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
+.drw { position: absolute; right: 0; top: 52px; bottom: 0; width: 430px; background: var(--bg); border-left: 1px solid var(--rule-strong); box-shadow: -18px 0 40px rgba(0,0,0,.08); z-index: 25; padding: 20px 24px; box-sizing: border-box; font-size: 12.5px; color: var(--soft); transform: translateX(440px); }
+.drw .tt { display: flex; gap: 10px; align-items: center; }
+.drw .tt b { color: var(--ink); font-size: 16px; font-weight: 600; display: block; }
+.drw .tt .x { margin-left: auto; color: var(--soft); font-size: 15px; }
+.drw h4 { margin: 16px 0 6px; font-size: 12.5px; color: var(--ink); font-weight: 600; }
+.can { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; color: var(--ink); line-height: 1.4; }
+.can svg { width: 13px; height: 13px; flex: none; margin-top: 2.5px; }
+.can.no { color: var(--soft); }
+table.st { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+table.st th { text-align: left; font-size: 12px; color: var(--soft); font-weight: 500; padding: 0 10px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+table.st td { height: 50px; padding: 0 10px; border-bottom: 1px solid var(--rule); color: var(--soft); white-space: nowrap; }
+table.st td.nm { color: var(--ink); }
+table.st td.nm b { font-weight: 500; display: block; }
+table.st td.nm span { font-size: 12px; color: var(--soft); }
+table.st tr.sel td { background: var(--subtle); }
+table.st tr.nw td { background: var(--subtle); }
+.flag { display: inline-flex; gap: 5px; align-items: center; color: #92400e; font-size: 12px; }
+.flag svg { width: 12px; height: 12px; flex: none; }
+.mono { font-family: "Geist Mono", monospace; font-size: 12px; }
+
+.cnt2 { font-size: 12.5px; color: var(--soft); }
+.st2 { display: inline-flex; gap: 6px; align-items: center; color: var(--ink); white-space: nowrap; }
+.st2 svg { width: 12px; height: 12px; flex: none; }
+.st2.w { color: #92400e; }
+.st2.e { color: #b91c1c; }
+.st2 .s { color: var(--soft); }
+.srcs td .sub { display: block; font-size: 12px; color: var(--soft); }
+
+#vD { opacity: 0; }
+.back { font-size: 12.5px; color: var(--soft); margin-bottom: 10px; }
+.dh { display: flex; align-items: center; gap: 10px; }
+.dh .w { flex: 1; } .dh .w b { display: block; color: var(--ink); font-size: 18px; font-weight: 600; }
+.dh .w span { font-size: 12.5px; color: var(--soft); }
+.pv { position: relative; }
+.pv > div { position: absolute; left: 0; right: 0; top: 0; }
+#pP { opacity: 0; }
+.kv4 { margin: 16px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.kv4 > div { border: 1px solid var(--rule); border-radius: 10px; padding: 9px 12px; font-size: 12px; color: var(--soft); }
+.kv4 dt { font-size: 12px; color: var(--soft); margin-bottom: 3px; }
+.kv4 dd { margin: 0; font-size: 14px; color: var(--ink); font-weight: 600; }
+.kv4 dd span { font-weight: 400; font-size: 12px; color: var(--soft); }
+.syn { margin-top: 10px; font-size: 12.5px; color: var(--soft); }
+.syn b { color: var(--ink); font-weight: 500; }
+table.st.mp td { height: 34px; }
+table.st.mp { margin-top: 8px; }
+table.st.mp td.g { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--ink); }
+.test { margin-top: 10px; border: 1px solid var(--rule-strong); border-radius: 12px; padding: 12px 14px; }
+.test h4 { margin: 0 0 8px; font-size: 13px; color: var(--ink); font-weight: 600; }
+.test .row { display: flex; gap: 8px; position: relative; }
+.test .in { width: 240px; }
+.test .in.q { flex: 1; width: auto; }
+.sug { position: absolute; left: 0; top: 40px; width: 240px; z-index: 6; opacity: 0; }
+.sug .s2 { display: block; font-size: 11.5px; color: var(--soft); }
+.rs { margin-top: 10px; display: none; font-size: 12.5px; color: var(--soft); }
+.rs .hd2 { color: var(--ink); } .rs .hd2 b { font-weight: 600; }
+.rs .it { display: flex; gap: 10px; align-items: center; padding: 5px 0; border-top: 1px solid var(--rule); }
+.rs .it:first-of-type { border-top: 0; }
+.rs .it b { color: var(--ink); font-weight: 500; }
+.rs .it .via { margin-left: auto; font-size: 12px; }
+.rs .it.hid { color: var(--soft); }
+.rs .it svg { width: 13px; height: 13px; flex: none; }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="ok" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol><symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="nope" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 12L12 4" stroke="currentColor" stroke-width="1.5"/></symbol><symbol id="srch" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol><symbol id="copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 3.5v-.5A1 1 0 0 0 9.5 2h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div id="stage">
+  <div class="win">
+    <div class="top">
+      <div class="brand"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="3" fill="currentColor"/></svg>Echo Base Console</div>
+      <span class="crumb" id="crumb" data-path="Content / Sources"></span>
+      <div class="me">Lavanya Sienna · Jedi Master <span class="av">LS</span></div>
+
+    </div>
+    <div class="nav" data-at="content" data-role="admin"></div>
+    <div class="main">
+      <div class="view" id="vL">
+        <div class="hd"><h1>Content</h1><span class="btn sm pri">Add source</span></div>
+        <div class="tabs page"><div>All content</div><div>Sharing</div><div>Tags</div><div>Storage</div><div class="on">Sources</div><div>Trash</div></div>
+        <div class="sub2"><span class="sg on" id="sg-sources">Sources <span class="n">4</span></span><span class="sg" id="sg-excl">Exclusions <span class="n">3</span></span><span class="sp"></span><span class="cnt2">Search and AI only see what’s connected here</span></div>
+        <table class="st srcs"><thead><tr><th>Source</th><th>Items indexed</th><th>Failed</th><th>Last synced</th><th>State</th></tr></thead><tbody><tr id="r-arch"><td class="nm"><b>Archives</b><span>Built in</span></td><td id="r-arch-i">2.4M</td><td id="r-arch-f">0</td><td id="r-arch-l">Just now</td><td id="r-arch-s"><span class="st2"><svg aria-hidden="true"><use href="#ok"/></svg>Up to date</span></td></tr><tr id="r-drive"><td class="nm"><b>Holonet Drive</b><span>Drive · 2 folders</span></td><td id="r-drive-i">18,402</td><td id="r-drive-f">0</td><td id="r-drive-l">12 minutes ago</td><td id="r-drive-s"><span class="st2"><svg aria-hidden="true"><use href="#ok"/></svg>Up to date</span></td></tr><tr id="r-wiki"><td class="nm"><b>Coruscant Wiki</b><span>Wiki · 4 spaces</span></td><td id="r-wiki-i">41,220</td><td id="r-wiki-f">6,180</td><td id="r-wiki-l">2 days ago</td><td id="r-wiki-s"><span class="st2 w"><svg aria-hidden="true"><use href="#warn"/></svg>Partly failing <span class="s">· 13% failed</span></span></td></tr><tr id="r-comm"><td class="nm"><b>HoloComms channels</b><span>Chat · 12 channels</span></td><td id="r-comm-i">9,804</td><td id="r-comm-f">0</td><td id="r-comm-l">3 hours ago</td><td id="r-comm-s"><span class="st2 w"><svg aria-hidden="true"><use href="#warn"/></svg>Sign-in expires in 4 days</span></td></tr></tbody></table>
+      </div>
+      <div class="view" id="vD">
+        <div class="back">← Sources</div>
+        <div class="dh"><span class="lg">HD</span><div class="w"><b>Holonet Drive</b><span>Drive · 2 folders · Up to date</span></div><span class="btn sm">Re-sync source</span><span class="btn sm">Settings</span></div>
+        <div class="sub2"><span class="sg on" id="tO">Overview</span><span class="sg" id="tP">Permissions</span><span class="sp"></span></div>
+        <div class="pv">
+          <div id="pO"><dl class="kv4"><div><dt>Last synced</dt><dd>12 minutes ago</dd></div><div><dt>Coverage</dt><dd>100% <span>· 18,402 items</span></dd></div>
+            <div><dt>Failed</dt><dd>0</dd></div><div><dt>Sign-in</dt><dd>Service account <span>· renews itself</span></dd></div></dl></div>
+          <div id="pP">
+            <div class="syn"><b>Permissions synced 4 minutes ago.</b> Changes in Holonet Drive arrive within 5 minutes, removals first.</div>
+            <table class="st mp"><thead><tr><th>Holonet Drive group</th><th>Console group</th><th>People</th><th></th></tr></thead><tbody>
+              <tr><td class="g">fleet-all@holonet</td><td style="color:var(--ink)">Fleet</td><td>82</td><td></td></tr><tr><td class="g">hangar-crew@holonet</td><td style="color:var(--ink)">Hangar 3</td><td>14</td><td></td></tr><tr><td class="g">fleet-command@holonet</td><td style="color:var(--ink)">Fleet command</td><td>6</td><td></td></tr><tr><td class="g">ext-contractors@holonet</td><td style="color:var(--ink)"><span class="flag"><svg aria-hidden="true"><use href="#warn"/></svg>Not mapped</span></td><td>9</td><td>Its 1,120 files are left out until it’s mapped</td></tr></tbody></table>
+            <div class="test"><h4>Test as a person</h4>
+              <div class="row"><span class="in" id="pIn"><span id="pTx"></span><span class="c" id="pC"></span></span><span class="in q" id="qIn"><span id="qTx"></span><span class="c" id="qC"></span></span>
+                <div class="menu sug" id="sug"><div id="sHob">Hobbie Klivian<span class="s2">Pilot · Fleet</span></div><div>Hobbie Tarn<span class="s2">Mechanic · Hangar 3</span></div></div></div>
+              <div class="rs" id="rs" aria-live="polite"><div class="hd2">As <b>Hobbie Klivian</b>, “hyperdrive” finds <b>2 items</b></div>
+                <div class="it"><svg aria-hidden="true"><use href="#ok"/></svg><b>Hyperdrive maintenance guide</b>Fleet manuals<span class="via">Through Fleet</span></div>
+                <div class="it"><svg aria-hidden="true"><use href="#ok"/></svg><b>X-wing hyperdrive checklist</b>Hangar procedures<span class="via">Through Fleet</span></div>
+                <div class="it hid"><svg aria-hidden="true"><use href="#nope"/></svg>1 more item matches, but Hobbie can’t open it in Holonet Drive, so it isn’t shown<span class="via">Fleet command only</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="../shared/motion.js"></script>
+<script>
+const { $, at, span, easeOut } = Motion;
+const P = "Hob", Q = "hyperdrive";
+
+/* ---------- timeline (scene seconds) ---------- */
+const T = {
+  rowClick: 1.10, toD: [1.15, 1.40], pClick: 2.20, toP: [2.25, 2.45], inClick: 3.60, pType: [3.70, 4.00], sug: [4.05, 4.70],
+  hClick: 4.60, qClick: 5.20, qType: [5.30, 5.90], enter: 6.10, endCard: [7.60, 8.05], end: 8.6
+};
+
+function build() {
+  const r = at("r-drive", -300, 0);
+  $("vD").style.opacity = 1; const tp = at("tP"); $("pP").style.opacity = 1;
+  const pi = at("pIn", -60, 0), qi = at("qIn", -150, 0);
+  $("sug").style.opacity = 1; const h = at("sHob", -40, 0); $("sug").style.opacity = 0;
+  $("pP").style.opacity = 0; $("vD").style.opacity = 0;
+  const cur = [
+    [0.00, 960, 640], [0.25, 960, 640], [0.85, r[0], r[1] + 3], [1.15, r[0], r[1] + 3],
+    [1.95, tp[0], tp[1] + 3], [2.25, tp[0], tp[1] + 3], [3.35, pi[0], pi[1] + 3], [3.65, pi[0], pi[1] + 3],
+    [4.35, h[0], h[1] + 3], [4.65, h[0], h[1] + 3], [4.95, qi[0], qi[1] + 3], [5.25, qi[0], qi[1] + 3], [6.50, qi[0] + 60, qi[1] + 60], [7.60, qi[0] + 62, qi[1] + 62]
+  ];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.06], [7.35, 650, 345, 1.06], [7.60, 656, 360, 1.04]];
+  return { cam, cur };
+}
+
+function render(t) {
+  const d = t >= T.toD[0];
+  $("crumb").innerHTML = d ? "/ Content / Sources / <b>Holonet Drive</b>" : "/ Content / <b>Sources</b>";
+  $("r-drive").classList.toggle("sel", t >= T.rowClick - .1 && t < T.toD[0]);
+  $("vL").style.opacity = t >= T.toD[0] ? 0 : 1; $("vD").style.opacity = t >= T.toD[0] ? 1 : 0;
+  // Overview, then Permissions: one at a time
+  const pp = t >= T.toP[0];
+  $("tO").classList.toggle("on", !pp); $("tP").classList.toggle("on", pp);
+  $("pO").style.opacity = pp ? 0 : 1; $("pP").style.opacity = pp ? 1 : 0;
+  // test as a person
+  const pf = t >= T.inClick && t < T.hClick, qf = t >= T.qClick && t < T.endCard[0];
+  const blink = Math.floor(t * 2.4) % 2 === 0;
+  const pn = Math.round(P.length * span(t, ...T.pType, x => x));
+  $("pTx").textContent = t >= T.hClick ? "Hobbie Klivian" : t >= T.inClick ? P.slice(0, pn) : "Person";
+  $("pIn").className = "in" + (pf ? " f" : "") + (t < T.inClick ? " ph" : "");
+  $("pC").style.display = pf && blink ? "" : "none";
+  $("sug").style.opacity = span(t, T.sug[0], T.sug[0] + .12) * (1 - span(t, T.sug[1] - .08, T.sug[1]));
+  $("sHob").classList.toggle("hov", t >= T.hClick - .25);
+  const qn = Math.round(Q.length * span(t, ...T.qType, x => x));
+  $("qTx").textContent = t >= T.qClick ? Q.slice(0, qn) : "What they’d search for";
+  $("qIn").className = "in q" + (qf ? " f" : "") + (t < T.qClick ? " ph" : "");
+  $("qC").style.display = qf && blink && t < T.enter ? "" : "none";
+  $("rs").style.display = t >= T.enter ? "block" : "none";
+}
+
+function events() { return [["click", T.rowClick], ["whoosh", T.toD[0]], ["click", T.pClick], ["click", T.inClick], ["key", T.pType[0]], ["click", T.hClick], ["click", T.qClick], ["key", T.qType[0]], ["key", T.enter]]; }
+
+Motion.scene({
+  // 5+ steps: natural length, within the 15 s cap
+  T, clicks: [T.rowClick, T.pClick, T.inClick, T.hClick, T.qClick], build, render, events,
+  slow: [[2.5, 3.3, 1.5], [6.2, 7.3, 1.4]]
+});
+</script>
+</body>
+</html>

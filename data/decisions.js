@@ -394,6 +394,99 @@ window.DECISIONS = Object.assign(window.DECISIONS || {}, {
       }
     }
   },
+  "knowledge-content": {
+    overview: {
+      sizes: [
+        ["Tens of people", ["Add content source", "Sync status"], "One or two sources, started narrow. A clear connect flow and an honest status are enough."],
+        ["Thousands", ["Source permissions", "Content exclusions"], "Several sources with their own groups. Admins verify that results respect source access and keep sensitive areas out."],
+        ["Hundreds of thousands", [], "Dozens of sources across regions. Permission-aware retrieval at scale, sensitivity labels honoured, coverage and freshness reported, every change audited."]
+      ],
+      principles: [
+        "Permissions travel with content. Search and AI only return what the person asking could open at the source.",
+        "Start narrow and widen. Connect chosen folders first, verify results and permissions, then add more.",
+        "Be honest about coverage and freshness. Partly failing isn't green, and every failure has a cause and a fix."
+      ]
+    },
+    intro: "Connecting a source decides what search and AI can see. Getting the permissions wrong doesn't break anything visibly: an assistant simply summarises a document someone was never allowed to open. The work is keeping what's indexed complete, current and correctly permissioned.",
+    patterns: {
+      "Add content source": {
+        payoff: "From the start: the first source decides what search and AI can see.",
+        tradeoff: "Connecting everything at once fills search quickly, but it also brings in whatever was shared too widely at the source. Start with chosen folders, and wait for the first permission sync before anything is searchable.",
+        use: [
+          "Search or AI should cover content kept in another system.",
+          "The source has its own sharing that results must respect.",
+          "The admin can choose which parts of the source to include."
+        ],
+        avoid: [
+          "The content already lives in the console. Index it directly.",
+          "No one can say who should be able to find it. Sort out access at the source first.",
+          "The source can't share its permissions. Keep it out, or limit it to content everyone may see."
+        ],
+        alternatives: [
+          ["Upload into the console", "When there are only a few files and no source to keep in sync."],
+          ["Link to the source", "When people only need to open things there, not search them here."],
+          ["Federated search", "When content must not be copied, only queried at the source."]
+        ]
+      },
+      "Sync status": {
+        payoff: "From the start: “connected” isn't the same as working.",
+        tradeoff: "A single green light is easy to read, but it hides the 13% that failed. Show coverage, freshness and failures grouped by cause, so admins know whether answers can be trusted right now.",
+        use: [
+          "Search and AI answers depend on synced content being current.",
+          "Sources fail partly: some items, some spaces, some file types.",
+          "Credentials expire and need renewing before sync breaks."
+        ],
+        avoid: [
+          "Content is uploaded once and never changes.",
+          "There's one small source and failures are rare. A plain last-synced time may do.",
+          "Admins can't act on the errors. Route them to whoever owns the source."
+        ],
+        alternatives: [
+          ["Alerts only", "When admins should hear about problems but rarely look."],
+          ["Health score", "When there are dozens of sources to compare at a glance."],
+          ["Coverage report", "When the question is slow decline over weeks."]
+        ]
+      },
+      "Source permissions": {
+        payoff: "At thousands, when sources have their own groups that don't match the console's.",
+        tradeoff: "Mirroring source permissions keeps results honest, but every unmapped group is a gap. Leave that content out until it's mapped, and let admins test what a person would actually find.",
+        use: [
+          "Results from a source must respect who can open each item there.",
+          "Source groups need mapping to console people and groups.",
+          "Admins need to prove that results respect access, not just trust it."
+        ],
+        avoid: [
+          "Everything in the source is open to everyone in the org.",
+          "Content is indexed under one service account and would be shown to all. Fix that first.",
+          "The source can't report its permissions. Don't index it."
+        ],
+        alternatives: [
+          ["Test as a person", "When admins need to check one person's results before a launch."],
+          ["Exclude until mapped", "When some groups can't be mapped yet."],
+          ["Restrict to public content", "When the source's permissions can't be trusted."]
+        ]
+      },
+      "Content exclusions": {
+        payoff: "At thousands, when some areas should never reach search or AI, whoever can open them.",
+        tradeoff: "Exclusions keep sensitive areas out reliably, but they're blunt: excluded content can't help anyone, even people allowed to see it. Preview what a rule matches, require a reason, and remove what was already indexed.",
+        use: [
+          "Some content is sensitive enough to keep out of AI entirely, such as HR, legal or secrets.",
+          "Sensitivity labels or locations identify it reliably.",
+          "Admins need a record of what's excluded and why."
+        ],
+        avoid: [
+          "The real problem is wrong permissions. Fix sharing at the source instead.",
+          "The content is needed in search by the people allowed to open it. Rely on permissions.",
+          "Rules would be so broad they hide useful content. Narrow them first."
+        ],
+        alternatives: [
+          ["Source permissions", "When the right people should still find it."],
+          ["Sensitivity labels", "When the source already labels what's confidential."],
+          ["Don't connect that area", "When it never needed to be included in the first place."]
+        ]
+      }
+    }
+  },
   "billing-licenses": {
     overview: {
       sizes: [
