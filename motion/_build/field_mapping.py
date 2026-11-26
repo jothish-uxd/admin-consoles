@@ -6,6 +6,7 @@ CSS = ICSS + r"""
 table.mp { margin-top: 8px; font-size: 13px; table-layout: fixed; width: 100%; }
 .mp th { padding: 0 10px 8px; }
 .mp td { height: 40px; padding: 0 10px; }
+.mp td:last-child { white-space: normal; }
 .mp td.col { color: var(--ink); font-weight: 500; font-family: "Geist Mono", monospace; font-size: 12.5px; }
 .mp td.smp { color: var(--soft); font-size: 12.5px; }
 .fs { position: relative; width: 190px; height: 30px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; color: var(--ink); font-size: 13px; }
@@ -16,7 +17,8 @@ table.mp { margin-top: 8px; font-size: 13px; table-layout: fixed; width: 100%; }
 .fs .menu .s2 { display: block; font-size: 11.5px; color: var(--soft); }
 .hm { font-size: 12.5px; color: var(--soft); }
 .hm b { color: var(--ink); font-weight: 500; }
-.hm.w { color: #92400e; }
+.hm.w { color: #92400e; display: inline-flex; gap: 6px; align-items: flex-start; line-height: 1.35; }
+.hm.w svg { width: 13px; height: 13px; flex: none; margin-top: 1.5px; }
 tr.hl td { background: var(--subtle); }
 .sv .btn { height: 34px; }
 .sv { margin-top: 12px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--ink); }
@@ -29,7 +31,7 @@ ROWS = [
   ("nm", "Full name", "Cal Alder · Jes Gistang", "Name", "<b>Matched by name</b>", ""),
   ("em", "E-mail", "cal@echobase.rebellion", "Email", "Matched by a similar name", ""),
   ("sq", "Squad", "Fleet · Hoth evac", "Team", "Matched by a similar name", ""),
-  ("rl", "Role", "Pilot · Mechanic · Gunner", "Console role", "Check this: the samples look like job titles", "warn"),
+  ("rl", "Role", "Pilot · Mechanic · Gunner", "Console role", '<svg aria-hidden="true"><use href="#warn"/></svg>Check this: samples look like job titles', "warn"),
   ("bs", "Boss", "Wedge Antilles", "Manager", "Matched by a similar name", ""),
   ("bg", "Badge no.", "4471 · 4472", "Don’t import", "No matching field", "dim"),
 ]
@@ -78,7 +80,7 @@ function render(t) {
   $("f-rl").className = "fs" + (fixed ? "" : " warn") + (t >= T.fClick - .05 && t < T.menu[1] ? " prs" : "");
   $("fv-rl").textContent = fixed ? "Title" : "Console role";
   $("h-rl").className = "hm" + (fixed ? "" : " w");
-  $("h-rl").innerHTML = fixed ? "<b>Changed by you</b>" : "Check this: the samples look like job titles";
+  $("h-rl").innerHTML = fixed ? "<b>Changed by you</b>" : '<svg aria-hidden="true"><use href="#warn"/></svg>Check this: samples look like job titles';
   $("r-rl").classList.toggle("hl", t >= 1.4 && t < T.pick + 1.0);
   $("cbS").classList.toggle("on", t >= T.sClick);
   $("bCont").classList.toggle("dn2", t >= T.contClick - .05);
@@ -97,4 +99,4 @@ COMMENT = """  Source for media/import-export/field-mapping.mp4. Built by motion
   - Role was matched to the console role, but its samples are job titles: flagged, and she changes it to Title
   - a column with no field is set to Don't import, not dropped silently
   - she saves the mapping for the next file with the same columns"""
-make("field-mapping", "Field mapping", COMMENT, CSS, "People / Users / Import", "people", MAIN, SCRIPT)
+make("field-mapping", "Field mapping", COMMENT, CSS, "People / Users / Import", "people", MAIN, SCRIPT, defs='<symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol>')

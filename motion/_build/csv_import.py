@@ -21,7 +21,7 @@ CSS = ICSS + r"""
 .drop .fl { display: none; gap: 10px; align-items: center; color: var(--ink); }
 
 .drop .fl span { color: var(--soft); font-size: 12.5px; }
-.fly { position: absolute; width: 140px; height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; background: var(--bg); box-shadow: 0 10px 30px rgba(0,0,0,.15); display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 12px; color: var(--ink); opacity: 0; z-index: 30; }
+.fly { position: absolute; white-space: nowrap; height: 34px; border: 1px solid var(--rule-strong); border-radius: 8px; background: var(--bg); box-shadow: 0 10px 30px rgba(0,0,0,.15); display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 12px; color: var(--ink); opacity: 0; z-index: 30; }
 .sumr { margin-top: 10px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; opacity: 0; }
 .sumr div { border: 1px solid var(--rule); border-radius: 10px; padding: 8px 10px; font-size: 12px; color: var(--soft); }
 .sumr b { display: block; font-size: 17px; color: var(--ink); font-weight: 600; }
@@ -84,8 +84,9 @@ function render(t) {
   $("vImp").style.opacity = span(t, T.toImp[0] + .14, T.toImp[1]);
   $("crumb").innerHTML = t >= T.toImp[0] ? "/ People / Users / <b>Import</b>" : "/ People / <b>Users</b>";
   // a file dragged in from outside
-  const dr = span(t, ...T.drag, easeOut), d = at("drop");
-  Object.assign($("fly").style, { left: (d[0] + 250 - 260 * dr - 70) + "px", top: (d[1] - 110 + 114 * dr - 17) + "px" });
+  // the file chip sits under the cursor while it's dragged (cursor is in stage space, the chip in the window's)
+  const m = /translate\(([-\d.]+)px, ([-\d.]+)px\)/.exec($("cursor").style.transform) || [0, 0, 0];
+  Object.assign($("fly").style, { left: (+m[1] + 3 - 40 - 24) + "px", top: (+m[2] + 2 - 20 - 14) + "px" });
   $("fly").style.opacity = t >= T.drag[0] && t < T.drop ? 1 : 0;
   $("drop").classList.toggle("over", t >= T.drag[0] + .5 && t < T.drop + .2);
   const got = t >= T.drop;

@@ -27,7 +27,8 @@ CSS = ICSS + r"""
 .ed.f { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
 .ed.good { border-color: var(--rule-strong); }
 .ed .c { width: 1.5px; height: 15px; background: var(--ink); }
-.rw .why { font-size: 12px; color: #b91c1c; }
+.rw .why { font-size: 12px; color: #b91c1c; display: inline-flex; gap: 5px; align-items: center; }
+.rw .why svg { width: 13px; height: 13px; flex: none; }
 .rw .why.okk { color: var(--ink); }
 .done { margin-top: 12px; border: 1px solid var(--rule-strong); border-radius: 12px; padding: 14px 16px; display: none; font-size: 13px; color: var(--soft); }
 .done .res { margin-top: 10px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -41,8 +42,8 @@ MAIN = f'''      <div class="view imp" id="vImp">
           <div class="sm" aria-live="polite"><span id="smT"><b>41 of 48 rows</b> are ready · 4 have errors · 2 warnings</span></div>
           <section class="grp er" aria-labelledby="eH"><h3 id="eH"><span class="k">Errors</span>These rows can’t be imported until they’re fixed</h3>
             <div class="it" style="display:block"><div class="w"><b>Email isn’t a valid address</b> · 2 rows</div>
-              <div class="rw"><span class="rn">Row 12</span><span class="ed" id="e12"><span id="e12v">jes@echobase</span><span class="c" id="cr"></span></span><span class="why" id="w12">Missing the part after the dot</span></div>
-              <div class="rw"><span class="rn">Row 30</span><span class="ed">ved foslo@echobase.rebellion</span><span class="why">Has a space in it</span></div></div>
+              <div class="rw"><span class="rn">Row 12</span><span class="ed" id="e12"><span id="e12v">jes@echobase</span><span class="c" id="cr"></span></span><span class="why" id="w12"><svg aria-hidden="true"><use href="#err"/></svg>Missing the part after the dot</span></div>
+              <div class="rw"><span class="rn">Row 30</span><span class="ed">ved foslo@echobase.rebellion</span><span class="why"><svg aria-hidden="true"><use href="#err"/></svg>Has a space in it</span></div></div>
             <div class="it"><div class="w"><b>Team doesn’t exist: “Hoth evac”</b> · rows 7 and 19 · Did you mean <b>Hoth Evacuation</b>?</div><span id="tA"><span class="btn" id="bTeam">Use Hoth Evacuation for 2 rows</span></span></div>
           </section>
           <section class="grp wn" aria-labelledby="wH"><h3 id="wH"><span class="k">Warnings</span>These rows will be imported</h3>
@@ -86,7 +87,7 @@ function render(t) {
   $("e12v").textContent = BAD + add.slice(0, n);
   $("cr").style.opacity = ed && Math.floor(t * 2.4) % 2 === 0 ? 1 : 0;
   const e12 = t >= T.type[1];
-  $("w12").className = "why" + (e12 ? " okk" : ""); $("w12").textContent = e12 ? "Fixed" : "Missing the part after the dot";
+  $("w12").className = "why" + (e12 ? " okk" : ""); $("w12").innerHTML = e12 ? '<svg aria-hidden="true"><use href="#ok"/></svg>Fixed' : '<svg aria-hidden="true"><use href="#err"/></svg>Missing the part after the dot';
   // fix a whole group at once
   const team = t >= T.teamClick + .05;
   $("tA").innerHTML = team ? '<span class="ok"><svg><use href="#ok"/></svg>Fixed for 2 rows</span>' : `<span class="btn${t >= T.teamClick - .05 ? " dn" : ""}" id="bTeam">Use Hoth Evacuation for 2 rows</span>`;
@@ -122,4 +123,4 @@ COMMENT = """  Source for media/import-export/validation-errors.mp4. Built by mo
   - a whole group is fixed at once: Use Hoth Evacuation for 2 rows
   - the row that still fails is downloaded to fix later; the good rows import without re-uploading
   - the last step runs, and reports added, updated and not imported"""
-make("validation-errors", "Validation & errors", COMMENT, CSS, "People / Users / Import", "people", MAIN, SCRIPT)
+make("validation-errors", "Validation & errors", COMMENT, CSS, "People / Users / Import", "people", MAIN, SCRIPT, defs='<symbol id="err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M8 4.6v4.1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.2" r="1.05" fill="#fff"/></symbol><symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6.2v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.9" r="1" fill="#fff"/></symbol>')
