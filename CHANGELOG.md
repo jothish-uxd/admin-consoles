@@ -79,7 +79,7 @@ Every pattern in the library now has a clip: 124 of 124.
 ### Added
 - **By group / A–Z switch** in the sidebar, under Overview. By group shows the six collapsible group sections; A–Z lists all 23 categories alphabetically. The choice is remembered in your browser.
 
-## v0.2.0 preview — 2026-11-17
+## v0.2 preview — 2026-11-17
 
 ### Added
 - **Header search** on every page (⌘K). Finds the 23 categories and the 116 patterns by name, shown as two groups. Choosing a category opens its page; choosing a pattern opens it on the Patterns tab. Collapses to a search button on narrow screens and at high zoom.
@@ -101,7 +101,7 @@ Every pattern in the library now has a clip: 124 of 124.
 ### Fixed
 - **Creation flows:** replaced the 3 Cloudflare screenshots whose images stopped loading with Datadog, Miro and GitHub examples.
 
-## v0.1.0 preview — 2026-10-29
+## v0.1 preview — 2026-10-29
 
 First public version.
 - 23 categories in 6 groups, 116 patterns with guidance on usability, accessibility (WCAG 2.2 and the 7 Principles of Universal Design) and enterprise scale.

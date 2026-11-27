@@ -120,10 +120,6 @@ Set the length with `duration` in the scene's `Motion.scene({ ... })` call, and 
 
 Some patterns are rarely shown in public docs and have no screens yet: table density and expandable rows, empty tables, global admin search, undo toasts, settings save patterns, banners and announcements, and bulk-job progress.
 
-## Versions
-
-The header badge shows the current version. See [CHANGELOG.md](CHANGELOG.md) for what changed in each one; each version is also a git tag (`v0.1`, `v0.2`, `v0.2.1`, `v0.2.2`).
-
 ## Publishing
 
 GitHub Pages, deployed from `main` / root.
@@ -141,5 +137,5 @@ To release:
 
 1. Add an entry at the top of `CHANGELOG.md` (`## vX.Y.Z preview — YYYY-MM-DD`, then Added / Changed / Fixed).
 2. Run `python3 tools/stamp.py`. It writes the version into the badge and sets every cache key (`?v=` on scripts, styles, clips and posters) to a hash of the file, so only changed files are fetched again. `--check` reports anything out of date.
-3. Commit, then tag: `git tag -a vX.Y.Z -m "vX.Y.Z"` and `git push origin vX.Y.Z`.
+3. Commit, then tag: `git tag -a vX.Y.Z -m "vX.Y.Z"` and `git push origin vX.Y.Z`. Every version is a tag, from `v0.1` and `v0.2` (two-part, from before this scheme) onwards.
 
