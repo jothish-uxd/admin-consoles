@@ -127,3 +127,19 @@ The header badge shows the current version. See [CHANGELOG.md](CHANGELOG.md) for
 ## Publishing
 
 GitHub Pages, deployed from `main` / root.
+
+## Versions and releases
+
+The version lives in one place: the newest heading in `CHANGELOG.md`. The site's header badge shows it and links to `changelog.html`, which renders the changelog.
+
+- **Major** (1.0, 2.0): changes to how patterns are found or cited, such as category names or URLs, and the public launch.
+- **Minor** (0.3, 0.4): a new category, new patterns, or a new layout across the site.
+- **Patch** (0.3.1): fixes, such as a re-rendered clip or a copy edit.
+- *preview* means the work is on `v3-videos` and not public yet. It comes off at the merge to `main` (v1.0.0).
+
+To release:
+
+1. Add an entry at the top of `CHANGELOG.md` (`## vX.Y.Z preview — YYYY-MM-DD`, then Added / Changed / Fixed).
+2. Run `python3 tools/stamp.py`. It writes the version into the badge and sets every cache key (`?v=` on scripts, styles, clips and posters) to a hash of the file, so only changed files are fetched again. `--check` reports anything out of date.
+3. Commit, then tag: `git tag -a vX.Y.Z -m "vX.Y.Z"` and `git push origin vX.Y.Z`.
+

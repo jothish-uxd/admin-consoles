@@ -5,8 +5,8 @@
 window.VIDEOS = {
   "access-requests": {
     "Request access": {
-      src: "media/access-requests/request-access.mp4",
-      poster: "media/access-requests/request-access.jpg",
+      src: "media/access-requests/request-access.mp4?v=ad97d25b",
+      poster: "media/access-requests/request-access.jpg?v=2d05a4e4",
       label: "Request access, shown in a mock Echo Base console",
       steps: [
         "The requester follows a link to the Death Star plans archive and lands on an access-denied page. It says who owns the archive and who reviews requests, Gen. Jan Dodonna, usually within 2 hours, with Request access right there.",
@@ -18,8 +18,8 @@ window.VIDEOS = {
       ]
     },
     "Approval queue": {
-      src: "media/access-requests/approval-queue.mp4",
-      poster: "media/access-requests/approval-queue.jpg",
+      src: "media/access-requests/approval-queue.mp4?v=c3279364",
+      poster: "media/access-requests/approval-queue.jpg?v=895381bd",
       label: "Approval queue, shown in a mock Echo Base console",
       steps: [
         "The admin opens her approvals. Six requests are pending, oldest first, each row showing who, what, why, how long it has waited and its risk.",
@@ -31,8 +31,8 @@ window.VIDEOS = {
       ]
     },
     "Review detail": {
-      src: "media/access-requests/review-detail.mp4",
-      poster: "media/access-requests/review-detail.jpg",
+      src: "media/access-requests/review-detail.mp4?v=d07fb681",
+      poster: "media/access-requests/review-detail.jpg?v=6037aa75",
       label: "Review detail, shown in a mock Echo Base console",
       steps: [
         "The admin opens Bodhi Rook's request for Editor on shield generator telemetry. It's marked High risk in words, and a line confirms it isn't her own request or resource.",
@@ -44,8 +44,8 @@ window.VIDEOS = {
       ]
     },
     "Time-bound access": {
-      src: "media/access-requests/time-bound-access.mp4",
-      poster: "media/access-requests/time-bound-access.jpg",
+      src: "media/access-requests/time-bound-access.mp4?v=98a6f445",
+      poster: "media/access-requests/time-bound-access.jpg?v=e6d640b4",
       label: "Time-bound access, shown in a mock Echo Base console",
       steps: [
         "The requester opens My access. Every grant shows when it ends in her own time zone, as a time and as a relative time, such as Today, 18:00 · in 30 min. Only an internal resource has no end date.",
@@ -57,8 +57,8 @@ window.VIDEOS = {
       ]
     },
     "Access reviews": {
-      src: "media/access-requests/access-reviews.mp4",
-      poster: "media/access-requests/access-reviews.jpg",
+      src: "media/access-requests/access-reviews.mp4?v=331584b4",
+      poster: "media/access-requests/access-reviews.jpg?v=5cf86ffa",
       label: "Access reviews, shown in a mock Echo Base console",
       steps: [
         "The admin opens the Q4 access review for the Rebel Intelligence archives. It's due Fri Dec 5, 14 days away, it was assigned to her as the resource owner, a reminder went out Nov 19, and 38 of 52 grants are reviewed. Campaigns like this one are scheduled to recur.",
@@ -72,8 +72,8 @@ window.VIDEOS = {
   },
   "ai-governance": {
     "Feature availability": {
-      src: "media/ai-governance/feature-availability.mp4",
-      poster: "media/ai-governance/feature-availability.jpg",
+      src: "media/ai-governance/feature-availability.mp4?v=5f6958b6",
+      poster: "media/ai-governance/feature-availability.jpg?v=208837e5",
       label: "Feature availability, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI features, its own item in the admin menu. Every AI feature is listed in one place, each with its own control, and a Turn off all AI switch sits in the header for incidents.",
@@ -85,8 +85,8 @@ window.VIDEOS = {
       ]
     },
     "Data usage controls": {
-      src: "media/ai-governance/data-usage-controls.mp4",
-      poster: "media/ai-governance/data-usage-controls.jpg",
+      src: "media/ai-governance/data-usage-controls.mp4?v=ce2e96f4",
+      poster: "media/ai-governance/data-usage-controls.jpg?v=0f16bc8c",
       label: "Data usage controls, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI data use. It leads with three direct answers: not used to train models, kept for 30 days then deleted, and processed in your region (Yavin for the Outer Rim).",
@@ -98,8 +98,8 @@ window.VIDEOS = {
       ]
     },
     "Model & provider settings": {
-      src: "media/ai-governance/model-provider-settings.mp4",
-      poster: "media/ai-governance/model-provider-settings.jpg",
+      src: "media/ai-governance/model-provider-settings.mp4?v=71aa78ff",
+      poster: "media/ai-governance/model-provider-settings.jpg?v=d99ab128",
       label: "Model and provider settings, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI models. Recommended models is the default: models are chosen and updated for her, with 30 days' notice of any change, so most teams never need to pick one.",
@@ -110,8 +110,8 @@ window.VIDEOS = {
       ]
     },
     "Usage & cost": {
-      src: "media/ai-governance/usage-cost.mp4",
-      poster: "media/ai-governance/usage-cost.jpg",
+      src: "media/ai-governance/usage-cost.mp4?v=f0fed629",
+      poster: "media/ai-governance/usage-cost.jpg?v=69391413",
       label: "Usage and cost, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI usage for November: 4,120 of 6,000 credits used, 18,400 requests, and about 310 hours saved. Usage can be viewed by group or by feature, and exported for finance.",
@@ -123,8 +123,8 @@ window.VIDEOS = {
       ]
     },
     "Content safety": {
-      src: "media/ai-governance/content-safety.mp4",
-      poster: "media/ai-governance/content-safety.jpg",
+      src: "media/ai-governance/content-safety.mp4?v=a792e4b2",
+      poster: "media/ai-governance/content-safety.jpg?v=b732d144",
       label: "Content safety, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI safety for the Outer Rim; the Core Worlds have their own settings. Built-in protections for harmful content and personal data are always on. They can't be turned off here, and changes need a request to support and are logged.",
@@ -138,8 +138,8 @@ window.VIDEOS = {
   },
   "asset-management": {
     "Asset library": {
-      src: "media/asset-management/asset-library.mp4?r=2",
-      poster: "media/asset-management/asset-library.jpg?r=2",
+      src: "media/asset-management/asset-library.mp4?v=4afbe079",
+      poster: "media/asset-management/asset-library.jpg?v=932ff6d4",
       label: "Asset library, shown in a mock Echo Base console",
       steps: [
         "The admin opens All content: one inventory of about 2.4M items, with no folders to dig through, and a note that the search index was updated 2 minutes ago.",
@@ -150,8 +150,8 @@ window.VIDEOS = {
       ]
     },
     "Asset detail": {
-      src: "media/asset-management/asset-detail.mp4",
-      poster: "media/asset-management/asset-detail.jpg",
+      src: "media/asset-management/asset-detail.mp4?v=22b27a3b",
+      poster: "media/asset-management/asset-detail.jpg?v=df37290c",
       label: "Asset detail, shown in a mock Echo Base console",
       steps: [
         "The admin opens Hoth patrol routes.xlsx, one of the files from the Asset library clip; the page title names it. A banner says why she's here: it's shared by public link and the owner is deactivated. A note says this is an admin view, the contents aren't opened, and her visit is logged.",
@@ -163,8 +163,8 @@ window.VIDEOS = {
       ]
     },
     "Transfer ownership": {
-      src: "media/asset-management/transfer-ownership.mp4",
-      poster: "media/asset-management/transfer-ownership.jpg",
+      src: "media/asset-management/transfer-ownership.mp4?v=89ea564e",
+      poster: "media/asset-management/transfer-ownership.jpg?v=84912df3",
       label: "Transfer ownership, shown in a mock Echo Base console",
       steps: [
         "The admin starts from Biggs Darklighter's page in People, where his offboarding checklist shows what's done (account deactivated, signed out of all devices) and what's left. Delete account stays locked until his content is transferred.",
@@ -176,8 +176,8 @@ window.VIDEOS = {
       ]
     },
     "Sharing controls": {
-      src: "media/asset-management/sharing-controls.mp4",
-      poster: "media/asset-management/sharing-controls.jpg",
+      src: "media/asset-management/sharing-controls.mp4?v=5bc6f801",
+      poster: "media/asset-management/sharing-controls.jpg?v=429b58fb",
       label: "Sharing controls, shown in a mock Echo Base console",
       steps: [
         "The admin opens Sharing in Content. A report shows what's shared outside Echo Base right now: 38 public links and 412 shares with partner domains.",
@@ -189,8 +189,8 @@ window.VIDEOS = {
       ]
     },
     "Versions & restore": {
-      src: "media/asset-management/versions-restore.mp4",
-      poster: "media/asset-management/versions-restore.jpg",
+      src: "media/asset-management/versions-restore.mp4?v=6edd6100",
+      poster: "media/asset-management/versions-restore.jpg?v=929ef77b",
       label: "Versions and restore, shown in a mock Echo Base console",
       steps: [
         "The admin opens Hoth evacuation plan.docx, which shrank from 2.1 MB to 48 KB this morning, and switches to its Versions tab. The page can also restore a whole folder to a point in time.",
@@ -201,8 +201,8 @@ window.VIDEOS = {
       ]
     },
     "Tags & metadata": {
-      src: "media/asset-management/tags-metadata.mp4",
-      poster: "media/asset-management/tags-metadata.jpg",
+      src: "media/asset-management/tags-metadata.mp4?v=079118b3",
+      poster: "media/asset-management/tags-metadata.jpg?v=6313a15e",
       label: "Tags and metadata, shown in a mock Echo Base console",
       steps: [
         "The admin is in Content, where files carry the tags Hoth, hoth and \"Hoth \" for the same thing, and switches to the Tags tab.",
@@ -216,8 +216,8 @@ window.VIDEOS = {
   },
   "audit-logs": {
     "Audit log table": {
-      src: "media/audit-logs/audit-log-table.mp4",
-      poster: "media/audit-logs/audit-log-table.jpg",
+      src: "media/audit-logs/audit-log-table.mp4?v=7b72e846",
+      poster: "media/audit-logs/audit-log-table.jpg?v=aff5a754",
       label: "Audit log table, shown in a mock Echo Base console",
       steps: [
         "On Home, an Unusual activity card says an API key, archive-sync, failed 3 times to reach the Death Star plans archive. The admin opens the audit log from it.",
@@ -228,8 +228,8 @@ window.VIDEOS = {
       ]
     },
     "Event detail": {
-      src: "media/audit-logs/event-detail.mp4",
-      poster: "media/audit-logs/event-detail.jpg",
+      src: "media/audit-logs/event-detail.mp4?v=e2c6a99c",
+      poster: "media/audit-logs/event-detail.jpg?v=b18369eb",
       label: "Event detail, shown in a mock Echo Base console",
       steps: [
         "From the audit log filtered to archive-sync, the admin opens the failed download at 09:40:55.",
@@ -241,8 +241,8 @@ window.VIDEOS = {
       ]
     },
     "Filters & saved views": {
-      src: "media/audit-logs/filters-saved-views.mp4",
-      poster: "media/audit-logs/filters-saved-views.jpg",
+      src: "media/audit-logs/filters-saved-views.mp4?v=e0d2cb50",
+      poster: "media/audit-logs/filters-saved-views.jpg?v=c621b28b",
       label: "Filters and saved views, shown in a mock Echo Base console",
       steps: [
         "From an event, the admin goes back to the audit log. Her filters, the last 24 hours and the actor archive-sync, are still set and shown as chips.",
@@ -254,8 +254,8 @@ window.VIDEOS = {
       ]
     },
     "Export & SIEM streaming": {
-      src: "media/audit-logs/export-siem-streaming.mp4",
-      poster: "media/audit-logs/export-siem-streaming.jpg",
+      src: "media/audit-logs/export-siem-streaming.mp4?v=2e734d19",
+      poster: "media/audit-logs/export-siem-streaming.jpg?v=c7c0964b",
       label: "Export and SIEM streaming, shown in a mock Echo Base console",
       steps: [
         "From the saved view, the admin chooses Export. The dialog uses the view's filters, 9 events over the last 7 days, and offers CSV or JSON. Events come ordered by time in a documented, versioned schema, and ranges over 100,000 events run as a job.",
@@ -267,8 +267,8 @@ window.VIDEOS = {
       ]
     },
     "Alerts on events": {
-      src: "media/audit-logs/alerts-on-events.mp4",
-      poster: "media/audit-logs/alerts-on-events.jpg",
+      src: "media/audit-logs/alerts-on-events.mp4?v=9ed6d6d0",
+      poster: "media/audit-logs/alerts-on-events.jpg?v=7caa951d",
       label: "Alerts on events, shown in a mock Echo Base console",
       steps: [
         "The admin opens the Alerts tab of the audit log. Built-in alerts cover high-risk events, such as admin role grants and mass deletion, each with a threshold.",
@@ -282,8 +282,8 @@ window.VIDEOS = {
   },
   "billing-licenses": {
     "Plan overview": {
-      src: "media/billing-licenses/plan-overview.mp4",
-      poster: "media/billing-licenses/plan-overview.jpg",
+      src: "media/billing-licenses/plan-overview.mp4?v=ae096b4f",
+      poster: "media/billing-licenses/plan-overview.jpg?v=b4a9ab3d",
       label: "Plan overview, shown in a mock Echo Base console",
       steps: [
         "From Home, the admin opens Billing. The plan, Rebel Alliance Business, is shown as labelled details: $18 per seat per month, billed annually, in USD and excluding tax, with the billing period and the Visa card it is paid with.",
@@ -294,8 +294,8 @@ window.VIDEOS = {
       ]
     },
     "Seat assignment": {
-      src: "media/billing-licenses/seat-assignment.mp4",
-      poster: "media/billing-licenses/seat-assignment.jpg",
+      src: "media/billing-licenses/seat-assignment.mp4?v=d596aeaf",
+      poster: "media/billing-licenses/seat-assignment.jpg?v=f0ea52da",
       label: "Seat assignment, shown in a mock Echo Base console",
       steps: [
         "From the plan, the admin opens Manage seats. The seat count, 246 of 250, matches the plan, and the page explains that when seats are full, new people join as viewers until more are added.",
@@ -307,8 +307,8 @@ window.VIDEOS = {
       ]
     },
     "Add seats": {
-      src: "media/billing-licenses/add-seats.mp4",
-      poster: "media/billing-licenses/add-seats.jpg",
+      src: "media/billing-licenses/add-seats.mp4?v=85d8a833",
+      poster: "media/billing-licenses/add-seats.jpg?v=9500751a",
       label: "Add seats, shown in a mock Echo Base console",
       steps: [
         "A Rogue One pilot needs 38 seats, and 18 are available. The admin chooses Add seats.",
@@ -320,8 +320,8 @@ window.VIDEOS = {
       ]
     },
     "Invoices & payment": {
-      src: "media/billing-licenses/invoices-payment.mp4",
-      poster: "media/billing-licenses/invoices-payment.jpg",
+      src: "media/billing-licenses/invoices-payment.mp4?v=f6d1c3fb",
+      poster: "media/billing-licenses/invoices-payment.jpg?v=2ec65998",
       label: "Invoices and payment, shown in a mock Echo Base console",
       steps: [
         "The admin opens the Invoices tab. A banner warns, well before renewal, that the Visa card ending 4417 expires on 31 December, and that if a payment fails, access continues for 14 days while billing retries and emails the billing contacts.",
@@ -334,8 +334,8 @@ window.VIDEOS = {
   },
   "creation-flows": {
     "Create modal": {
-      src: "media/creation-flows/create-modal.mp4",
-      poster: "media/creation-flows/create-modal.jpg",
+      src: "media/creation-flows/create-modal.mp4?v=722d8d44",
+      poster: "media/creation-flows/create-modal.jpg?v=37cb04ab",
       label: "Create modal, shown in a mock Echo Base console",
       steps: [
         "In People / Groups, the admin chooses New group for the Rogue One pilot. A small modal titled New group opens over the list, with three fields: Name, an optional Description and Owner. Focus moves into the modal, Esc closes it, and at high zoom it fills the screen.",
@@ -346,8 +346,8 @@ window.VIDEOS = {
       ]
     },
     "Multi-step wizard": {
-      src: "media/creation-flows/multi-step-wizard.mp4?r=2",
-      poster: "media/creation-flows/multi-step-wizard.jpg?r=2",
+      src: "media/creation-flows/multi-step-wizard.mp4?v=18b524b2",
+      poster: "media/creation-flows/multi-step-wizard.jpg?v=48ab854e",
       label: "Multi-step wizard, shown in a mock Echo Base console",
       steps: [
         "In Settings / Integrations, Holonet Ledger shows Setup in progress: a draft Toryn Farr saved and shared, with 1 of 4 steps done. The admin chooses Continue setup.",
@@ -359,8 +359,8 @@ window.VIDEOS = {
       ]
     },
     "Create from template": {
-      src: "media/creation-flows/create-from-template.mp4",
-      poster: "media/creation-flows/create-from-template.jpg",
+      src: "media/creation-flows/create-from-template.mp4?v=8967ce93",
+      poster: "media/creation-flows/create-from-template.jpg?v=8838c8f0",
       label: "Create from template, shown in a mock Echo Base console",
       steps: [
         "In Compliance / Policies, the admin chooses New policy. Templates are split into Echo Base's own and built-in ones, with search, and Start blank is an equal choice.",
@@ -372,8 +372,8 @@ window.VIDEOS = {
       ]
     },
     "Inline create": {
-      src: "media/creation-flows/inline-create.mp4",
-      poster: "media/creation-flows/inline-create.jpg",
+      src: "media/creation-flows/inline-create.mp4?v=4670cf69",
+      poster: "media/creation-flows/inline-create.jpg?v=2faa317e",
       label: "Inline create, shown in a mock Echo Base console",
       steps: [
         "On the Tags page, the admin chooses Add tag. A new row appears at the top of the table, focused and ready to type, with visible Save and Cancel buttons and a hint that Enter and Esc work too. The field is named, the hint is linked to it, and everything works by keyboard.",
@@ -385,8 +385,8 @@ window.VIDEOS = {
       ]
     },
     "Duplicate / clone": {
-      src: "media/creation-flows/duplicate-clone.mp4",
-      poster: "media/creation-flows/duplicate-clone.jpg",
+      src: "media/creation-flows/duplicate-clone.mp4?v=7ced5e2f",
+      poster: "media/creation-flows/duplicate-clone.jpg?v=0ed91860",
       label: "Duplicate and clone, shown in a mock Echo Base console",
       steps: [
         "In People / Roles, the admin opens the menu on Content admin and chooses Duplicate. The product uses the same word, Duplicate, in the menu, the title and the button.",
@@ -398,8 +398,8 @@ window.VIDEOS = {
       ]
     },
     "Success & next steps": {
-      src: "media/creation-flows/success-next-steps.mp4",
-      poster: "media/creation-flows/success-next-steps.jpg",
+      src: "media/creation-flows/success-next-steps.mp4?v=d9c11bb7",
+      poster: "media/creation-flows/success-next-steps.jpg?v=1a591df7",
       label: "Success and next steps, shown in a mock Echo Base console",
       steps: [
         "In People / Users, the admin reviews an invite for the Rogue One pilot, with each label above its value: 38 people from a file, the group, the license, the start date and a message. She chooses Send 38 invites.",
@@ -413,8 +413,8 @@ window.VIDEOS = {
   },
   "mcp-connectors": {
     "Approving connectors": {
-      src: "media/mcp-connectors/approving-connectors.mp4",
-      poster: "media/mcp-connectors/approving-connectors.jpg",
+      src: "media/mcp-connectors/approving-connectors.mp4?v=b4372190",
+      poster: "media/mcp-connectors/approving-connectors.jpg?v=2ffbbfd4",
       label: "Approving connectors, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI › Connectors, where the policy reads approved connectors only, and chooses Add connector. The catalog opens with a search box, and Add by URL for servers that aren't listed. Nothing is available to people until she publishes it.",
@@ -426,8 +426,8 @@ window.VIDEOS = {
       ]
     },
     "Choosing tools": {
-      src: "media/mcp-connectors/choosing-tools.mp4",
-      poster: "media/mcp-connectors/choosing-tools.jpg",
+      src: "media/mcp-connectors/choosing-tools.mp4?v=2654275b",
+      poster: "media/mcp-connectors/choosing-tools.jpg?v=a931668a",
       label: "Choosing tools, shown in a mock Echo Base console",
       steps: [
         "On the published Fleet Tracker page, the admin opens the Tools tab. A line explains that publishing a connector doesn't turn on every tool, and that people can't override these settings.",
@@ -439,8 +439,8 @@ window.VIDEOS = {
       ]
     },
     "Sign-in & credentials": {
-      src: "media/mcp-connectors/sign-in-credentials.mp4",
-      poster: "media/mcp-connectors/sign-in-credentials.jpg",
+      src: "media/mcp-connectors/sign-in-credentials.mp4?v=5dd46b4e",
+      poster: "media/mcp-connectors/sign-in-credentials.jpg?v=a931668a",
       label: "Sign-in & credentials, shown in a mock Echo Base console",
       steps: [
         "On the published Fleet Tracker page, the admin opens the Sign-in tab. A line explains that whose account Fleet Tracker uses decides what the AI can reach.",
@@ -452,8 +452,8 @@ window.VIDEOS = {
       ]
     },
     "Who gets each connector": {
-      src: "media/mcp-connectors/who-gets-each-connector.mp4",
-      poster: "media/mcp-connectors/who-gets-each-connector.jpg",
+      src: "media/mcp-connectors/who-gets-each-connector.mp4?v=cb84d64d",
+      poster: "media/mcp-connectors/who-gets-each-connector.jpg?v=a931668a",
       label: "Who gets each connector, shown in a mock Echo Base console",
       steps: [
         "On the published Fleet Tracker page, the admin opens the Access tab. A note says it's a pilot: Logistics only since November 23, with 18 of 24 people connected.",
@@ -465,8 +465,8 @@ window.VIDEOS = {
       ]
     },
     "Allowed connectors": {
-      src: "media/mcp-connectors/allowed-connectors.mp4",
-      poster: "media/mcp-connectors/allowed-connectors.jpg",
+      src: "media/mcp-connectors/allowed-connectors.mp4?v=8de71328",
+      poster: "media/mcp-connectors/allowed-connectors.jpg?v=d6abdf64",
       label: "Allowed connectors, shown in a mock Echo Base console",
       steps: [
         "On AI › Connectors, the admin chooses the Policy: approved connectors only pill, which opens Connector policy.",
@@ -478,8 +478,8 @@ window.VIDEOS = {
       ]
     },
     "Data leaving the org": {
-      src: "media/mcp-connectors/data-leaving-the-org.mp4",
-      poster: "media/mcp-connectors/data-leaving-the-org.jpg",
+      src: "media/mcp-connectors/data-leaving-the-org.mp4?v=cbd7474d",
+      poster: "media/mcp-connectors/data-leaving-the-org.jpg?v=a931668a",
       label: "Data leaving the org, shown in a mock Echo Base console",
       steps: [
         "On the published Fleet Tracker page, the admin opens the Data tab. A line explains it shows what Fleet Tracker sends out, where it goes, and whose rules apply once it's there.",
@@ -491,8 +491,8 @@ window.VIDEOS = {
       ]
     },
     "AI activity record": {
-      src: "media/mcp-connectors/ai-activity-record.mp4",
-      poster: "media/mcp-connectors/ai-activity-record.jpg",
+      src: "media/mcp-connectors/ai-activity-record.mp4?v=a3d37713",
+      poster: "media/mcp-connectors/ai-activity-record.jpg?v=c774fe24",
       label: "AI activity record, shown in a mock Echo Base console",
       steps: [
         "In Compliance › Audit log, the admin opens the Action filter and picks AI tool calls. The filter chip and the query update; tool calls live in the same audit log as everything else.",
@@ -504,8 +504,8 @@ window.VIDEOS = {
       ]
     },
     "Health & revoking": {
-      src: "media/mcp-connectors/health-revoking.mp4",
-      poster: "media/mcp-connectors/health-revoking.jpg",
+      src: "media/mcp-connectors/health-revoking.mp4?v=69730f9a",
+      poster: "media/mcp-connectors/health-revoking.jpg?v=9bb45414",
       label: "Health & revoking, shown in a mock Echo Base console",
       steps: [
         "On AI › Connectors, the Status column reads in words, with the last good call: Holonet Docs is connected, Mission Board is failing and last worked at 09:40.",
@@ -519,8 +519,8 @@ window.VIDEOS = {
   },
   "destructive-actions": {
     "Delete confirmation": {
-      src: "media/destructive-actions/delete-confirmation.mp4?r=2",
-      poster: "media/destructive-actions/delete-confirmation.jpg?r=2",
+      src: "media/destructive-actions/delete-confirmation.mp4?v=2169823d",
+      poster: "media/destructive-actions/delete-confirmation.jpg?v=932ff6d4",
       label: "Delete confirmation, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, the admin opens the Owner deactivated saved view: 112 items owned by people who have left.",
@@ -531,8 +531,8 @@ window.VIDEOS = {
       ]
     },
     "Type-to-confirm": {
-      src: "media/destructive-actions/type-to-confirm.mp4",
-      poster: "media/destructive-actions/type-to-confirm.jpg",
+      src: "media/destructive-actions/type-to-confirm.mp4?v=9e041cfd",
+      poster: "media/destructive-actions/type-to-confirm.jpg?v=7c0e48f5",
       label: "Type-to-confirm, shown in a mock Echo Base console",
       steps: [
         "In Settings › Organization, the irreversible actions sit in their own bordered section. The admin chooses Delete sandbox.",
@@ -543,8 +543,8 @@ window.VIDEOS = {
       ]
     },
     "Archive vs. delete": {
-      src: "media/destructive-actions/archive-vs-delete.mp4",
-      poster: "media/destructive-actions/archive-vs-delete.jpg",
+      src: "media/destructive-actions/archive-vs-delete.mp4?v=b1ecb122",
+      poster: "media/destructive-actions/archive-vs-delete.jpg?v=59c56a1b",
       label: "Archive vs. delete, shown in a mock Echo Base console",
       steps: [
         "In People › Groups, the admin opens the menu on Hoth Evacuation. Archive group comes first; Delete group… sits below a divider.",
@@ -555,8 +555,8 @@ window.VIDEOS = {
       ]
     },
     "Undo toast": {
-      src: "media/destructive-actions/undo-toast.mp4?r=2",
-      poster: "media/destructive-actions/undo-toast.jpg?r=2",
+      src: "media/destructive-actions/undo-toast.mp4?v=a96386a2",
+      poster: "media/destructive-actions/undo-toast.jpg?v=932ff6d4",
       label: "Undo toast, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, the admin hovers Supply run notes.md. A Move to Trash button appears at the end of the row.",
@@ -567,8 +567,8 @@ window.VIDEOS = {
       ]
     },
     "Cascading impact": {
-      src: "media/destructive-actions/cascading-impact.mp4",
-      poster: "media/destructive-actions/cascading-impact.jpg",
+      src: "media/destructive-actions/cascading-impact.mp4?v=f16a682e",
+      poster: "media/destructive-actions/cascading-impact.jpg?v=0ed91860",
       label: "Cascading impact, shown in a mock Echo Base console",
       steps: [
         "In People › Roles, the admin opens the menu on Content admin and chooses Delete.",
@@ -579,8 +579,8 @@ window.VIDEOS = {
       ]
     },
     "Danger zone": {
-      src: "media/destructive-actions/danger-zone.mp4",
-      poster: "media/destructive-actions/danger-zone.jpg",
+      src: "media/destructive-actions/danger-zone.mp4?v=f1beeb70",
+      poster: "media/destructive-actions/danger-zone.jpg?v=7c0e48f5",
       label: "Danger zone, shown in a mock Echo Base console",
       steps: [
         "Settings › Organization starts with routine settings: name, domain, time zone, owner, plan and data region.",
@@ -593,8 +593,8 @@ window.VIDEOS = {
   },
   "edit-bulk-actions": {
     "Selection model": {
-      src: "media/edit-bulk-actions/selection-model.mp4",
-      poster: "media/edit-bulk-actions/selection-model.jpg",
+      src: "media/edit-bulk-actions/selection-model.mp4?v=7b9df515",
+      poster: "media/edit-bulk-actions/selection-model.jpg?v=147e64d0",
       label: "Selection model, shown in a mock Echo Base console",
       steps: [
         "People › Users is filtered to Team: Fleet, 82 people. Every row has a checkbox named for its person.",
@@ -605,8 +605,8 @@ window.VIDEOS = {
       ]
     },
     "Contextual action bar": {
-      src: "media/edit-bulk-actions/contextual-action-bar.mp4",
-      poster: "media/edit-bulk-actions/contextual-action-bar.jpg",
+      src: "media/edit-bulk-actions/contextual-action-bar.mp4?v=2b48e75e",
+      poster: "media/edit-bulk-actions/contextual-action-bar.jpg?v=147e64d0",
       label: "Contextual action bar, shown in a mock Echo Base console",
       steps: [
         "On People › Users, selecting Cal Alder brings up the action bar above the table, where the results line was, so it covers no row.",
@@ -616,8 +616,8 @@ window.VIDEOS = {
       ]
     },
     "Bulk edit": {
-      src: "media/edit-bulk-actions/bulk-edit.mp4",
-      poster: "media/edit-bulk-actions/bulk-edit.jpg",
+      src: "media/edit-bulk-actions/bulk-edit.mp4?v=a645e9c5",
+      poster: "media/edit-bulk-actions/bulk-edit.jpg?v=c0b5456a",
       label: "Bulk edit, shown in a mock Echo Base console",
       steps: [
         "All 82 people matching Team: Fleet are selected. Edit… opens a dialog that says who that is, including the 57 not on this page.",
@@ -628,8 +628,8 @@ window.VIDEOS = {
       ]
     },
     "Inline edit": {
-      src: "media/edit-bulk-actions/inline-edit.mp4?r=2",
-      poster: "media/edit-bulk-actions/inline-edit.jpg?r=2",
+      src: "media/edit-bulk-actions/inline-edit.mp4?v=991be6a0",
+      poster: "media/edit-bulk-actions/inline-edit.jpg?v=932ff6d4",
       label: "Inline edit, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, pointing at Supply run notes.md shows a pencil beside the name. Owner and Sharing have none, because changing them has side effects.",
@@ -639,8 +639,8 @@ window.VIDEOS = {
       ]
     },
     "Progress & results": {
-      src: "media/edit-bulk-actions/progress-results.mp4",
-      poster: "media/edit-bulk-actions/progress-results.jpg",
+      src: "media/edit-bulk-actions/progress-results.mp4?v=f4605353",
+      poster: "media/edit-bulk-actions/progress-results.jpg?v=a8a79e58",
       label: "Progress & results, shown in a mock Echo Base console",
       steps: [
         "The bulk edit runs as a job above the People list: a labelled progress bar, how many are done and about how long is left.",
@@ -653,8 +653,8 @@ window.VIDEOS = {
   },
   "empty-onboarding": {
     "Setup checklist": {
-      src: "media/empty-onboarding/setup-checklist.mp4",
-      poster: "media/empty-onboarding/setup-checklist.jpg",
+      src: "media/empty-onboarding/setup-checklist.mp4?v=28e9018f",
+      poster: "media/empty-onboarding/setup-checklist.jpg?v=e88a3dc5",
       label: "Setup checklist, shown in a mock Echo Base console",
       steps: [
         "Home's first run shows a checklist to set up Echo Base, with progress in words and as a bar: 2 of 6 done. The rest of the console works meanwhile.",
@@ -665,8 +665,8 @@ window.VIDEOS = {
       ]
     },
     "Empty table": {
-      src: "media/empty-onboarding/empty-table.mp4",
-      poster: "media/empty-onboarding/empty-table.jpg",
+      src: "media/empty-onboarding/empty-table.mp4?v=d7bace80",
+      poster: "media/empty-onboarding/empty-table.jpg?v=89ea106f",
       label: "Empty table, shown in a mock Echo Base console",
       steps: [
         "Before any groups exist, People › Groups shows a heading, No groups yet, and what groups are for, instead of an empty grid.",
@@ -676,8 +676,8 @@ window.VIDEOS = {
       ]
     },
     "No results": {
-      src: "media/empty-onboarding/no-results.mp4?r=2",
-      poster: "media/empty-onboarding/no-results.jpg?r=2",
+      src: "media/empty-onboarding/no-results.mp4?v=cbca78b5",
+      poster: "media/empty-onboarding/no-results.jpg?v=932ff6d4",
       label: "No results, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, a search for trench plans finds 2 items.",
@@ -688,8 +688,8 @@ window.VIDEOS = {
       ]
     },
     "Permission empty state": {
-      src: "media/empty-onboarding/permission-empty-state.mp4",
-      poster: "media/empty-onboarding/permission-empty-state.jpg",
+      src: "media/empty-onboarding/permission-empty-state.mp4?v=e0cf763a",
+      poster: "media/empty-onboarding/permission-empty-state.jpg?v=1b035d2e",
       label: "Permission empty state, shown in a mock Echo Base console",
       steps: [
         "Wes Janson, a member, opens a link to Audit log that an admin shared with him. His rail only shows Workspace.",
@@ -702,8 +702,8 @@ window.VIDEOS = {
   },
   "groups-teams": {
     "Create group": {
-      src: "media/groups-teams/create-group.mp4",
-      poster: "media/groups-teams/create-group.jpg",
+      src: "media/groups-teams/create-group.mp4?v=2e2ca6cb",
+      poster: "media/groups-teams/create-group.jpg?v=240ca447",
       label: "Create group, shown in a mock Echo Base console",
       steps: [
         "On People › Groups, New group opens a dialog that asks for the name first.",
@@ -714,8 +714,8 @@ window.VIDEOS = {
       ]
     },
     "Manage members": {
-      src: "media/groups-teams/manage-members.mp4",
-      poster: "media/groups-teams/manage-members.jpg",
+      src: "media/groups-teams/manage-members.mp4?v=b44a49ba",
+      poster: "media/groups-teams/manage-members.jpg?v=a7f37f9b",
       label: "Manage members, shown in a mock Echo Base console",
       steps: [
         "Hoth Evacuation's page shows what members get above the list: a Console licence, Edit on Evacuation plans and the Shield Ops channel.",
@@ -726,8 +726,8 @@ window.VIDEOS = {
       ]
     },
     "Dynamic groups": {
-      src: "media/groups-teams/dynamic-groups.mp4",
-      poster: "media/groups-teams/dynamic-groups.jpg",
+      src: "media/groups-teams/dynamic-groups.mp4?v=7b63f697",
+      poster: "media/groups-teams/dynamic-groups.jpg?v=fc7b27e5",
       label: "Dynamic groups, shown in a mock Echo Base console",
       steps: [
         "All pilots is a dynamic group. Its rule is a structured editor: attribute, operator and value, each labelled.",
@@ -738,8 +738,8 @@ window.VIDEOS = {
       ]
     },
     "Nested groups": {
-      src: "media/groups-teams/nested-groups.mp4",
-      poster: "media/groups-teams/nested-groups.jpg",
+      src: "media/groups-teams/nested-groups.mp4?v=4a4f0f6c",
+      poster: "media/groups-teams/nested-groups.jpg?v=9fd88450",
       label: "Nested groups, shown in a mock Echo Base console",
       steps: [
         "Rebel Fleet's members are split into direct members, nested groups and everyone. The page says it includes 4 nested groups, 180 people in total.",
@@ -749,8 +749,8 @@ window.VIDEOS = {
       ]
     },
     "Directory sync": {
-      src: "media/groups-teams/directory-sync.mp4",
-      poster: "media/groups-teams/directory-sync.jpg",
+      src: "media/groups-teams/directory-sync.mp4?v=8955415c",
+      poster: "media/groups-teams/directory-sync.jpg?v=03c96afa",
       label: "Directory sync, shown in a mock Echo Base console",
       steps: [
         "Directory sync shows the source, Holonet ID over SCIM: healthy, in text and an icon, with the last sync, how many changes and which groups it syncs.",
@@ -763,8 +763,8 @@ window.VIDEOS = {
   },
   "import-export": {
     "CSV import": {
-      src: "media/import-export/csv-import.mp4?r=3",
-      poster: "media/import-export/csv-import.jpg?r=3",
+      src: "media/import-export/csv-import.mp4?v=0249b9b5",
+      poster: "media/import-export/csv-import.jpg?v=b0250c72",
       label: "CSV import, shown in a mock Echo Base console",
       steps: [
         "On People › Users, Invite people opens a menu: Invite by email for a few people, or Import a CSV for many.",
@@ -775,8 +775,8 @@ window.VIDEOS = {
       ]
     },
     "Field mapping": {
-      src: "media/import-export/field-mapping.mp4?r=4",
-      poster: "media/import-export/field-mapping.jpg?r=4",
+      src: "media/import-export/field-mapping.mp4?v=0e0524a5",
+      poster: "media/import-export/field-mapping.jpg?v=7b128164",
       label: "Field mapping, shown in a mock Echo Base console",
       steps: [
         "Each column in the file is matched to a field, with sample values beside it so the admin can check the match.",
@@ -787,8 +787,8 @@ window.VIDEOS = {
       ]
     },
     "Validation & errors": {
-      src: "media/import-export/validation-errors.mp4?r=3",
-      poster: "media/import-export/validation-errors.jpg?r=3",
+      src: "media/import-export/validation-errors.mp4?v=a3faf8c9",
+      poster: "media/import-export/validation-errors.jpg?v=40726b93",
       label: "Validation and errors, shown in a mock Echo Base console",
       steps: [
         "The review shows how many rows are ready, and groups the problems by type. Errors that block a row are kept apart from warnings that don't.",
@@ -799,8 +799,8 @@ window.VIDEOS = {
       ]
     },
     "Export": {
-      src: "media/import-export/export.mp4?r=3",
-      poster: "media/import-export/export.jpg?r=3",
+      src: "media/import-export/export.mp4?v=4731bf5e",
+      poster: "media/import-export/export.jpg?v=b0250c72",
       label: "Export, shown in a mock Echo Base console",
       steps: [
         "On People › Users, filtered to Team: Fleet, the admin selects all 82 matching people and chooses Export in the bar. The filter is the export's scope.",
@@ -813,8 +813,8 @@ window.VIDEOS = {
   },
   "integrations-api": {
     "Integration catalog": {
-      src: "media/integrations-api/integration-catalog.mp4",
-      poster: "media/integrations-api/integration-catalog.jpg",
+      src: "media/integrations-api/integration-catalog.mp4?v=865584ff",
+      poster: "media/integrations-api/integration-catalog.jpg?v=1ea69d39",
       label: "Integration catalog, shown in a mock Echo Base console",
       steps: [
         "On Settings › Integrations, the admin goes from the org's connected apps to Browse. Each integration shows what it does, who makes it, and its status: allowed, needs approval or blocked.",
@@ -825,8 +825,8 @@ window.VIDEOS = {
       ]
     },
     "App permissions": {
-      src: "media/integrations-api/app-permissions.mp4",
-      poster: "media/integrations-api/app-permissions.jpg",
+      src: "media/integrations-api/app-permissions.mp4?v=88d65f57",
+      poster: "media/integrations-api/app-permissions.jpg?v=1ea69d39",
       label: "App permissions, shown in a mock Echo Base console",
       steps: [
         "Connected by people lists the apps people authorised with their own accounts, grouped by app, with what each can do, how many people, who authorised it and when it was last used.",
@@ -837,8 +837,8 @@ window.VIDEOS = {
       ]
     },
     "Create API key": {
-      src: "media/integrations-api/create-api-key.mp4",
-      poster: "media/integrations-api/create-api-key.jpg",
+      src: "media/integrations-api/create-api-key.mp4?v=9dda0181",
+      poster: "media/integrations-api/create-api-key.jpg?v=5ad8f81a",
       label: "Create API key, shown in a mock Echo Base console",
       steps: [
         "On Settings › API keys, every key has an owner, what it can do, an expiry and when it was last used. A key that never expires is flagged.",
@@ -849,8 +849,8 @@ window.VIDEOS = {
       ]
     },
     "Webhooks": {
-      src: "media/integrations-api/webhooks.mp4",
-      poster: "media/integrations-api/webhooks.jpg",
+      src: "media/integrations-api/webhooks.mp4?v=0ada27f6",
+      poster: "media/integrations-api/webhooks.jpg?v=29d6f2ea",
       label: "Webhooks, shown in a mock Echo Base console",
       steps: [
         "Settings › Webhooks lists each endpoint with its events and status. A failing one says Retrying, rather than being switched off quietly.",
@@ -863,8 +863,8 @@ window.VIDEOS = {
   },
   "knowledge-content": {
     "Add content source": {
-      src: "media/knowledge-content/add-content-source.mp4",
-      poster: "media/knowledge-content/add-content-source.jpg",
+      src: "media/knowledge-content/add-content-source.mp4?v=e4ebaa9f",
+      poster: "media/knowledge-content/add-content-source.jpg?v=e0421d06",
       label: "Add content source, shown in a mock Echo Base console",
       steps: [
         "On Content › Sources, the admin chooses Add source and picks Holonet Drive. The steps are in view: source, what to include, review.",
@@ -875,8 +875,8 @@ window.VIDEOS = {
       ]
     },
     "Sync status": {
-      src: "media/knowledge-content/sync-status.mp4",
-      poster: "media/knowledge-content/sync-status.jpg",
+      src: "media/knowledge-content/sync-status.mp4?v=1842dbd3",
+      poster: "media/knowledge-content/sync-status.jpg?v=28c17938",
       label: "Sync status, shown in a mock Echo Base console",
       steps: [
         "Each source shows items indexed and failed, when it last synced, and its state in words and an icon. Coruscant Wiki is Partly failing, not green, and HoloComms' sign-in expires in 4 days.",
@@ -887,8 +887,8 @@ window.VIDEOS = {
       ]
     },
     "Source permissions": {
-      src: "media/knowledge-content/source-permissions.mp4",
-      poster: "media/knowledge-content/source-permissions.jpg",
+      src: "media/knowledge-content/source-permissions.mp4?v=1b43fc6f",
+      poster: "media/knowledge-content/source-permissions.jpg?v=e08ebb10",
       label: "Source permissions, shown in a mock Echo Base console",
       steps: [
         "The admin opens Holonet Drive and its Permissions tab. Permissions synced 4 minutes ago, and removals arrive first.",
@@ -899,8 +899,8 @@ window.VIDEOS = {
       ]
     },
     "Content exclusions": {
-      src: "media/knowledge-content/content-exclusions.mp4",
-      poster: "media/knowledge-content/content-exclusions.jpg",
+      src: "media/knowledge-content/content-exclusions.mp4?v=0d3ff22f",
+      poster: "media/knowledge-content/content-exclusions.jpg?v=28c17938",
       label: "Content exclusions, shown in a mock Echo Base console",
       steps: [
         "On Content › Sources › Exclusions, each rule shows what it covers, who added it and why. Exclusions work alongside permissions, not instead of them.",
@@ -913,8 +913,8 @@ window.VIDEOS = {
   },
   "notifications": {
     "Alert center": {
-      src: "media/notifications/alert-center.mp4",
-      poster: "media/notifications/alert-center.jpg",
+      src: "media/notifications/alert-center.mp4?v=9fc4b59e",
+      poster: "media/notifications/alert-center.jpg?v=385580f6",
       label: "Alert center, shown in a mock Echo Base console",
       steps: [
         "The admin opens the alerts bell in the top bar. Alerts are listed by severity, written as words: Critical first, then High.",
@@ -925,8 +925,8 @@ window.VIDEOS = {
       ]
     },
     "Banners": {
-      src: "media/notifications/banners.mp4",
-      poster: "media/notifications/banners.jpg",
+      src: "media/notifications/banners.mp4?v=830031bb",
+      poster: "media/notifications/banners.jpg?v=508b33ad",
       label: "Banners, shown in a mock Echo Base console",
       steps: [
         "On Settings › Announcements › Banners, the admin sees that only one banner shows at a time. If two overlap, the later one waits instead of stacking.",
@@ -937,8 +937,8 @@ window.VIDEOS = {
       ]
     },
     "Notification rules": {
-      src: "media/notifications/notification-rules.mp4",
-      poster: "media/notifications/notification-rules.jpg",
+      src: "media/notifications/notification-rules.mp4?v=4401251b",
+      poster: "media/notifications/notification-rules.jpg?v=db3c06cd",
       label: "Notification rules, shown in a mock Echo Base console",
       steps: [
         "Settings › Notifications lists each event, explained in a line, with who gets it and how.",
@@ -949,8 +949,8 @@ window.VIDEOS = {
       ]
     },
     "Announcements": {
-      src: "media/notifications/announcements.mp4",
-      poster: "media/notifications/announcements.jpg",
+      src: "media/notifications/announcements.mp4?v=2cd2839c",
+      poster: "media/notifications/announcements.jpg?v=508b33ad",
       label: "Announcements, shown in a mock Echo Base console",
       steps: [
         "Settings › Announcements lists each message with who got it and how many have seen or acknowledged it. Org-wide ones need a second admin's approval.",
@@ -963,8 +963,8 @@ window.VIDEOS = {
   },
   "settings": {
     "Settings navigation": {
-      src: "media/org-settings/settings-navigation.mp4",
-      poster: "media/org-settings/settings-navigation.jpg",
+      src: "media/org-settings/settings-navigation.mp4?v=4fe0b6c7",
+      poster: "media/org-settings/settings-navigation.jpg?v=c5d5dc85",
       label: "Settings navigation, shown in a mock Echo Base console",
       steps: [
         "Every Settings page has the same tabs in the same order, and Search settings beside the title.",
@@ -975,8 +975,8 @@ window.VIDEOS = {
       ]
     },
     "Org profile": {
-      src: "media/org-settings/org-profile.mp4",
-      poster: "media/org-settings/org-profile.jpg",
+      src: "media/org-settings/org-profile.mp4?v=72c16d09",
+      poster: "media/org-settings/org-profile.jpg?v=c5d5dc85",
       label: "Org profile, shown in a mock Echo Base console",
       steps: [
         "On Settings › Organization, the admin edits the profile in place, with Save and Cancel, without a support ticket.",
@@ -987,8 +987,8 @@ window.VIDEOS = {
       ]
     },
     "Defaults": {
-      src: "media/org-settings/defaults.mp4",
-      poster: "media/org-settings/defaults.jpg",
+      src: "media/org-settings/defaults.mp4?v=8afaf70f",
+      poster: "media/org-settings/defaults.jpg?v=a8c2d6af",
       label: "Defaults, shown in a mock Echo Base console",
       steps: [
         "Settings › Defaults shows each default with what it does, its value and the product default. Labels sit above their values.",
@@ -999,8 +999,8 @@ window.VIDEOS = {
       ]
     },
     "Save patterns": {
-      src: "media/org-settings/save-patterns.mp4",
-      poster: "media/org-settings/save-patterns.jpg",
+      src: "media/org-settings/save-patterns.mp4?v=d85ca960",
+      poster: "media/org-settings/save-patterns.jpg?v=a8c2d6af",
       label: "Save patterns, shown in a mock Echo Base console",
       steps: [
         "Defaults uses one save model: changes wait for the save bar. The admin changes session timeout and resets sharing to the product default.",
@@ -1011,8 +1011,8 @@ window.VIDEOS = {
       ]
     },
     "Inherited settings": {
-      src: "media/org-settings/inherited-settings.mp4",
-      poster: "media/org-settings/inherited-settings.jpg",
+      src: "media/org-settings/inherited-settings.mp4?v=2aa2a1d3",
+      poster: "media/org-settings/inherited-settings.jpg?v=a8c2d6af",
       label: "Inherited settings, shown in a mock Echo Base console",
       steps: [
         "The admin switches Defaults from the whole org to the Hangar 3 group.",
@@ -1025,8 +1025,8 @@ window.VIDEOS = {
   },
   "policies": {
     "Policy list": {
-      src: "media/policies/policy-list.mp4",
-      poster: "media/policies/policy-list.jpg",
+      src: "media/policies/policy-list.mp4?v=5ebfbb3f",
+      poster: "media/policies/policy-list.jpg?v=c42ea4e8",
       label: "Policy list, shown in a mock Echo Base console",
       steps: [
         "Compliance › Policies lists each policy in priority order, with its type, its status in words, who it applies to, what it did in the last 7 days and when it last changed.",
@@ -1037,8 +1037,8 @@ window.VIDEOS = {
       ]
     },
     "Policy builder": {
-      src: "media/policies/policy-builder.mp4",
-      poster: "media/policies/policy-builder.jpg",
+      src: "media/policies/policy-builder.mp4?v=de163e32",
+      poster: "media/policies/policy-builder.jpg?v=c42ea4e8",
       label: "Policy builder, shown in a mock Echo Base console",
       steps: [
         "The admin starts a new policy from the template Block external sharing of labelled content.",
@@ -1049,8 +1049,8 @@ window.VIDEOS = {
       ]
     },
     "Retention policies": {
-      src: "media/policies/retention-policies.mp4",
-      poster: "media/policies/retention-policies.jpg",
+      src: "media/policies/retention-policies.mp4?v=927d2bcb",
+      poster: "media/policies/retention-policies.jpg?v=09b52646",
       label: "Retention policies, shown in a mock Echo Base console",
       steps: [
         "Compliance › Retention lists each policy by what it covers, how long it keeps it, what happens then, and what's due in the next 30 days.",
@@ -1061,8 +1061,8 @@ window.VIDEOS = {
       ]
     },
     "Legal hold": {
-      src: "media/policies/legal-hold.mp4",
-      poster: "media/policies/legal-hold.jpg",
+      src: "media/policies/legal-hold.mp4?v=fb6d284d",
+      poster: "media/policies/legal-hold.jpg?v=38760dfe",
       label: "Legal hold, shown in a mock Echo Base console",
       steps: [
         "Compliance › Legal holds lists holds by matter. A released one says who released it.",
@@ -1073,8 +1073,8 @@ window.VIDEOS = {
       ]
     },
     "Scope & targeting": {
-      src: "media/policies/scope-targeting.mp4",
-      poster: "media/policies/scope-targeting.jpg",
+      src: "media/policies/scope-targeting.mp4?v=5d61249d",
+      poster: "media/policies/scope-targeting.jpg?v=b2630255",
       label: "Scope & targeting, shown in a mock Echo Base console",
       steps: [
         "No one is in scope by default. The admin opens Applies to on the policy External links expire.",
@@ -1085,8 +1085,8 @@ window.VIDEOS = {
       ]
     },
     "Simulate / test": {
-      src: "media/policies/simulate-test.mp4",
-      poster: "media/policies/simulate-test.jpg",
+      src: "media/policies/simulate-test.mp4?v=034b0fc2",
+      poster: "media/policies/simulate-test.jpg?v=0000dc12",
       label: "Simulate / test, shown in a mock Echo Base console",
       steps: [
         "On the policy's Simulation tab, the admin runs a simulation. It runs against real data, and nothing changes and no one is notified.",
@@ -1099,8 +1099,8 @@ window.VIDEOS = {
   },
   "roles-permissions": {
     "Role catalog": {
-      src: "media/roles-permissions/role-catalog.mp4",
-      poster: "media/roles-permissions/role-catalog.jpg",
+      src: "media/roles-permissions/role-catalog.mp4?v=a66fbb39",
+      poster: "media/roles-permissions/role-catalog.jpg?v=76e05524",
       label: "Role catalog, shown in a mock Echo Base console",
       steps: [
         "People › Roles lists roles from most to least powerful: Owner, Admin, Security admin, Content admin, Billing admin and Member.",
@@ -1111,8 +1111,8 @@ window.VIDEOS = {
       ]
     },
     "Permission matrix": {
-      src: "media/roles-permissions/permission-matrix.mp4",
-      poster: "media/roles-permissions/permission-matrix.jpg",
+      src: "media/roles-permissions/permission-matrix.mp4?v=94ed67b3",
+      poster: "media/roles-permissions/permission-matrix.jpg?v=76e05524",
       label: "Permission matrix, shown in a mock Echo Base console",
       steps: [
         "The admin switches People › Roles from Roles to Permissions.",
@@ -1123,8 +1123,8 @@ window.VIDEOS = {
       ]
     },
     "Create custom role": {
-      src: "media/roles-permissions/create-custom-role.mp4",
-      poster: "media/roles-permissions/create-custom-role.jpg",
+      src: "media/roles-permissions/create-custom-role.mp4?v=71c827a7",
+      poster: "media/roles-permissions/create-custom-role.jpg?v=76e05524",
       label: "Create custom role, shown in a mock Echo Base console",
       steps: [
         "The admin opens Member's menu and picks Duplicate, so the new role starts from a built-in one, not a blank list.",
@@ -1136,8 +1136,8 @@ window.VIDEOS = {
       ]
     },
     "Assign role": {
-      src: "media/roles-permissions/assign-role.mp4",
-      poster: "media/roles-permissions/assign-role.jpg",
+      src: "media/roles-permissions/assign-role.mp4?v=e4026ed5",
+      poster: "media/roles-permissions/assign-role.jpg?v=7859396e",
       label: "Assign role, shown in a mock Echo Base console",
       steps: [
         "The admin opens Security admin from People › Roles.",
@@ -1148,8 +1148,8 @@ window.VIDEOS = {
       ]
     },
     "Scoped access": {
-      src: "media/roles-permissions/scoped-access.mp4",
-      poster: "media/roles-permissions/scoped-access.jpg",
+      src: "media/roles-permissions/scoped-access.mp4?v=b7755efc",
+      poster: "media/roles-permissions/scoped-access.jpg?v=7859396e",
       label: "Scoped access, shown in a mock Echo Base console",
       steps: [
         "The admin opens Admin from People › Roles. Its people show the role with its scope, such as Admin · Ground forces.",
@@ -1160,8 +1160,8 @@ window.VIDEOS = {
       ]
     },
     "Effective permissions": {
-      src: "media/roles-permissions/effective-permissions.mp4",
-      poster: "media/roles-permissions/effective-permissions.jpg",
+      src: "media/roles-permissions/effective-permissions.mp4?v=de8b4d20",
+      poster: "media/roles-permissions/effective-permissions.jpg?v=2635a187",
       label: "Effective permissions, shown in a mock Echo Base console",
       steps: [
         "The admin opens Check access from People › Roles.",
@@ -1174,8 +1174,8 @@ window.VIDEOS = {
   },
   "search-filtering": {
     "Filter bar": {
-      src: "media/search-filtering/filter-bar.mp4",
-      poster: "media/search-filtering/filter-bar.jpg",
+      src: "media/search-filtering/filter-bar.mp4?v=5bb7385a",
+      poster: "media/search-filtering/filter-bar.jpg?v=20bc0a39",
       label: "Filter bar, shown in a mock Echo Base console",
       steps: [
         "Content › All content has its common filters up front: Owner, Sharing, Last modified, Size and Advanced.",
@@ -1186,8 +1186,8 @@ window.VIDEOS = {
       ]
     },
     "Advanced query": {
-      src: "media/search-filtering/advanced-query.mp4",
-      poster: "media/search-filtering/advanced-query.jpg",
+      src: "media/search-filtering/advanced-query.mp4?v=d5df8c9e",
+      poster: "media/search-filtering/advanced-query.jpg?v=20bc0a39",
       label: "Advanced query, shown in a mock Echo Base console",
       steps: [
         "Beside the simple filters, the admin opens Advanced. A builder joins conditions with AND: type is PDF or DOC, last activity more than 90 days ago, tag is not Legal hold.",
@@ -1198,8 +1198,8 @@ window.VIDEOS = {
       ]
     },
     "Saved views": {
-      src: "media/search-filtering/saved-views.mp4",
-      poster: "media/search-filtering/saved-views.jpg",
+      src: "media/search-filtering/saved-views.mp4?v=309215cc",
+      poster: "media/search-filtering/saved-views.jpg?v=ca558cc7",
       label: "Saved views, shown in a mock Echo Base console",
       steps: [
         "With Owner: Deactivated and Sharing: Public link set, the admin clicks Save view.",
@@ -1210,8 +1210,8 @@ window.VIDEOS = {
       ]
     },
     "Global admin search": {
-      src: "media/search-filtering/global-admin-search.mp4",
-      poster: "media/search-filtering/global-admin-search.jpg",
+      src: "media/search-filtering/global-admin-search.mp4?v=551708c7",
+      poster: "media/search-filtering/global-admin-search.jpg?v=2001be7c",
       label: "Global admin search, shown in a mock Echo Base console",
       steps: [
         "From People › Roles, the admin clicks Search Echo Base in the top bar. ⌘K opens it too.",
@@ -1224,8 +1224,8 @@ window.VIDEOS = {
   },
   "security-identity": {
     "SSO setup": {
-      src: "media/security-identity/sso-setup.mp4",
-      poster: "media/security-identity/sso-setup.jpg",
+      src: "media/security-identity/sso-setup.mp4?v=9736b7b0",
+      poster: "media/security-identity/sso-setup.jpg?v=653225ee",
       label: "SSO setup, shown in a mock Echo Base console",
       steps: [
         "The admin is setting up single sign-on with Holonet ID. The steps read Provider, Connect, Map attributes, Test and Enforce.",
@@ -1236,8 +1236,8 @@ window.VIDEOS = {
       ]
     },
     "MFA enforcement": {
-      src: "media/security-identity/mfa-enforcement.mp4",
-      poster: "media/security-identity/mfa-enforcement.jpg",
+      src: "media/security-identity/mfa-enforcement.mp4?v=79e0731e",
+      poster: "media/security-identity/mfa-enforcement.jpg?v=36824fdb",
       label: "MFA enforcement, shown in a mock Echo Base console",
       steps: [
         "People › Sign-in & security › MFA shows enrolment first: 1,084 of 1,214 people, with 130 not yet enrolled.",
@@ -1248,8 +1248,8 @@ window.VIDEOS = {
       ]
     },
     "Session management": {
-      src: "media/security-identity/session-management.mp4",
-      poster: "media/security-identity/session-management.jpg",
+      src: "media/security-identity/session-management.mp4?v=6e6b6939",
+      poster: "media/security-identity/session-management.jpg?v=b12c6f25",
       label: "Session management, shown in a mock Echo Base console",
       steps: [
         "Session rules come first: 12-hour sessions, sign-out after 30 minutes without activity, and a warning 2 minutes ahead. Drafts are kept either way.",
@@ -1260,8 +1260,8 @@ window.VIDEOS = {
       ]
     },
     "Domain verification": {
-      src: "media/security-identity/domain-verification.mp4",
-      poster: "media/security-identity/domain-verification.jpg",
+      src: "media/security-identity/domain-verification.mp4?v=3c05577e",
+      poster: "media/security-identity/domain-verification.jpg?v=af2f2cbd",
       label: "Domain verification, shown in a mock Echo Base console",
       steps: [
         "Each domain shows its status in words, when it was last checked, and what it's used for.",
@@ -1272,8 +1272,8 @@ window.VIDEOS = {
       ]
     },
     "Device management": {
-      src: "media/security-identity/device-management.mp4",
-      poster: "media/security-identity/device-management.jpg",
+      src: "media/security-identity/device-management.mp4?v=237ad1ef",
+      poster: "media/security-identity/device-management.jpg?v=c21dff34",
       label: "Device management, shown in a mock Echo Base console",
       steps: [
         "People › Devices shows 312 devices: 296 compliant and 16 needing attention, with the requirements in plain terms.",
@@ -1284,8 +1284,8 @@ window.VIDEOS = {
       ]
     },
     "IP allowlists": {
-      src: "media/security-identity/ip-allowlists.mp4",
-      poster: "media/security-identity/ip-allowlists.jpg",
+      src: "media/security-identity/ip-allowlists.mp4?v=0987950a",
+      poster: "media/security-identity/ip-allowlists.jpg?v=e48b6377",
       label: "IP allowlists, shown in a mock Echo Base console",
       steps: [
         "People › Sign-in & security › Network shows the admin's own IP and the range that covers it, so she knows saving won't block her.",
@@ -1298,8 +1298,8 @@ window.VIDEOS = {
   },
   "storage-quotas": {
     "Storage overview": {
-      src: "media/storage-quotas/storage-overview.mp4",
-      poster: "media/storage-quotas/storage-overview.jpg",
+      src: "media/storage-quotas/storage-overview.mp4?v=276dd868",
+      poster: "media/storage-quotas/storage-overview.jpg?v=6c434f56",
       label: "Storage overview, shown in a mock Echo Base console",
       steps: [
         "Content › Storage opens on the numbers, in text: 3.2 TB of 5 TB used, growing 4% a month, full around Oct 2027 at this rate.",
@@ -1310,8 +1310,8 @@ window.VIDEOS = {
       ]
     },
     "Per-user quotas": {
-      src: "media/storage-quotas/per-user-quotas.mp4",
-      poster: "media/storage-quotas/per-user-quotas.jpg",
+      src: "media/storage-quotas/per-user-quotas.mp4?v=9007cc00",
+      poster: "media/storage-quotas/per-user-quotas.jpg?v=bc685f0a",
       label: "Per-user quotas, shown in a mock Echo Base console",
       steps: [
         "The default quota is 50 GB per person. Over it, uploads stop with a message saying why, and files stay and can still be opened and shared.",
@@ -1322,8 +1322,8 @@ window.VIDEOS = {
       ]
     },
     "Largest items": {
-      src: "media/storage-quotas/largest-items.mp4",
-      poster: "media/storage-quotas/largest-items.jpg",
+      src: "media/storage-quotas/largest-items.mp4?v=fb3f570c",
+      poster: "media/storage-quotas/largest-items.jpg?v=80620bbd",
       label: "Largest items, shown in a mock Echo Base console",
       steps: [
         "Largest items is a report from the background, sorted by size, with the sort shown. Shared files are counted once, for their owner.",
@@ -1334,8 +1334,8 @@ window.VIDEOS = {
       ]
     },
     "Trash & recovery": {
-      src: "media/storage-quotas/trash-recovery.mp4",
-      poster: "media/storage-quotas/trash-recovery.jpg",
+      src: "media/storage-quotas/trash-recovery.mp4?v=34cc56d6",
+      poster: "media/storage-quotas/trash-recovery.jpg?v=f2d69eb9",
       label: "Trash & recovery, shown in a mock Echo Base console",
       steps: [
         "Content › Trash can be searched across all of Echo Base. Items stay 30 days, and the 310 GB in trash counts toward storage.",
@@ -1348,8 +1348,8 @@ window.VIDEOS = {
   },
   "tables-grids": {
     "Column management": {
-      src: "media/tables-grids/column-management.mp4",
-      poster: "media/tables-grids/column-management.jpg",
+      src: "media/tables-grids/column-management.mp4?v=f89b8ab0",
+      poster: "media/tables-grids/column-management.jpg?v=378e759c",
       label: "Column management, shown in a mock Echo Base console",
       steps: [
         "On People › Users, the admin opens Columns. Each column has a checkbox to show it and ↑ ↓ buttons to move it, so dragging isn't the only way.",
@@ -1360,8 +1360,8 @@ window.VIDEOS = {
       ]
     },
     "Sorting & pagination": {
-      src: "media/tables-grids/sorting-pagination.mp4",
-      poster: "media/tables-grids/sorting-pagination.jpg",
+      src: "media/tables-grids/sorting-pagination.mp4?v=0b88b187",
+      poster: "media/tables-grids/sorting-pagination.jpg?v=378e759c",
       label: "Sorting & pagination, shown in a mock Echo Base console",
       steps: [
         "The table is sorted by name, A to Z, and says so. The pager shows 1–25 of 82, Page 1 of 4.",
@@ -1372,8 +1372,8 @@ window.VIDEOS = {
       ]
     },
     "Row actions": {
-      src: "media/tables-grids/row-actions.mp4",
-      poster: "media/tables-grids/row-actions.jpg",
+      src: "media/tables-grids/row-actions.mp4?v=b295ba09",
+      poster: "media/tables-grids/row-actions.jpg?v=53d3f394",
       label: "Row actions, shown in a mock Echo Base console",
       steps: [
         "Every row has a ⋯ that's always visible, not only on hover. The admin does this by keyboard, and the keys are shown under the window.",
@@ -1384,8 +1384,8 @@ window.VIDEOS = {
       ]
     },
     "Density": {
-      src: "media/tables-grids/density.mp4",
-      poster: "media/tables-grids/density.jpg",
+      src: "media/tables-grids/density.mp4?v=b7bbfea8",
+      poster: "media/tables-grids/density.jpg?v=bb9618af",
       label: "Density, shown in a mock Echo Base console",
       steps: [
         "The Users table is Comfortable, with room to read and click.",
@@ -1396,8 +1396,8 @@ window.VIDEOS = {
       ]
     },
     "Expandable rows": {
-      src: "media/tables-grids/expandable-rows.mp4",
-      poster: "media/tables-grids/expandable-rows.jpg",
+      src: "media/tables-grids/expandable-rows.mp4?v=9161626c",
+      poster: "media/tables-grids/expandable-rows.jpg?v=378e759c",
       label: "Expandable rows, shown in a mock Echo Base console",
       steps: [
         "Each row starts with an expand button, separate from opening the person.",
@@ -1410,8 +1410,8 @@ window.VIDEOS = {
   },
   "usage-analytics": {
     "Admin home": {
-      src: "media/usage-analytics/admin-home.mp4",
-      poster: "media/usage-analytics/admin-home.jpg",
+      src: "media/usage-analytics/admin-home.mp4?v=1adc3710",
+      poster: "media/usage-analytics/admin-home.jpg?v=72e61d37",
       label: "Admin home, shown in a mock Echo Base console",
       steps: [
         "Home opens on what needs the admin: 4 items, each saying what it affects and with a button to the fix.",
@@ -1422,8 +1422,8 @@ window.VIDEOS = {
       ]
     },
     "Adoption metrics": {
-      src: "media/usage-analytics/adoption-metrics.mp4",
-      poster: "media/usage-analytics/adoption-metrics.jpg",
+      src: "media/usage-analytics/adoption-metrics.mp4?v=0e2e5adc",
+      poster: "media/usage-analytics/adoption-metrics.jpg?v=6396e7f3",
       label: "Adoption metrics, shown in a mock Echo Base console",
       steps: [
         "Insights › Adoption asks its question first: are people using Echo Base? 640 today, 1,092 this week and 1,168 of 1,214 this month.",
@@ -1434,8 +1434,8 @@ window.VIDEOS = {
       ]
     },
     "Reports": {
-      src: "media/usage-analytics/reports.mp4?r=2",
-      poster: "media/usage-analytics/reports.jpg?r=2",
+      src: "media/usage-analytics/reports.mp4?v=d1a1bead",
+      poster: "media/usage-analytics/reports.jpg?v=8e4524c5",
       label: "Reports, shown in a mock Echo Base console",
       steps: [
         "Insights › Reports lists standard reports, each with what it shows, its period and when it was last made.",
@@ -1446,8 +1446,8 @@ window.VIDEOS = {
       ]
     },
     "Recommendations": {
-      src: "media/usage-analytics/recommendations.mp4?r=2",
-      poster: "media/usage-analytics/recommendations.jpg?r=2",
+      src: "media/usage-analytics/recommendations.mp4?v=e1bea85d",
+      poster: "media/usage-analytics/recommendations.jpg?v=87f4f3aa",
       label: "Recommendations, shown in a mock Echo Base console",
       steps: [
         "Home › Recommendations come from Echo Base's own data, sorted by impact, and nothing happens until the admin confirms.",
@@ -1460,8 +1460,8 @@ window.VIDEOS = {
   },
   "user-management": {
     "Invite / add user": {
-      src: "media/user-management/invite-user.mp4",
-      poster: "media/user-management/invite-user.jpg",
+      src: "media/user-management/invite-user.mp4?v=ec171c8a",
+      poster: "media/user-management/invite-user.jpg?v=378e759c",
       label: "Invite / add user, shown in a mock Echo Base console",
       steps: [
         "From People › Users, the admin opens Invite people and pastes three email addresses. Each becomes a chip and is checked on its own.",
@@ -1472,8 +1472,8 @@ window.VIDEOS = {
       ]
     },
     "User directory": {
-      src: "media/user-management/user-directory.mp4?r=2",
-      poster: "media/user-management/user-directory.jpg?r=2",
+      src: "media/user-management/user-directory.mp4?v=ec77e1a6",
+      poster: "media/user-management/user-directory.jpg?v=ebb42bc0",
       label: "User directory, shown in a mock Echo Base console",
       steps: [
         "People › Users leads with search, which matches name, email and employee ID as the admin types.",
@@ -1484,8 +1484,8 @@ window.VIDEOS = {
       ]
     },
     "User detail": {
-      src: "media/user-management/user-detail.mp4",
-      poster: "media/user-management/user-detail.jpg",
+      src: "media/user-management/user-detail.mp4?v=c3ad1ae5",
+      poster: "media/user-management/user-detail.jpg?v=c6315afa",
       label: "User detail, shown in a mock Echo Base console",
       steps: [
         "Zev Senesca's page puts his identity and status at the top: Active, his email and that it comes from Holonet ID. Reset sign-in and Edit come first, Suspend is set apart.",
@@ -1496,8 +1496,8 @@ window.VIDEOS = {
       ]
     },
     "Edit profile": {
-      src: "media/user-management/edit-profile.mp4",
-      poster: "media/user-management/edit-profile.jpg",
+      src: "media/user-management/edit-profile.mp4?v=fd95f0b4",
+      poster: "media/user-management/edit-profile.jpg?v=53ff7c34",
       label: "Edit profile, shown in a mock Echo Base console",
       steps: [
         "On Zev's page, the admin chooses Edit. A side panel opens, and his page stays in view.",
@@ -1508,8 +1508,8 @@ window.VIDEOS = {
       ]
     },
     "Suspend / deactivate": {
-      src: "media/user-management/suspend-user.mp4",
-      poster: "media/user-management/suspend-user.jpg",
+      src: "media/user-management/suspend-user.mp4?v=a8088634",
+      poster: "media/user-management/suspend-user.jpg?v=e8c9aea6",
       label: "Suspend / deactivate, shown in a mock Echo Base console",
       steps: [
         "On Zev's page, the admin chooses Suspend, which is set apart from the routine actions.",
@@ -1520,8 +1520,8 @@ window.VIDEOS = {
       ]
     },
     "Offboarding": {
-      src: "media/user-management/offboarding.mp4?r=2",
-      poster: "media/user-management/offboarding.jpg?r=2",
+      src: "media/user-management/offboarding.mp4?v=2b81d044",
+      poster: "media/user-management/offboarding.jpg?v=e70f77e4",
       label: "Offboarding, shown in a mock Echo Base console",
       steps: [
         "Offboard Bren Derlin is a checklist, with the safe steps first and deletion last. A check at the top shows there's no legal hold.",
@@ -1532,8 +1532,8 @@ window.VIDEOS = {
       ]
     },
     "Pending invites": {
-      src: "media/user-management/pending-invites.mp4?r=2",
-      poster: "media/user-management/pending-invites.jpg?r=2",
+      src: "media/user-management/pending-invites.mp4?v=d7c4dab5",
+      poster: "media/user-management/pending-invites.jpg?v=27e85450",
       label: "Pending invites, shown in a mock Echo Base console",
       steps: [
         "Pending invites lists the 14 people who haven't joined yet: who invited them, the status, when it expires, as a date and days left, and whether it holds a seat.",
@@ -1544,8 +1544,8 @@ window.VIDEOS = {
       ]
     },
     "Bulk add users": {
-      src: "media/user-management/bulk-add-users.mp4",
-      poster: "media/user-management/bulk-add-users.jpg",
+      src: "media/user-management/bulk-add-users.mp4?v=530f9fa7",
+      poster: "media/user-management/bulk-add-users.jpg?v=25829d80",
       label: "Bulk add users, shown in a mock Echo Base console",
       steps: [
         "This is the last step of Import people, after upload, mapping and review. The admin adds 46 people, and it runs in the background with progress.",
@@ -1556,8 +1556,8 @@ window.VIDEOS = {
       ]
     },
     "Auto-join by domain": {
-      src: "media/user-management/auto-join.mp4",
-      poster: "media/user-management/auto-join.jpg",
+      src: "media/user-management/auto-join.mp4?v=a858db2b",
+      poster: "media/user-management/auto-join.jpg?v=44c90b14",
       label: "Auto-join by domain, shown in a mock Echo Base console",
       steps: [
         "Auto-join by domain only lists verified domains, and public ones like gmail.com can never be used.",

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What's new — Enterprise Library</title>
+  <meta name="description" content="Every version of Enterprise Library: what was added, changed and fixed.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <meta name="changelog" content="CHANGELOG.md?v=73a37300">
+  <link rel="stylesheet" href="assets/styles.css?v=4785b78b">
+  <style>
+    .log { max-width: 760px; margin: 0 auto; padding: 48px 32px 96px; }
+    .log h1 { font-size: 40px; letter-spacing: -0.02em; margin: 0 0 12px; }
+    .log .how { color: var(--ink-soft); line-height: 1.6; margin: 0 0 40px; }
+    .log h2 { font-size: 22px; margin: 48px 0 4px; display: flex; align-items: baseline; gap: 12px; scroll-margin-top: 80px; }
+    .log h2 .d { font-size: 14px; font-weight: 400; color: var(--ink-soft); }
+    .log h2 .tag { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 6px; padding: 1px 7px; }
+    .log h2 + p { color: var(--ink-soft); margin: 4px 0 0; }
+    .log h3 { font-size: 13px; text-transform: none; letter-spacing: 0; color: var(--ink); margin: 24px 0 8px; }
+    .log ul { margin: 0; padding-left: 20px; line-height: 1.6; }
+    .log li { margin: 0 0 10px; color: var(--ink); }
+    .log code { font-family: var(--mono); font-size: .9em; background: var(--bg-subtle); border-radius: 4px; padding: 0 4px; }
+    .log a { color: inherit; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="index.html"><svg class="wordmark-glyph" viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="1" width="6" height="18" rx="1" fill="currentColor"/><rect x="9" y="1" width="10" height="8" rx="1" fill="currentColor" opacity=".7"/><rect x="9.75" y="11.75" width="8.5" height="6.5" rx=".75" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Enterprise Library</a>
+    <span class="header-sep" aria-hidden="true">/</span>
+    <a class="header-badge" href="changelog.html" title="What's new in this version">v0.3.1 preview</a>
+  </header>
+  <main class="log" id="main" tabindex="-1">
+    <p>Loading the changelog…</p>
+  </main>
+  <script>
+  (function () {
+    try { const t = localStorage.getItem("ac-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const inline = s => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    function render(md) {
+      let out = "", inList = false;
+      const close = () => { if (inList) { out += "</ul>"; inList = false; } };
+      md.split("\n").forEach(line => {
+        let m;
+        if ((m = line.match(/^# (.*)/))) { close(); out += `<h1>${inline(m[1])}</h1>`; }
+        else if ((m = line.match(/^## (v[\d.]+)( preview)?(?: — (.*))?/))) {
+          close(); const id = m[1].replace(/\./g, "-");
+          out += `<h2 id="${id}">${m[1]}${m[2] ? ' <span class="tag">preview</span>' : ""}${m[3] ? ` <span class="d">${esc(m[3])}</span>` : ""}</h2>`;
+        }
+        else if ((m = line.match(/^### (.*)/))) { close(); out += `<h3>${inline(m[1])}</h3>`; }
+        else if ((m = line.match(/^- (.*)/))) { if (!inList) { out += "<ul>"; inList = true; } out += `<li>${inline(m[1])}</li>`; }
+        else if (line.trim()) { close(); out += `<p${out.endsWith("</h1>") ? ' class="how"' : ""}>${inline(line)}</p>`; }
+      });
+      close(); return out;
+    }
+    fetch(document.querySelector('meta[name="changelog"]')?.content || "CHANGELOG.md", { cache: "no-cache" })
+      .then(r => r.ok ? r.text() : Promise.reject(r.status))
+      .then(md => { document.getElementById("main").innerHTML = render(md); if (location.hash) document.querySelector(location.hash)?.scrollIntoView(); })
+      .catch(() => { document.getElementById("main").innerHTML = "<p>The changelog couldn’t be loaded. It’s in CHANGELOG.md in the repo.</p>"; });
+  })();
+  </script>
+</body>
+</html>
