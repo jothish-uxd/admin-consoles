@@ -1,5 +1,5 @@
 import sys, pathlib; sys.path.insert(0, __file__.rsplit("/", 1)[0])
-from users_page import make
+from tables_page import make
 CSS = r"""
 .tip { position: absolute; right: 0; top: 34px; width: 250px; background: var(--bg); color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.14); padding: 8px 10px; font-size: 12px; line-height: 1.45; white-space: normal; opacity: 0; z-index: 6; text-align: left; font-weight: 400; }
 .tip b { color: var(--ink); font-weight: 600; }

@@ -1,5 +1,5 @@
 import sys; sys.path.insert(0, __file__.rsplit("/", 1)[0])
-from users_page import make
+from tables_page import make
 CSS = r"""
 .job { margin-top: 14px; border: 1px solid var(--rule-strong); border-radius: 12px; padding: 12px 16px; font-size: 13px; color: var(--soft); position: relative; }
 .job .h { display: flex; align-items: center; gap: 10px; }

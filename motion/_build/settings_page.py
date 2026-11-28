@@ -84,7 +84,7 @@ ICONS = ('<symbol id="warn" viewBox="0 0 16 16"><path d="M8 1.8L15 14H1z" fill="
 
 SEARCH = '<span class="ss" id="ss"><svg aria-hidden="true"><use href="#srch"/></svg><span id="ssT">Search settings</span><span class="c" id="ssC"></span><span class="kb">⌘K</span></span>'
 
-def head(on, search=False):
+def head(on, search=True):
     """search=True adds Search settings beside the title: new Settings clips have it; earlier ones get it in the final pass (FINAL_PASS.md)."""
     tabs = "".join(f'<div{" class=\"on\"" if t == on else ""}>{t}</div>' for t in TABS)
     return f'        <div class="hd"><h1>Settings</h1>{SEARCH if search else ""}</div>\n        <div class="tabs page">{tabs}</div>\n'

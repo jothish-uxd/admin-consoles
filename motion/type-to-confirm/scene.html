@@ -31,6 +31,11 @@
 .dz .row .tx { flex: 1; font-size: 12.5px; color: var(--soft); line-height: 1.45; }
 .dz .row .tx b { display: block; font-size: 13.5px; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
 .dz .row .btn { width: 168px; flex: none; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
 .btn.dgr { color: #b91c1c; border-color: #b91c1c; font-weight: 500; }
 
 .scrim2 { position: absolute; inset: 52px 0 0 0; background: rgba(0,0,0,.18); opacity: 0; z-index: 30; }
@@ -76,7 +81,7 @@
     <div class="nav" data-at="settings" data-role="admin"></div>
     <div class="main">
       <div class="view">
-        <div class="hd"><h1>Settings</h1></div>
+        <div class="hd"><h1>Settings</h1><span class="ss" id="ss"><svg aria-hidden="true" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span id="ssT">Search settings</span><span class="c" id="ssC"></span><span class="kb">⌘K</span></span></div>
         <div class="tabs page"><div class="on">Organization</div><div>Defaults</div><div>Integrations</div><div>API keys</div><div>Webhooks</div><div>Notifications</div><div>Announcements</div></div>
         <div class="sec" id="prof"><h2>Organization profile<span class="sp"></span><span class="btn sm">Edit</span></h2>
           <dl class="kv"><div><dt>Name</dt><dd>Echo Base</dd></div><div><dt>Domain</dt><dd>echobase.rebellion</dd></div><div><dt>Time zone</dt><dd>Hoth Standard (UTC−5)</dd></div>

@@ -1,5 +1,5 @@
 import sys, pathlib; sys.path.insert(0, __file__.rsplit("/", 1)[0])
-from users_page import make
+from tables_page import make
 CSS = r"""
 .btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
 .hd .btn.sm + .btn.sm { margin-left: 8px; }

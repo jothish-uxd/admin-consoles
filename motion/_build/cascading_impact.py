@@ -3,7 +3,7 @@ from cut_page import make
 CSS = r"""
 /* cascading impact */
 .mo .menu .hov { background: var(--hover); }
-.dlg.ci { top: 76px; width: 580px; left: 410px; }
+.dlg.ci { top: 164px; width: 580px; left: 310px; }
 .ci .p { margin-top: 6px; }
 .grp { margin-top: 10px; border: 1px solid var(--rule-strong); border-radius: 10px; padding: 10px 12px; display: grid; grid-template-columns: 84px 1fr auto; gap: 4px 12px; align-items: start; }
 .grp .tg { font-size: 11.5px; font-weight: 600; color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 8px; justify-self: start; margin-top: 1px; }

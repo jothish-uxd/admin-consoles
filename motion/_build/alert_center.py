@@ -1,5 +1,5 @@
 import sys; sys.path.insert(0, __file__.rsplit("/", 1)[0])
-from users_page import make
+from tables_page import make
 import bell
 
 CSS = r"""

@@ -1,5 +1,5 @@
 import sys, pathlib; sys.path.insert(0, __file__.rsplit("/", 1)[0])
-from users_page import make
+from tables_page import make
 CSS = r"""
 .scrim2 { position: absolute; inset: 52px 0 0 0; background: rgba(0,0,0,.18); opacity: 0; z-index: 30; }
 .dlg { position: absolute; left: 200px; top: 110px; width: 800px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); line-height: 1.45; }

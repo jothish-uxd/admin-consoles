@@ -1,5 +1,5 @@
 import sys; sys.path.insert(0, __file__.rsplit("/", 1)[0])
-from users_page import make
+from tables_page import make
 CSS = r"""
 .key { margin-left: 8px; background: var(--bg); border: 1px solid var(--rule-strong); border-bottom-width: 2px; border-radius: 6px; padding: 2px 7px; font-size: 11.5px; color: var(--ink); opacity: 0; white-space: nowrap; }
 """

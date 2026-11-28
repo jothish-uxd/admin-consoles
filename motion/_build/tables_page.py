@@ -42,8 +42,8 @@ tr.det { display: none; }
 tr.det td { height: auto; padding: 8px 10px 12px 84px; background: var(--subtle); color: var(--ink); font-size: 12.5px; line-height: 1.5; }
 tr.det td a { margin-left: 10px; text-decoration: underline; text-underline-offset: 3px; }
 """
-def make(name, title, comment, css, extra, toast, script, edit=None):
-    s = users_page.make(name, title, comment, CSS + css, extra, toast, script)
+def make(name, title, comment, css, extra, toast, script, edit=None, jobs=""):
+    s = users_page.make(name, title, comment, CSS + css, extra, toast, script, jobs)
     # toolbar: Columns and Density beside the filters
     s = s.replace('<span class="fb">Status<i class="cv"></i></span></div>',
                   '<span class="fb">Status<i class="cv"></i></span><span class="gap"></span><span class="fb" id="bCol">Columns<i class="cv"></i></span><span class="fb" id="bDen"><span id="denT">Comfortable</span><i class="cv"></i></span></div>', 1)

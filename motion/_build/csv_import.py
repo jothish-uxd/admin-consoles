@@ -1,5 +1,5 @@
 import sys, pathlib; sys.path.insert(0, __file__.rsplit("/", 1)[0])
-from users_page import make
+from tables_page import make
 from import_page import CSS as ICSS, head
 CSS = ICSS + r"""
 .ty { display: inline-grid; place-items: end center; width: 20px; height: 26px; border: 1.2px solid var(--rule-strong); border-radius: 3px; font-family: "Geist Mono", monospace; font-size: 6.5px; padding-bottom: 2px; color: var(--soft); box-sizing: border-box; flex: none; }
@@ -117,6 +117,7 @@ s = s.replace('<div class="view">', '<div class="view" id="vU">', 1)
 s = s.replace('<span class="crumb" data-path="People / Users"></span>', '<span class="crumb" id="crumb" data-path="People / Users"></span>', 1)
 s = s.replace('<div class="hd"><h1>People</h1><span class="btn sm pri">Invite people</span></div>',
   '<div class="hd"><h1>People</h1><span class="btn sm pri" id="bInv">Invite people</span><div class="menu" id="menu"><div>Invite by email<span class="s2">Send invitations to a few people</span></div><div id="miImp">Import a CSV<span class="s2">Add or update many people from a file</span></div></div></div>', 1)
-i = s.index('        </tbody></table><div class="cnt" id="cnt">Showing 1–25 of 82</div>\n      </div>\n') + len('        </tbody></table><div class="cnt" id="cnt">Showing 1–25 of 82</div>\n      </div>\n')
+A = '        </tbody></table>\n      </div>\n'  # the table, as tables_page.py draws it (no count line under it)
+i = s.index(A) + len(A)
 s = s[:i] + IMP + s[i:]
 (pathlib.Path(__file__).resolve().parent.parent / "csv-import/scene.html").write_text(s)

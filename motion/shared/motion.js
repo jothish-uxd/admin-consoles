@@ -84,6 +84,12 @@
       if (!me.querySelector(".bell")) me.insertAdjacentHTML("afterbegin",
         '<span class="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg">3</span></span>');
     });
+    // People has five tabs in every clip, as in the Security & identity clips (_build/security_page.py).
+    document.querySelectorAll(".tabs").forEach(t => {
+      const d = [...t.children].filter(e => e.tagName === "DIV"), k = d.map(e => e.textContent.trim());
+      if (k.length === 3 && k[0] === "Users" && k[1] === "Groups" && k[2] === "Roles")
+        d[2].insertAdjacentHTML("afterend", "<div>Sign-in &amp; security</div><div>Devices</div>");
+    });
     document.querySelectorAll(".crumb[data-path]").forEach(c => {
       const parts = c.dataset.path.split(" / ");
       c.innerHTML = "/ " + parts.map((p, i) => i === parts.length - 1 ? `<b>${p}</b>` : p).join(" / ");

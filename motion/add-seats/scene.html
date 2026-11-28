@@ -122,9 +122,12 @@ const T = {
   endCard: [11.9, 12.35], end: 13.4
 };
 
+function ctr() { const d = $("dlg"); d.style.top = Math.round(340 - d.offsetHeight / 2) + "px"; }  // centred in the window, whatever page it shows
 function build() {
+  ctr();
   const ab = at("addB"), qi = at("qin"), rv = at("revB"), dl = at("dlg"), su = at("sum"), ln = at("lines");
-  const p2 = $("p2"); p2.style.opacity = 1; const bu = at("buyB"); p2.style.opacity = 0;
+  ctr(); const p2 = $("p2"); p2.style.opacity = 1; $("p1").style.display = "none"; p2.style.position = "static"; ctr(); const bu = at("buyB"), dl2 = at("dlg");
+  p2.style.opacity = 0; $("p1").style.display = ""; p2.style.position = "absolute"; ctr();
   const cur = [
     [0.00, 860, 600], [0.40, 860, 600], [1.45, ab[0], ab[1] + 3], [1.75, ab[0], ab[1] + 3],
     [3.15, qi[0], qi[1] + 3], [3.45, qi[0], qi[1] + 3], [4.10, qi[0] + 40, qi[1] + 30],
@@ -136,7 +139,7 @@ function build() {
     [1.10, 840, 240, 1.3], [1.75, 840, 240, 1.3],                       // the pilot needs 38, 18 available; Add seats
     [2.50, dl[0], dl[1] - 60, 1.45], [4.40, dl[0], ln[1] - 20, 1.45],   // quantity, price per seat, prorated today
     [5.10, dl[0], dl[1] + 40, 1.4], [6.80, dl[0], dl[1] + 40, 1.4],     // add-on not added, approval, overage, quote path
-    [7.30, dl[0], dl[1] - 20, 1.5], [9.00, dl[0], dl[1] - 20, 1.5],     // review with the amount
+    [7.30, dl2[0], dl2[1] + 10, 1.5], [9.00, dl2[0], dl2[1] + 10, 1.5],     // review with the amount
     [9.70, 740, 200, 1.35], [11.3, 740, 200, 1.35],                     // toast, 270 seats now
     [11.7, 660, 360, 1.05], [11.9, 656, 360, 1.04]
   ];
@@ -164,7 +167,7 @@ function render(t) {
   seq("p1", "p2", t, T.toRev);
   // the dialog fits the review page once the first page has gone
   const rv = t >= T.toRev + .17;
-  $("p1").style.display = rv ? "none" : ""; $("p2").style.position = rv ? "static" : "absolute";
+  $("p1").style.display = rv ? "none" : ""; $("p2").style.position = rv ? "static" : "absolute"; ctr();
   $("revB").style.background = t >= T.revClick - .05 && t < T.toRev + .1 ? "#333" : "";
   $("buyB").style.background = t >= T.buyClick - .05 && t < T.done + .1 ? "#333" : "";
 

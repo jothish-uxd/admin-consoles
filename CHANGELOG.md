@@ -2,6 +2,20 @@
 
 Versions follow major.minor.patch. **Major**: changes to how patterns are found or cited (names, URLs), and the public launch. **Minor**: a new category, new patterns or a new layout across the site. **Patch**: fixes, such as a re-rendered clip or a copy edit. *preview* means it lives on `v3-videos`, not yet public. Each version is tagged in git.
 
+## v0.3.5 preview — 2026-11-28
+
+### Changed
+- **Final pass, completed for the first 12 categories.** The clips from *Access requests & approvals* through *Integrations & API* now have every item on the checklist, not only the top bar, end card, toasts and dialogs:
+  - **Search settings** beside the Settings title in *Type to confirm*, *Danger zone*, *Multi-step wizard* and the four Integrations & API clips.
+  - **People has five tabs** (Users, Groups, Roles, Sign-in & security, Devices) in all 14 People clips.
+  - **People › Users has the table toolbar** (Columns, Density, the pager beside the count, sortable headers, an expand button and ⋯ on each row) in *Selection model*, *Contextual action bar*, *Bulk edit*, *Progress & results*, *Export* and *CSV import*.
+  - **Compliance › Policies** in *Create from template* is the same list as the Policies & rules clips.
+- **Prototype:** dialogs sit in the middle of the window, up and down as well as across.
+
+### Fixed
+- **Delete Content admin** in *Cascading impact* was still right of centre; it's centred now.
+- **Add Console seats** stays centred when it moves from the quantity to the review, and the review is framed so Buy stays clear of the player bar.
+
 ## v0.3.4 preview — 2026-11-28
 
 ### Changed

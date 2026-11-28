@@ -17,6 +17,11 @@ Run once, before merging `v3-videos` into `main`. Every item is a console-wide c
 - [ ] **Labels above values.** In every key/value pair, in the clips and in the prototype, the label sits on its own line above the value (stacked pairs), never label-left / value-right with a gap between. Look for `dl` grids and rows with a fixed label column (`grid-template-columns: <n>px 1fr`). Fixed so far: *Create from template*, *Transfer ownership*, *Export & SIEM streaming*, *Multi-step wizard* (v0.3.4). Still to check: the change list in *Health & revoking* and the tool groups in the MCP connectors clips.
 - [ ] Add anything else that drifts between now and then here.
 
+
+## Progress
+
+Done, category by category in A–Z order: the first 12 (Access requests & approvals through Integrations & API) have every item above, as of v0.3.5. The rest get them batch by batch, five categories at a time, with the whole checklist each time. The engine now adds the top-bar search, the bell and the five People tabs to every clip, and `settings_page.head` and `settings_org.py` add Search settings, so most items need only a re-render. The prototype's dialogs are centred (proto.css).
+
 ## Then
 
 1. Run `audit.py` on every scene and check a still or two per clip.

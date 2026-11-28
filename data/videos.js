@@ -307,7 +307,7 @@ window.VIDEOS = {
       ]
     },
     "Add seats": {
-      src: "media/billing-licenses/add-seats.mp4?v=4acbc57b",
+      src: "media/billing-licenses/add-seats.mp4?v=635431dc",
       poster: "media/billing-licenses/add-seats.jpg?v=28bb9fb2",
       label: "Add seats, shown in a mock Echo Base console",
       steps: [
@@ -334,8 +334,8 @@ window.VIDEOS = {
   },
   "creation-flows": {
     "Create modal": {
-      src: "media/creation-flows/create-modal.mp4?v=3e14cccc",
-      poster: "media/creation-flows/create-modal.jpg?v=91e2c0a6",
+      src: "media/creation-flows/create-modal.mp4?v=f0801ea2",
+      poster: "media/creation-flows/create-modal.jpg?v=a141fa97",
       label: "Create modal, shown in a mock Echo Base console",
       steps: [
         "In People / Groups, the admin chooses New group for the Rogue One pilot. A small modal titled New group opens over the list, with three fields: Name, an optional Description and Owner. Focus moves into the modal, Esc closes it, and at high zoom it fills the screen.",
@@ -346,8 +346,8 @@ window.VIDEOS = {
       ]
     },
     "Multi-step wizard": {
-      src: "media/creation-flows/multi-step-wizard.mp4?v=e3bca10b",
-      poster: "media/creation-flows/multi-step-wizard.jpg?v=df8ad54d",
+      src: "media/creation-flows/multi-step-wizard.mp4?v=f54d580f",
+      poster: "media/creation-flows/multi-step-wizard.jpg?v=ff9b8774",
       label: "Multi-step wizard, shown in a mock Echo Base console",
       steps: [
         "In Settings / Integrations, Holonet Ledger shows Setup in progress: a draft Toryn Farr saved and shared, with 1 of 4 steps done. The admin chooses Continue setup.",
@@ -359,8 +359,8 @@ window.VIDEOS = {
       ]
     },
     "Create from template": {
-      src: "media/creation-flows/create-from-template.mp4?v=d8555554",
-      poster: "media/creation-flows/create-from-template.jpg?v=e6f28179",
+      src: "media/creation-flows/create-from-template.mp4?v=8abbd7e3",
+      poster: "media/creation-flows/create-from-template.jpg?v=5c78aa82",
       label: "Create from template, shown in a mock Echo Base console",
       steps: [
         "In Compliance / Policies, the admin chooses New policy. Templates are split into Echo Base's own and built-in ones, with search, and Start blank is an equal choice.",
@@ -385,8 +385,8 @@ window.VIDEOS = {
       ]
     },
     "Duplicate / clone": {
-      src: "media/creation-flows/duplicate-clone.mp4?v=68e7b81f",
-      poster: "media/creation-flows/duplicate-clone.jpg?v=9543e32f",
+      src: "media/creation-flows/duplicate-clone.mp4?v=adc5103e",
+      poster: "media/creation-flows/duplicate-clone.jpg?v=5d920251",
       label: "Duplicate and clone, shown in a mock Echo Base console",
       steps: [
         "In People / Roles, the admin opens the menu on Content admin and chooses Duplicate. The product uses the same word, Duplicate, in the menu, the title and the button.",
@@ -398,8 +398,8 @@ window.VIDEOS = {
       ]
     },
     "Success & next steps": {
-      src: "media/creation-flows/success-next-steps.mp4?v=21e1c4ee",
-      poster: "media/creation-flows/success-next-steps.jpg?v=26912362",
+      src: "media/creation-flows/success-next-steps.mp4?v=6987f9a8",
+      poster: "media/creation-flows/success-next-steps.jpg?v=88e52052",
       label: "Success and next steps, shown in a mock Echo Base console",
       steps: [
         "In People / Users, the admin reviews an invite for the Rogue One pilot, with each label above its value: 38 people from a file, the group, the license, the start date and a message. She chooses Send 38 invites.",
@@ -531,8 +531,8 @@ window.VIDEOS = {
       ]
     },
     "Type-to-confirm": {
-      src: "media/destructive-actions/type-to-confirm.mp4?v=f7d3aa59",
-      poster: "media/destructive-actions/type-to-confirm.jpg?v=a879423b",
+      src: "media/destructive-actions/type-to-confirm.mp4?v=197b2318",
+      poster: "media/destructive-actions/type-to-confirm.jpg?v=28e3bd7a",
       label: "Type-to-confirm, shown in a mock Echo Base console",
       steps: [
         "In Settings › Organization, the irreversible actions sit in their own bordered section. The admin chooses Delete sandbox.",
@@ -543,8 +543,8 @@ window.VIDEOS = {
       ]
     },
     "Archive vs. delete": {
-      src: "media/destructive-actions/archive-vs-delete.mp4?v=ed2a2fe9",
-      poster: "media/destructive-actions/archive-vs-delete.jpg?v=12138a88",
+      src: "media/destructive-actions/archive-vs-delete.mp4?v=e58eb74e",
+      poster: "media/destructive-actions/archive-vs-delete.jpg?v=fa4c37e3",
       label: "Archive vs. delete, shown in a mock Echo Base console",
       steps: [
         "In People › Groups, the admin opens the menu on Hoth Evacuation. Archive group comes first; Delete group… sits below a divider.",
@@ -567,8 +567,8 @@ window.VIDEOS = {
       ]
     },
     "Cascading impact": {
-      src: "media/destructive-actions/cascading-impact.mp4?v=b5c3194b",
-      poster: "media/destructive-actions/cascading-impact.jpg?v=9543e32f",
+      src: "media/destructive-actions/cascading-impact.mp4?v=5f7e4fb8",
+      poster: "media/destructive-actions/cascading-impact.jpg?v=5d920251",
       label: "Cascading impact, shown in a mock Echo Base console",
       steps: [
         "In People › Roles, the admin opens the menu on Content admin and chooses Delete.",
@@ -579,8 +579,8 @@ window.VIDEOS = {
       ]
     },
     "Danger zone": {
-      src: "media/destructive-actions/danger-zone.mp4?v=bc63e133",
-      poster: "media/destructive-actions/danger-zone.jpg?v=a879423b",
+      src: "media/destructive-actions/danger-zone.mp4?v=6ae9e1ae",
+      poster: "media/destructive-actions/danger-zone.jpg?v=28e3bd7a",
       label: "Danger zone, shown in a mock Echo Base console",
       steps: [
         "Settings › Organization starts with routine settings: name, domain, time zone, owner, plan and data region.",
@@ -593,8 +593,8 @@ window.VIDEOS = {
   },
   "edit-bulk-actions": {
     "Selection model": {
-      src: "media/edit-bulk-actions/selection-model.mp4?v=4d31b40e",
-      poster: "media/edit-bulk-actions/selection-model.jpg?v=3143bce3",
+      src: "media/edit-bulk-actions/selection-model.mp4?v=900f1b5d",
+      poster: "media/edit-bulk-actions/selection-model.jpg?v=2f3b07cd",
       label: "Selection model, shown in a mock Echo Base console",
       steps: [
         "People › Users is filtered to Team: Fleet, 82 people. Every row has a checkbox named for its person.",
@@ -605,8 +605,8 @@ window.VIDEOS = {
       ]
     },
     "Contextual action bar": {
-      src: "media/edit-bulk-actions/contextual-action-bar.mp4?v=0a3aef84",
-      poster: "media/edit-bulk-actions/contextual-action-bar.jpg?v=3143bce3",
+      src: "media/edit-bulk-actions/contextual-action-bar.mp4?v=0f126a6d",
+      poster: "media/edit-bulk-actions/contextual-action-bar.jpg?v=2f3b07cd",
       label: "Contextual action bar, shown in a mock Echo Base console",
       steps: [
         "On People › Users, selecting Cal Alder brings up the action bar above the table, where the results line was, so it covers no row.",
@@ -616,8 +616,8 @@ window.VIDEOS = {
       ]
     },
     "Bulk edit": {
-      src: "media/edit-bulk-actions/bulk-edit.mp4?v=6578c787",
-      poster: "media/edit-bulk-actions/bulk-edit.jpg?v=7fe84649",
+      src: "media/edit-bulk-actions/bulk-edit.mp4?v=a76d93bd",
+      poster: "media/edit-bulk-actions/bulk-edit.jpg?v=ba35c0b2",
       label: "Bulk edit, shown in a mock Echo Base console",
       steps: [
         "All 82 people matching Team: Fleet are selected. Edit… opens a dialog that says who that is, including the 57 not on this page.",
@@ -639,8 +639,8 @@ window.VIDEOS = {
       ]
     },
     "Progress & results": {
-      src: "media/edit-bulk-actions/progress-results.mp4?v=f4f6b4bf",
-      poster: "media/edit-bulk-actions/progress-results.jpg?v=1899f9d0",
+      src: "media/edit-bulk-actions/progress-results.mp4?v=22da2b09",
+      poster: "media/edit-bulk-actions/progress-results.jpg?v=76166f5f",
       label: "Progress & results, shown in a mock Echo Base console",
       steps: [
         "The bulk edit runs as a job above the People list: a labelled progress bar, how many are done and about how long is left.",
@@ -665,8 +665,8 @@ window.VIDEOS = {
       ]
     },
     "Empty table": {
-      src: "media/empty-onboarding/empty-table.mp4?v=7ae81423",
-      poster: "media/empty-onboarding/empty-table.jpg?v=9d167bf3",
+      src: "media/empty-onboarding/empty-table.mp4?v=385b3be8",
+      poster: "media/empty-onboarding/empty-table.jpg?v=a4fa91b2",
       label: "Empty table, shown in a mock Echo Base console",
       steps: [
         "Before any groups exist, People › Groups shows a heading, No groups yet, and what groups are for, instead of an empty grid.",
@@ -702,8 +702,8 @@ window.VIDEOS = {
   },
   "groups-teams": {
     "Create group": {
-      src: "media/groups-teams/create-group.mp4?v=a655c88e",
-      poster: "media/groups-teams/create-group.jpg?v=b874fede",
+      src: "media/groups-teams/create-group.mp4?v=38450875",
+      poster: "media/groups-teams/create-group.jpg?v=2866a332",
       label: "Create group, shown in a mock Echo Base console",
       steps: [
         "On People › Groups, New group opens a dialog that asks for the name first.",
@@ -749,8 +749,8 @@ window.VIDEOS = {
       ]
     },
     "Directory sync": {
-      src: "media/groups-teams/directory-sync.mp4?v=8514485f",
-      poster: "media/groups-teams/directory-sync.jpg?v=7dc6294b",
+      src: "media/groups-teams/directory-sync.mp4?v=4d376107",
+      poster: "media/groups-teams/directory-sync.jpg?v=82024425",
       label: "Directory sync, shown in a mock Echo Base console",
       steps: [
         "Directory sync shows the source, Holonet ID over SCIM: healthy, in text and an icon, with the last sync, how many changes and which groups it syncs.",
@@ -763,8 +763,8 @@ window.VIDEOS = {
   },
   "import-export": {
     "CSV import": {
-      src: "media/import-export/csv-import.mp4?v=ece03801",
-      poster: "media/import-export/csv-import.jpg?v=80e718f7",
+      src: "media/import-export/csv-import.mp4?v=233b6aa6",
+      poster: "media/import-export/csv-import.jpg?v=f09e21b0",
       label: "CSV import, shown in a mock Echo Base console",
       steps: [
         "On People › Users, Invite people opens a menu: Invite by email for a few people, or Import a CSV for many.",
@@ -799,8 +799,8 @@ window.VIDEOS = {
       ]
     },
     "Export": {
-      src: "media/import-export/export.mp4?v=c6a0b6b1",
-      poster: "media/import-export/export.jpg?v=80e718f7",
+      src: "media/import-export/export.mp4?v=ee65bb34",
+      poster: "media/import-export/export.jpg?v=4bc8203e",
       label: "Export, shown in a mock Echo Base console",
       steps: [
         "On People › Users, filtered to Team: Fleet, the admin selects all 82 matching people and chooses Export in the bar. The filter is the export's scope.",
@@ -813,8 +813,8 @@ window.VIDEOS = {
   },
   "integrations-api": {
     "Integration catalog": {
-      src: "media/integrations-api/integration-catalog.mp4?v=ca22000b",
-      poster: "media/integrations-api/integration-catalog.jpg?v=d2e9329e",
+      src: "media/integrations-api/integration-catalog.mp4?v=d75c714e",
+      poster: "media/integrations-api/integration-catalog.jpg?v=5a088eae",
       label: "Integration catalog, shown in a mock Echo Base console",
       steps: [
         "On Settings › Integrations, the admin goes from the org's connected apps to Browse. Each integration shows what it does, who makes it, and its status: allowed, needs approval or blocked.",
@@ -825,8 +825,8 @@ window.VIDEOS = {
       ]
     },
     "App permissions": {
-      src: "media/integrations-api/app-permissions.mp4?v=1197da8f",
-      poster: "media/integrations-api/app-permissions.jpg?v=d2e9329e",
+      src: "media/integrations-api/app-permissions.mp4?v=e11969f0",
+      poster: "media/integrations-api/app-permissions.jpg?v=5a088eae",
       label: "App permissions, shown in a mock Echo Base console",
       steps: [
         "Connected by people lists the apps people authorised with their own accounts, grouped by app, with what each can do, how many people, who authorised it and when it was last used.",
@@ -837,8 +837,8 @@ window.VIDEOS = {
       ]
     },
     "Create API key": {
-      src: "media/integrations-api/create-api-key.mp4?v=cb57cf27",
-      poster: "media/integrations-api/create-api-key.jpg?v=4daef9dc",
+      src: "media/integrations-api/create-api-key.mp4?v=7cd8f585",
+      poster: "media/integrations-api/create-api-key.jpg?v=a6aefb47",
       label: "Create API key, shown in a mock Echo Base console",
       steps: [
         "On Settings › API keys, every key has an owner, what it can do, an expiry and when it was last used. A key that never expires is flagged.",
@@ -849,8 +849,8 @@ window.VIDEOS = {
       ]
     },
     "Webhooks": {
-      src: "media/integrations-api/webhooks.mp4?v=aec21fa7",
-      poster: "media/integrations-api/webhooks.jpg?v=8826be4e",
+      src: "media/integrations-api/webhooks.mp4?v=231fc93f",
+      poster: "media/integrations-api/webhooks.jpg?v=51c16955",
       label: "Webhooks, shown in a mock Echo Base console",
       steps: [
         "Settings › Webhooks lists each endpoint with its events and status. A failing one says Retrying, rather than being switched off quietly.",
