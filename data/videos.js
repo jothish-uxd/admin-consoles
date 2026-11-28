@@ -254,8 +254,8 @@ window.VIDEOS = {
       ]
     },
     "Export & SIEM streaming": {
-      src: "media/audit-logs/export-siem-streaming.mp4?v=2e734d19",
-      poster: "media/audit-logs/export-siem-streaming.jpg?v=c7c0964b",
+      src: "media/audit-logs/export-siem-streaming.mp4?v=17dad1cd",
+      poster: "media/audit-logs/export-siem-streaming.jpg?v=2889ed44",
       label: "Export and SIEM streaming, shown in a mock Echo Base console",
       steps: [
         "From the saved view, the admin chooses Export. The dialog uses the view's filters, 9 events over the last 7 days, and offers CSV or JSON. Events come ordered by time in a documented, versioned schema, and ranges over 100,000 events run as a job.",
