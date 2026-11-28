@@ -5,7 +5,8 @@
      build()  measures the layout once and returns { cam, cur } keyframes:
               cam: [[t, focusX, focusY, scale], ...]  cur: [[t, x, y], ...]
      render(t) sets the scene's own state for time t
-     events() returns sound cues [[name, t], ...] (the end card is silent)
+     events() returns sound cues [[name, t], ...]
+   There is no end card: after T.endCard[0] the last frame is held for HOLD seconds.
      duration (optional) total length in seconds. The action before the end card
               is stretched to fit; the end card keeps its own length.
               House rules: a clip runs as long as its action needs, up to 10 s for fewer
@@ -44,7 +45,9 @@
     return [x + dx, y + dy];
   }
 
-  const CREDIT = ["Patterns for Enterprise Admin Consoles", "Jothish John · © 2026"];
+  // No end card (decided 27 Nov 2026): a clip ends by holding its last frame for HOLD seconds.
+  // T.endCard[0] still marks where the story ends; nothing is drawn over it.
+  const HOLD = 0.8;
 
   /* The console's one rail, shared by every clip so they read as one product.
      Workspace is for everyone; Admin only shows for admins. motion/CONSOLE.md maps
@@ -139,7 +142,6 @@
     }
     const cur = $("cursor");
     cur.style.transform = `translate(${cx - 3}px, ${cy - 2}px) scale(${1 - .14 * press})`;
-    cur.style.opacity = 1 - span(t, T.endCard[0] - .4, T.endCard[0], x => x);
     const r = $("ring");
     if (ring !== null) {
       r.style.left = cx + "px"; r.style.top = cy + "px";
@@ -147,9 +149,6 @@
     } else r.style.opacity = 0;
 
     S.render(t);
-
-    // end card: fade to grey with the credit, held to the end
-    $("endcard").style.opacity = span(t, ...T.endCard);
   }
 
   // Player-bar check: where each click lands on screen. The site's player bar covers
@@ -173,11 +172,10 @@
     const stage = $("stage");
     stage.insertAdjacentHTML("beforeend",
       '<div id="ring"></div><svg id="cursor" viewBox="0 0 22 22"><path d="M3 2l14.5 8.2-6.3 1.4-2.9 5.9z" fill="#171717" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>');
-    document.body.insertAdjacentHTML("beforeend", `<div id="endcard"><p><b>${CREDIT[0]}</b><span>${CREDIT[1]}</span></p></div>`);
     buildWarp(def);
     window.EVENTS = def.events().map(([n, t]) => [n, +realTime(t).toFixed(3)]);
-    // no duration: the clip runs at its natural length (the clicks' pauses included), not cut at T.end
-    window.DURATION = def.duration || +(contentReal() + (def.T.end - def.T.endCard[0])).toFixed(3);
+    // the clip runs at its natural length (the clicks' pauses included), then holds its last frame
+    window.DURATION = +(contentReal() + HOLD).toFixed(3);
     window.renderAt = renderAt; window.AUDIT = audit;
     document.fonts.ready.then(() => {
       ({ cam: CAM, cur: CUR } = def.build());
