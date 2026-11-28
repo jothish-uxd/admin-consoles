@@ -40,7 +40,7 @@ MAIN = f'''      <div class="view">
       </div>
 '''
 EXTRA = f'''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:420px; top:150px; width:480px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:360px; top:250px; width:480px">
       <h3 id="dT">Move 3 items to trash?</h3>
       <div style="margin-top:8px;line-height:1.5;color:var(--ink)">They’re deleted forever on <b>Dec 26, 2026</b>, in 30 days, unless someone restores them. The 22.6 GB is freed then.</div>
       <div style="margin-top:8px;display:flex;gap:8px;color:var(--ink)">{WN}<span><b>Porkins supply ledgers</b> is under legal hold, so it was left out.</span></div>

@@ -3,7 +3,7 @@ from tables_page import make
 
 CSS = r"""
 .scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
-.dl { position: absolute; left: 370px; top: 70px; width: 560px; z-index: 31; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; font-size: 12.5px; color: var(--soft); opacity: 0; visibility: hidden; box-sizing: border-box; }
+.dl { position: absolute; left: 320px; top: 154px; width: 560px; z-index: 31; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; font-size: 12.5px; color: var(--soft); opacity: 0; visibility: hidden; box-sizing: border-box; }
 .dl h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
 .dl .f1 { margin-top: 14px; }
 .dl .lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
@@ -77,6 +77,7 @@ function render(t) {
   // sent: announced, with the next likely steps
   const d = t >= T.s2;
   $("s1").style.display = d ? "none" : "block"; $("s2").style.display = d ? "block" : "none";
+  $("dl").style.top = (d ? Math.round(340 - $("dl").offsetHeight / 2) : 154) + "px";  // centred: on the full form, then on the shorter confirmation
 }
 
 function events() { return [["click", T.iClick], ["whoosh", T.open[0]], ["key", T.paste], ["click", T.xClick], ["click", T.sClick]]; }

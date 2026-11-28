@@ -45,7 +45,7 @@ MAIN = f'''      <div class="view">
       </div>
 '''
 EXTRA = f'''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:420px; top:170px; width:500px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:350px; top:229px; width:500px">
       <h3 id="dT">Restore 1,204 items?</h3>
       <div style="margin-top:8px;line-height:1.5;color:var(--ink)">1,180 go back where they were. <b>24 were in Rogue Squadron / Sims</b>, which is in trash too, so it’s restored first and they go back in it.</div>
       <div class="lc"><span class="lbl">If a folder can’t be restored, put its items in</span><span class="in">Archives / Restored from trash<i class="cv"></i></span></div>

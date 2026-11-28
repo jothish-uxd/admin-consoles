@@ -2,6 +2,12 @@
 
 Versions follow major.minor.patch. **Major**: changes to how patterns are found or cited (names, URLs), and the public launch. **Minor**: a new category, new patterns or a new layout across the site. **Patch**: fixes, such as a re-rendered clip or a copy edit. *preview* means it lives on `v3-videos`, not yet public. Each version is tagged in git.
 
+## v0.3.8 preview — 2026-11-28
+
+### Changed
+- **Final pass, the last four categories, with the whole checklist.** The 22 clips in *Storage & quotas*, *Tables & data grids*, *Usage & insights* and *User management* get the new end card, toasts at the centre of the window, and dialogs centred in the window: *Move 3 items to trash?*, *Restore 1,204 items?*, *Suspend Zev Senesca?* and *Invite people*. *Invite people* is centred on the full form, then re-centres on the shorter confirmation.
+- **Every clip in the library is now re-rendered with the final pass**: all 124, across the 24 categories. A frame-by-frame check of every toast and dialog in all 124 finds them centred, apart from what's meant to be anchored: menus and panels that open from a button (Alerts, Columns, Advanced filter, a group's popover), the ⌘K search palette near the top, and two dialogs that grow as the admin fills them in, which stay put rather than jump.
+
 ## v0.3.7 preview — 2026-11-28
 
 ### Changed

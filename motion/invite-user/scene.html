@@ -51,7 +51,7 @@ table.u { font-size: 13px; }
 tr.sel td { background: var(--subtle); }
 .cnt { margin-top: 8px; font-size: 12px; color: var(--faint); }
 
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 .main { overflow: hidden; }
 .fr .gap { width: 6px; }
@@ -78,7 +78,7 @@ tr.det td { height: auto; padding: 8px 10px 12px 84px; background: var(--subtle)
 tr.det td a { margin-left: 10px; text-decoration: underline; text-underline-offset: 3px; }
 
 .scr { position: absolute; left: 0; right: 0; top: 52px; bottom: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 30; }
-.dl { position: absolute; left: 370px; top: 70px; width: 560px; z-index: 31; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; font-size: 12.5px; color: var(--soft); opacity: 0; visibility: hidden; box-sizing: border-box; }
+.dl { position: absolute; left: 320px; top: 154px; width: 560px; z-index: 31; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 22px; font-size: 12.5px; color: var(--soft); opacity: 0; visibility: hidden; box-sizing: border-box; }
 .dl h3 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
 .dl .f1 { margin-top: 14px; }
 .dl .lbl { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }
@@ -199,6 +199,7 @@ function render(t) {
   // sent: announced, with the next likely steps
   const d = t >= T.s2;
   $("s1").style.display = d ? "none" : "block"; $("s2").style.display = d ? "block" : "none";
+  $("dl").style.top = (d ? Math.round(340 - $("dl").offsetHeight / 2) : 154) + "px";  // centred: on the full form, then on the shorter confirmation
 }
 
 function events() { return [["click", T.iClick], ["whoosh", T.open[0]], ["key", T.paste], ["click", T.xClick], ["click", T.sClick]]; }

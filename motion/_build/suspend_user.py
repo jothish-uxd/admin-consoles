@@ -11,7 +11,7 @@ CSS = r"""
 """
 X = '<svg aria-hidden="true" viewBox="0 0 16 16" style="color:var(--ink)"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.6 5.6l4.8 4.8M10.4 5.6l-4.8 4.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'
 EXTRA = f'''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:400px; top:90px; width:520px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:340px; top:198px; width:520px">
       <h3 id="dT">Suspend Zev Senesca?</h3>
       <div class="ef"><div>{X}<span>He can’t sign in. His 1 session ends now and his 2 API tokens are revoked.</span></div>
         <div>{OK}<span>His files, shared links and group memberships keep working.</span></div>

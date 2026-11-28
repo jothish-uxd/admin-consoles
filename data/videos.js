@@ -1298,8 +1298,8 @@ window.VIDEOS = {
   },
   "storage-quotas": {
     "Storage overview": {
-      src: "media/storage-quotas/storage-overview.mp4?v=276dd868",
-      poster: "media/storage-quotas/storage-overview.jpg?v=6c434f56",
+      src: "media/storage-quotas/storage-overview.mp4?v=3e4608e3",
+      poster: "media/storage-quotas/storage-overview.jpg?v=a1d217f9",
       label: "Storage overview, shown in a mock Echo Base console",
       steps: [
         "Content › Storage opens on the numbers, in text: 3.2 TB of 5 TB used, growing 4% a month, full around Oct 2027 at this rate.",
@@ -1310,8 +1310,8 @@ window.VIDEOS = {
       ]
     },
     "Per-user quotas": {
-      src: "media/storage-quotas/per-user-quotas.mp4?v=9007cc00",
-      poster: "media/storage-quotas/per-user-quotas.jpg?v=bc685f0a",
+      src: "media/storage-quotas/per-user-quotas.mp4?v=fa33dc13",
+      poster: "media/storage-quotas/per-user-quotas.jpg?v=3415835b",
       label: "Per-user quotas, shown in a mock Echo Base console",
       steps: [
         "The default quota is 50 GB per person. Over it, uploads stop with a message saying why, and files stay and can still be opened and shared.",
@@ -1322,8 +1322,8 @@ window.VIDEOS = {
       ]
     },
     "Largest items": {
-      src: "media/storage-quotas/largest-items.mp4?v=fb3f570c",
-      poster: "media/storage-quotas/largest-items.jpg?v=80620bbd",
+      src: "media/storage-quotas/largest-items.mp4?v=dc421166",
+      poster: "media/storage-quotas/largest-items.jpg?v=90662d31",
       label: "Largest items, shown in a mock Echo Base console",
       steps: [
         "Largest items is a report from the background, sorted by size, with the sort shown. Shared files are counted once, for their owner.",
@@ -1334,8 +1334,8 @@ window.VIDEOS = {
       ]
     },
     "Trash & recovery": {
-      src: "media/storage-quotas/trash-recovery.mp4?v=34cc56d6",
-      poster: "media/storage-quotas/trash-recovery.jpg?v=f2d69eb9",
+      src: "media/storage-quotas/trash-recovery.mp4?v=b217ee6f",
+      poster: "media/storage-quotas/trash-recovery.jpg?v=d498ad6c",
       label: "Trash & recovery, shown in a mock Echo Base console",
       steps: [
         "Content › Trash can be searched across all of Echo Base. Items stay 30 days, and the 310 GB in trash counts toward storage.",
@@ -1348,8 +1348,8 @@ window.VIDEOS = {
   },
   "tables-grids": {
     "Column management": {
-      src: "media/tables-grids/column-management.mp4?v=f89b8ab0",
-      poster: "media/tables-grids/column-management.jpg?v=378e759c",
+      src: "media/tables-grids/column-management.mp4?v=e30c3fbc",
+      poster: "media/tables-grids/column-management.jpg?v=4bc8203e",
       label: "Column management, shown in a mock Echo Base console",
       steps: [
         "On People › Users, the admin opens Columns. Each column has a checkbox to show it and ↑ ↓ buttons to move it, so dragging isn't the only way.",
@@ -1360,8 +1360,8 @@ window.VIDEOS = {
       ]
     },
     "Sorting & pagination": {
-      src: "media/tables-grids/sorting-pagination.mp4?v=0b88b187",
-      poster: "media/tables-grids/sorting-pagination.jpg?v=378e759c",
+      src: "media/tables-grids/sorting-pagination.mp4?v=7ab86a45",
+      poster: "media/tables-grids/sorting-pagination.jpg?v=4bc8203e",
       label: "Sorting & pagination, shown in a mock Echo Base console",
       steps: [
         "The table is sorted by name, A to Z, and says so. The pager shows 1–25 of 82, Page 1 of 4.",
@@ -1372,8 +1372,8 @@ window.VIDEOS = {
       ]
     },
     "Row actions": {
-      src: "media/tables-grids/row-actions.mp4?v=b295ba09",
-      poster: "media/tables-grids/row-actions.jpg?v=53d3f394",
+      src: "media/tables-grids/row-actions.mp4?v=a8efe9f6",
+      poster: "media/tables-grids/row-actions.jpg?v=4d47668d",
       label: "Row actions, shown in a mock Echo Base console",
       steps: [
         "Every row has a ⋯ that's always visible, not only on hover. The admin does this by keyboard, and the keys are shown under the window.",
@@ -1384,8 +1384,8 @@ window.VIDEOS = {
       ]
     },
     "Density": {
-      src: "media/tables-grids/density.mp4?v=b7bbfea8",
-      poster: "media/tables-grids/density.jpg?v=bb9618af",
+      src: "media/tables-grids/density.mp4?v=b3633b22",
+      poster: "media/tables-grids/density.jpg?v=855be2ac",
       label: "Density, shown in a mock Echo Base console",
       steps: [
         "The Users table is Comfortable, with room to read and click.",
@@ -1396,8 +1396,8 @@ window.VIDEOS = {
       ]
     },
     "Expandable rows": {
-      src: "media/tables-grids/expandable-rows.mp4?v=9161626c",
-      poster: "media/tables-grids/expandable-rows.jpg?v=378e759c",
+      src: "media/tables-grids/expandable-rows.mp4?v=4237f551",
+      poster: "media/tables-grids/expandable-rows.jpg?v=4bc8203e",
       label: "Expandable rows, shown in a mock Echo Base console",
       steps: [
         "Each row starts with an expand button, separate from opening the person.",
@@ -1410,8 +1410,8 @@ window.VIDEOS = {
   },
   "usage-analytics": {
     "Admin home": {
-      src: "media/usage-analytics/admin-home.mp4?v=1adc3710",
-      poster: "media/usage-analytics/admin-home.jpg?v=72e61d37",
+      src: "media/usage-analytics/admin-home.mp4?v=a4e103c1",
+      poster: "media/usage-analytics/admin-home.jpg?v=e9174d55",
       label: "Admin home, shown in a mock Echo Base console",
       steps: [
         "Home opens on what needs the admin: 4 items, each saying what it affects and with a button to the fix.",
@@ -1422,8 +1422,8 @@ window.VIDEOS = {
       ]
     },
     "Adoption metrics": {
-      src: "media/usage-analytics/adoption-metrics.mp4?v=0e2e5adc",
-      poster: "media/usage-analytics/adoption-metrics.jpg?v=6396e7f3",
+      src: "media/usage-analytics/adoption-metrics.mp4?v=0a9d30dd",
+      poster: "media/usage-analytics/adoption-metrics.jpg?v=db4dca90",
       label: "Adoption metrics, shown in a mock Echo Base console",
       steps: [
         "Insights › Adoption asks its question first: are people using Echo Base? 640 today, 1,092 this week and 1,168 of 1,214 this month.",
@@ -1434,8 +1434,8 @@ window.VIDEOS = {
       ]
     },
     "Reports": {
-      src: "media/usage-analytics/reports.mp4?v=d1a1bead",
-      poster: "media/usage-analytics/reports.jpg?v=8e4524c5",
+      src: "media/usage-analytics/reports.mp4?v=516bd95c",
+      poster: "media/usage-analytics/reports.jpg?v=6908d5bb",
       label: "Reports, shown in a mock Echo Base console",
       steps: [
         "Insights › Reports lists standard reports, each with what it shows, its period and when it was last made.",
@@ -1446,8 +1446,8 @@ window.VIDEOS = {
       ]
     },
     "Recommendations": {
-      src: "media/usage-analytics/recommendations.mp4?v=e1bea85d",
-      poster: "media/usage-analytics/recommendations.jpg?v=87f4f3aa",
+      src: "media/usage-analytics/recommendations.mp4?v=c48dda47",
+      poster: "media/usage-analytics/recommendations.jpg?v=188a67aa",
       label: "Recommendations, shown in a mock Echo Base console",
       steps: [
         "Home › Recommendations come from Echo Base's own data, sorted by impact, and nothing happens until the admin confirms.",
@@ -1460,8 +1460,8 @@ window.VIDEOS = {
   },
   "user-management": {
     "Invite / add user": {
-      src: "media/user-management/invite-user.mp4?v=ec171c8a",
-      poster: "media/user-management/invite-user.jpg?v=378e759c",
+      src: "media/user-management/invite-user.mp4?v=d8c7a7a1",
+      poster: "media/user-management/invite-user.jpg?v=4bc8203e",
       label: "Invite / add user, shown in a mock Echo Base console",
       steps: [
         "From People › Users, the admin opens Invite people and pastes three email addresses. Each becomes a chip and is checked on its own.",
@@ -1472,8 +1472,8 @@ window.VIDEOS = {
       ]
     },
     "User directory": {
-      src: "media/user-management/user-directory.mp4?v=ec77e1a6",
-      poster: "media/user-management/user-directory.jpg?v=ebb42bc0",
+      src: "media/user-management/user-directory.mp4?v=3dc07526",
+      poster: "media/user-management/user-directory.jpg?v=4fcabbc5",
       label: "User directory, shown in a mock Echo Base console",
       steps: [
         "People › Users leads with search, which matches name, email and employee ID as the admin types.",
@@ -1484,8 +1484,8 @@ window.VIDEOS = {
       ]
     },
     "User detail": {
-      src: "media/user-management/user-detail.mp4?v=c3ad1ae5",
-      poster: "media/user-management/user-detail.jpg?v=c6315afa",
+      src: "media/user-management/user-detail.mp4?v=9759cd65",
+      poster: "media/user-management/user-detail.jpg?v=91c52706",
       label: "User detail, shown in a mock Echo Base console",
       steps: [
         "Zev Senesca's page puts his identity and status at the top: Active, his email and that it comes from Holonet ID. Reset sign-in and Edit come first, Suspend is set apart.",
@@ -1496,8 +1496,8 @@ window.VIDEOS = {
       ]
     },
     "Edit profile": {
-      src: "media/user-management/edit-profile.mp4?v=fd95f0b4",
-      poster: "media/user-management/edit-profile.jpg?v=53ff7c34",
+      src: "media/user-management/edit-profile.mp4?v=0499923e",
+      poster: "media/user-management/edit-profile.jpg?v=8fde86f6",
       label: "Edit profile, shown in a mock Echo Base console",
       steps: [
         "On Zev's page, the admin chooses Edit. A side panel opens, and his page stays in view.",
@@ -1508,8 +1508,8 @@ window.VIDEOS = {
       ]
     },
     "Suspend / deactivate": {
-      src: "media/user-management/suspend-user.mp4?v=a8088634",
-      poster: "media/user-management/suspend-user.jpg?v=e8c9aea6",
+      src: "media/user-management/suspend-user.mp4?v=49632304",
+      poster: "media/user-management/suspend-user.jpg?v=b1461753",
       label: "Suspend / deactivate, shown in a mock Echo Base console",
       steps: [
         "On Zev's page, the admin chooses Suspend, which is set apart from the routine actions.",
@@ -1520,8 +1520,8 @@ window.VIDEOS = {
       ]
     },
     "Offboarding": {
-      src: "media/user-management/offboarding.mp4?v=2b81d044",
-      poster: "media/user-management/offboarding.jpg?v=e70f77e4",
+      src: "media/user-management/offboarding.mp4?v=bef970dc",
+      poster: "media/user-management/offboarding.jpg?v=1a10f422",
       label: "Offboarding, shown in a mock Echo Base console",
       steps: [
         "Offboard Bren Derlin is a checklist, with the safe steps first and deletion last. A check at the top shows there's no legal hold.",
@@ -1532,8 +1532,8 @@ window.VIDEOS = {
       ]
     },
     "Pending invites": {
-      src: "media/user-management/pending-invites.mp4?v=d7c4dab5",
-      poster: "media/user-management/pending-invites.jpg?v=27e85450",
+      src: "media/user-management/pending-invites.mp4?v=2b592655",
+      poster: "media/user-management/pending-invites.jpg?v=26c0905e",
       label: "Pending invites, shown in a mock Echo Base console",
       steps: [
         "Pending invites lists the 14 people who haven't joined yet: who invited them, the status, when it expires, as a date and days left, and whether it holds a seat.",
@@ -1544,8 +1544,8 @@ window.VIDEOS = {
       ]
     },
     "Bulk add users": {
-      src: "media/user-management/bulk-add-users.mp4?v=530f9fa7",
-      poster: "media/user-management/bulk-add-users.jpg?v=25829d80",
+      src: "media/user-management/bulk-add-users.mp4?v=300a26b3",
+      poster: "media/user-management/bulk-add-users.jpg?v=eacd5a40",
       label: "Bulk add users, shown in a mock Echo Base console",
       steps: [
         "This is the last step of Import people, after upload, mapping and review. The admin adds 46 people, and it runs in the background with progress.",
@@ -1556,8 +1556,8 @@ window.VIDEOS = {
       ]
     },
     "Auto-join by domain": {
-      src: "media/user-management/auto-join.mp4?v=a858db2b",
-      poster: "media/user-management/auto-join.jpg?v=44c90b14",
+      src: "media/user-management/auto-join.mp4?v=d61785d8",
+      poster: "media/user-management/auto-join.jpg?v=c5a6c18d",
       label: "Auto-join by domain, shown in a mock Echo Base console",
       steps: [
         "Auto-join by domain only lists verified domains, and public ones like gmail.com can never be used.",
