@@ -6,7 +6,7 @@ window.VIDEOS = {
   "access-requests": {
     "Request access": {
       src: "media/access-requests/request-access.mp4?v=1a848edd",
-      poster: "media/access-requests/request-access.jpg?v=2d05a4e4",
+      poster: "media/access-requests/request-access.jpg?v=c16fbdc1",
       label: "Request access, shown in a mock Echo Base console",
       steps: [
         "The requester follows a link to the Death Star plans archive and lands on an access-denied page. It says who owns the archive and who reviews requests, Gen. Jan Dodonna, usually within 2 hours, with Request access right there.",
@@ -19,7 +19,7 @@ window.VIDEOS = {
     },
     "Approval queue": {
       src: "media/access-requests/approval-queue.mp4?v=b0f4c567",
-      poster: "media/access-requests/approval-queue.jpg?v=895381bd",
+      poster: "media/access-requests/approval-queue.jpg?v=af8e9a17",
       label: "Approval queue, shown in a mock Echo Base console",
       steps: [
         "The admin opens her approvals. Six requests are pending, oldest first, each row showing who, what, why, how long it has waited and its risk.",
@@ -32,7 +32,7 @@ window.VIDEOS = {
     },
     "Review detail": {
       src: "media/access-requests/review-detail.mp4?v=914ff949",
-      poster: "media/access-requests/review-detail.jpg?v=6037aa75",
+      poster: "media/access-requests/review-detail.jpg?v=3b165233",
       label: "Review detail, shown in a mock Echo Base console",
       steps: [
         "The admin opens Bodhi Rook's request for Editor on shield generator telemetry. It's marked High risk in words, and a line confirms it isn't her own request or resource.",
@@ -45,7 +45,7 @@ window.VIDEOS = {
     },
     "Time-bound access": {
       src: "media/access-requests/time-bound-access.mp4?v=f347651d",
-      poster: "media/access-requests/time-bound-access.jpg?v=e6d640b4",
+      poster: "media/access-requests/time-bound-access.jpg?v=fb76f00c",
       label: "Time-bound access, shown in a mock Echo Base console",
       steps: [
         "The requester opens My access. Every grant shows when it ends in her own time zone, as a time and as a relative time, such as Today, 18:00 · in 30 min. Only an internal resource has no end date.",
@@ -58,7 +58,7 @@ window.VIDEOS = {
     },
     "Access reviews": {
       src: "media/access-requests/access-reviews.mp4?v=41dd3191",
-      poster: "media/access-requests/access-reviews.jpg?v=5cf86ffa",
+      poster: "media/access-requests/access-reviews.jpg?v=6c39ad5d",
       label: "Access reviews, shown in a mock Echo Base console",
       steps: [
         "The admin opens the Q4 access review for the Rebel Intelligence archives. It's due Fri Dec 5, 14 days away, it was assigned to her as the resource owner, a reminder went out Nov 19, and 38 of 52 grants are reviewed. Campaigns like this one are scheduled to recur.",
@@ -73,7 +73,7 @@ window.VIDEOS = {
   "ai-governance": {
     "Feature availability": {
       src: "media/ai-governance/feature-availability.mp4?v=93505af1",
-      poster: "media/ai-governance/feature-availability.jpg?v=208837e5",
+      poster: "media/ai-governance/feature-availability.jpg?v=eed7ec60",
       label: "Feature availability, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI features, its own item in the admin menu. Every AI feature is listed in one place, each with its own control, and a Turn off all AI switch sits in the header for incidents.",
@@ -86,7 +86,7 @@ window.VIDEOS = {
     },
     "Data usage controls": {
       src: "media/ai-governance/data-usage-controls.mp4?v=60a80a51",
-      poster: "media/ai-governance/data-usage-controls.jpg?v=0f16bc8c",
+      poster: "media/ai-governance/data-usage-controls.jpg?v=6c209b9d",
       label: "Data usage controls, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI data use. It leads with three direct answers: not used to train models, kept for 30 days then deleted, and processed in your region (Yavin for the Outer Rim).",
@@ -99,7 +99,7 @@ window.VIDEOS = {
     },
     "Model & provider settings": {
       src: "media/ai-governance/model-provider-settings.mp4?v=b061e887",
-      poster: "media/ai-governance/model-provider-settings.jpg?v=d99ab128",
+      poster: "media/ai-governance/model-provider-settings.jpg?v=15131009",
       label: "Model and provider settings, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI models. Recommended models is the default: models are chosen and updated for her, with 30 days' notice of any change, so most teams never need to pick one.",
@@ -111,7 +111,7 @@ window.VIDEOS = {
     },
     "Usage & cost": {
       src: "media/ai-governance/usage-cost.mp4?v=0696ae3f",
-      poster: "media/ai-governance/usage-cost.jpg?v=69391413",
+      poster: "media/ai-governance/usage-cost.jpg?v=f0d9b1a2",
       label: "Usage and cost, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI usage for November: 4,120 of 6,000 credits used, 18,400 requests, and about 310 hours saved. Usage can be viewed by group or by feature, and exported for finance.",
@@ -124,7 +124,7 @@ window.VIDEOS = {
     },
     "Content safety": {
       src: "media/ai-governance/content-safety.mp4?v=39a3388e",
-      poster: "media/ai-governance/content-safety.jpg?v=b732d144",
+      poster: "media/ai-governance/content-safety.jpg?v=afaa986d",
       label: "Content safety, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI safety for the Outer Rim; the Core Worlds have their own settings. Built-in protections for harmful content and personal data are always on. They can't be turned off here, and changes need a request to support and are logged.",
