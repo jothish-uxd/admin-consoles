@@ -48,7 +48,7 @@ html = f"""<!DOCTYPE html>
 <link rel="stylesheet" href="../shared/console.css">
 <style>
 {css}.menu {{ position: absolute; z-index: 8; opacity: 0; font-weight: 400; }}
-.toast {{ position: absolute; left: 740px; top: 66px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; }}
+.toast {{ position: absolute; left: 600px; top: 66px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 20; }}
 .toast i {{ width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }}
 #tbAI tr td {{ height: 50px; }}
 #tbAI tr.hl td {{ background: #f6f6f6; }}

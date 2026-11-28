@@ -8,7 +8,7 @@ CSS = r"""
 MENU = ('<div class="menu" id="mSt"><div>4 hours</div><div id="o8">8 hours</div><div>12 hours<span class="s2">Current</span></div><div>24 hours<span class="s2">Product default</span></div></div>')
 MAIN = f'      <div class="view">\n{head("Defaults")}{scope_row()}{SAVEBAR}{defaults("org", {"dSt": MENU})}      </div>\n'
 EXTRA = '''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="lT" style="left:340px; top:170px; width:500px">
+    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="lT" style="left:350px; top:265px; width:500px">
       <h3 id="lT">Leave without saving?</h3>
       <div style="margin-top:6px; line-height:1.45">You have 2 unsaved changes on Defaults: session timeout and sharing for new files. They’ll be lost if you leave.</div>
       <div class="ft"><span class="sp"></span><span class="btn">Discard and leave</span><span class="btn pri" id="bKeep">Keep editing</span></div>

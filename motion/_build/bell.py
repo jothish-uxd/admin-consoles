@@ -12,6 +12,7 @@ SVG = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 
 
 def add(name, count=3):
     p = ROOT / name / "scene.html"; s = p.read_text()
+    if 'class="bell"' in s: return  # already has one (a shared page builder added it)
     tag = '<div class="me">'
     assert s.count(tag) == 1, name
     s = s.replace(tag, tag + f'<span class="bell" id="bell" aria-label="Alerts, {count} need action">{SVG}<span class="bdg" id="bdg">{count}</span></span>')

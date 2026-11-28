@@ -39,7 +39,7 @@ def head(tab):
     return _head(tab, search=True)
 
 def card(i, grp, name, desc, val, meta, src="", ctl_extra="", locked=False, menu=""):
-    return (f'<div class="set" id="{i}"><span class="grp">{grp}</span><b class="n">{name}</b><div class="ds">{desc}</div>'
+    return (f'<div class="set" id="{i}"><b class="n">{name}</b><div class="ds">{desc}</div>'
             f'<div class="ctl"><span class="in{" lk" if locked else ""}" id="{i}-v"><span id="{i}-t">{val}</span>{"" if locked else "<i class=\"cv\"></i>"}</span>{src}{ctl_extra}{menu}</div>'
             f'<div class="mt" id="{i}-m">{meta}</div></div>')
 

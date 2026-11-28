@@ -39,7 +39,7 @@ MAIN = f'''      <div class="view" id="vL">
           {"".join(f'<tr><td class="nm"><b>{a}</b></td><td>{b}</td><td>{c}</td><td>{d}</td></tr>' for a, b, c, d in RULES)}</tbody></table>
       </div>'''
 EXTRA = '''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="xT" style="left:310px; top:50px; width:580px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="xT" style="left:310px; top:102px; width:580px">
       <h3 id="xT">Add an exclusion</h3>
       <div class="f1"><span class="lbl">Exclude by</span><div class="chips"><span class="chip on">Location</span><span class="chip">File type</span><span class="chip">Sensitivity label</span><span class="chip">Keyword</span><span class="chip">Owner</span></div></div>
       <div class="f1"><span class="lbl">Folder <span>· in Holonet Drive</span></span>
@@ -69,7 +69,7 @@ function build() {
     [1.95, ru[0], ru[1] + 3], [2.25, ru[0], ru[1] + 3], [3.15, f[0], f[1] + 3], [3.45, f[0], f[1] + 3],
     [4.35, w[0], w[1] + 3], [4.65, w[0], w[1] + 3], [5.85, ad[0], ad[1] + 3], [6.15, ad[0], ad[1] + 3], [8.20, ad[0] - 200, ad[1] + 40]
   ];
-  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.06], [7.95, 650, 345, 1.06], [8.20, 656, 360, 1.04]];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 360, 1.06], [7.95, 650, 360, 1.06], [8.20, 656, 360, 1.04]];
   return { cam, cur };
 }
 

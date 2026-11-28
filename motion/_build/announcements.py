@@ -17,7 +17,7 @@ CSS = r"""
 NEW = '<tr id="rN" class="nw"><td class="nm"><b>Holonet Drive is now in search</b></td><td class="ch">Fleet · 82</td><td>Scheduled · Mon, Dec 1, 09:00</td><td>Not sent yet</td></tr>'
 MAIN = view("ann", '<span class="btn sm pri" id="bNew">New announcement</span>', '        <div class="bar2">Messages from admins to the people they manage. Org-wide announcements need a second admin’s approval.</div>\n' + ann_table(NEW))
 EXTRA = '''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="aT" style="left:310px; top:68px; width:580px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="aT" style="left:310px; top:127px; width:580px">
       <div style="display:flex;align-items:center;gap:10px"><h3 id="aT" style="flex:1">New announcement</h3><span class="seg"><span id="tW" class="on">Write</span><span id="tP">Preview</span></span></div>
       <div id="pW">
         <div class="f1"><label class="lbl">Title</label><div class="in f" id="tIn"><span id="tTx"></span><span class="c" id="tC"></span></div></div>

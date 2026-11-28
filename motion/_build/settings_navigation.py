@@ -72,5 +72,5 @@ COMMENT = """  Source for media/org-settings/settings-navigation.mp4. Built by m
   - search finds individual settings, with where each lives and its value; ones she can't change say View only
   - picking one jumps to the setting itself, highlighted
   - every setting has a stable link to share"""
-s = MAIN.replace('<span class="grp">Sign-in & sessions</span>', '<span class="grp">Sign-in & sessions</span><span class="cl" id="cl" aria-live="polite"></span>', 1)
+s = MAIN.replace('<b class="n">Session timeout</b>', '<span class="cl" id="cl" aria-live="polite"></span><b class="n">Session timeout</b>', 1)
 make("settings-navigation", "Settings navigation", COMMENT, CSS, "Settings / Organization", s, SCRIPT)

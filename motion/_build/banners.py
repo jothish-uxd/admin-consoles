@@ -18,7 +18,7 @@ NEW = '<tr id="rN" class="nw"><td class="nm"><b>Console maintenance</b><span>Mai
 MAIN = (view("ann", '<span class="btn sm pri">New announcement</span>', '        <div class="bar2">Messages from admins to the people they manage. Org-wide announcements need a second admin’s approval.</div>\n' + ann_table(), "vA")
         + view("ban", '<span class="btn sm pri" id="bNew">New banner</span>', '        <div class="bar2">A banner shows at the top of every page. Only one shows at a time: if two overlap, the later one waits.</div>\n' + ban_table(NEW), "vB").replace('id="sg-', 'id="sb-').replace('id="n-', 'id="nb-'))
 EXTRA = f'''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="bT" style="left:310px; top:68px; width:580px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="bT" style="left:310px; top:91px; width:580px">
       <h3 id="bT">New banner</h3>
       <div class="f1"><span class="lbl">Type</span><div class="chips"><span class="chip" id="cM">Maintenance</span><span class="chip">Incident</span><span class="chip">Required action</span></div></div>
       <div class="f1 flds" id="fl"><div class="in ph" id="f1">What’s happening</div><div class="in ph" id="f2">What it means for people</div><div class="in ph" id="f3">What they should do</div></div>

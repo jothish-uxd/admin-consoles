@@ -2,6 +2,17 @@
 
 Versions follow major.minor.patch. **Major**: changes to how patterns are found or cited (names, URLs), and the public launch. **Minor**: a new category, new patterns or a new layout across the site. **Patch**: fixes, such as a re-rendered clip or a copy edit. *preview* means it lives on `v3-videos`, not yet public. Each version is tagged in git.
 
+## v0.3.6 preview — 2026-11-28
+
+### Changed
+- **Final pass, four more categories, with the whole checklist.** The 21 clips in *Knowledge & content sources*, *MCP connectors*, *Notifications & alerts* and *Org settings* get the new end card, *Search Echo Base ⌘K* and the bell in every top bar, toasts at the centre of the window, the five People tabs, Search settings beside the Settings title, and the Users table toolbar in *Alert center*.
+- **Dialogs centred** in the window both ways: *Add a content source* (on every step), *Add an exclusion*, *Allow any server?*, *Add connector*, *Publish Fleet Tracker?*, *Turn off Mission Board for everyone?*, *New announcement*, *New banner* and *Leave without saving?*.
+- **Labels above values** in the connector clips: the tool groups under *Review the tools* (Read · 3, then the tools) and *Changed since you approved it* in *Health & revoking*.
+- **No eyebrows** on the Defaults setting cards: the small capitals above each setting (Sharing, Sign-in & sessions, AI) are gone; the setting's name is the heading.
+
+### Fixed
+- *Alert center* showed two bells in the top bar; it has one.
+
 ## v0.3.5 preview — 2026-11-28
 
 ### Changed

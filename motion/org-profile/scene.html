@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="../shared/console.css">
 <style>
 .btn.sm { height: 32px; font-size: 12.5px; }
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 
 .btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
@@ -100,6 +100,11 @@ table.st tr.nw td { background: var(--subtle); }
 .dz .row .tx { flex: 1; font-size: 12.5px; color: var(--soft); line-height: 1.45; }
 .dz .row .tx b { display: block; font-size: 13.5px; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
 .dz .row .btn { width: 168px; flex: none; }
+.ss { margin-left: auto; width: 300px; height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 13px; color: var(--faint); box-sizing: border-box; }
+.ss svg { width: 14px; height: 14px; color: var(--soft); flex: none; }
+.ss .kb { margin-left: auto; font: 11px "Geist Mono", monospace; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 1px 5px; }
+.ss .c { width: 1.5px; height: 16px; background: var(--ink); margin-left: -7px; display: none; }
+.ss.f { border-color: var(--ink); color: var(--ink); box-shadow: 0 0 0 3px rgba(23,23,23,.08); }
 .btn.dgr { color: #b91c1c; border-color: #b91c1c; font-weight: 500; }
 
 .scope { margin-top: 14px; display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--soft); height: 32px; position: relative; }
@@ -117,7 +122,7 @@ table.st tr.nw td { background: var(--subtle); }
 .set b.n { display: block; margin-top: 4px; color: var(--ink); font-size: 13.5px; font-weight: 600; }
 .set .ds { margin-top: 2px; line-height: 1.4; }
 .set .ctl { margin-top: 8px; display: flex; gap: 8px; align-items: center; position: relative; }
-.set .ctl .in { width: 230px; height: 34px; justify-content: space-between; }
+.set .ctl .in { width: 200px; height: 34px; justify-content: space-between; }
 .set .ctl .in.lk { background: var(--subtle); color: var(--soft); border-style: dashed; }
 .set .ctl .lnk { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-size: 12px; white-space: nowrap; }
 .set .mt { margin-top: 7px; font-size: 12px; line-height: 1.45; }
@@ -125,7 +130,7 @@ table.st tr.nw td { background: var(--subtle); }
 .src { display: inline-flex; gap: 5px; align-items: center; font-size: 11.5px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 1px 8px; color: var(--ink); white-space: nowrap; }
 .src svg { width: 11px; height: 11px; }
 .src.set2 { background: var(--ink); color: #fff; border-color: var(--ink); }
-.set .menu { position: absolute; left: 0; top: 38px; width: 230px; z-index: 8; opacity: 0; }
+.set .menu { position: absolute; left: 0; top: 38px; width: 200px; z-index: 8; opacity: 0; }
 .set .menu .s2 { display: block; font-size: 11.5px; color: var(--soft); }
 
 #ed { display: none; }

@@ -413,8 +413,8 @@ window.VIDEOS = {
   },
   "mcp-connectors": {
     "Approving connectors": {
-      src: "media/mcp-connectors/approving-connectors.mp4?v=b4372190",
-      poster: "media/mcp-connectors/approving-connectors.jpg?v=2ffbbfd4",
+      src: "media/mcp-connectors/approving-connectors.mp4?v=21b4cd10",
+      poster: "media/mcp-connectors/approving-connectors.jpg?v=6e4612c5",
       label: "Approving connectors, shown in a mock Echo Base console",
       steps: [
         "The admin opens AI › Connectors, where the policy reads approved connectors only, and chooses Add connector. The catalog opens with a search box, and Add by URL for servers that aren't listed. Nothing is available to people until she publishes it.",
@@ -426,8 +426,8 @@ window.VIDEOS = {
       ]
     },
     "Choosing tools": {
-      src: "media/mcp-connectors/choosing-tools.mp4?v=2654275b",
-      poster: "media/mcp-connectors/choosing-tools.jpg?v=a931668a",
+      src: "media/mcp-connectors/choosing-tools.mp4?v=56037ddb",
+      poster: "media/mcp-connectors/choosing-tools.jpg?v=1b79de2c",
       label: "Choosing tools, shown in a mock Echo Base console",
       steps: [
         "On the published Fleet Tracker page, the admin opens the Tools tab. A line explains that publishing a connector doesn't turn on every tool, and that people can't override these settings.",
@@ -439,8 +439,8 @@ window.VIDEOS = {
       ]
     },
     "Sign-in & credentials": {
-      src: "media/mcp-connectors/sign-in-credentials.mp4?v=5dd46b4e",
-      poster: "media/mcp-connectors/sign-in-credentials.jpg?v=a931668a",
+      src: "media/mcp-connectors/sign-in-credentials.mp4?v=e27bdbdf",
+      poster: "media/mcp-connectors/sign-in-credentials.jpg?v=1b79de2c",
       label: "Sign-in & credentials, shown in a mock Echo Base console",
       steps: [
         "On the published Fleet Tracker page, the admin opens the Sign-in tab. A line explains that whose account Fleet Tracker uses decides what the AI can reach.",
@@ -452,8 +452,8 @@ window.VIDEOS = {
       ]
     },
     "Who gets each connector": {
-      src: "media/mcp-connectors/who-gets-each-connector.mp4?v=cb84d64d",
-      poster: "media/mcp-connectors/who-gets-each-connector.jpg?v=a931668a",
+      src: "media/mcp-connectors/who-gets-each-connector.mp4?v=e463c36e",
+      poster: "media/mcp-connectors/who-gets-each-connector.jpg?v=1b79de2c",
       label: "Who gets each connector, shown in a mock Echo Base console",
       steps: [
         "On the published Fleet Tracker page, the admin opens the Access tab. A note says it's a pilot: Logistics only since November 23, with 18 of 24 people connected.",
@@ -465,8 +465,8 @@ window.VIDEOS = {
       ]
     },
     "Allowed connectors": {
-      src: "media/mcp-connectors/allowed-connectors.mp4?v=8de71328",
-      poster: "media/mcp-connectors/allowed-connectors.jpg?v=d6abdf64",
+      src: "media/mcp-connectors/allowed-connectors.mp4?v=869370ee",
+      poster: "media/mcp-connectors/allowed-connectors.jpg?v=e33cc9dd",
       label: "Allowed connectors, shown in a mock Echo Base console",
       steps: [
         "On AI › Connectors, the admin chooses the Policy: approved connectors only pill, which opens Connector policy.",
@@ -478,8 +478,8 @@ window.VIDEOS = {
       ]
     },
     "Data leaving the org": {
-      src: "media/mcp-connectors/data-leaving-the-org.mp4?v=cbd7474d",
-      poster: "media/mcp-connectors/data-leaving-the-org.jpg?v=a931668a",
+      src: "media/mcp-connectors/data-leaving-the-org.mp4?v=802bb242",
+      poster: "media/mcp-connectors/data-leaving-the-org.jpg?v=1b79de2c",
       label: "Data leaving the org, shown in a mock Echo Base console",
       steps: [
         "On the published Fleet Tracker page, the admin opens the Data tab. A line explains it shows what Fleet Tracker sends out, where it goes, and whose rules apply once it's there.",
@@ -491,8 +491,8 @@ window.VIDEOS = {
       ]
     },
     "AI activity record": {
-      src: "media/mcp-connectors/ai-activity-record.mp4?v=a3d37713",
-      poster: "media/mcp-connectors/ai-activity-record.jpg?v=c774fe24",
+      src: "media/mcp-connectors/ai-activity-record.mp4?v=c668657e",
+      poster: "media/mcp-connectors/ai-activity-record.jpg?v=f62aff73",
       label: "AI activity record, shown in a mock Echo Base console",
       steps: [
         "In Compliance › Audit log, the admin opens the Action filter and picks AI tool calls. The filter chip and the query update; tool calls live in the same audit log as everything else.",
@@ -504,8 +504,8 @@ window.VIDEOS = {
       ]
     },
     "Health & revoking": {
-      src: "media/mcp-connectors/health-revoking.mp4?v=69730f9a",
-      poster: "media/mcp-connectors/health-revoking.jpg?v=9bb45414",
+      src: "media/mcp-connectors/health-revoking.mp4?v=ae9a62d6",
+      poster: "media/mcp-connectors/health-revoking.jpg?v=7c32e494",
       label: "Health & revoking, shown in a mock Echo Base console",
       steps: [
         "On AI › Connectors, the Status column reads in words, with the last good call: Holonet Docs is connected, Mission Board is failing and last worked at 09:40.",
@@ -863,8 +863,8 @@ window.VIDEOS = {
   },
   "knowledge-content": {
     "Add content source": {
-      src: "media/knowledge-content/add-content-source.mp4?v=e4ebaa9f",
-      poster: "media/knowledge-content/add-content-source.jpg?v=e0421d06",
+      src: "media/knowledge-content/add-content-source.mp4?v=a8b1526c",
+      poster: "media/knowledge-content/add-content-source.jpg?v=9e99a1cd",
       label: "Add content source, shown in a mock Echo Base console",
       steps: [
         "On Content › Sources, the admin chooses Add source and picks Holonet Drive. The steps are in view: source, what to include, review.",
@@ -875,8 +875,8 @@ window.VIDEOS = {
       ]
     },
     "Sync status": {
-      src: "media/knowledge-content/sync-status.mp4?v=1842dbd3",
-      poster: "media/knowledge-content/sync-status.jpg?v=28c17938",
+      src: "media/knowledge-content/sync-status.mp4?v=7a09b9b1",
+      poster: "media/knowledge-content/sync-status.jpg?v=88cc719a",
       label: "Sync status, shown in a mock Echo Base console",
       steps: [
         "Each source shows items indexed and failed, when it last synced, and its state in words and an icon. Coruscant Wiki is Partly failing, not green, and HoloComms' sign-in expires in 4 days.",
@@ -887,8 +887,8 @@ window.VIDEOS = {
       ]
     },
     "Source permissions": {
-      src: "media/knowledge-content/source-permissions.mp4?v=1b43fc6f",
-      poster: "media/knowledge-content/source-permissions.jpg?v=e08ebb10",
+      src: "media/knowledge-content/source-permissions.mp4?v=8284f9bb",
+      poster: "media/knowledge-content/source-permissions.jpg?v=d1557a8e",
       label: "Source permissions, shown in a mock Echo Base console",
       steps: [
         "The admin opens Holonet Drive and its Permissions tab. Permissions synced 4 minutes ago, and removals arrive first.",
@@ -899,8 +899,8 @@ window.VIDEOS = {
       ]
     },
     "Content exclusions": {
-      src: "media/knowledge-content/content-exclusions.mp4?v=0d3ff22f",
-      poster: "media/knowledge-content/content-exclusions.jpg?v=28c17938",
+      src: "media/knowledge-content/content-exclusions.mp4?v=fed6686c",
+      poster: "media/knowledge-content/content-exclusions.jpg?v=88cc719a",
       label: "Content exclusions, shown in a mock Echo Base console",
       steps: [
         "On Content › Sources › Exclusions, each rule shows what it covers, who added it and why. Exclusions work alongside permissions, not instead of them.",
@@ -913,8 +913,8 @@ window.VIDEOS = {
   },
   "notifications": {
     "Alert center": {
-      src: "media/notifications/alert-center.mp4?v=9fc4b59e",
-      poster: "media/notifications/alert-center.jpg?v=385580f6",
+      src: "media/notifications/alert-center.mp4?v=8e30ad14",
+      poster: "media/notifications/alert-center.jpg?v=4bc8203e",
       label: "Alert center, shown in a mock Echo Base console",
       steps: [
         "The admin opens the alerts bell in the top bar. Alerts are listed by severity, written as words: Critical first, then High.",
@@ -925,8 +925,8 @@ window.VIDEOS = {
       ]
     },
     "Banners": {
-      src: "media/notifications/banners.mp4?v=830031bb",
-      poster: "media/notifications/banners.jpg?v=508b33ad",
+      src: "media/notifications/banners.mp4?v=c8402cc0",
+      poster: "media/notifications/banners.jpg?v=fa9bdd11",
       label: "Banners, shown in a mock Echo Base console",
       steps: [
         "On Settings › Announcements › Banners, the admin sees that only one banner shows at a time. If two overlap, the later one waits instead of stacking.",
@@ -937,8 +937,8 @@ window.VIDEOS = {
       ]
     },
     "Notification rules": {
-      src: "media/notifications/notification-rules.mp4?v=4401251b",
-      poster: "media/notifications/notification-rules.jpg?v=db3c06cd",
+      src: "media/notifications/notification-rules.mp4?v=c2bafc01",
+      poster: "media/notifications/notification-rules.jpg?v=487a5db6",
       label: "Notification rules, shown in a mock Echo Base console",
       steps: [
         "Settings › Notifications lists each event, explained in a line, with who gets it and how.",
@@ -949,8 +949,8 @@ window.VIDEOS = {
       ]
     },
     "Announcements": {
-      src: "media/notifications/announcements.mp4?v=2cd2839c",
-      poster: "media/notifications/announcements.jpg?v=508b33ad",
+      src: "media/notifications/announcements.mp4?v=62c83c8c",
+      poster: "media/notifications/announcements.jpg?v=fa9bdd11",
       label: "Announcements, shown in a mock Echo Base console",
       steps: [
         "Settings › Announcements lists each message with who got it and how many have seen or acknowledged it. Org-wide ones need a second admin's approval.",
@@ -963,8 +963,8 @@ window.VIDEOS = {
   },
   "settings": {
     "Settings navigation": {
-      src: "media/org-settings/settings-navigation.mp4?v=4fe0b6c7",
-      poster: "media/org-settings/settings-navigation.jpg?v=c5d5dc85",
+      src: "media/org-settings/settings-navigation.mp4?v=48e9fb3b",
+      poster: "media/org-settings/settings-navigation.jpg?v=37542f5d",
       label: "Settings navigation, shown in a mock Echo Base console",
       steps: [
         "Every Settings page has the same tabs in the same order, and Search settings beside the title.",
@@ -975,8 +975,8 @@ window.VIDEOS = {
       ]
     },
     "Org profile": {
-      src: "media/org-settings/org-profile.mp4?v=72c16d09",
-      poster: "media/org-settings/org-profile.jpg?v=c5d5dc85",
+      src: "media/org-settings/org-profile.mp4?v=56310482",
+      poster: "media/org-settings/org-profile.jpg?v=37542f5d",
       label: "Org profile, shown in a mock Echo Base console",
       steps: [
         "On Settings › Organization, the admin edits the profile in place, with Save and Cancel, without a support ticket.",
@@ -987,8 +987,8 @@ window.VIDEOS = {
       ]
     },
     "Defaults": {
-      src: "media/org-settings/defaults.mp4?v=8afaf70f",
-      poster: "media/org-settings/defaults.jpg?v=a8c2d6af",
+      src: "media/org-settings/defaults.mp4?v=414683df",
+      poster: "media/org-settings/defaults.jpg?v=b9901237",
       label: "Defaults, shown in a mock Echo Base console",
       steps: [
         "Settings › Defaults shows each default with what it does, its value and the product default. Labels sit above their values.",
@@ -999,8 +999,8 @@ window.VIDEOS = {
       ]
     },
     "Save patterns": {
-      src: "media/org-settings/save-patterns.mp4?v=d85ca960",
-      poster: "media/org-settings/save-patterns.jpg?v=a8c2d6af",
+      src: "media/org-settings/save-patterns.mp4?v=9befdacd",
+      poster: "media/org-settings/save-patterns.jpg?v=b9901237",
       label: "Save patterns, shown in a mock Echo Base console",
       steps: [
         "Defaults uses one save model: changes wait for the save bar. The admin changes session timeout and resets sharing to the product default.",
@@ -1011,8 +1011,8 @@ window.VIDEOS = {
       ]
     },
     "Inherited settings": {
-      src: "media/org-settings/inherited-settings.mp4?v=2aa2a1d3",
-      poster: "media/org-settings/inherited-settings.jpg?v=a8c2d6af",
+      src: "media/org-settings/inherited-settings.mp4?v=98d7fe75",
+      poster: "media/org-settings/inherited-settings.jpg?v=b9901237",
       label: "Inherited settings, shown in a mock Echo Base console",
       steps: [
         "The admin switches Defaults from the whole org to the Hangar 3 group.",

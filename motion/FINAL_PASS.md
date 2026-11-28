@@ -20,7 +20,7 @@ Run once, before merging `v3-videos` into `main`. Every item is a console-wide c
 
 ## Progress
 
-Done, category by category in A–Z order: the first 12 (Access requests & approvals through Integrations & API) have every item above, as of v0.3.5. The rest get them batch by batch, five categories at a time, with the whole checklist each time. The engine now adds the top-bar search, the bell and the five People tabs to every clip, and `settings_page.head` and `settings_org.py` add Search settings, so most items need only a re-render. The prototype's dialogs are centred (proto.css).
+Done, category by category in A–Z order: the first 16 (Access requests & approvals through Org settings) have every item above, as of v0.3.6. The rest get them batch by batch, five categories at a time, with the whole checklist each time. The engine now adds the top-bar search, the bell and the five People tabs to every clip, and `settings_page.head` and `settings_org.py` add Search settings, so most items need only a re-render. The prototype's dialogs are centred (proto.css).
 
 ## Then
 

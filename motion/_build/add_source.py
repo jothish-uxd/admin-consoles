@@ -79,18 +79,19 @@ const T = {
 };
 const OKI = '<svg width="9" height="9"><use href="#ok"/></svg>';
 
+function ctr() { const d = $("dlg"); d.style.top = Math.round(340 - d.offsetHeight / 2) + "px"; }  // centred in the window, whatever step it shows
 function build() {
   const ad = at("bAdd");
-  $("dlg").style.opacity = 1; const dv = at("pkD", -60, 0);
-  $("p1").style.display = "none"; $("p2").style.display = "block"; const a = at("fA"), b = at("fB"), co = at("bCo");
-  $("p2").style.display = "none"; $("p3").style.display = "block"; const go = at("bGo");
-  $("p3").style.display = ""; $("p1").style.display = "block"; $("dlg").style.opacity = 0;
+  $("dlg").style.opacity = 1; ctr(); const dv = at("pkD", -60, 0);
+  $("p1").style.display = "none"; $("p2").style.display = "block"; ctr(); const a = at("fA"), b = at("fB"), co = at("bCo");
+  $("p2").style.display = "none"; $("p3").style.display = "block"; ctr(); const go = at("bGo");
+  $("p3").style.display = ""; $("p1").style.display = "block"; ctr(); $("dlg").style.opacity = 0;
   const cur = [
     [0.00, 960, 640], [0.25, 960, 640], [0.75, ad[0], ad[1] + 3], [1.00, ad[0], ad[1] + 3],
     [1.75, dv[0], dv[1] + 3], [2.05, dv[0], dv[1] + 3], [3.15, a[0], a[1] + 3], [3.45, a[0], a[1] + 3], [3.75, b[0], b[1] + 3], [4.05, b[0], b[1] + 3],
     [4.55, co[0], co[1] + 3], [4.85, co[0], co[1] + 3], [5.85, go[0], go[1] + 3], [6.15, go[0], go[1] + 3], [8.10, go[0] - 160, go[1] + 80]
   ];
-  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 345, 1.06], [7.85, 650, 345, 1.06], [8.10, 656, 360, 1.04]];
+  const cam = [[0.00, 640, 360, 1.00], [0.30, 640, 360, 1.00], [0.80, 650, 360, 1.06], [7.85, 650, 360, 1.06], [8.10, 656, 360, 1.04]];
   return { cam, cur };
 }
 
@@ -104,6 +105,7 @@ function render(t) {
   const step = t >= T.s3 ? 3 : t >= T.s2 ? 2 : 1;
   [1, 2, 3].forEach(i => { $("p" + i).style.display = i === step ? "block" : "none";
     const s = $("st" + i); s.className = "s " + (i < step ? "dn" : i === step ? "on" : ""); s.querySelector(".n").innerHTML = i < step ? OKI : i; });
+  ctr();
   $("pkD").classList.toggle("hov", t >= T.dClick - .3 && t < T.s2);
   const A = t >= T.aClick, B = t >= T.bClick;
   $("fA").classList.toggle("on", A); $("fB").classList.toggle("on", B);
