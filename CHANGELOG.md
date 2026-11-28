@@ -2,6 +2,13 @@
 
 Versions follow major.minor.patch. **Major**: changes to how patterns are found or cited (names, URLs), and the public launch. **Minor**: a new category, new patterns or a new layout across the site. **Patch**: fixes, such as a re-rendered clip or a copy edit. *preview* means it lives on `v3-videos`, not yet public. Each version is tagged in git.
 
+## v0.3.7 preview — 2026-11-28
+
+### Changed
+- **Final pass, four more categories, with the whole checklist.** The 22 clips in *Policies & rules*, *Roles & permissions*, *Search & filtering* and *Security & identity* get the new end card, *Search Echo Base ⌘K* and the bell in every top bar, toasts at the centre of the window and the five People tabs.
+- **Dialogs centred** in the window: *Add a custodian to Scarif inquiry*, *Shorten Chat messages to 1 year?*, *Enforce External links expire?*, *Add to Security admin*, *Add to Admin*, *Save view* and *Sign Hobbie out everywhere?*. *Add to Admin* nearly fills the window when the folder tree is open, so it sits a little above centre to keep Assign clear of the player bar. The global search palette in *Global admin search* is centred across, and stays near the top, where people expect it.
+- **Labels above values** in *MFA enforcement*: Admins and Everyone else sit above their dropdowns, side by side.
+
 ## v0.3.6 preview — 2026-11-28
 
 ### Changed

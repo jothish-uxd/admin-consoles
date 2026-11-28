@@ -45,7 +45,7 @@ MAIN = f'''      <div class="view">
         </div>
       </div>'''
 EXTRA = '''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="cT" style="left:320px; top:170px; width:520px">
+    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="cT" style="left:340px; top:265px; width:520px">
       <h3 id="cT">Enforce External links expire?</h3>
       <div style="margin-top:6px; line-height:1.45">1,980 links will stop working over the next day, and their 64 owners are told. Today’s simulation is attached to this change for review.</div>
       <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn dgrf" id="bCf">Enforce</span></div>

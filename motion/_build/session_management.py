@@ -40,7 +40,7 @@ MAIN = f'''      <div class="view">
       </div>
 '''
 EXTRA = f'''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:420px; top:150px; width:480px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:360px; top:247px; width:480px">
       <h3 id="dT">Sign Hobbie out everywhere?</h3>
       <div class="bl"><div>{OK}<span>Ends his 3 sessions now. He signs in again on each device.</span></div><div>{OK}<span>Unsaved drafts are kept and come back when he signs in.</span></div><div>{WN}<span>His 2 API tokens are revoked too. Scripts using them stop.</span></div></div>
       <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn pri" id="bOk">Sign out everywhere</span></div>

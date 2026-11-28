@@ -51,7 +51,7 @@ MATTER = f'''      <div class="view" id="vM">
       </div>'''
 MAIN = LIST + "\n" + MATTER + "\n"
 EXTRA = '''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="aT" style="left:320px; top:110px; width:520px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="aT" style="left:340px; top:172px; width:520px">
       <h3 id="aT">Add a custodian to Scarif inquiry</h3>
       <div class="f1"><label class="lbl">Person</label><span class="in f" id="pIn"><span id="pTx"></span><span class="c" id="pC"></span></span>
         <div class="menu" id="pMenu"><div id="oB">Bodhi Rook<span class="s2">Cargo pilot · bodhi.rook@echobase.rebellion</span></div><div>Bodkin Vane<span class="s2">Mechanic · Hangar 3</span></div></div></div>

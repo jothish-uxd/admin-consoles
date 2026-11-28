@@ -10,7 +10,7 @@ CSS = r"""
 .top .me { margin-left: 0; }
 #vG { display: none; }
 .scr3 { position: absolute; inset: 52px 0 0 0; background: rgba(23,23,23,.28); z-index: 30; opacity: 0; border-radius: 0 0 14px 14px; }
-.pal { position: absolute; left: 340px; top: 64px; width: 600px; z-index: 31; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); font-size: 12.5px; color: var(--soft); visibility: hidden; overflow: hidden; }
+.pal { position: absolute; left: 300px; top: 64px; width: 600px; z-index: 31; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); font-size: 12.5px; color: var(--soft); visibility: hidden; overflow: hidden; }
 .pal .pin { height: 48px; display: flex; align-items: center; gap: 10px; padding: 0 16px; border-bottom: 1px solid var(--rule); font-size: 14px; color: var(--faint); }
 .pal .pin svg { width: 15px; height: 15px; color: var(--soft); }
 .pal .pin .q { color: var(--ink); white-space: pre; }

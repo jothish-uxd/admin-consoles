@@ -41,7 +41,7 @@ EXTRA = f'''    <aside class="drw" id="drw" role="dialog" aria-labelledby="dT">
       <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn pri" id="bSv">Save</span></div>
     </aside>
     <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="cT" style="left:300px; top:170px; width:520px">
+    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="cT" style="left:340px; top:265px; width:520px">
       <h3 id="cT">Shorten Chat messages to 1 year?</h3>
       <div style="margin-top:6px; line-height:1.45">84,300 messages become eligible for deletion. With Review first, their owners confirm before any of them is deleted, and the 2,140 on legal hold are kept.</div>
       <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn dgrf" id="bCf">Shorten to 1 year</span></div>

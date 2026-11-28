@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="../shared/console.css">
 <style>
 .btn.sm { height: 32px; font-size: 12.5px; }
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 
 .btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
@@ -171,7 +171,7 @@ table.sx tr.sel td { background: var(--subtle); }
 
     </div>
     <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:420px; top:150px; width:480px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="dT" style="left:360px; top:247px; width:480px">
       <h3 id="dT">Sign Hobbie out everywhere?</h3>
       <div class="bl"><div><svg aria-hidden="true" class="ok2" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ends his 3 sessions now. He signs in again on each device.</span></div><div><svg aria-hidden="true" class="ok2" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="currentColor"/><path d="M5 8.3l2 2 4-4.3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Unsaved drafts are kept and come back when he signs in.</span></div><div><svg aria-hidden="true" class="wn2"><use href="#warn"/></svg><span>His 2 API tokens are revoked too. Scripts using them stop.</span></div></div>
       <div class="ft"><span class="sp"></span><span class="btn">Cancel</span><span class="btn pri" id="bOk">Sign out everywhere</span></div>

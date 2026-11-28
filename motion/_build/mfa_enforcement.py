@@ -8,7 +8,7 @@ CSS = r"""
 .bar { margin-top: 8px; height: 8px; border-radius: 999px; background: var(--hover); overflow: hidden; }
 .bar i { display: block; height: 100%; width: 89.3%; background: var(--ink); }
 .lnk2 { margin-top: 8px; display: inline-block; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-.rq { display: grid; grid-template-columns: 1fr 170px; gap: 8px 12px; align-items: center; margin-top: 10px; }
+.rq { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; grid-auto-flow: column; gap: 6px 16px; align-items: start; margin-top: 10px; }  /* each label above its control */
 .rq b { color: var(--ink); font-weight: 500; display: block; font-size: 13px; }
 .rq .in { height: 34px; justify-content: space-between; position: relative; }
 .mnu { position: absolute; left: 0; width: 240px; top: 38px; z-index: 6; display: none; }

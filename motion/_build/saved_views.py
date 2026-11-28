@@ -3,7 +3,7 @@ from allcontent_page import make
 
 CSS = r"""
 .scr2 { position: absolute; inset: 52px 0 0 0; background: rgba(23,23,23,.28); z-index: 30; opacity: 0; border-radius: 0 0 14px 14px; }
-.dl { position: absolute; left: 390px; top: 150px; width: 500px; z-index: 31; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 20px; font-size: 12.5px; color: var(--soft); opacity: 0; visibility: hidden; }
+.dl { position: absolute; left: 350px; top: 142px; width: 500px; z-index: 31; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 18px 20px; font-size: 12.5px; color: var(--soft); opacity: 0; visibility: hidden; }
 .dl h3 { margin: 0; font-size: 15px; color: var(--ink); font-weight: 600; }
 .dl .f1 { margin-top: 14px; }
 .dl .lbl { display: block; font-size: 12px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }

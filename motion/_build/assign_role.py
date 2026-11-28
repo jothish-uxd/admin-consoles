@@ -51,7 +51,7 @@ PH = head().split('        <div class="rbar">')[0]
 MAIN = (f'      <div class="view" id="vR">\n{head()}{catalog(checks=True)}      </div>\n'
         f'      <div class="view" id="vD">\n{PH}{DETAIL}      </div>\n')
 EXTRA = f'''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="aT" style="left:330px; top:70px; width:520px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="aT" style="left:340px; top:131px; width:520px">
       <h3 id="aT">Add to Security admin</h3>
       <div class="f1"><label class="lbl" for="fS">People or groups</label><div class="in f" id="fS"><span id="fSv"></span><span class="c" id="fSc"></span></div>
         <div class="res" id="res"><div id="rW"><span class="av">WJ</span>Wes Janson<span>Pilot · Rogue Squadron · Member</span></div><div><span class="av">WA</span>Wedge Antilles<span>Pilot · Rogue Squadron · Member</span></div></div>

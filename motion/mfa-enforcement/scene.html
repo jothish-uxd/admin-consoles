@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="../shared/console.css">
 <style>
 .btn.sm { height: 32px; font-size: 12.5px; }
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 
 .btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
@@ -115,7 +115,7 @@ table.sx tr.sel td { background: var(--subtle); }
 .bar { margin-top: 8px; height: 8px; border-radius: 999px; background: var(--hover); overflow: hidden; }
 .bar i { display: block; height: 100%; width: 89.3%; background: var(--ink); }
 .lnk2 { margin-top: 8px; display: inline-block; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-.rq { display: grid; grid-template-columns: 1fr 170px; gap: 8px 12px; align-items: center; margin-top: 10px; }
+.rq { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; grid-auto-flow: column; gap: 6px 16px; align-items: start; margin-top: 10px; }  /* each label above its control */
 .rq b { color: var(--ink); font-weight: 500; display: block; font-size: 13px; }
 .rq .in { height: 34px; justify-content: space-between; position: relative; }
 .mnu { position: absolute; left: 0; width: 240px; top: 38px; z-index: 6; display: none; }

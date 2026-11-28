@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="../shared/console.css">
 <style>
 .btn.sm { height: 32px; font-size: 12.5px; }
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 
 .btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
@@ -167,7 +167,7 @@ table.mb tr.nw td { background: var(--subtle); }
       <div class="view" id="vR">
         <div class="hd"><h1>People</h1><span class="sp"></span><span class="btn sm pri">Invite people</span></div>
         <div class="tabs page"><div>Users</div><div>Groups</div><div class="on">Roles</div></div>
-        <div class="rbar"><span class="seg"><span class="on" id="sgR">Roles</span><span id="sgP">Permissions</span></span><span class="srch2"><svg><use href="#srch"/></svg>Search roles</span><span class="sp"></span><span class="btn sm">Export for audit</span><span class="btn sm dis" id="bCmp">Compare</span><span class="btn sm">Check access</span><span class="btn sm pri">New role</span></div>
+        <div class="rbar"><span class="seg"><span class="on" id="sgR">Roles</span><span id="sgP">Permissions</span></span><span class="srch2"><svg><use href="#srch"/></svg>Search roles</span><span class="sp"></span><span class="btn sm">Export for audit</span><span class="btn sm dis" id="bCmp">Compare</span><span class="btn sm" id="bChk">Check access</span><span class="btn sm pri">New role</span></div>
         <table class="rl"><thead><tr><th class="ck" style="width:24px"></th><th style="width:170px">Role</th><th>What they can do</th><th style="width:90px">Type</th><th class="n" style="width:70px">People</th><th style="width:28px"></th></tr></thead><tbody id="tb"><tr id="rOw"><td class="ck"><span class="cb" id="rOw-c"></span></td><td class="nm"><b>Owner</b><span></span></td><td class="ds">Everything, including billing and deleting the organization</td><td><span class="ty bi">Built-in</span></td><td class="n">2</td><td class="rm2" id="rOw-m">⋯</td></tr><tr id="rAd"><td class="ck"><span class="cb" id="rAd-c"></span></td><td class="nm"><b>Admin</b><span></span></td><td class="ds">Manage people, content and settings. Can’t change billing</td><td><span class="ty bi">Built-in</span></td><td class="n">12</td><td class="rm2" id="rAd-m">⋯</td></tr><tr id="rSe"><td class="ck"><span class="cb" id="rSe-c"></span></td><td class="nm"><b>Security admin</b><span>based on Admin</span></td><td class="ds">Sign-in, devices and the audit log. Can’t see content</td><td><span class="ty">Custom</span></td><td class="n">4</td><td class="rm2" id="rSe-m">⋯</td></tr><tr id="rCo"><td class="ck"><span class="cb" id="rCo-c"></span></td><td class="nm"><b>Content admin</b><span>based on Admin</span></td><td class="ds">Sources, exclusions and sharing. Can’t manage people</td><td><span class="ty">Custom</span></td><td class="n">3</td><td class="rm2" id="rCo-m">⋯</td></tr><tr id="rBi"><td class="ck"><span class="cb" id="rBi-c"></span></td><td class="nm"><b>Billing admin</b><span></span></td><td class="ds">Plan, seats and invoices. Nothing else</td><td><span class="ty bi">Built-in</span></td><td class="n">2</td><td class="rm2" id="rBi-m">⋯</td></tr><tr id="rMe"><td class="ck"><span class="cb" id="rMe-c"></span></td><td class="nm"><b>Member</b><span></span></td><td class="ds">Use the console, and open what’s shared with them</td><td><span class="ty bi">Built-in</span></td><td class="n">1,181</td><td class="rm2" id="rMe-m">⋯</td></tr></tbody></table>
       </div>
       <div class="view" id="vD">
@@ -188,7 +188,7 @@ table.mb tr.nw td { background: var(--subtle); }
 
     </div>
     <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="aT" style="left:330px; top:70px; width:520px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="aT" style="left:340px; top:131px; width:520px">
       <h3 id="aT">Add to Security admin</h3>
       <div class="f1"><label class="lbl" for="fS">People or groups</label><div class="in f" id="fS"><span id="fSv"></span><span class="c" id="fSc"></span></div>
         <div class="res" id="res"><div id="rW"><span class="av">WJ</span>Wes Janson<span>Pilot · Rogue Squadron · Member</span></div><div><span class="av">WA</span>Wedge Antilles<span>Pilot · Rogue Squadron · Member</span></div></div>

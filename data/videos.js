@@ -1025,8 +1025,8 @@ window.VIDEOS = {
   },
   "policies": {
     "Policy list": {
-      src: "media/policies/policy-list.mp4?v=5ebfbb3f",
-      poster: "media/policies/policy-list.jpg?v=c42ea4e8",
+      src: "media/policies/policy-list.mp4?v=32eab6ae",
+      poster: "media/policies/policy-list.jpg?v=5ffb74ad",
       label: "Policy list, shown in a mock Echo Base console",
       steps: [
         "Compliance › Policies lists each policy in priority order, with its type, its status in words, who it applies to, what it did in the last 7 days and when it last changed.",
@@ -1037,8 +1037,8 @@ window.VIDEOS = {
       ]
     },
     "Policy builder": {
-      src: "media/policies/policy-builder.mp4?v=de163e32",
-      poster: "media/policies/policy-builder.jpg?v=c42ea4e8",
+      src: "media/policies/policy-builder.mp4?v=58742cf1",
+      poster: "media/policies/policy-builder.jpg?v=5ffb74ad",
       label: "Policy builder, shown in a mock Echo Base console",
       steps: [
         "The admin starts a new policy from the template Block external sharing of labelled content.",
@@ -1049,8 +1049,8 @@ window.VIDEOS = {
       ]
     },
     "Retention policies": {
-      src: "media/policies/retention-policies.mp4?v=927d2bcb",
-      poster: "media/policies/retention-policies.jpg?v=09b52646",
+      src: "media/policies/retention-policies.mp4?v=a2b4375f",
+      poster: "media/policies/retention-policies.jpg?v=d4b7368c",
       label: "Retention policies, shown in a mock Echo Base console",
       steps: [
         "Compliance › Retention lists each policy by what it covers, how long it keeps it, what happens then, and what's due in the next 30 days.",
@@ -1061,8 +1061,8 @@ window.VIDEOS = {
       ]
     },
     "Legal hold": {
-      src: "media/policies/legal-hold.mp4?v=fb6d284d",
-      poster: "media/policies/legal-hold.jpg?v=38760dfe",
+      src: "media/policies/legal-hold.mp4?v=88ca751e",
+      poster: "media/policies/legal-hold.jpg?v=2c2ef095",
       label: "Legal hold, shown in a mock Echo Base console",
       steps: [
         "Compliance › Legal holds lists holds by matter. A released one says who released it.",
@@ -1073,8 +1073,8 @@ window.VIDEOS = {
       ]
     },
     "Scope & targeting": {
-      src: "media/policies/scope-targeting.mp4?v=5d61249d",
-      poster: "media/policies/scope-targeting.jpg?v=b2630255",
+      src: "media/policies/scope-targeting.mp4?v=6b7f451c",
+      poster: "media/policies/scope-targeting.jpg?v=67aaebbd",
       label: "Scope & targeting, shown in a mock Echo Base console",
       steps: [
         "No one is in scope by default. The admin opens Applies to on the policy External links expire.",
@@ -1085,8 +1085,8 @@ window.VIDEOS = {
       ]
     },
     "Simulate / test": {
-      src: "media/policies/simulate-test.mp4?v=034b0fc2",
-      poster: "media/policies/simulate-test.jpg?v=0000dc12",
+      src: "media/policies/simulate-test.mp4?v=10d0d732",
+      poster: "media/policies/simulate-test.jpg?v=e3f78e99",
       label: "Simulate / test, shown in a mock Echo Base console",
       steps: [
         "On the policy's Simulation tab, the admin runs a simulation. It runs against real data, and nothing changes and no one is notified.",
@@ -1099,8 +1099,8 @@ window.VIDEOS = {
   },
   "roles-permissions": {
     "Role catalog": {
-      src: "media/roles-permissions/role-catalog.mp4?v=a66fbb39",
-      poster: "media/roles-permissions/role-catalog.jpg?v=76e05524",
+      src: "media/roles-permissions/role-catalog.mp4?v=078489a7",
+      poster: "media/roles-permissions/role-catalog.jpg?v=87a5d0a8",
       label: "Role catalog, shown in a mock Echo Base console",
       steps: [
         "People › Roles lists roles from most to least powerful: Owner, Admin, Security admin, Content admin, Billing admin and Member.",
@@ -1111,8 +1111,8 @@ window.VIDEOS = {
       ]
     },
     "Permission matrix": {
-      src: "media/roles-permissions/permission-matrix.mp4?v=94ed67b3",
-      poster: "media/roles-permissions/permission-matrix.jpg?v=76e05524",
+      src: "media/roles-permissions/permission-matrix.mp4?v=a72b0553",
+      poster: "media/roles-permissions/permission-matrix.jpg?v=87a5d0a8",
       label: "Permission matrix, shown in a mock Echo Base console",
       steps: [
         "The admin switches People › Roles from Roles to Permissions.",
@@ -1123,8 +1123,8 @@ window.VIDEOS = {
       ]
     },
     "Create custom role": {
-      src: "media/roles-permissions/create-custom-role.mp4?v=71c827a7",
-      poster: "media/roles-permissions/create-custom-role.jpg?v=76e05524",
+      src: "media/roles-permissions/create-custom-role.mp4?v=5d6af506",
+      poster: "media/roles-permissions/create-custom-role.jpg?v=87a5d0a8",
       label: "Create custom role, shown in a mock Echo Base console",
       steps: [
         "The admin opens Member's menu and picks Duplicate, so the new role starts from a built-in one, not a blank list.",
@@ -1136,8 +1136,8 @@ window.VIDEOS = {
       ]
     },
     "Assign role": {
-      src: "media/roles-permissions/assign-role.mp4?v=e4026ed5",
-      poster: "media/roles-permissions/assign-role.jpg?v=7859396e",
+      src: "media/roles-permissions/assign-role.mp4?v=50c4c602",
+      poster: "media/roles-permissions/assign-role.jpg?v=a5ebd584",
       label: "Assign role, shown in a mock Echo Base console",
       steps: [
         "The admin opens Security admin from People › Roles.",
@@ -1148,8 +1148,8 @@ window.VIDEOS = {
       ]
     },
     "Scoped access": {
-      src: "media/roles-permissions/scoped-access.mp4?v=b7755efc",
-      poster: "media/roles-permissions/scoped-access.jpg?v=7859396e",
+      src: "media/roles-permissions/scoped-access.mp4?v=4e3503b8",
+      poster: "media/roles-permissions/scoped-access.jpg?v=a5ebd584",
       label: "Scoped access, shown in a mock Echo Base console",
       steps: [
         "The admin opens Admin from People › Roles. Its people show the role with its scope, such as Admin · Ground forces.",
@@ -1160,8 +1160,8 @@ window.VIDEOS = {
       ]
     },
     "Effective permissions": {
-      src: "media/roles-permissions/effective-permissions.mp4?v=de8b4d20",
-      poster: "media/roles-permissions/effective-permissions.jpg?v=2635a187",
+      src: "media/roles-permissions/effective-permissions.mp4?v=77014805",
+      poster: "media/roles-permissions/effective-permissions.jpg?v=720435ca",
       label: "Effective permissions, shown in a mock Echo Base console",
       steps: [
         "The admin opens Check access from People › Roles.",
@@ -1174,8 +1174,8 @@ window.VIDEOS = {
   },
   "search-filtering": {
     "Filter bar": {
-      src: "media/search-filtering/filter-bar.mp4?v=5bb7385a",
-      poster: "media/search-filtering/filter-bar.jpg?v=20bc0a39",
+      src: "media/search-filtering/filter-bar.mp4?v=ca1021a2",
+      poster: "media/search-filtering/filter-bar.jpg?v=d5b8b508",
       label: "Filter bar, shown in a mock Echo Base console",
       steps: [
         "Content › All content has its common filters up front: Owner, Sharing, Last modified, Size and Advanced.",
@@ -1186,8 +1186,8 @@ window.VIDEOS = {
       ]
     },
     "Advanced query": {
-      src: "media/search-filtering/advanced-query.mp4?v=d5df8c9e",
-      poster: "media/search-filtering/advanced-query.jpg?v=20bc0a39",
+      src: "media/search-filtering/advanced-query.mp4?v=f3856477",
+      poster: "media/search-filtering/advanced-query.jpg?v=d5b8b508",
       label: "Advanced query, shown in a mock Echo Base console",
       steps: [
         "Beside the simple filters, the admin opens Advanced. A builder joins conditions with AND: type is PDF or DOC, last activity more than 90 days ago, tag is not Legal hold.",
@@ -1198,8 +1198,8 @@ window.VIDEOS = {
       ]
     },
     "Saved views": {
-      src: "media/search-filtering/saved-views.mp4?v=309215cc",
-      poster: "media/search-filtering/saved-views.jpg?v=ca558cc7",
+      src: "media/search-filtering/saved-views.mp4?v=b00bdfb9",
+      poster: "media/search-filtering/saved-views.jpg?v=78b62e59",
       label: "Saved views, shown in a mock Echo Base console",
       steps: [
         "With Owner: Deactivated and Sharing: Public link set, the admin clicks Save view.",
@@ -1210,8 +1210,8 @@ window.VIDEOS = {
       ]
     },
     "Global admin search": {
-      src: "media/search-filtering/global-admin-search.mp4?v=551708c7",
-      poster: "media/search-filtering/global-admin-search.jpg?v=2001be7c",
+      src: "media/search-filtering/global-admin-search.mp4?v=6aa2c5d8",
+      poster: "media/search-filtering/global-admin-search.jpg?v=4c0c684e",
       label: "Global admin search, shown in a mock Echo Base console",
       steps: [
         "From People › Roles, the admin clicks Search Echo Base in the top bar. ⌘K opens it too.",
@@ -1224,8 +1224,8 @@ window.VIDEOS = {
   },
   "security-identity": {
     "SSO setup": {
-      src: "media/security-identity/sso-setup.mp4?v=9736b7b0",
-      poster: "media/security-identity/sso-setup.jpg?v=653225ee",
+      src: "media/security-identity/sso-setup.mp4?v=19c640c0",
+      poster: "media/security-identity/sso-setup.jpg?v=7691e853",
       label: "SSO setup, shown in a mock Echo Base console",
       steps: [
         "The admin is setting up single sign-on with Holonet ID. The steps read Provider, Connect, Map attributes, Test and Enforce.",
@@ -1236,8 +1236,8 @@ window.VIDEOS = {
       ]
     },
     "MFA enforcement": {
-      src: "media/security-identity/mfa-enforcement.mp4?v=79e0731e",
-      poster: "media/security-identity/mfa-enforcement.jpg?v=36824fdb",
+      src: "media/security-identity/mfa-enforcement.mp4?v=3dcd946f",
+      poster: "media/security-identity/mfa-enforcement.jpg?v=1b8f007d",
       label: "MFA enforcement, shown in a mock Echo Base console",
       steps: [
         "People › Sign-in & security › MFA shows enrolment first: 1,084 of 1,214 people, with 130 not yet enrolled.",
@@ -1248,8 +1248,8 @@ window.VIDEOS = {
       ]
     },
     "Session management": {
-      src: "media/security-identity/session-management.mp4?v=6e6b6939",
-      poster: "media/security-identity/session-management.jpg?v=b12c6f25",
+      src: "media/security-identity/session-management.mp4?v=e1084263",
+      poster: "media/security-identity/session-management.jpg?v=1cf70302",
       label: "Session management, shown in a mock Echo Base console",
       steps: [
         "Session rules come first: 12-hour sessions, sign-out after 30 minutes without activity, and a warning 2 minutes ahead. Drafts are kept either way.",
@@ -1260,8 +1260,8 @@ window.VIDEOS = {
       ]
     },
     "Domain verification": {
-      src: "media/security-identity/domain-verification.mp4?v=3c05577e",
-      poster: "media/security-identity/domain-verification.jpg?v=af2f2cbd",
+      src: "media/security-identity/domain-verification.mp4?v=0bdc2c29",
+      poster: "media/security-identity/domain-verification.jpg?v=e063fbbd",
       label: "Domain verification, shown in a mock Echo Base console",
       steps: [
         "Each domain shows its status in words, when it was last checked, and what it's used for.",
@@ -1272,8 +1272,8 @@ window.VIDEOS = {
       ]
     },
     "Device management": {
-      src: "media/security-identity/device-management.mp4?v=237ad1ef",
-      poster: "media/security-identity/device-management.jpg?v=c21dff34",
+      src: "media/security-identity/device-management.mp4?v=5bdbe973",
+      poster: "media/security-identity/device-management.jpg?v=261b6f0b",
       label: "Device management, shown in a mock Echo Base console",
       steps: [
         "People › Devices shows 312 devices: 296 compliant and 16 needing attention, with the requirements in plain terms.",
@@ -1284,8 +1284,8 @@ window.VIDEOS = {
       ]
     },
     "IP allowlists": {
-      src: "media/security-identity/ip-allowlists.mp4?v=0987950a",
-      poster: "media/security-identity/ip-allowlists.jpg?v=e48b6377",
+      src: "media/security-identity/ip-allowlists.mp4?v=2e1a0e80",
+      poster: "media/security-identity/ip-allowlists.jpg?v=d58d1a8d",
       label: "IP allowlists, shown in a mock Echo Base console",
       steps: [
         "People › Sign-in & security › Network shows the admin's own IP and the range that covers it, so she knows saving won't block her.",
