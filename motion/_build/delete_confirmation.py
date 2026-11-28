@@ -9,7 +9,7 @@ CSS = r"""
 .bulk .btn { height: 26px; font-size: 12px; background: transparent; color: #fff; border-color: #737373; }
 .bulk .btn.clr { color: #d4d4d4; border-color: transparent; }
 .scrim2 { position: absolute; inset: 52px 0 0 0; background: rgba(0,0,0,.18); opacity: 0; z-index: 30; }
-.dlg { position: absolute; left: 470px; top: 150px; width: 500px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); }
+.dlg { position: absolute; left: 350px; top: 184px; width: 500px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); }
 .dlg h3 { margin: 0; font-size: 17px; color: var(--ink); }
 .dlg .fl { margin-top: 12px; display: grid; gap: 6px; }
 .dlg .fl div { display: flex; gap: 8px; align-items: center; color: var(--ink); }

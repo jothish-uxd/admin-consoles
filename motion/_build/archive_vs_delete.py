@@ -13,7 +13,7 @@ CSS = r"""
 .arc.on .n { color: #bdbdbd; }
 #tArc { position: absolute; left: 0; right: 0; opacity: 0; }
 .lab { display: inline-block; font-size: 12px; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 2px 9px; color: var(--ink); }
-.dlg2 { position: absolute; left: 460px; top: 130px; width: 500px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); line-height: 1.45; }
+.dlg2 { position: absolute; left: 350px; top: 202px; width: 500px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); line-height: 1.45; }
 .dlg2 h3 { margin: 0; font-size: 17px; color: var(--ink); }
 .dlg2 .opt { margin-top: 12px; border: 1px solid var(--rule-strong); border-radius: 10px; padding: 10px 12px; }
 .dlg2 .opt b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }

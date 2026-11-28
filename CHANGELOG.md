@@ -2,6 +2,11 @@
 
 Versions follow major.minor.patch. **Major**: changes to how patterns are found or cited (names, URLs), and the public launch. **Minor**: a new category, new patterns or a new layout across the site. **Patch**: fixes, such as a re-rendered clip or a copy edit. *preview* means it lives on `v3-videos`, not yet public. Each version is tagged in git.
 
+## v0.3.3 preview — 2026-11-28
+
+### Changed
+- **Final pass, five more categories.** The 27 clips in *Asset management*, *Audit logs & activity*, *Billing & licenses*, *Creation flows* and *Destructive actions* are re-rendered with the final-pass changes: the new end card, *Search Echo Base ⌘K* and the bell in every top bar, and toasts at the centre of the window. Ten dialogs that sat to the right of centre are now centred in the window both ways: *New alert*, *Add Console seats*, *Reclaim licenses*, *New group*, *Duplicate role*, *Archive group*, *Delete role*, *Reset public links*, *Delete 3 files* and *Delete sandbox*.
+
 ## v0.3.2 preview — 2026-11-28
 
 ### Changed

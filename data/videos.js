@@ -138,8 +138,8 @@ window.VIDEOS = {
   },
   "asset-management": {
     "Asset library": {
-      src: "media/asset-management/asset-library.mp4?v=4afbe079",
-      poster: "media/asset-management/asset-library.jpg?v=932ff6d4",
+      src: "media/asset-management/asset-library.mp4?v=1198e518",
+      poster: "media/asset-management/asset-library.jpg?v=6b768926",
       label: "Asset library, shown in a mock Echo Base console",
       steps: [
         "The admin opens All content: one inventory of about 2.4M items, with no folders to dig through, and a note that the search index was updated 2 minutes ago.",
@@ -150,8 +150,8 @@ window.VIDEOS = {
       ]
     },
     "Asset detail": {
-      src: "media/asset-management/asset-detail.mp4?v=22b27a3b",
-      poster: "media/asset-management/asset-detail.jpg?v=df37290c",
+      src: "media/asset-management/asset-detail.mp4?v=f65b7fe6",
+      poster: "media/asset-management/asset-detail.jpg?v=9c38b388",
       label: "Asset detail, shown in a mock Echo Base console",
       steps: [
         "The admin opens Hoth patrol routes.xlsx, one of the files from the Asset library clip; the page title names it. A banner says why she's here: it's shared by public link and the owner is deactivated. A note says this is an admin view, the contents aren't opened, and her visit is logged.",
@@ -163,8 +163,8 @@ window.VIDEOS = {
       ]
     },
     "Transfer ownership": {
-      src: "media/asset-management/transfer-ownership.mp4?v=89ea564e",
-      poster: "media/asset-management/transfer-ownership.jpg?v=84912df3",
+      src: "media/asset-management/transfer-ownership.mp4?v=d6a7808a",
+      poster: "media/asset-management/transfer-ownership.jpg?v=54093c90",
       label: "Transfer ownership, shown in a mock Echo Base console",
       steps: [
         "The admin starts from Biggs Darklighter's page in People, where his offboarding checklist shows what's done (account deactivated, signed out of all devices) and what's left. Delete account stays locked until his content is transferred.",
@@ -176,8 +176,8 @@ window.VIDEOS = {
       ]
     },
     "Sharing controls": {
-      src: "media/asset-management/sharing-controls.mp4?v=5bc6f801",
-      poster: "media/asset-management/sharing-controls.jpg?v=429b58fb",
+      src: "media/asset-management/sharing-controls.mp4?v=cd417ac3",
+      poster: "media/asset-management/sharing-controls.jpg?v=e5699ab6",
       label: "Sharing controls, shown in a mock Echo Base console",
       steps: [
         "The admin opens Sharing in Content. A report shows what's shared outside Echo Base right now: 38 public links and 412 shares with partner domains.",
@@ -189,8 +189,8 @@ window.VIDEOS = {
       ]
     },
     "Versions & restore": {
-      src: "media/asset-management/versions-restore.mp4?v=6edd6100",
-      poster: "media/asset-management/versions-restore.jpg?v=929ef77b",
+      src: "media/asset-management/versions-restore.mp4?v=28feb7d1",
+      poster: "media/asset-management/versions-restore.jpg?v=bd0af351",
       label: "Versions and restore, shown in a mock Echo Base console",
       steps: [
         "The admin opens Hoth evacuation plan.docx, which shrank from 2.1 MB to 48 KB this morning, and switches to its Versions tab. The page can also restore a whole folder to a point in time.",
@@ -201,8 +201,8 @@ window.VIDEOS = {
       ]
     },
     "Tags & metadata": {
-      src: "media/asset-management/tags-metadata.mp4?v=079118b3",
-      poster: "media/asset-management/tags-metadata.jpg?v=6313a15e",
+      src: "media/asset-management/tags-metadata.mp4?v=4055f288",
+      poster: "media/asset-management/tags-metadata.jpg?v=320463a8",
       label: "Tags and metadata, shown in a mock Echo Base console",
       steps: [
         "The admin is in Content, where files carry the tags Hoth, hoth and \"Hoth \" for the same thing, and switches to the Tags tab.",
@@ -216,8 +216,8 @@ window.VIDEOS = {
   },
   "audit-logs": {
     "Audit log table": {
-      src: "media/audit-logs/audit-log-table.mp4?v=7b72e846",
-      poster: "media/audit-logs/audit-log-table.jpg?v=aff5a754",
+      src: "media/audit-logs/audit-log-table.mp4?v=619967ba",
+      poster: "media/audit-logs/audit-log-table.jpg?v=1afc5022",
       label: "Audit log table, shown in a mock Echo Base console",
       steps: [
         "On Home, an Unusual activity card says an API key, archive-sync, failed 3 times to reach the Death Star plans archive. The admin opens the audit log from it.",
@@ -228,8 +228,8 @@ window.VIDEOS = {
       ]
     },
     "Event detail": {
-      src: "media/audit-logs/event-detail.mp4?v=e2c6a99c",
-      poster: "media/audit-logs/event-detail.jpg?v=b18369eb",
+      src: "media/audit-logs/event-detail.mp4?v=790e7f9a",
+      poster: "media/audit-logs/event-detail.jpg?v=e9197656",
       label: "Event detail, shown in a mock Echo Base console",
       steps: [
         "From the audit log filtered to archive-sync, the admin opens the failed download at 09:40:55.",
@@ -241,8 +241,8 @@ window.VIDEOS = {
       ]
     },
     "Filters & saved views": {
-      src: "media/audit-logs/filters-saved-views.mp4?v=e0d2cb50",
-      poster: "media/audit-logs/filters-saved-views.jpg?v=c621b28b",
+      src: "media/audit-logs/filters-saved-views.mp4?v=916f45ae",
+      poster: "media/audit-logs/filters-saved-views.jpg?v=4afd6a59",
       label: "Filters and saved views, shown in a mock Echo Base console",
       steps: [
         "From an event, the admin goes back to the audit log. Her filters, the last 24 hours and the actor archive-sync, are still set and shown as chips.",
@@ -267,8 +267,8 @@ window.VIDEOS = {
       ]
     },
     "Alerts on events": {
-      src: "media/audit-logs/alerts-on-events.mp4?v=9ed6d6d0",
-      poster: "media/audit-logs/alerts-on-events.jpg?v=7caa951d",
+      src: "media/audit-logs/alerts-on-events.mp4?v=1f4d075c",
+      poster: "media/audit-logs/alerts-on-events.jpg?v=dd5330f3",
       label: "Alerts on events, shown in a mock Echo Base console",
       steps: [
         "The admin opens the Alerts tab of the audit log. Built-in alerts cover high-risk events, such as admin role grants and mass deletion, each with a threshold.",
@@ -282,8 +282,8 @@ window.VIDEOS = {
   },
   "billing-licenses": {
     "Plan overview": {
-      src: "media/billing-licenses/plan-overview.mp4?v=ae096b4f",
-      poster: "media/billing-licenses/plan-overview.jpg?v=b4a9ab3d",
+      src: "media/billing-licenses/plan-overview.mp4?v=09c61472",
+      poster: "media/billing-licenses/plan-overview.jpg?v=3acb2226",
       label: "Plan overview, shown in a mock Echo Base console",
       steps: [
         "From Home, the admin opens Billing. The plan, Rebel Alliance Business, is shown as labelled details: $18 per seat per month, billed annually, in USD and excluding tax, with the billing period and the Visa card it is paid with.",
@@ -294,8 +294,8 @@ window.VIDEOS = {
       ]
     },
     "Seat assignment": {
-      src: "media/billing-licenses/seat-assignment.mp4?v=d596aeaf",
-      poster: "media/billing-licenses/seat-assignment.jpg?v=f0ea52da",
+      src: "media/billing-licenses/seat-assignment.mp4?v=94dfdc34",
+      poster: "media/billing-licenses/seat-assignment.jpg?v=863ca7a9",
       label: "Seat assignment, shown in a mock Echo Base console",
       steps: [
         "From the plan, the admin opens Manage seats. The seat count, 246 of 250, matches the plan, and the page explains that when seats are full, new people join as viewers until more are added.",
@@ -307,8 +307,8 @@ window.VIDEOS = {
       ]
     },
     "Add seats": {
-      src: "media/billing-licenses/add-seats.mp4?v=85d8a833",
-      poster: "media/billing-licenses/add-seats.jpg?v=9500751a",
+      src: "media/billing-licenses/add-seats.mp4?v=4acbc57b",
+      poster: "media/billing-licenses/add-seats.jpg?v=28bb9fb2",
       label: "Add seats, shown in a mock Echo Base console",
       steps: [
         "A Rogue One pilot needs 38 seats, and 18 are available. The admin chooses Add seats.",
@@ -320,8 +320,8 @@ window.VIDEOS = {
       ]
     },
     "Invoices & payment": {
-      src: "media/billing-licenses/invoices-payment.mp4?v=f6d1c3fb",
-      poster: "media/billing-licenses/invoices-payment.jpg?v=2ec65998",
+      src: "media/billing-licenses/invoices-payment.mp4?v=69deea31",
+      poster: "media/billing-licenses/invoices-payment.jpg?v=2d44d7df",
       label: "Invoices and payment, shown in a mock Echo Base console",
       steps: [
         "The admin opens the Invoices tab. A banner warns, well before renewal, that the Visa card ending 4417 expires on 31 December, and that if a payment fails, access continues for 14 days while billing retries and emails the billing contacts.",
@@ -334,8 +334,8 @@ window.VIDEOS = {
   },
   "creation-flows": {
     "Create modal": {
-      src: "media/creation-flows/create-modal.mp4?v=722d8d44",
-      poster: "media/creation-flows/create-modal.jpg?v=37cb04ab",
+      src: "media/creation-flows/create-modal.mp4?v=3e14cccc",
+      poster: "media/creation-flows/create-modal.jpg?v=91e2c0a6",
       label: "Create modal, shown in a mock Echo Base console",
       steps: [
         "In People / Groups, the admin chooses New group for the Rogue One pilot. A small modal titled New group opens over the list, with three fields: Name, an optional Description and Owner. Focus moves into the modal, Esc closes it, and at high zoom it fills the screen.",
@@ -346,8 +346,8 @@ window.VIDEOS = {
       ]
     },
     "Multi-step wizard": {
-      src: "media/creation-flows/multi-step-wizard.mp4?v=18b524b2",
-      poster: "media/creation-flows/multi-step-wizard.jpg?v=48ab854e",
+      src: "media/creation-flows/multi-step-wizard.mp4?v=d469013b",
+      poster: "media/creation-flows/multi-step-wizard.jpg?v=df8ad54d",
       label: "Multi-step wizard, shown in a mock Echo Base console",
       steps: [
         "In Settings / Integrations, Holonet Ledger shows Setup in progress: a draft Toryn Farr saved and shared, with 1 of 4 steps done. The admin chooses Continue setup.",
@@ -359,8 +359,8 @@ window.VIDEOS = {
       ]
     },
     "Create from template": {
-      src: "media/creation-flows/create-from-template.mp4?v=8967ce93",
-      poster: "media/creation-flows/create-from-template.jpg?v=8838c8f0",
+      src: "media/creation-flows/create-from-template.mp4?v=5e8c2085",
+      poster: "media/creation-flows/create-from-template.jpg?v=e6f28179",
       label: "Create from template, shown in a mock Echo Base console",
       steps: [
         "In Compliance / Policies, the admin chooses New policy. Templates are split into Echo Base's own and built-in ones, with search, and Start blank is an equal choice.",
@@ -372,8 +372,8 @@ window.VIDEOS = {
       ]
     },
     "Inline create": {
-      src: "media/creation-flows/inline-create.mp4?v=4670cf69",
-      poster: "media/creation-flows/inline-create.jpg?v=2faa317e",
+      src: "media/creation-flows/inline-create.mp4?v=2da1e6dc",
+      poster: "media/creation-flows/inline-create.jpg?v=513db6a8",
       label: "Inline create, shown in a mock Echo Base console",
       steps: [
         "On the Tags page, the admin chooses Add tag. A new row appears at the top of the table, focused and ready to type, with visible Save and Cancel buttons and a hint that Enter and Esc work too. The field is named, the hint is linked to it, and everything works by keyboard.",
@@ -385,8 +385,8 @@ window.VIDEOS = {
       ]
     },
     "Duplicate / clone": {
-      src: "media/creation-flows/duplicate-clone.mp4?v=7ced5e2f",
-      poster: "media/creation-flows/duplicate-clone.jpg?v=0ed91860",
+      src: "media/creation-flows/duplicate-clone.mp4?v=68e7b81f",
+      poster: "media/creation-flows/duplicate-clone.jpg?v=9543e32f",
       label: "Duplicate and clone, shown in a mock Echo Base console",
       steps: [
         "In People / Roles, the admin opens the menu on Content admin and chooses Duplicate. The product uses the same word, Duplicate, in the menu, the title and the button.",
@@ -398,8 +398,8 @@ window.VIDEOS = {
       ]
     },
     "Success & next steps": {
-      src: "media/creation-flows/success-next-steps.mp4?v=d9c11bb7",
-      poster: "media/creation-flows/success-next-steps.jpg?v=1a591df7",
+      src: "media/creation-flows/success-next-steps.mp4?v=21e1c4ee",
+      poster: "media/creation-flows/success-next-steps.jpg?v=26912362",
       label: "Success and next steps, shown in a mock Echo Base console",
       steps: [
         "In People / Users, the admin reviews an invite for the Rogue One pilot, with each label above its value: 38 people from a file, the group, the license, the start date and a message. She chooses Send 38 invites.",
@@ -519,8 +519,8 @@ window.VIDEOS = {
   },
   "destructive-actions": {
     "Delete confirmation": {
-      src: "media/destructive-actions/delete-confirmation.mp4?v=2169823d",
-      poster: "media/destructive-actions/delete-confirmation.jpg?v=932ff6d4",
+      src: "media/destructive-actions/delete-confirmation.mp4?v=1184636a",
+      poster: "media/destructive-actions/delete-confirmation.jpg?v=6b768926",
       label: "Delete confirmation, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, the admin opens the Owner deactivated saved view: 112 items owned by people who have left.",
@@ -531,8 +531,8 @@ window.VIDEOS = {
       ]
     },
     "Type-to-confirm": {
-      src: "media/destructive-actions/type-to-confirm.mp4?v=9e041cfd",
-      poster: "media/destructive-actions/type-to-confirm.jpg?v=7c0e48f5",
+      src: "media/destructive-actions/type-to-confirm.mp4?v=f7d3aa59",
+      poster: "media/destructive-actions/type-to-confirm.jpg?v=a879423b",
       label: "Type-to-confirm, shown in a mock Echo Base console",
       steps: [
         "In Settings › Organization, the irreversible actions sit in their own bordered section. The admin chooses Delete sandbox.",
@@ -543,8 +543,8 @@ window.VIDEOS = {
       ]
     },
     "Archive vs. delete": {
-      src: "media/destructive-actions/archive-vs-delete.mp4?v=b1ecb122",
-      poster: "media/destructive-actions/archive-vs-delete.jpg?v=59c56a1b",
+      src: "media/destructive-actions/archive-vs-delete.mp4?v=ed2a2fe9",
+      poster: "media/destructive-actions/archive-vs-delete.jpg?v=12138a88",
       label: "Archive vs. delete, shown in a mock Echo Base console",
       steps: [
         "In People › Groups, the admin opens the menu on Hoth Evacuation. Archive group comes first; Delete group… sits below a divider.",
@@ -555,8 +555,8 @@ window.VIDEOS = {
       ]
     },
     "Undo toast": {
-      src: "media/destructive-actions/undo-toast.mp4?v=a96386a2",
-      poster: "media/destructive-actions/undo-toast.jpg?v=932ff6d4",
+      src: "media/destructive-actions/undo-toast.mp4?v=e669bc44",
+      poster: "media/destructive-actions/undo-toast.jpg?v=6b768926",
       label: "Undo toast, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, the admin hovers Supply run notes.md. A Move to Trash button appears at the end of the row.",
@@ -567,8 +567,8 @@ window.VIDEOS = {
       ]
     },
     "Cascading impact": {
-      src: "media/destructive-actions/cascading-impact.mp4?v=f16a682e",
-      poster: "media/destructive-actions/cascading-impact.jpg?v=0ed91860",
+      src: "media/destructive-actions/cascading-impact.mp4?v=b5c3194b",
+      poster: "media/destructive-actions/cascading-impact.jpg?v=9543e32f",
       label: "Cascading impact, shown in a mock Echo Base console",
       steps: [
         "In People › Roles, the admin opens the menu on Content admin and chooses Delete.",
@@ -579,8 +579,8 @@ window.VIDEOS = {
       ]
     },
     "Danger zone": {
-      src: "media/destructive-actions/danger-zone.mp4?v=f1beeb70",
-      poster: "media/destructive-actions/danger-zone.jpg?v=7c0e48f5",
+      src: "media/destructive-actions/danger-zone.mp4?v=bc63e133",
+      poster: "media/destructive-actions/danger-zone.jpg?v=a879423b",
       label: "Danger zone, shown in a mock Echo Base console",
       steps: [
         "Settings › Organization starts with routine settings: name, domain, time zone, owner, plan and data region.",
