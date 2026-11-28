@@ -111,3 +111,13 @@ td.act { text-align: right; width: 150px; }
 .menu > div, .menu .it, .menu .mi { padding: 7px 10px; border-radius: 6px; }
 .menu .hov, .menu .it.hov { background: var(--hover); }
 .menu > .sep { padding: 0; }
+
+/* Top bar, the same in every clip (filled in by motion.js): search, alerts bell, the signed-in admin */
+.top .gsr { margin-left: auto; margin-right: 14px; width: 280px; height: 32px; border: 1px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 12.5px; color: var(--faint); box-sizing: border-box; background: var(--bg); flex: none; }
+.top .gsr svg { width: 13px; height: 13px; color: var(--soft); }
+.top .gsr kbd { margin-left: auto; font-family: "Geist Mono", monospace; font-size: 11px; color: var(--soft); border: 1px solid var(--rule-strong); border-radius: 5px; padding: 0 5px; }
+.top .gsr + .me { margin-left: 0; }
+.bell { position: relative; width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: var(--ink); margin-right: 4px; }
+.bell.on { background: var(--hover); }
+.bell svg { width: 18px; height: 18px; }
+.bell .bdg { position: absolute; right: 1px; top: 1px; min-width: 17px; height: 17px; border-radius: 999px; background: #b91c1c; color: #fff; font-size: 10.5px; font-weight: 600; display: grid; place-items: center; padding: 0 4px; box-sizing: border-box; border: 2px solid var(--bg); }

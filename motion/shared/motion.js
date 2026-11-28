@@ -76,6 +76,14 @@
         `<div class="lbl">${label}</div>` + items.map(([id, name]) =>
           `<div class="${id === at ? "on" : ""}"><svg viewBox="0 0 16 16" aria-hidden="true">${ICON[id]}</svg>${name}</div>`).join("")).join("");
     });
+    // The top bar is the same in every clip: Search Echo Base ⌘K, then the alerts bell, then the signed-in admin.
+    // Scenes that draw their own (the Notifications clips, Global admin search) keep theirs.
+    document.querySelectorAll(".top .me").forEach(me => {
+      if (!me.parentNode.querySelector(".gsr")) me.insertAdjacentHTML("beforebegin",
+        '<div class="gsr" role="button" aria-label="Search Echo Base"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Search Echo Base<kbd>⌘K</kbd></div>');
+      if (!me.querySelector(".bell")) me.insertAdjacentHTML("afterbegin",
+        '<span class="bell" aria-label="Alerts, 3 need action"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.6a5 5 0 0 0-5 5v3.1L3.6 13.4h12.8L15 10.7V7.6a5 5 0 0 0-5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 15.6a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bdg">3</span></span>');
+    });
     document.querySelectorAll(".crumb[data-path]").forEach(c => {
       const parts = c.dataset.path.split(" / ");
       c.innerHTML = "/ " + parts.map((p, i) => i === parts.length - 1 ? `<b>${p}</b>` : p).join(" / ");

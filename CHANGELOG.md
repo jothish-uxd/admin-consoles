@@ -2,6 +2,11 @@
 
 Versions follow major.minor.patch. **Major**: changes to how patterns are found or cited (names, URLs), and the public launch. **Minor**: a new category, new patterns or a new layout across the site. **Patch**: fixes, such as a re-rendered clip or a copy edit. *preview* means it lives on `v3-videos`, not yet public. Each version is tagged in git.
 
+## v0.3.2 preview — 2026-11-28
+
+### Changed
+- **Final pass, first two categories.** The 10 clips in *Access requests & approvals* and *AI governance* are re-rendered once with every final-pass change: the end card reads *Patterns for Enterprise Workflows* with the copyright on the second row; every top bar has *Search Echo Base ⌘K* and the bell; toasts sit at the centre of the window; the *Extend access* dialog is centred in the window; the small eyebrows above panel titles are gone (*Request access*, *Briefing summaries*, *Rogue One’s AI budget*). The other categories follow.
+
 ## v0.3.1 preview — 2026-11-26
 
 ### Fixed

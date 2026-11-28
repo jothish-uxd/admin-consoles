@@ -5,7 +5,7 @@
 window.VIDEOS = {
   "access-requests": {
     "Request access": {
-      src: "media/access-requests/request-access.mp4?v=ad97d25b",
+      src: "media/access-requests/request-access.mp4?v=1a848edd",
       poster: "media/access-requests/request-access.jpg?v=2d05a4e4",
       label: "Request access, shown in a mock Echo Base console",
       steps: [
@@ -18,7 +18,7 @@ window.VIDEOS = {
       ]
     },
     "Approval queue": {
-      src: "media/access-requests/approval-queue.mp4?v=c3279364",
+      src: "media/access-requests/approval-queue.mp4?v=b0f4c567",
       poster: "media/access-requests/approval-queue.jpg?v=895381bd",
       label: "Approval queue, shown in a mock Echo Base console",
       steps: [
@@ -31,7 +31,7 @@ window.VIDEOS = {
       ]
     },
     "Review detail": {
-      src: "media/access-requests/review-detail.mp4?v=d07fb681",
+      src: "media/access-requests/review-detail.mp4?v=914ff949",
       poster: "media/access-requests/review-detail.jpg?v=6037aa75",
       label: "Review detail, shown in a mock Echo Base console",
       steps: [
@@ -44,7 +44,7 @@ window.VIDEOS = {
       ]
     },
     "Time-bound access": {
-      src: "media/access-requests/time-bound-access.mp4?v=98a6f445",
+      src: "media/access-requests/time-bound-access.mp4?v=f347651d",
       poster: "media/access-requests/time-bound-access.jpg?v=e6d640b4",
       label: "Time-bound access, shown in a mock Echo Base console",
       steps: [
@@ -57,7 +57,7 @@ window.VIDEOS = {
       ]
     },
     "Access reviews": {
-      src: "media/access-requests/access-reviews.mp4?v=331584b4",
+      src: "media/access-requests/access-reviews.mp4?v=41dd3191",
       poster: "media/access-requests/access-reviews.jpg?v=5cf86ffa",
       label: "Access reviews, shown in a mock Echo Base console",
       steps: [
@@ -72,7 +72,7 @@ window.VIDEOS = {
   },
   "ai-governance": {
     "Feature availability": {
-      src: "media/ai-governance/feature-availability.mp4?v=5f6958b6",
+      src: "media/ai-governance/feature-availability.mp4?v=93505af1",
       poster: "media/ai-governance/feature-availability.jpg?v=208837e5",
       label: "Feature availability, shown in a mock Echo Base console",
       steps: [
@@ -85,7 +85,7 @@ window.VIDEOS = {
       ]
     },
     "Data usage controls": {
-      src: "media/ai-governance/data-usage-controls.mp4?v=ce2e96f4",
+      src: "media/ai-governance/data-usage-controls.mp4?v=60a80a51",
       poster: "media/ai-governance/data-usage-controls.jpg?v=0f16bc8c",
       label: "Data usage controls, shown in a mock Echo Base console",
       steps: [
@@ -98,7 +98,7 @@ window.VIDEOS = {
       ]
     },
     "Model & provider settings": {
-      src: "media/ai-governance/model-provider-settings.mp4?v=71aa78ff",
+      src: "media/ai-governance/model-provider-settings.mp4?v=b061e887",
       poster: "media/ai-governance/model-provider-settings.jpg?v=d99ab128",
       label: "Model and provider settings, shown in a mock Echo Base console",
       steps: [
@@ -110,7 +110,7 @@ window.VIDEOS = {
       ]
     },
     "Usage & cost": {
-      src: "media/ai-governance/usage-cost.mp4?v=f0fed629",
+      src: "media/ai-governance/usage-cost.mp4?v=0696ae3f",
       poster: "media/ai-governance/usage-cost.jpg?v=69391413",
       label: "Usage and cost, shown in a mock Echo Base console",
       steps: [
@@ -123,7 +123,7 @@ window.VIDEOS = {
       ]
     },
     "Content safety": {
-      src: "media/ai-governance/content-safety.mp4?v=a792e4b2",
+      src: "media/ai-governance/content-safety.mp4?v=39a3388e",
       poster: "media/ai-governance/content-safety.jpg?v=b732d144",
       label: "Content safety, shown in a mock Echo Base console",
       steps: [
