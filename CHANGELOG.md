@@ -2,6 +2,14 @@
 
 Versions follow major.minor.patch. **Major**: changes to how patterns are found or cited (names, URLs), and the public launch. **Minor**: a new category, new patterns or a new layout across the site. **Patch**: fixes, such as a re-rendered clip or a copy edit. *preview* means it lives on `v3-videos`, not yet public. Each version is tagged in git.
 
+## v0.3.4 preview — 2026-11-28
+
+### Changed
+- **Final pass, five more categories.** The 23 clips in *Edit & bulk actions*, *Empty states & onboarding*, *Groups & teams*, *Import & export* and *Integrations & API* get the new end card, *Search Echo Base ⌘K* and the bell in every top bar, and toasts at the centre of the window. Six dialogs are now centred in the window both ways: *Edit 82 people*, *New group*, *Export people*, *Revoke Starmap Notes*, *Create API key* and *Add endpoint*. *Export people* and *Create API key* stay centred as they change size between steps.
+
+### Fixed
+- **Labels sit above their values** where four clips still had them on the left with a gap: the template settings in *Create from template* (and its heading is now *This template sets*, not all capitals), the transfer summary in *Transfer ownership*, the bucket settings in *Export & SIEM streaming*, and the review rows in *Multi-step wizard*. Those three clips from v0.3.3 are re-rendered.
+
 ## v0.3.3 preview — 2026-11-28
 
 ### Changed

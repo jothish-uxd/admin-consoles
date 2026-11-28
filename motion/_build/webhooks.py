@@ -49,7 +49,7 @@ MAIN = f'''      <div class="view" id="vL">
       </div>'''
 EV = [("eC", "person.created", "Someone is added"), ("eD", "person.deactivated", "Someone is deactivated"), ("", "person.updated", "Someone’s details change"), ("", "group.changed", "A group’s members change")]
 EXTRA = f'''    <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="wT" style="left:320px; top:62px; width:560px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="wT" style="left:320px; top:116px; width:560px">
       <h3 id="wT">Add endpoint</h3>
       <div class="f1"><label class="lbl">Endpoint URL</label><div class="in" id="uIn"><span class="u" id="u1"></span><span class="u" id="uS"></span><span class="c" id="uC"></span><span class="u" id="u2"></span></div>
         <div class="msg"><span id="uM">Must start with https://</span></div></div>

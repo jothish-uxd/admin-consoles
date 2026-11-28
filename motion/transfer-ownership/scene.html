@@ -56,8 +56,8 @@
 /* summary */
 .sum { border: 1px solid var(--rule-strong); border-radius: 12px; padding: 14px 16px; position: relative; min-height: 232px; align-self: start; }
 .sum h2 { margin: 0 0 10px; font-size: 14px; font-weight: 600; }
-.sum dl { margin: 0; display: grid; grid-template-columns: 70px 1fr; row-gap: 8px; font-size: 13px; }
-.sum dt { color: var(--faint); }
+.sum dl { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; font-size: 13px; }
+.sum dt { color: var(--faint); font-size: 12px; margin-bottom: 1px; }
 .sum dd { margin: 0; color: var(--ink); }
 .sum .keep { margin-top: 12px; font-size: 12.5px; display: flex; gap: 6px; align-items: center; color: var(--ink); }
 .sum .btn { margin-top: 14px; width: 100%; height: 38px; }
@@ -141,7 +141,7 @@
         <div class="sum" id="sum">
           <div id="sumA">
             <h2>Summary</h2>
-            <dl><dt>Moves</dt><dd>1,284 items · 3.2 GB</dd><dt>From</dt><dd>Biggs Darklighter</dd><dt>To</dt><dd>Gen. Jan Dodonna</dd><dt>Into</dt><dd>From Biggs Darklighter</dd></dl>
+            <dl><div><dt>Moves</dt><dd>1,284 items · 3.2 GB</dd></div><div><dt>From</dt><dd>Biggs Darklighter</dd></div><div><dt>To</dt><dd>Gen. Jan Dodonna</dd></div><div><dt>Into</dt><dd>From Biggs Darklighter</dd></div></dl>
             <div class="keep"><svg width="13" height="13"><use href="#tick"/></svg>Sharing unchanged</div>
             <span class="btn pri" id="startB">Start transfer</span>
           </div>

@@ -2,7 +2,7 @@ import sys, pathlib; sys.path.insert(0, __file__.rsplit("/", 1)[0])
 from users_page import make
 CSS = r"""
 .scrim2 { position: absolute; inset: 52px 0 0 0; background: rgba(0,0,0,.18); opacity: 0; z-index: 30; }
-.dlg { position: absolute; left: 290px; top: 96px; width: 800px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); line-height: 1.45; }
+.dlg { position: absolute; left: 200px; top: 110px; width: 800px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 20px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); line-height: 1.45; }
 .dlg h3 { margin: 0; font-size: 17px; color: var(--ink); }
 .dlg .sub { margin-top: 2px; font-size: 12.5px; }
 .dlg .cols { margin-top: 14px; display: grid; grid-template-columns: 330px 1fr; gap: 24px; }

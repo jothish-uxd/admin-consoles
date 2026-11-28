@@ -37,7 +37,9 @@ table.p { margin-top: 16px; font-size: 13px; }
 .pv h3 { margin: 0; font-size: 15px; color: var(--ink); }
 .pv .by { font-size: 12px; margin-top: 2px; }
 .pv h4 { margin: 14px 0 6px; font-size: 12px; color: var(--faint); font-weight: 500; }
-.sets { display: grid; grid-template-columns: 120px 1fr; row-gap: 5px; font-size: 12.5px; }
+.sets { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; font-size: 12.5px; margin: 0; }
+.sets dt { font-size: 11.5px; margin-bottom: 1px; }
+.pv .sets { margin-bottom: 14px; }
 .sets dt { color: var(--soft); } .sets dd { margin: 0; color: var(--ink); }
 .fl label { display: block; font-size: 12px; color: var(--ink); font-weight: 500; margin: 12px 0 5px; }
 .in { height: 34px; border: 1.5px solid var(--rule-strong); border-radius: 8px; display: flex; align-items: center; padding: 0 10px; color: var(--ink); }
@@ -91,8 +93,8 @@ table.p { margin-top: 16px; font-size: 13px; }
             <div class="tp"><b>Legal hold</b>Preserves content and blocks deletion until released.<div class="o"><span class="av">GM</span>Gen. Madine · v1</div></div>
           </div>
           <div class="pv" id="pv"><h3>Restricted data handling</h3><div class="by">Org template · Mon Mothma · version 3</div>
-            <h4>THIS TEMPLATE SETS</h4>
-            <dl class="sets"><dt>Classification</dt><dd>Restricted</dd><dt>Sharing</dt><dd>Internal only</dd><dt>External links</dt><dd>Off</dd><dt>Retention</dt><dd>7 years</dd></dl>
+            <h4>This template sets</h4>
+            <dl class="sets"><div><dt>Classification</dt><dd>Restricted</dd></div><div><dt>Sharing</dt><dd>Internal only</dd></div><div><dt>External links</dt><dd>Off</dd></div><div><dt>Retention</dt><dd>7 years</dd></div></dl>
             <div class="fl"><label>Policy name</label><div class="in" id="nm"><span id="nv" style="color:var(--faint)">Restricted data handling</span><span class="c" id="cr" style="opacity:0"></span></div>
               <label>Review access every</label><div class="seg"><span id="d30">30 days</span><span>60 days</span><span id="d90" class="on">90 days</span></div></div>
             <div class="r"><span class="btn pri" id="useB">Use Restricted data handling</span></div></div>
@@ -101,7 +103,7 @@ table.p { margin-top: 16px; font-size: 13px; }
       <div class="view" id="vDone" style="opacity:0">
         <div class="hd"><h1>Death Star plans · restricted</h1><span class="btn sm">Apply to folders</span></div>
         <div style="margin-top:8px"><span class="chip"><svg width="12" height="12"><use href="#ok"/></svg>From Restricted data handling v3</span></div>
-        <div class="card"><h2>Settings</h2><dl class="sets"><dt>Classification</dt><dd>Restricted</dd><dt>Sharing</dt><dd>Internal only</dd><dt>External links</dt><dd>Off</dd><dt>Retention</dt><dd>7 years</dd><dt>Review access</dt><dd>Every 30 days <span style="color:var(--soft)">· changed from 90</span></dd></dl></div>
+        <div class="card"><h2>Settings</h2><dl class="sets"><div><dt>Classification</dt><dd>Restricted</dd></div><div><dt>Sharing</dt><dd>Internal only</dd></div><div><dt>External links</dt><dd>Off</dd></div><div><dt>Retention</dt><dd>7 years</dd></div><div><dt>Review access</dt><dd>Every 30 days <span style="color:var(--soft)">· changed from 90</span></dd></div></dl></div>
         <div class="note">Later changes to the template won't update this policy. You'll be told when a new version is out, and can review the differences before applying them.</div>
       </div>
     </div>

@@ -6,7 +6,7 @@ CSS = r"""
 .hd .btn.sec { background: var(--bg); color: var(--ink); border-color: var(--rule-strong); }
 .hd .btn.sec.dn { background: var(--hover); color: var(--ink); border-color: var(--rule-strong); }
 .scrim { position: absolute; inset: 0; background: rgba(23,23,23,.32); opacity: 0; z-index: 20; border-radius: inherit; }
-.dlg { position: absolute; left: 330px; top: 84px; width: 540px; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 16px 20px; z-index: 21; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
+.dlg { position: absolute; left: 330px; top: 132px; width: 540px; background: var(--bg); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.22); padding: 16px 20px; z-index: 21; opacity: 0; font-size: 12.5px; color: var(--soft); box-sizing: border-box; }
 .dlg h2 { margin: 0; font-size: 16px; color: var(--ink); font-weight: 600; }
 .dlg .lb { margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--ink); }
 .dlg .lb span { font-weight: 400; color: var(--soft); }
@@ -56,12 +56,13 @@ const T = {
   endCard: [6.40, 6.85], end: 7.2
 };
 
+function ctr() { const d = $("dlg"); d.style.top = Math.round(340 - d.offsetHeight / 2) + "px"; }  // centred in the window, whatever state it is in
 function build() {
   const h = at("cAll");
   $("bar").style.opacity = 1; $("bAll").style.display = ""; const b = at("bAll", 0, 0); const ex = at("bExp"); $("bar").style.opacity = 0;
-  $("dlg").style.opacity = 1; const l = at("fLast", -38, 0), st = at("bStart"), dg = at("dlg");
-  $("form").style.display = "none"; $("job").style.display = "block"; $("rdy").style.display = "block"; const dl = at("bDl");
-  $("form").style.display = ""; $("job").style.display = ""; $("rdy").style.display = "none"; $("dlg").style.opacity = 0;
+  $("dlg").style.opacity = 1; ctr(); const l = at("fLast", -38, 0), st = at("bStart"), dg = at("dlg");
+  $("form").style.display = "none"; $("job").style.display = "block"; $("rdy").style.display = "block"; ctr(); const dl = at("bDl");
+  $("form").style.display = ""; $("job").style.display = ""; $("rdy").style.display = "none"; ctr(); $("dlg").style.opacity = 0;
   const cur = [
     [0.00, 960, 640], [0.25, 960, 640], [0.70, h[0], h[1] + 3], [1.00, h[0], h[1] + 3], [1.40, b[0], b[1] + 3], [1.70, b[0], b[1] + 3],
     [2.10, ex[0], ex[1] + 3], [2.40, ex[0], ex[1] + 3],
@@ -97,7 +98,7 @@ function render(t) {
   // one state at a time: the form, then the job
   const run = t >= T.run[0], done = t >= T.run[1];
   $("form").style.display = run ? "none" : ""; $("job").style.display = run ? "block" : "none";
-  $("pb").style.display = done ? "none" : "block"; $("rdy").style.display = done ? "block" : "none";
+  $("pb").style.display = done ? "none" : "block"; $("rdy").style.display = done ? "block" : "none"; ctr();
   $("pbI").style.transform = `scaleX(${.05 + .95 * span(t, ...T.run, x => x)})`;
   $("jT").textContent = done ? "Your export is ready" : "Exporting 82 people…";
   $("jS").textContent = done ? "We also sent you a notification with this link." : "You can close this. We’ll let you know when it’s ready.";

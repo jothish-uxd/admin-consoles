@@ -50,7 +50,7 @@ EXTRA = f'''    <aside class="drw" id="drw" role="dialog" aria-labelledby="dT">
       <div class="acts"><span class="btn">Revoke for one person…</span><span class="btn dgr" id="bAll">Revoke for all 12 people</span></div>
     </aside>
     <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="cT" style="left:330px; top:170px; width:540px">
+    <section class="dlg" id="dlg" role="alertdialog" aria-labelledby="cT" style="left:330px; top:241px; width:540px">
       <h3 id="cT">Revoke Starmap Notes for 12 people?</h3>
       <div style="margin-top:6px; line-height:1.45">It stops working for them right away, and its access tokens are deleted. Their notes stay in Starmap.</div>
       <div class="ckr"><span class="cb" id="cbB"></span><div>Also block Starmap Notes<span class="s">No one can connect it again until an admin allows it.</span></div></div>

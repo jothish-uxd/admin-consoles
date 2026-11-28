@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="../shared/console.css">
 <style>
 .btn.sm { height: 32px; font-size: 12.5px; }
-.toast { position: absolute; left: 700px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
+.toast { position: absolute; left: 600px; top: 4px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: 10px; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 16px 0 12px; font-size: 13px; opacity: 0; box-shadow: 0 10px 30px rgba(0,0,0,.18); white-space: nowrap; z-index: 40; }
 .toast i { width: 18px; height: 18px; border-radius: 50%; background: #fff; color: var(--ink); display: grid; place-items: center; }
 
 .btn.dn, .btn.pri.dn { background: #404040; border-color: #404040; color: #fff; }
@@ -128,7 +128,7 @@ table.st td a { color: var(--ink); text-decoration: underline; text-underline-of
       </div>
     </div>
     <div class="scr" id="scr"></div>
-    <section class="dlg" id="dlg" role="dialog" aria-labelledby="kT" style="left:320px; top:62px; width:560px">
+    <section class="dlg" id="dlg" role="dialog" aria-labelledby="kT" style="left:320px; top:113px; width:560px">
       <div id="s1"><h3 id="kT">Create API key</h3>
         <div class="f1"><label class="lbl" for="kN">Name</label><div class="in f" id="kN"><span id="kNv"></span><span class="c" id="kC"></span></div></div>
         <div class="row2"><div><label class="lbl">Owner</label><div class="in sel2">Cal Alder<i class="cv"></i></div></div>
@@ -159,11 +159,12 @@ const T = {
   cpClick: 5.30, dnClick: 6.40, close: [6.45, 6.70], endCard: [8.00, 8.45], end: 9.0
 };
 
+function ctr() { const d = $("dlg"); d.style.top = Math.round(340 - d.offsetHeight / 2) + "px"; }  // centred in the window, whatever state it is in
 function build() {
   const nw = at("bNew");
-  $("dlg").style.opacity = 1; const w = at("cbW"), cr = at("bCr");
-  $("s1").style.display = "none"; $("s2").style.display = "block"; const cp = at("bCp"), dn = at("bDn");
-  $("s1").style.display = ""; $("s2").style.display = ""; $("dlg").style.opacity = 0;
+  $("dlg").style.opacity = 1; ctr(); const w = at("cbW"), cr = at("bCr");
+  $("s1").style.display = "none"; $("s2").style.display = "block"; ctr(); const cp = at("bCp"), dn = at("bDn");
+  $("s1").style.display = ""; $("s2").style.display = ""; ctr(); $("dlg").style.opacity = 0;
   const r = at("rNew", -200, 0);
   const cur = [
     [0.00, 960, 640], [0.25, 960, 640], [0.75, nw[0], nw[1] + 3], [1.00, nw[0], nw[1] + 3],
@@ -189,7 +190,7 @@ function render(t) {
   $("bCr").classList.toggle("dn", t >= T.crClick - .05 && t < T.swap);
   // the secret, shown once: one state at a time in the same dialog
   const s2 = t >= T.swap;
-  $("s1").style.display = s2 ? "none" : ""; $("s2").style.display = s2 ? "block" : "none";
+  $("s1").style.display = s2 ? "none" : ""; $("s2").style.display = s2 ? "block" : "none"; ctr();
   $("bCp").classList.toggle("prs", t >= T.cpClick - .05 && t < T.cpClick + .3);
   $("cpT").innerHTML = t >= T.cpClick + .05 ? '<span class="cpd"><svg><use href="#ok"/></svg>Copied</span>' : '<span class="cpd"><svg><use href="#copy"/></svg>Copy</span>';
   $("bDn").classList.toggle("dn", t >= T.dnClick - .05 && t < T.close[0]);

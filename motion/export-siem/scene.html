@@ -68,8 +68,8 @@ a.u { color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
 .st .f { margin-top: 8px; display: flex; gap: 14px; font-size: 12px; color: var(--soft); align-items: center; }
 .st .f .btn { height: 30px; font-size: 12.5px; }
 .st.warn { border-color: var(--ink); }
-.st .cfg { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 110px 1fr; gap: 4px 10px; font-size: 12px; }
-.st .cfg dt { color: var(--faint); } .st .cfg dd { margin: 0; color: var(--ink); }
+.st .cfg { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; font-size: 12px; }
+.st .cfg dt { color: var(--faint); font-size: 11.5px; margin-bottom: 1px; } .st .cfg dd { margin: 0; color: var(--ink); }
 .st .cfg dd span { color: var(--faint); }
 .bar2 { height: 6px; border-radius: 3px; background: var(--hover); overflow: hidden; width: 160px; }
 .bar2 i { display: block; height: 100%; background: var(--ink); width: 0; }
@@ -139,7 +139,7 @@ a.u { color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
                 <span id="d1" style="position:absolute;inset:0;opacity:0"><b>Replaying from 09:26 PT, in order.</b> <span id="left">38,210</span> buffered events left.</span>
                 <span id="d2" style="position:absolute;inset:0;opacity:0">Caught up. Last event delivered <b>2 seconds ago</b>.</span></div>
               <div class="f"><span class="btn pri" id="repB">Replay now</span><span class="btn">Settings</span><span class="bar2" id="bar2"><i id="prog"></i></span></div>
-              <dl class="cfg"><dt>Bucket name</dt><dd>echo-base-audit <span>· the bucket only, no s3:// prefix</span></dd><dt>Streams</dt><dd>Failed and admin events only <span>· keeps volume and cost down</span></dd></dl>
+              <dl class="cfg"><div><dt>Bucket name</dt><dd>echo-base-audit <span>· the bucket only, no s3:// prefix</span></dd></div><div><dt>Streams</dt><dd>Failed and admin events only <span>· keeps volume and cost down</span></dd></div></dl>
             </div>
             <div class="foot">Every export and stream change is logged · Schema audit.v3 · <a class="u">Changelog</a></div>
           </div>

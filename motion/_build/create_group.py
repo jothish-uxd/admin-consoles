@@ -2,7 +2,7 @@ import sys; sys.path.insert(0, __file__.rsplit("/", 1)[0])
 from cut_page import make
 CSS = r"""
 /* create group */
-.gd { position: absolute; left: 400px; top: 70px; width: 600px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); }
+.gd { position: absolute; left: 300px; top: 100px; width: 600px; background: var(--bg); border: 1px solid var(--rule-strong); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.2); padding: 18px 22px; z-index: 31; opacity: 0; font-size: 13px; color: var(--soft); }
 .gd h3 { margin: 0; font-size: 17px; color: var(--ink); }
 .gd .f { margin-top: 12px; }
 .gd label.l { display: block; font-size: 12.5px; color: var(--ink); font-weight: 500; margin-bottom: 5px; }

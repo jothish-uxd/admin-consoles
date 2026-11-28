@@ -163,7 +163,7 @@ window.VIDEOS = {
       ]
     },
     "Transfer ownership": {
-      src: "media/asset-management/transfer-ownership.mp4?v=d6a7808a",
+      src: "media/asset-management/transfer-ownership.mp4?v=23a08247",
       poster: "media/asset-management/transfer-ownership.jpg?v=54093c90",
       label: "Transfer ownership, shown in a mock Echo Base console",
       steps: [
@@ -254,7 +254,7 @@ window.VIDEOS = {
       ]
     },
     "Export & SIEM streaming": {
-      src: "media/audit-logs/export-siem-streaming.mp4?v=17dad1cd",
+      src: "media/audit-logs/export-siem-streaming.mp4?v=7d73d3c2",
       poster: "media/audit-logs/export-siem-streaming.jpg?v=2889ed44",
       label: "Export and SIEM streaming, shown in a mock Echo Base console",
       steps: [
@@ -346,7 +346,7 @@ window.VIDEOS = {
       ]
     },
     "Multi-step wizard": {
-      src: "media/creation-flows/multi-step-wizard.mp4?v=d469013b",
+      src: "media/creation-flows/multi-step-wizard.mp4?v=e3bca10b",
       poster: "media/creation-flows/multi-step-wizard.jpg?v=df8ad54d",
       label: "Multi-step wizard, shown in a mock Echo Base console",
       steps: [
@@ -359,7 +359,7 @@ window.VIDEOS = {
       ]
     },
     "Create from template": {
-      src: "media/creation-flows/create-from-template.mp4?v=5e8c2085",
+      src: "media/creation-flows/create-from-template.mp4?v=d8555554",
       poster: "media/creation-flows/create-from-template.jpg?v=e6f28179",
       label: "Create from template, shown in a mock Echo Base console",
       steps: [
@@ -593,8 +593,8 @@ window.VIDEOS = {
   },
   "edit-bulk-actions": {
     "Selection model": {
-      src: "media/edit-bulk-actions/selection-model.mp4?v=7b9df515",
-      poster: "media/edit-bulk-actions/selection-model.jpg?v=147e64d0",
+      src: "media/edit-bulk-actions/selection-model.mp4?v=4d31b40e",
+      poster: "media/edit-bulk-actions/selection-model.jpg?v=3143bce3",
       label: "Selection model, shown in a mock Echo Base console",
       steps: [
         "People › Users is filtered to Team: Fleet, 82 people. Every row has a checkbox named for its person.",
@@ -605,8 +605,8 @@ window.VIDEOS = {
       ]
     },
     "Contextual action bar": {
-      src: "media/edit-bulk-actions/contextual-action-bar.mp4?v=2b48e75e",
-      poster: "media/edit-bulk-actions/contextual-action-bar.jpg?v=147e64d0",
+      src: "media/edit-bulk-actions/contextual-action-bar.mp4?v=0a3aef84",
+      poster: "media/edit-bulk-actions/contextual-action-bar.jpg?v=3143bce3",
       label: "Contextual action bar, shown in a mock Echo Base console",
       steps: [
         "On People › Users, selecting Cal Alder brings up the action bar above the table, where the results line was, so it covers no row.",
@@ -616,8 +616,8 @@ window.VIDEOS = {
       ]
     },
     "Bulk edit": {
-      src: "media/edit-bulk-actions/bulk-edit.mp4?v=a645e9c5",
-      poster: "media/edit-bulk-actions/bulk-edit.jpg?v=c0b5456a",
+      src: "media/edit-bulk-actions/bulk-edit.mp4?v=6578c787",
+      poster: "media/edit-bulk-actions/bulk-edit.jpg?v=7fe84649",
       label: "Bulk edit, shown in a mock Echo Base console",
       steps: [
         "All 82 people matching Team: Fleet are selected. Edit… opens a dialog that says who that is, including the 57 not on this page.",
@@ -628,8 +628,8 @@ window.VIDEOS = {
       ]
     },
     "Inline edit": {
-      src: "media/edit-bulk-actions/inline-edit.mp4?v=991be6a0",
-      poster: "media/edit-bulk-actions/inline-edit.jpg?v=932ff6d4",
+      src: "media/edit-bulk-actions/inline-edit.mp4?v=46697548",
+      poster: "media/edit-bulk-actions/inline-edit.jpg?v=6b768926",
       label: "Inline edit, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, pointing at Supply run notes.md shows a pencil beside the name. Owner and Sharing have none, because changing them has side effects.",
@@ -639,8 +639,8 @@ window.VIDEOS = {
       ]
     },
     "Progress & results": {
-      src: "media/edit-bulk-actions/progress-results.mp4?v=f4605353",
-      poster: "media/edit-bulk-actions/progress-results.jpg?v=a8a79e58",
+      src: "media/edit-bulk-actions/progress-results.mp4?v=f4f6b4bf",
+      poster: "media/edit-bulk-actions/progress-results.jpg?v=1899f9d0",
       label: "Progress & results, shown in a mock Echo Base console",
       steps: [
         "The bulk edit runs as a job above the People list: a labelled progress bar, how many are done and about how long is left.",
@@ -653,8 +653,8 @@ window.VIDEOS = {
   },
   "empty-onboarding": {
     "Setup checklist": {
-      src: "media/empty-onboarding/setup-checklist.mp4?v=28e9018f",
-      poster: "media/empty-onboarding/setup-checklist.jpg?v=e88a3dc5",
+      src: "media/empty-onboarding/setup-checklist.mp4?v=d3ccb3fd",
+      poster: "media/empty-onboarding/setup-checklist.jpg?v=46a8d6ba",
       label: "Setup checklist, shown in a mock Echo Base console",
       steps: [
         "Home's first run shows a checklist to set up Echo Base, with progress in words and as a bar: 2 of 6 done. The rest of the console works meanwhile.",
@@ -665,8 +665,8 @@ window.VIDEOS = {
       ]
     },
     "Empty table": {
-      src: "media/empty-onboarding/empty-table.mp4?v=d7bace80",
-      poster: "media/empty-onboarding/empty-table.jpg?v=89ea106f",
+      src: "media/empty-onboarding/empty-table.mp4?v=7ae81423",
+      poster: "media/empty-onboarding/empty-table.jpg?v=9d167bf3",
       label: "Empty table, shown in a mock Echo Base console",
       steps: [
         "Before any groups exist, People › Groups shows a heading, No groups yet, and what groups are for, instead of an empty grid.",
@@ -676,8 +676,8 @@ window.VIDEOS = {
       ]
     },
     "No results": {
-      src: "media/empty-onboarding/no-results.mp4?v=cbca78b5",
-      poster: "media/empty-onboarding/no-results.jpg?v=932ff6d4",
+      src: "media/empty-onboarding/no-results.mp4?v=e0a5b36a",
+      poster: "media/empty-onboarding/no-results.jpg?v=6b768926",
       label: "No results, shown in a mock Echo Base console",
       steps: [
         "In Content › All content, a search for trench plans finds 2 items.",
@@ -688,8 +688,8 @@ window.VIDEOS = {
       ]
     },
     "Permission empty state": {
-      src: "media/empty-onboarding/permission-empty-state.mp4?v=e0cf763a",
-      poster: "media/empty-onboarding/permission-empty-state.jpg?v=1b035d2e",
+      src: "media/empty-onboarding/permission-empty-state.mp4?v=8680a6b8",
+      poster: "media/empty-onboarding/permission-empty-state.jpg?v=24717309",
       label: "Permission empty state, shown in a mock Echo Base console",
       steps: [
         "Wes Janson, a member, opens a link to Audit log that an admin shared with him. His rail only shows Workspace.",
@@ -702,8 +702,8 @@ window.VIDEOS = {
   },
   "groups-teams": {
     "Create group": {
-      src: "media/groups-teams/create-group.mp4?v=2e2ca6cb",
-      poster: "media/groups-teams/create-group.jpg?v=240ca447",
+      src: "media/groups-teams/create-group.mp4?v=a655c88e",
+      poster: "media/groups-teams/create-group.jpg?v=b874fede",
       label: "Create group, shown in a mock Echo Base console",
       steps: [
         "On People › Groups, New group opens a dialog that asks for the name first.",
@@ -714,8 +714,8 @@ window.VIDEOS = {
       ]
     },
     "Manage members": {
-      src: "media/groups-teams/manage-members.mp4?v=b44a49ba",
-      poster: "media/groups-teams/manage-members.jpg?v=a7f37f9b",
+      src: "media/groups-teams/manage-members.mp4?v=fa891e98",
+      poster: "media/groups-teams/manage-members.jpg?v=a282cd9b",
       label: "Manage members, shown in a mock Echo Base console",
       steps: [
         "Hoth Evacuation's page shows what members get above the list: a Console licence, Edit on Evacuation plans and the Shield Ops channel.",
@@ -726,8 +726,8 @@ window.VIDEOS = {
       ]
     },
     "Dynamic groups": {
-      src: "media/groups-teams/dynamic-groups.mp4?v=7b63f697",
-      poster: "media/groups-teams/dynamic-groups.jpg?v=fc7b27e5",
+      src: "media/groups-teams/dynamic-groups.mp4?v=1c423f92",
+      poster: "media/groups-teams/dynamic-groups.jpg?v=15a892dd",
       label: "Dynamic groups, shown in a mock Echo Base console",
       steps: [
         "All pilots is a dynamic group. Its rule is a structured editor: attribute, operator and value, each labelled.",
@@ -738,8 +738,8 @@ window.VIDEOS = {
       ]
     },
     "Nested groups": {
-      src: "media/groups-teams/nested-groups.mp4?v=4a4f0f6c",
-      poster: "media/groups-teams/nested-groups.jpg?v=9fd88450",
+      src: "media/groups-teams/nested-groups.mp4?v=2ee29bb3",
+      poster: "media/groups-teams/nested-groups.jpg?v=11fe6c8d",
       label: "Nested groups, shown in a mock Echo Base console",
       steps: [
         "Rebel Fleet's members are split into direct members, nested groups and everyone. The page says it includes 4 nested groups, 180 people in total.",
@@ -749,8 +749,8 @@ window.VIDEOS = {
       ]
     },
     "Directory sync": {
-      src: "media/groups-teams/directory-sync.mp4?v=8955415c",
-      poster: "media/groups-teams/directory-sync.jpg?v=03c96afa",
+      src: "media/groups-teams/directory-sync.mp4?v=8514485f",
+      poster: "media/groups-teams/directory-sync.jpg?v=7dc6294b",
       label: "Directory sync, shown in a mock Echo Base console",
       steps: [
         "Directory sync shows the source, Holonet ID over SCIM: healthy, in text and an icon, with the last sync, how many changes and which groups it syncs.",
@@ -763,8 +763,8 @@ window.VIDEOS = {
   },
   "import-export": {
     "CSV import": {
-      src: "media/import-export/csv-import.mp4?v=0249b9b5",
-      poster: "media/import-export/csv-import.jpg?v=b0250c72",
+      src: "media/import-export/csv-import.mp4?v=ece03801",
+      poster: "media/import-export/csv-import.jpg?v=80e718f7",
       label: "CSV import, shown in a mock Echo Base console",
       steps: [
         "On People › Users, Invite people opens a menu: Invite by email for a few people, or Import a CSV for many.",
@@ -775,8 +775,8 @@ window.VIDEOS = {
       ]
     },
     "Field mapping": {
-      src: "media/import-export/field-mapping.mp4?v=0e0524a5",
-      poster: "media/import-export/field-mapping.jpg?v=7b128164",
+      src: "media/import-export/field-mapping.mp4?v=3c0a3b82",
+      poster: "media/import-export/field-mapping.jpg?v=46b07731",
       label: "Field mapping, shown in a mock Echo Base console",
       steps: [
         "Each column in the file is matched to a field, with sample values beside it so the admin can check the match.",
@@ -787,8 +787,8 @@ window.VIDEOS = {
       ]
     },
     "Validation & errors": {
-      src: "media/import-export/validation-errors.mp4?v=a3faf8c9",
-      poster: "media/import-export/validation-errors.jpg?v=40726b93",
+      src: "media/import-export/validation-errors.mp4?v=2f365e9f",
+      poster: "media/import-export/validation-errors.jpg?v=3012504b",
       label: "Validation and errors, shown in a mock Echo Base console",
       steps: [
         "The review shows how many rows are ready, and groups the problems by type. Errors that block a row are kept apart from warnings that don't.",
@@ -799,8 +799,8 @@ window.VIDEOS = {
       ]
     },
     "Export": {
-      src: "media/import-export/export.mp4?v=4731bf5e",
-      poster: "media/import-export/export.jpg?v=b0250c72",
+      src: "media/import-export/export.mp4?v=c6a0b6b1",
+      poster: "media/import-export/export.jpg?v=80e718f7",
       label: "Export, shown in a mock Echo Base console",
       steps: [
         "On People › Users, filtered to Team: Fleet, the admin selects all 82 matching people and chooses Export in the bar. The filter is the export's scope.",
@@ -813,8 +813,8 @@ window.VIDEOS = {
   },
   "integrations-api": {
     "Integration catalog": {
-      src: "media/integrations-api/integration-catalog.mp4?v=865584ff",
-      poster: "media/integrations-api/integration-catalog.jpg?v=1ea69d39",
+      src: "media/integrations-api/integration-catalog.mp4?v=ca22000b",
+      poster: "media/integrations-api/integration-catalog.jpg?v=d2e9329e",
       label: "Integration catalog, shown in a mock Echo Base console",
       steps: [
         "On Settings › Integrations, the admin goes from the org's connected apps to Browse. Each integration shows what it does, who makes it, and its status: allowed, needs approval or blocked.",
@@ -825,8 +825,8 @@ window.VIDEOS = {
       ]
     },
     "App permissions": {
-      src: "media/integrations-api/app-permissions.mp4?v=88d65f57",
-      poster: "media/integrations-api/app-permissions.jpg?v=1ea69d39",
+      src: "media/integrations-api/app-permissions.mp4?v=1197da8f",
+      poster: "media/integrations-api/app-permissions.jpg?v=d2e9329e",
       label: "App permissions, shown in a mock Echo Base console",
       steps: [
         "Connected by people lists the apps people authorised with their own accounts, grouped by app, with what each can do, how many people, who authorised it and when it was last used.",
@@ -837,8 +837,8 @@ window.VIDEOS = {
       ]
     },
     "Create API key": {
-      src: "media/integrations-api/create-api-key.mp4?v=9dda0181",
-      poster: "media/integrations-api/create-api-key.jpg?v=5ad8f81a",
+      src: "media/integrations-api/create-api-key.mp4?v=cb57cf27",
+      poster: "media/integrations-api/create-api-key.jpg?v=4daef9dc",
       label: "Create API key, shown in a mock Echo Base console",
       steps: [
         "On Settings › API keys, every key has an owner, what it can do, an expiry and when it was last used. A key that never expires is flagged.",
@@ -849,8 +849,8 @@ window.VIDEOS = {
       ]
     },
     "Webhooks": {
-      src: "media/integrations-api/webhooks.mp4?v=0ada27f6",
-      poster: "media/integrations-api/webhooks.jpg?v=29d6f2ea",
+      src: "media/integrations-api/webhooks.mp4?v=aec21fa7",
+      poster: "media/integrations-api/webhooks.jpg?v=8826be4e",
       label: "Webhooks, shown in a mock Echo Base console",
       steps: [
         "Settings › Webhooks lists each endpoint with its events and status. A failing one says Retrying, rather than being switched off quietly.",
