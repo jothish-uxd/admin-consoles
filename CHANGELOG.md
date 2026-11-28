@@ -2,6 +2,11 @@
 
 Versions follow major.minor.patch. **Major**: changes to how patterns are found or cited (names, URLs), and the public launch. **Minor**: a new category, new patterns or a new layout across the site. **Patch**: fixes, such as a re-rendered clip or a copy edit. *preview* means it lives on `v3-videos`, not yet public. Each version is tagged in git.
 
+## v0.3.9 preview — 2026-11-28
+
+### Fixed
+- **Time-bound access:** the 30-minute warning opened while the camera was zoomed in on one row, so it seemed to appear for no reason. The whole window now stays in view as it opens, with the clock at 17:30 and the row ending at 18:00, and then the camera moves to the banner.
+
 ## v0.3.8 preview — 2026-11-28
 
 ### Changed

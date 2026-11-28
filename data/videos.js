@@ -44,7 +44,7 @@ window.VIDEOS = {
       ]
     },
     "Time-bound access": {
-      src: "media/access-requests/time-bound-access.mp4?v=f347651d",
+      src: "media/access-requests/time-bound-access.mp4?v=39681668",
       poster: "media/access-requests/time-bound-access.jpg?v=fb76f00c",
       label: "Time-bound access, shown in a mock Echo Base console",
       steps: [
